@@ -1,0 +1,8 @@
+{
+  "spring": {"clear_min_ticks":12000,"clear_max_ticks":24000,"rain_min_ticks":6000,"rain_max_ticks":12000},
+  "summer": {"clear_min_ticks":24000,"clear_max_ticks":48000,"rain_min_ticks":3000,"rain_max_ticks":9000},
+  "autumn": {"clear_min_ticks":18000,"clear_max_ticks":36000,"rain_min_ticks":6000,"rain_max_ticks":12000},
+  "winter": {"clear_min_ticks":6000,"clear_max_ticks":12000,"rain_min_ticks":6000,"rain_max_ticks":12000},
+  "block_write_budget_per_tick":64,
+  "melt_checks_per_second":128
+}

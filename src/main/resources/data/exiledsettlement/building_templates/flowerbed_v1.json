@@ -1,0 +1,385 @@
+{
+  "schema_version": 1,
+  "status": "approved_runtime_snapshot",
+  "id": "flowerbed_v1",
+  "building_type": "flowerbed",
+  "source_interior_facing": "south",
+  "size": [
+    5,
+    3,
+    3
+  ],
+  "anchor": [
+    2,
+    1,
+    0
+  ],
+  "transition_margin": 1,
+  "entrances": [
+    {
+      "pos": [
+        2,
+        1,
+        -1
+      ],
+      "outward": "north"
+    }
+  ],
+  "support_corners": [],
+  "blocks": [
+    {
+      "pos": [
+        0,
+        0,
+        0
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "decoration"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        0
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "decoration"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        0
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "decoration"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        0
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "decoration"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        0
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "decoration"
+    },
+    {
+      "pos": [
+        0,
+        0,
+        1
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "decoration"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        1
+      ],
+      "block": "minecraft:dirt",
+      "role": "decoration"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        1
+      ],
+      "block": "minecraft:dirt",
+      "role": "decoration"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        1
+      ],
+      "block": "minecraft:dirt",
+      "role": "decoration"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        1
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "decoration"
+    },
+    {
+      "pos": [
+        0,
+        0,
+        2
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "decoration"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        2
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "decoration"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        2
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "decoration"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        2
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "decoration"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        2
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "decoration"
+    },
+    {
+      "pos": [
+        0,
+        1,
+        0
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "role": "decoration",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        1,
+        0
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "role": "decoration",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        1,
+        0
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "role": "decoration",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        1,
+        0
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "role": "decoration",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        1,
+        0
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "role": "decoration",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        1,
+        1
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "role": "decoration",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        1,
+        1
+      ],
+      "block": "minecraft:grass_block",
+      "role": "decoration",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        1,
+        1
+      ],
+      "block": "minecraft:grass_block",
+      "role": "decoration",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        1,
+        1
+      ],
+      "block": "minecraft:grass_block",
+      "role": "decoration",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        1,
+        1
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "role": "decoration",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        1,
+        2
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "role": "decoration",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        1,
+        2
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "role": "decoration",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        1,
+        2
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "role": "decoration",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        1,
+        2
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "role": "decoration",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        1,
+        2
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "role": "decoration",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        2,
+        1
+      ],
+      "block": "minecraft:poppy",
+      "role": "decoration"
+    },
+    {
+      "pos": [
+        2,
+        2,
+        1
+      ],
+      "block": "minecraft:dandelion",
+      "role": "decoration"
+    },
+    {
+      "pos": [
+        3,
+        2,
+        1
+      ],
+      "block": "minecraft:poppy",
+      "role": "decoration"
+    }
+  ]
+}

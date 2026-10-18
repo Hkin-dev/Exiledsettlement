@@ -1,0 +1,6519 @@
+{
+  "schema_version": 1,
+  "status": "approved_runtime_snapshot",
+  "id": "hunting_lodge_distinct_v1",
+  "building_type": "hunting_lodge",
+  "source_interior_facing": "south",
+  "size": [
+    11,
+    8,
+    13
+  ],
+  "anchor": [
+    3,
+    1,
+    1
+  ],
+  "transition_margin": 0,
+  "entrances": [
+    {
+      "pos": [
+        3,
+        1,
+        1
+      ],
+      "outward": "north"
+    },
+    {
+      "pos": [
+        4,
+        1,
+        1
+      ],
+      "outward": "north"
+    }
+  ],
+  "support_corners": [],
+  "blocks": [
+    {
+      "pos": [
+        0,
+        0,
+        3
+      ],
+      "block": "minecraft:cobblestone",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        0,
+        0,
+        9
+      ],
+      "block": "minecraft:cobblestone",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        0,
+        1,
+        3
+      ],
+      "block": "minecraft:cobblestone",
+      "role": "sill"
+    },
+    {
+      "pos": [
+        0,
+        1,
+        9
+      ],
+      "block": "minecraft:cobblestone",
+      "role": "sill"
+    },
+    {
+      "pos": [
+        0,
+        2,
+        6
+      ],
+      "block": "minecraft:dark_oak_trapdoor",
+      "role": "facade",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "open": "true",
+        "powered": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        3,
+        6
+      ],
+      "block": "minecraft:dark_oak_trapdoor",
+      "role": "facade",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "open": "true",
+        "powered": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        4,
+        3
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "window_hood",
+      "state": {
+        "type": "top",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        4,
+        9
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "window_hood",
+      "state": {
+        "type": "top",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        5,
+        0
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "gable_frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        0,
+        5,
+        1
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        0,
+        5,
+        2
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        0,
+        5,
+        3
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        0,
+        5,
+        4
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        0,
+        5,
+        5
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        0,
+        5,
+        6
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        0,
+        5,
+        7
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        0,
+        5,
+        8
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "gable_frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        0,
+        5,
+        9
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        0,
+        5,
+        10
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        0,
+        5,
+        11
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        0,
+        5,
+        12
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "gable_frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        0,
+        6,
+        0
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        6,
+        1
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        6,
+        2
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        6,
+        3
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        6,
+        4
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        6,
+        5
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        6,
+        6
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        6,
+        7
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        6,
+        8
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        6,
+        9
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        6,
+        10
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        6,
+        11
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        6,
+        12
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        0,
+        1
+      ],
+      "block": "minecraft:cobblestone",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        2
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        3
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        4
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        5
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        6
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        7
+      ],
+      "block": "minecraft:cobblestone",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        8
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        9
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        10
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        11
+      ],
+      "block": "minecraft:cobblestone",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        1,
+        1,
+        1
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        1,
+        2
+      ],
+      "block": "minecraft:cobblestone",
+      "role": "wall_base"
+    },
+    {
+      "pos": [
+        1,
+        1,
+        3
+      ],
+      "block": "minecraft:cobblestone",
+      "role": "wall_base"
+    },
+    {
+      "pos": [
+        1,
+        1,
+        4
+      ],
+      "block": "minecraft:cobblestone",
+      "role": "wall_base"
+    },
+    {
+      "pos": [
+        1,
+        1,
+        5
+      ],
+      "block": "minecraft:cobblestone",
+      "role": "wall_base"
+    },
+    {
+      "pos": [
+        1,
+        1,
+        6
+      ],
+      "block": "minecraft:cobblestone",
+      "role": "wall_base"
+    },
+    {
+      "pos": [
+        1,
+        1,
+        7
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        1,
+        8
+      ],
+      "block": "minecraft:cobblestone",
+      "role": "wall_base"
+    },
+    {
+      "pos": [
+        1,
+        1,
+        9
+      ],
+      "block": "minecraft:cobblestone",
+      "role": "wall_base"
+    },
+    {
+      "pos": [
+        1,
+        1,
+        10
+      ],
+      "block": "minecraft:cobblestone",
+      "role": "wall_base"
+    },
+    {
+      "pos": [
+        1,
+        1,
+        11
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        2,
+        1
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        2,
+        2
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "window_frame",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        2,
+        3
+      ],
+      "block": "minecraft:light_blue_stained_glass",
+      "role": "window"
+    },
+    {
+      "pos": [
+        1,
+        2,
+        4
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "window_frame",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        2,
+        5
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "wall"
+    },
+    {
+      "pos": [
+        1,
+        2,
+        6
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "wall"
+    },
+    {
+      "pos": [
+        1,
+        2,
+        7
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        2,
+        8
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "window_frame",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        2,
+        9
+      ],
+      "block": "minecraft:light_blue_stained_glass",
+      "role": "window"
+    },
+    {
+      "pos": [
+        1,
+        2,
+        10
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "window_frame",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        2,
+        11
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        3,
+        1
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        3,
+        2
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "window_frame",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        3,
+        3
+      ],
+      "block": "minecraft:light_blue_stained_glass",
+      "role": "window"
+    },
+    {
+      "pos": [
+        1,
+        3,
+        4
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "window_frame",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        3,
+        5
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "wall"
+    },
+    {
+      "pos": [
+        1,
+        3,
+        6
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "wall"
+    },
+    {
+      "pos": [
+        1,
+        3,
+        7
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        3,
+        8
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "window_frame",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        3,
+        9
+      ],
+      "block": "minecraft:light_blue_stained_glass",
+      "role": "window"
+    },
+    {
+      "pos": [
+        1,
+        3,
+        10
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "window_frame",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        3,
+        11
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        1
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        2
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "z"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        3
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "z"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        4
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "z"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        5
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "z"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        6
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "z"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        7
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "z"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        8
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "z"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        9
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "z"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        10
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "z"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        11
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "z"
+      }
+    },
+    {
+      "pos": [
+        1,
+        5,
+        0
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "gable_frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        1,
+        5,
+        1
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        1,
+        5,
+        2
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        1,
+        5,
+        3
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        1,
+        5,
+        4
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        1,
+        5,
+        5
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        1,
+        5,
+        6
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        1,
+        5,
+        7
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        1,
+        5,
+        8
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        1,
+        5,
+        9
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        1,
+        5,
+        10
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        1,
+        5,
+        11
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        1,
+        5,
+        12
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "gable_frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        1,
+        6,
+        0
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        6,
+        1
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        6,
+        2
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        6,
+        3
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        6,
+        4
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        6,
+        5
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        6,
+        6
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        6,
+        7
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        6,
+        8
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        6,
+        9
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        6,
+        10
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        6,
+        11
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        6,
+        12
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        0,
+        1
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        2
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        3
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        4
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        5
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        6
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        7
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        8
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        9
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        10
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        11
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        2,
+        1,
+        1
+      ],
+      "block": "minecraft:cobblestone",
+      "role": "wall"
+    },
+    {
+      "pos": [
+        2,
+        1,
+        3
+      ],
+      "block": "minecraft:crafting_table",
+      "role": "facility"
+    },
+    {
+      "pos": [
+        2,
+        1,
+        5
+      ],
+      "block": "minecraft:barrel",
+      "role": "facility",
+      "state": {
+        "facing": "east",
+        "open": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        1,
+        7
+      ],
+      "block": "minecraft:cobblestone",
+      "role": "wall"
+    },
+    {
+      "pos": [
+        2,
+        1,
+        8
+      ],
+      "block": "minecraft:barrel",
+      "role": "facility",
+      "state": {
+        "facing": "east",
+        "open": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        1,
+        10
+      ],
+      "block": "minecraft:barrel",
+      "role": "facility",
+      "state": {
+        "facing": "east",
+        "open": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        1,
+        11
+      ],
+      "block": "minecraft:cobblestone",
+      "role": "wall_base"
+    },
+    {
+      "pos": [
+        2,
+        2,
+        1
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "wall"
+    },
+    {
+      "pos": [
+        2,
+        2,
+        5
+      ],
+      "block": "minecraft:loom",
+      "role": "tool_rack",
+      "state": {
+        "facing": "east"
+      }
+    },
+    {
+      "pos": [
+        2,
+        2,
+        7
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "wall"
+    },
+    {
+      "pos": [
+        2,
+        2,
+        11
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "window_frame",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        2,
+        3,
+        1
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "wall"
+    },
+    {
+      "pos": [
+        2,
+        3,
+        7
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "wall"
+    },
+    {
+      "pos": [
+        2,
+        3,
+        11
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "window_frame",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        2,
+        4,
+        1
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        2,
+        4,
+        2
+      ],
+      "block": "minecraft:lantern",
+      "role": "light",
+      "state": {
+        "hanging": "true",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        4,
+        7
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        2,
+        4,
+        8
+      ],
+      "block": "minecraft:lantern",
+      "role": "light",
+      "state": {
+        "hanging": "true",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        4,
+        11
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        2,
+        5,
+        0
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "gable_frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        2,
+        5,
+        1
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        2,
+        5,
+        2
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        2,
+        5,
+        3
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        2,
+        5,
+        4
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        2,
+        5,
+        5
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        2,
+        5,
+        6
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        2,
+        5,
+        7
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        2,
+        5,
+        8
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        2,
+        5,
+        9
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        2,
+        5,
+        10
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        2,
+        5,
+        11
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        2,
+        5,
+        12
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "gable_frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        2,
+        6,
+        0
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "gable_frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        2,
+        6,
+        1
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        2,
+        6,
+        2
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        2,
+        6,
+        3
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        2,
+        6,
+        4
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        2,
+        6,
+        5
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        2,
+        6,
+        6
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        2,
+        6,
+        7
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        2,
+        6,
+        8
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        2,
+        6,
+        9
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        2,
+        6,
+        10
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        2,
+        6,
+        11
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        2,
+        6,
+        12
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "gable_frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        2,
+        7,
+        0
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        7,
+        1
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        7,
+        2
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        7,
+        3
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        7,
+        4
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        7,
+        5
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        7,
+        6
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        7,
+        7
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        7,
+        8
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        7,
+        9
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        7,
+        10
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        7,
+        11
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        7,
+        12
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        0,
+        0
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        1
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        2
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        3
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        4
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        5
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        6
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        7
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        8
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        9
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        10
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        11
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        12
+      ],
+      "block": "minecraft:cobblestone",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        3,
+        1,
+        1
+      ],
+      "block": "minecraft:spruce_door",
+      "role": "door",
+      "state": {
+        "facing": "north",
+        "half": "lower",
+        "hinge": "left",
+        "open": "false",
+        "powered": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        1,
+        7
+      ],
+      "block": "minecraft:spruce_door",
+      "role": "door",
+      "state": {
+        "facing": "north",
+        "half": "lower",
+        "hinge": "left",
+        "open": "false",
+        "powered": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        1,
+        11
+      ],
+      "block": "minecraft:cobblestone",
+      "role": "wall_base"
+    },
+    {
+      "pos": [
+        3,
+        1,
+        12
+      ],
+      "block": "minecraft:cobblestone",
+      "role": "sill"
+    },
+    {
+      "pos": [
+        3,
+        2,
+        1
+      ],
+      "block": "minecraft:spruce_door",
+      "role": "door",
+      "state": {
+        "facing": "north",
+        "half": "upper",
+        "hinge": "left",
+        "open": "false",
+        "powered": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        2,
+        7
+      ],
+      "block": "minecraft:spruce_door",
+      "role": "door",
+      "state": {
+        "facing": "north",
+        "half": "upper",
+        "hinge": "left",
+        "open": "false",
+        "powered": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        2,
+        11
+      ],
+      "block": "minecraft:light_blue_stained_glass",
+      "role": "window"
+    },
+    {
+      "pos": [
+        3,
+        3,
+        1
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "lintel",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        3,
+        3,
+        7
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "lintel",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        3,
+        3,
+        11
+      ],
+      "block": "minecraft:light_blue_stained_glass",
+      "role": "window"
+    },
+    {
+      "pos": [
+        3,
+        4,
+        1
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        3,
+        4,
+        7
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        3,
+        4,
+        11
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        3,
+        4,
+        12
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "window_hood",
+      "state": {
+        "type": "top",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        5,
+        0
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "gable_frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        3,
+        5,
+        1
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        3,
+        5,
+        2
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        3,
+        5,
+        3
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        3,
+        5,
+        4
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        3,
+        5,
+        5
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        3,
+        5,
+        6
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        3,
+        5,
+        7
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        3,
+        5,
+        8
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        3,
+        5,
+        9
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        3,
+        5,
+        10
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        3,
+        5,
+        11
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        3,
+        5,
+        12
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "gable_frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        3,
+        6,
+        0
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "gable_frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        3,
+        6,
+        1
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        3,
+        6,
+        2
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        3,
+        6,
+        3
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        3,
+        6,
+        4
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        3,
+        6,
+        5
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        3,
+        6,
+        6
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        3,
+        6,
+        7
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        3,
+        6,
+        8
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        3,
+        6,
+        9
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        3,
+        6,
+        10
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        3,
+        6,
+        11
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        3,
+        6,
+        12
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "gable_frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        3,
+        7,
+        0
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        7,
+        1
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        7,
+        2
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        7,
+        3
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        7,
+        4
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        7,
+        5
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        7,
+        6
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        7,
+        7
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        7,
+        8
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        7,
+        9
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        7,
+        10
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        7,
+        11
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        7,
+        12
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        0,
+        0
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        1
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        2
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        3
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        4
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        5
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        6
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        7
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        8
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        9
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        10
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        11
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        4,
+        1,
+        1
+      ],
+      "block": "minecraft:spruce_door",
+      "role": "door",
+      "state": {
+        "facing": "north",
+        "half": "lower",
+        "hinge": "right",
+        "open": "false",
+        "powered": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        1,
+        6
+      ],
+      "block": "minecraft:spruce_stairs",
+      "role": "seat",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        1,
+        7
+      ],
+      "block": "minecraft:cobblestone",
+      "role": "wall"
+    },
+    {
+      "pos": [
+        4,
+        1,
+        11
+      ],
+      "block": "minecraft:cobblestone",
+      "role": "wall_base"
+    },
+    {
+      "pos": [
+        4,
+        2,
+        1
+      ],
+      "block": "minecraft:spruce_door",
+      "role": "door",
+      "state": {
+        "facing": "north",
+        "half": "upper",
+        "hinge": "right",
+        "open": "false",
+        "powered": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        2,
+        7
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "wall"
+    },
+    {
+      "pos": [
+        4,
+        2,
+        11
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "window_frame",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        4,
+        3,
+        1
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "lintel",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        4,
+        3,
+        7
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "wall"
+    },
+    {
+      "pos": [
+        4,
+        3,
+        11
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "window_frame",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        4,
+        4,
+        1
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        4,
+        4,
+        7
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        4,
+        4,
+        11
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        4,
+        5,
+        0
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "gable_frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        4,
+        5,
+        1
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        4,
+        5,
+        2
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        4,
+        5,
+        3
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        4,
+        5,
+        4
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        4,
+        5,
+        5
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        4,
+        5,
+        6
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        4,
+        5,
+        7
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        4,
+        5,
+        8
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        4,
+        5,
+        9
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        4,
+        5,
+        10
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        4,
+        5,
+        11
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        4,
+        5,
+        12
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "gable_frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        4,
+        6,
+        0
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "gable_frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        4,
+        6,
+        1
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        4,
+        6,
+        2
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        4,
+        6,
+        3
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        4,
+        6,
+        4
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        4,
+        6,
+        5
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        4,
+        6,
+        6
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        4,
+        6,
+        7
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        4,
+        6,
+        8
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        4,
+        6,
+        9
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        4,
+        6,
+        10
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        4,
+        6,
+        11
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        4,
+        6,
+        12
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "gable_frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        4,
+        7,
+        0
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        7,
+        1
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        7,
+        2
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        7,
+        3
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        7,
+        4
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        7,
+        5
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        7,
+        6
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        7,
+        7
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        7,
+        8
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        7,
+        9
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        7,
+        10
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        7,
+        11
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        7,
+        12
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        0,
+        1
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        2
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        3
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        4
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        5
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        6
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        7
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        8
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        9
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        10
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        11
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        5,
+        1,
+        1
+      ],
+      "block": "minecraft:cobblestone",
+      "role": "wall"
+    },
+    {
+      "pos": [
+        5,
+        1,
+        2
+      ],
+      "block": "minecraft:lectern",
+      "role": "facility",
+      "state": {
+        "facing": "west",
+        "has_book": "false",
+        "powered": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        1,
+        7
+      ],
+      "block": "minecraft:cobblestone",
+      "role": "wall_base"
+    },
+    {
+      "pos": [
+        5,
+        1,
+        11
+      ],
+      "block": "minecraft:cobblestone",
+      "role": "wall_base"
+    },
+    {
+      "pos": [
+        5,
+        2,
+        1
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "wall"
+    },
+    {
+      "pos": [
+        5,
+        2,
+        7
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "wall"
+    },
+    {
+      "pos": [
+        5,
+        2,
+        11
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "wall"
+    },
+    {
+      "pos": [
+        5,
+        3,
+        1
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "wall"
+    },
+    {
+      "pos": [
+        5,
+        3,
+        7
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "wall"
+    },
+    {
+      "pos": [
+        5,
+        3,
+        11
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "wall"
+    },
+    {
+      "pos": [
+        5,
+        4,
+        1
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        5,
+        4,
+        6
+      ],
+      "block": "minecraft:lantern",
+      "role": "light",
+      "state": {
+        "hanging": "true",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        4,
+        7
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        5,
+        4,
+        10
+      ],
+      "block": "minecraft:lantern",
+      "role": "light",
+      "state": {
+        "hanging": "true",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        4,
+        11
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        5,
+        5,
+        0
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "gable_frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        5,
+        5,
+        1
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        5,
+        5,
+        2
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        5,
+        5,
+        3
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        5,
+        5,
+        4
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        5,
+        5,
+        5
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        5,
+        5,
+        6
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        5,
+        5,
+        7
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        5,
+        5,
+        8
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        5,
+        5,
+        9
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        5,
+        5,
+        10
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        5,
+        5,
+        11
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        5,
+        6,
+        0
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "gable_frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        5,
+        6,
+        1
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        5,
+        6,
+        2
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        5,
+        6,
+        3
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        5,
+        6,
+        4
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        5,
+        6,
+        5
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        5,
+        6,
+        6
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        5,
+        6,
+        7
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        5,
+        6,
+        8
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        5,
+        6,
+        9
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        5,
+        6,
+        10
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        5,
+        6,
+        11
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        5,
+        6,
+        12
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "gable_frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        5,
+        7,
+        0
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        7,
+        1
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        7,
+        2
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        7,
+        3
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        7,
+        4
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        7,
+        5
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        7,
+        6
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        7,
+        7
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        7,
+        8
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        7,
+        9
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        7,
+        10
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        7,
+        11
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        7,
+        12
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        0,
+        1
+      ],
+      "block": "minecraft:cobblestone",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        2
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        3
+      ],
+      "block": "minecraft:cobblestone",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        4
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        5
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        6
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        7
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        8
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        9
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        10
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        11
+      ],
+      "block": "minecraft:cobblestone",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        6,
+        1,
+        1
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        6,
+        1,
+        2
+      ],
+      "block": "minecraft:cobblestone",
+      "role": "wall_base"
+    },
+    {
+      "pos": [
+        6,
+        1,
+        3
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        6,
+        1,
+        4
+      ],
+      "block": "minecraft:cobblestone",
+      "role": "wall"
+    },
+    {
+      "pos": [
+        6,
+        1,
+        5
+      ],
+      "block": "minecraft:spruce_door",
+      "role": "door",
+      "state": {
+        "facing": "west",
+        "half": "lower",
+        "hinge": "left",
+        "open": "false",
+        "powered": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        1,
+        6
+      ],
+      "block": "minecraft:cobblestone",
+      "role": "wall"
+    },
+    {
+      "pos": [
+        6,
+        1,
+        7
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        6,
+        1,
+        8
+      ],
+      "block": "minecraft:cobblestone",
+      "role": "wall"
+    },
+    {
+      "pos": [
+        6,
+        1,
+        9
+      ],
+      "block": "minecraft:spruce_door",
+      "role": "door",
+      "state": {
+        "facing": "west",
+        "half": "lower",
+        "hinge": "left",
+        "open": "false",
+        "powered": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        1,
+        10
+      ],
+      "block": "minecraft:cobblestone",
+      "role": "wall"
+    },
+    {
+      "pos": [
+        6,
+        1,
+        11
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        6,
+        2,
+        1
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        6,
+        2,
+        2
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "wall"
+    },
+    {
+      "pos": [
+        6,
+        2,
+        3
+      ],
+      "block": "minecraft:dark_oak_trapdoor",
+      "role": "facade",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "open": "true",
+        "powered": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        2,
+        4
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "wall"
+    },
+    {
+      "pos": [
+        6,
+        2,
+        5
+      ],
+      "block": "minecraft:spruce_door",
+      "role": "door",
+      "state": {
+        "facing": "west",
+        "half": "upper",
+        "hinge": "left",
+        "open": "false",
+        "powered": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        2,
+        6
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "wall"
+    },
+    {
+      "pos": [
+        6,
+        2,
+        7
+      ],
+      "block": "minecraft:dark_oak_trapdoor",
+      "role": "facade",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "open": "true",
+        "powered": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        2,
+        8
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "wall"
+    },
+    {
+      "pos": [
+        6,
+        2,
+        9
+      ],
+      "block": "minecraft:spruce_door",
+      "role": "door",
+      "state": {
+        "facing": "west",
+        "half": "upper",
+        "hinge": "left",
+        "open": "false",
+        "powered": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        2,
+        10
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "wall"
+    },
+    {
+      "pos": [
+        6,
+        2,
+        11
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        6,
+        3,
+        1
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        6,
+        3,
+        2
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "wall"
+    },
+    {
+      "pos": [
+        6,
+        3,
+        3
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "z"
+      }
+    },
+    {
+      "pos": [
+        6,
+        3,
+        4
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "z"
+      }
+    },
+    {
+      "pos": [
+        6,
+        3,
+        5
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "lintel",
+      "state": {
+        "axis": "z"
+      }
+    },
+    {
+      "pos": [
+        6,
+        3,
+        6
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "z"
+      }
+    },
+    {
+      "pos": [
+        6,
+        3,
+        7
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        6,
+        3,
+        8
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "z"
+      }
+    },
+    {
+      "pos": [
+        6,
+        3,
+        9
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "lintel",
+      "state": {
+        "axis": "z"
+      }
+    },
+    {
+      "pos": [
+        6,
+        3,
+        10
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "z"
+      }
+    },
+    {
+      "pos": [
+        6,
+        3,
+        11
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "z"
+      }
+    },
+    {
+      "pos": [
+        6,
+        4,
+        1
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        6,
+        4,
+        2
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "z"
+      }
+    },
+    {
+      "pos": [
+        6,
+        4,
+        3
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        6,
+        4,
+        4
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        6,
+        4,
+        5
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        6,
+        4,
+        6
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        6,
+        4,
+        7
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        6,
+        4,
+        8
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        6,
+        4,
+        9
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        6,
+        4,
+        10
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        6,
+        4,
+        11
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        6,
+        5,
+        0
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "gable_frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        6,
+        5,
+        1
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        6,
+        5,
+        2
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        6,
+        5,
+        3
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        6,
+        5,
+        4
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        6,
+        5,
+        5
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        6,
+        5,
+        6
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        6,
+        5,
+        7
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        6,
+        5,
+        8
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        6,
+        5,
+        9
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        6,
+        5,
+        10
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        6,
+        5,
+        11
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        6,
+        5,
+        12
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "gable_frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        6,
+        6,
+        0
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        6,
+        1
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        6,
+        2
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        6,
+        3
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        6,
+        4
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        6,
+        5
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        6,
+        6
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        6,
+        7
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        6,
+        8
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        6,
+        9
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        6,
+        10
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        6,
+        11
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        6,
+        12
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        0,
+        3
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        4
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        5
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        6
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        7
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        8
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        9
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        10
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        11
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        7,
+        3,
+        3
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        7,
+        3,
+        7
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        7,
+        3,
+        11
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        7,
+        5,
+        0
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "gable_frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        7,
+        5,
+        1
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        7,
+        5,
+        2
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        7,
+        5,
+        3
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        7,
+        5,
+        4
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        7,
+        5,
+        5
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        7,
+        5,
+        6
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        7,
+        5,
+        7
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        7,
+        5,
+        8
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "gable_frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        7,
+        5,
+        9
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        7,
+        5,
+        10
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        7,
+        5,
+        11
+      ],
+      "block": "minecraft:dark_oak_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        7,
+        5,
+        12
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "gable_frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        7,
+        6,
+        0
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        6,
+        1
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        6,
+        2
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        6,
+        3
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        6,
+        4
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        6,
+        5
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        6,
+        6
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        6,
+        7
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        6,
+        8
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        6,
+        9
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        6,
+        10
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        6,
+        11
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        6,
+        12
+      ],
+      "block": "minecraft:dark_oak_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        0,
+        3
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        4
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        5
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        6
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        7
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        8
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        9
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        10
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        11
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        8,
+        1,
+        5
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "worktop",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        8,
+        1,
+        7
+      ],
+      "block": "minecraft:water_cauldron",
+      "role": "facility",
+      "state": {
+        "level": "3"
+      }
+    },
+    {
+      "pos": [
+        8,
+        1,
+        10
+      ],
+      "block": "minecraft:smoker",
+      "role": "facility",
+      "state": {
+        "facing": "north",
+        "lit": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        2,
+        10
+      ],
+      "block": "minecraft:cobblestone",
+      "role": "chimney"
+    },
+    {
+      "pos": [
+        8,
+        3,
+        3
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        8,
+        3,
+        7
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        8,
+        3,
+        10
+      ],
+      "block": "minecraft:lantern",
+      "role": "light",
+      "state": {
+        "hanging": "true",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        3,
+        11
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        8,
+        4,
+        2
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        8,
+        4,
+        3
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        8,
+        4,
+        4
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        8,
+        4,
+        5
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        8,
+        4,
+        6
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        8,
+        4,
+        7
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        8,
+        4,
+        8
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        8,
+        4,
+        9
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        8,
+        4,
+        10
+      ],
+      "block": "minecraft:cobblestone",
+      "role": "chimney"
+    },
+    {
+      "pos": [
+        8,
+        4,
+        11
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        8,
+        4,
+        12
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        8,
+        5,
+        2
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        5,
+        3
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        5,
+        4
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        5,
+        5
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        5,
+        6
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        5,
+        7
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        5,
+        8
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        5,
+        9
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        5,
+        10
+      ],
+      "block": "minecraft:cobblestone",
+      "role": "chimney"
+    },
+    {
+      "pos": [
+        8,
+        5,
+        11
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        5,
+        12
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "roof",
+      "state": {
+        "type": "double",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        6,
+        10
+      ],
+      "block": "minecraft:cobblestone",
+      "role": "chimney"
+    },
+    {
+      "pos": [
+        8,
+        7,
+        10
+      ],
+      "block": "minecraft:cobblestone",
+      "role": "chimney"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        3
+      ],
+      "block": "minecraft:cobblestone",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        4
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        5
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        6
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        7
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        8
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        9
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        10
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        11
+      ],
+      "block": "minecraft:cobblestone",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        9,
+        1,
+        3
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        9,
+        1,
+        11
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        9,
+        2,
+        3
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        9,
+        2,
+        11
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        9,
+        3,
+        3
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "z"
+      }
+    },
+    {
+      "pos": [
+        9,
+        3,
+        4
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "z"
+      }
+    },
+    {
+      "pos": [
+        9,
+        3,
+        5
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "z"
+      }
+    },
+    {
+      "pos": [
+        9,
+        3,
+        6
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "z"
+      }
+    },
+    {
+      "pos": [
+        9,
+        3,
+        7
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "x"
+      }
+    },
+    {
+      "pos": [
+        9,
+        3,
+        8
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "z"
+      }
+    },
+    {
+      "pos": [
+        9,
+        3,
+        9
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "z"
+      }
+    },
+    {
+      "pos": [
+        9,
+        3,
+        10
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "z"
+      }
+    },
+    {
+      "pos": [
+        9,
+        3,
+        11
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "frame",
+      "state": {
+        "axis": "z"
+      }
+    },
+    {
+      "pos": [
+        9,
+        4,
+        2
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        9,
+        4,
+        3
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        9,
+        4,
+        4
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        9,
+        4,
+        5
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        9,
+        4,
+        6
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        9,
+        4,
+        7
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        9,
+        4,
+        8
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        9,
+        4,
+        9
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        9,
+        4,
+        10
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        9,
+        4,
+        11
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        9,
+        4,
+        12
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        9,
+        5,
+        2
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        5,
+        3
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        5,
+        4
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        5,
+        5
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        5,
+        6
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        5,
+        7
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        5,
+        8
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        5,
+        9
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        5,
+        10
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        5,
+        11
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        5,
+        12
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        4,
+        2
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        10,
+        4,
+        3
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        10,
+        4,
+        4
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        10,
+        4,
+        5
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        10,
+        4,
+        6
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        10,
+        4,
+        7
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        10,
+        4,
+        8
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        10,
+        4,
+        9
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        10,
+        4,
+        10
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        10,
+        4,
+        11
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        10,
+        4,
+        12
+      ],
+      "block": "minecraft:spruce_planks",
+      "role": "roof_fill"
+    },
+    {
+      "pos": [
+        10,
+        5,
+        2
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        5,
+        3
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        5,
+        4
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        5,
+        5
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        5,
+        6
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        5,
+        7
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        5,
+        8
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        5,
+        9
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        5,
+        10
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        5,
+        11
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        5,
+        12
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "roof",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    }
+  ],
+  "provenance": {
+    "source": "docs/buildings/exact/distinct_eight_20261014/round_3/hunting_lodge/model.json",
+    "sha256": "4d9d945097dfd31a7d249b17910d26e304ba35a476435e5797803111d2a53fc5",
+    "template_version": 3,
+    "aesthetic_approved": true,
+    "adaptations": []
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "status": "approved_runtime_snapshot",
+  "id": "lamp_small_v1",
+  "building_type": "lamp_small",
+  "source_interior_facing": "south",
+  "size": [
+    1,
+    4,
+    1
+  ],
+  "anchor": [
+    0,
+    1,
+    0
+  ],
+  "transition_margin": 1,
+  "entrances": [
+    {
+      "pos": [
+        0,
+        1,
+        -1
+      ],
+      "outward": "north"
+    }
+  ],
+  "support_corners": [],
+  "blocks": [
+    {
+      "pos": [
+        0,
+        0,
+        0
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "decoration"
+    },
+    {
+      "pos": [
+        0,
+        1,
+        0
+      ],
+      "block": "minecraft:spruce_fence",
+      "role": "decoration",
+      "state": {
+        "north": "false",
+        "east": "false",
+        "south": "false",
+        "west": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        2,
+        0
+      ],
+      "block": "minecraft:spruce_fence",
+      "role": "decoration",
+      "state": {
+        "north": "false",
+        "east": "false",
+        "south": "false",
+        "west": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        3,
+        0
+      ],
+      "block": "minecraft:lantern",
+      "role": "decoration",
+      "state": {
+        "hanging": "false",
+        "waterlogged": "false"
+      }
+    }
+  ]
+}

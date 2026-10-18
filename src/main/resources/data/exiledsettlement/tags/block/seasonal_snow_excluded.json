@@ -1,0 +1,4 @@
+{
+  "replace":false,
+  "values":["minecraft:farmland","minecraft:dirt_path","#minecraft:crops","#minecraft:doors","#minecraft:trapdoors","#minecraft:stairs","#minecraft:slabs","#minecraft:fences"]
+}

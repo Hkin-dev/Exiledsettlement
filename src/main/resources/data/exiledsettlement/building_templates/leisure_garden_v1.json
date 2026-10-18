@@ -1,0 +1,2918 @@
+{
+  "schema_version": 1,
+  "status": "approved_runtime_snapshot",
+  "id": "leisure_garden_v1",
+  "building_type": "leisure_garden",
+  "source_interior_facing": "south",
+  "size": [
+    13,
+    4,
+    13
+  ],
+  "anchor": [
+    6,
+    1,
+    0
+  ],
+  "transition_margin": 1,
+  "entrances": [
+    {
+      "pos": [
+        6,
+        1,
+        0
+      ],
+      "outward": "north"
+    },
+    {
+      "pos": [
+        6,
+        1,
+        12
+      ],
+      "outward": "south"
+    },
+    {
+      "pos": [
+        0,
+        1,
+        6
+      ],
+      "outward": "west"
+    },
+    {
+      "pos": [
+        12,
+        1,
+        6
+      ],
+      "outward": "east"
+    }
+  ],
+  "support_corners": [],
+  "blocks": [
+    {
+      "pos": [
+        0,
+        0,
+        0
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        0,
+        0
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        0,
+        0
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        0,
+        0
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        0,
+        0
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        0,
+        0
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        0,
+        0
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        0
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        0
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        0,
+        0
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        0,
+        0
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        0,
+        0
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        0,
+        0
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        0,
+        1
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        0,
+        1
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        0,
+        1
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        0,
+        1
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        0,
+        1
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        0,
+        1
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        0,
+        1
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        1
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        1
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        0,
+        1
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        0,
+        1
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        0,
+        1
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        0,
+        1
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        0,
+        2
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        0,
+        2
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        0,
+        2
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        0,
+        2
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        0,
+        2
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        0,
+        2
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        0,
+        2
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        2
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        2
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        0,
+        2
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        0,
+        2
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        0,
+        2
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        0,
+        2
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        0,
+        3
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        0,
+        3
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        0,
+        3
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        0,
+        3
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        3
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        3
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        3
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        3
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        3
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        3
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        3
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        0,
+        3
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        0,
+        3
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        0,
+        4
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        0,
+        4
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        0,
+        4
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        0,
+        4
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        4
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        4
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        4
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        4
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        4
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        4
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        4
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        0,
+        4
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        0,
+        4
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        0,
+        5
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        0,
+        5
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        0,
+        5
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        0,
+        5
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        5
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        5
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        0,
+        5
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        0,
+        5
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        0,
+        5
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        5
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        5
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        0,
+        5
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        0,
+        5
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        0,
+        6
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        6
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        6
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        6
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        6
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        6
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        0,
+        6
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        0,
+        6
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        0,
+        6
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        6
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        6
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        6
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        6
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        0,
+        0,
+        7
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        7
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        7
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        7
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        7
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        7
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        0,
+        7
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        0,
+        7
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        0,
+        7
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        7
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        7
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        7
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        7
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        0,
+        0,
+        8
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        0,
+        8
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        0,
+        8
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        0,
+        8
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        8
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        8
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        8
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        8
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        8
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        8
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        8
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        0,
+        8
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        0,
+        8
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        0,
+        9
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        0,
+        9
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        0,
+        9
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        0,
+        9
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        9
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        9
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        9
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        9
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        9
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        9
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        9
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        0,
+        9
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        0,
+        9
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        0,
+        10
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        0,
+        10
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        0,
+        10
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        0,
+        10
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        0,
+        10
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        0,
+        10
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        0,
+        10
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        10
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        10
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        0,
+        10
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        0,
+        10
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        0,
+        10
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        0,
+        10
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        0,
+        11
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        0,
+        11
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        0,
+        11
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        0,
+        11
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        0,
+        11
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        0,
+        11
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        0,
+        11
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        11
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        11
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        0,
+        11
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        0,
+        11
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        0,
+        11
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        0,
+        11
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        0,
+        12
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        0,
+        12
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        0,
+        12
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        0,
+        12
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        0,
+        12
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        0,
+        12
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        0,
+        12
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        12
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "floor"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        12
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        0,
+        12
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        0,
+        12
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        0,
+        12
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        0,
+        12
+      ],
+      "block": "minecraft:grass_block",
+      "role": "garden",
+      "state": {
+        "snowy": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        1,
+        0
+      ],
+      "block": "minecraft:oak_leaves",
+      "role": "garden",
+      "state": {
+        "persistent": "true",
+        "distance": "7",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        1,
+        0
+      ],
+      "block": "minecraft:oak_leaves",
+      "role": "garden",
+      "state": {
+        "persistent": "true",
+        "distance": "7",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        1,
+        0
+      ],
+      "block": "minecraft:oak_leaves",
+      "role": "garden",
+      "state": {
+        "persistent": "true",
+        "distance": "7",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        1,
+        0
+      ],
+      "block": "minecraft:oak_leaves",
+      "role": "garden",
+      "state": {
+        "persistent": "true",
+        "distance": "7",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        1,
+        0
+      ],
+      "block": "minecraft:oak_leaves",
+      "role": "garden",
+      "state": {
+        "persistent": "true",
+        "distance": "7",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        1,
+        0
+      ],
+      "block": "minecraft:oak_leaves",
+      "role": "garden",
+      "state": {
+        "persistent": "true",
+        "distance": "7",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        1,
+        0
+      ],
+      "block": "minecraft:oak_leaves",
+      "role": "garden",
+      "state": {
+        "persistent": "true",
+        "distance": "7",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        1,
+        0
+      ],
+      "block": "minecraft:oak_leaves",
+      "role": "garden",
+      "state": {
+        "persistent": "true",
+        "distance": "7",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        1,
+        0
+      ],
+      "block": "minecraft:oak_leaves",
+      "role": "garden",
+      "state": {
+        "persistent": "true",
+        "distance": "7",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        1,
+        0
+      ],
+      "block": "minecraft:oak_leaves",
+      "role": "garden",
+      "state": {
+        "persistent": "true",
+        "distance": "7",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        1,
+        0
+      ],
+      "block": "minecraft:oak_leaves",
+      "role": "garden",
+      "state": {
+        "persistent": "true",
+        "distance": "7",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        1,
+        1
+      ],
+      "block": "minecraft:oak_leaves",
+      "role": "garden",
+      "state": {
+        "persistent": "true",
+        "distance": "7",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        1,
+        1
+      ],
+      "block": "minecraft:poppy",
+      "role": "garden"
+    },
+    {
+      "pos": [
+        12,
+        1,
+        1
+      ],
+      "block": "minecraft:oak_leaves",
+      "role": "garden",
+      "state": {
+        "persistent": "true",
+        "distance": "7",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        1,
+        2
+      ],
+      "block": "minecraft:oak_leaves",
+      "role": "garden",
+      "state": {
+        "persistent": "true",
+        "distance": "7",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        1,
+        2
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "foundation"
+    },
+    {
+      "pos": [
+        3,
+        1,
+        2
+      ],
+      "block": "minecraft:spruce_stairs",
+      "role": "seat",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        1,
+        2
+      ],
+      "block": "minecraft:spruce_stairs",
+      "role": "seat",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        1,
+        2
+      ],
+      "block": "minecraft:spruce_stairs",
+      "role": "seat",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        1,
+        2
+      ],
+      "block": "minecraft:oak_leaves",
+      "role": "garden",
+      "state": {
+        "persistent": "true",
+        "distance": "7",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        1,
+        3
+      ],
+      "block": "minecraft:oak_leaves",
+      "role": "garden",
+      "state": {
+        "persistent": "true",
+        "distance": "7",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        1,
+        3
+      ],
+      "block": "minecraft:poppy",
+      "role": "garden"
+    },
+    {
+      "pos": [
+        2,
+        1,
+        3
+      ],
+      "block": "minecraft:spruce_stairs",
+      "role": "seat",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        1,
+        3
+      ],
+      "block": "minecraft:spruce_stairs",
+      "role": "seat",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        1,
+        3
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "foundation"
+    },
+    {
+      "pos": [
+        12,
+        1,
+        3
+      ],
+      "block": "minecraft:oak_leaves",
+      "role": "garden",
+      "state": {
+        "persistent": "true",
+        "distance": "7",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        1,
+        4
+      ],
+      "block": "minecraft:oak_leaves",
+      "role": "garden",
+      "state": {
+        "persistent": "true",
+        "distance": "7",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        1,
+        4
+      ],
+      "block": "minecraft:spruce_stairs",
+      "role": "seat",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        1,
+        4
+      ],
+      "block": "minecraft:spruce_stairs",
+      "role": "seat",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        1,
+        4
+      ],
+      "block": "minecraft:poppy",
+      "role": "garden"
+    },
+    {
+      "pos": [
+        12,
+        1,
+        4
+      ],
+      "block": "minecraft:oak_leaves",
+      "role": "garden",
+      "state": {
+        "persistent": "true",
+        "distance": "7",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        1,
+        5
+      ],
+      "block": "minecraft:oak_leaves",
+      "role": "garden",
+      "state": {
+        "persistent": "true",
+        "distance": "7",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        1,
+        5
+      ],
+      "block": "minecraft:spruce_stairs",
+      "role": "seat",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        1,
+        5
+      ],
+      "block": "minecraft:dandelion",
+      "role": "garden"
+    },
+    {
+      "pos": [
+        6,
+        1,
+        5
+      ],
+      "block": "minecraft:poppy",
+      "role": "garden"
+    },
+    {
+      "pos": [
+        7,
+        1,
+        5
+      ],
+      "block": "minecraft:dandelion",
+      "role": "garden"
+    },
+    {
+      "pos": [
+        10,
+        1,
+        5
+      ],
+      "block": "minecraft:spruce_stairs",
+      "role": "seat",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        1,
+        5
+      ],
+      "block": "minecraft:oak_leaves",
+      "role": "garden",
+      "state": {
+        "persistent": "true",
+        "distance": "7",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        1,
+        6
+      ],
+      "block": "minecraft:poppy",
+      "role": "garden"
+    },
+    {
+      "pos": [
+        6,
+        1,
+        6
+      ],
+      "block": "minecraft:dandelion",
+      "role": "garden"
+    },
+    {
+      "pos": [
+        7,
+        1,
+        6
+      ],
+      "block": "minecraft:poppy",
+      "role": "garden"
+    },
+    {
+      "pos": [
+        5,
+        1,
+        7
+      ],
+      "block": "minecraft:dandelion",
+      "role": "garden"
+    },
+    {
+      "pos": [
+        6,
+        1,
+        7
+      ],
+      "block": "minecraft:poppy",
+      "role": "garden"
+    },
+    {
+      "pos": [
+        7,
+        1,
+        7
+      ],
+      "block": "minecraft:dandelion",
+      "role": "garden"
+    },
+    {
+      "pos": [
+        0,
+        1,
+        8
+      ],
+      "block": "minecraft:oak_leaves",
+      "role": "garden",
+      "state": {
+        "persistent": "true",
+        "distance": "7",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        1,
+        8
+      ],
+      "block": "minecraft:oak_leaves",
+      "role": "garden",
+      "state": {
+        "persistent": "true",
+        "distance": "7",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        1,
+        9
+      ],
+      "block": "minecraft:oak_leaves",
+      "role": "garden",
+      "state": {
+        "persistent": "true",
+        "distance": "7",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        1,
+        9
+      ],
+      "block": "minecraft:poppy",
+      "role": "garden"
+    },
+    {
+      "pos": [
+        11,
+        1,
+        9
+      ],
+      "block": "minecraft:poppy",
+      "role": "garden"
+    },
+    {
+      "pos": [
+        12,
+        1,
+        9
+      ],
+      "block": "minecraft:oak_leaves",
+      "role": "garden",
+      "state": {
+        "persistent": "true",
+        "distance": "7",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        1,
+        10
+      ],
+      "block": "minecraft:oak_leaves",
+      "role": "garden",
+      "state": {
+        "persistent": "true",
+        "distance": "7",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        1,
+        10
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "foundation"
+    },
+    {
+      "pos": [
+        3,
+        1,
+        10
+      ],
+      "block": "minecraft:spruce_stairs",
+      "role": "seat",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        1,
+        10
+      ],
+      "block": "minecraft:spruce_stairs",
+      "role": "seat",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        1,
+        10
+      ],
+      "block": "minecraft:spruce_stairs",
+      "role": "seat",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        1,
+        10
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "foundation"
+    },
+    {
+      "pos": [
+        12,
+        1,
+        10
+      ],
+      "block": "minecraft:oak_leaves",
+      "role": "garden",
+      "state": {
+        "persistent": "true",
+        "distance": "7",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        1,
+        11
+      ],
+      "block": "minecraft:oak_leaves",
+      "role": "garden",
+      "state": {
+        "persistent": "true",
+        "distance": "7",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        1,
+        11
+      ],
+      "block": "minecraft:poppy",
+      "role": "garden"
+    },
+    {
+      "pos": [
+        12,
+        1,
+        11
+      ],
+      "block": "minecraft:oak_leaves",
+      "role": "garden",
+      "state": {
+        "persistent": "true",
+        "distance": "7",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        1,
+        12
+      ],
+      "block": "minecraft:oak_leaves",
+      "role": "garden",
+      "state": {
+        "persistent": "true",
+        "distance": "7",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        1,
+        12
+      ],
+      "block": "minecraft:oak_leaves",
+      "role": "garden",
+      "state": {
+        "persistent": "true",
+        "distance": "7",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        1,
+        12
+      ],
+      "block": "minecraft:oak_leaves",
+      "role": "garden",
+      "state": {
+        "persistent": "true",
+        "distance": "7",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        1,
+        12
+      ],
+      "block": "minecraft:oak_leaves",
+      "role": "garden",
+      "state": {
+        "persistent": "true",
+        "distance": "7",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        1,
+        12
+      ],
+      "block": "minecraft:oak_leaves",
+      "role": "garden",
+      "state": {
+        "persistent": "true",
+        "distance": "7",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        1,
+        12
+      ],
+      "block": "minecraft:oak_leaves",
+      "role": "garden",
+      "state": {
+        "persistent": "true",
+        "distance": "7",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        1,
+        12
+      ],
+      "block": "minecraft:oak_leaves",
+      "role": "garden",
+      "state": {
+        "persistent": "true",
+        "distance": "7",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        1,
+        12
+      ],
+      "block": "minecraft:oak_leaves",
+      "role": "garden",
+      "state": {
+        "persistent": "true",
+        "distance": "7",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        1,
+        12
+      ],
+      "block": "minecraft:oak_leaves",
+      "role": "garden",
+      "state": {
+        "persistent": "true",
+        "distance": "7",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        1,
+        12
+      ],
+      "block": "minecraft:oak_leaves",
+      "role": "garden",
+      "state": {
+        "persistent": "true",
+        "distance": "7",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        1,
+        12
+      ],
+      "block": "minecraft:oak_leaves",
+      "role": "garden",
+      "state": {
+        "persistent": "true",
+        "distance": "7",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        2,
+        2
+      ],
+      "block": "minecraft:spruce_fence",
+      "role": "frame",
+      "state": {
+        "north": "false",
+        "south": "false",
+        "east": "false",
+        "west": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        2,
+        3
+      ],
+      "block": "minecraft:spruce_fence",
+      "role": "frame",
+      "state": {
+        "north": "false",
+        "south": "false",
+        "east": "false",
+        "west": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        2,
+        10
+      ],
+      "block": "minecraft:spruce_fence",
+      "role": "frame",
+      "state": {
+        "north": "false",
+        "south": "false",
+        "east": "false",
+        "west": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        2,
+        10
+      ],
+      "block": "minecraft:spruce_fence",
+      "role": "frame",
+      "state": {
+        "north": "false",
+        "south": "false",
+        "east": "false",
+        "west": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        3,
+        2
+      ],
+      "block": "minecraft:lantern",
+      "role": "light",
+      "state": {
+        "hanging": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        3,
+        3
+      ],
+      "block": "minecraft:lantern",
+      "role": "light",
+      "state": {
+        "hanging": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        3,
+        10
+      ],
+      "block": "minecraft:lantern",
+      "role": "light",
+      "state": {
+        "hanging": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        3,
+        10
+      ],
+      "block": "minecraft:lantern",
+      "role": "light",
+      "state": {
+        "hanging": "false",
+        "waterlogged": "false"
+      }
+    }
+  ]
+}

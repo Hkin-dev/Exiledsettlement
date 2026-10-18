@@ -1,0 +1,9200 @@
+{
+  "schema_version": 1,
+  "status": "approved_runtime_snapshot",
+  "id": "warehouse_player_v1",
+  "building_type": "warehouse",
+  "source_interior_facing": "east",
+  "coordinate_convention": {
+    "x": "west_to_east",
+    "y": "foundation_to_roof",
+    "z": "north_to_south"
+  },
+  "size": [
+    17,
+    8,
+    12
+  ],
+  "anchor": [
+    0,
+    1,
+    5
+  ],
+  "transition_margin": 2,
+  "entrances": [
+    {
+      "pos": [
+        0,
+        1,
+        5
+      ],
+      "outward": "west"
+    },
+    {
+      "pos": [
+        0,
+        1,
+        6
+      ],
+      "outward": "west"
+    },
+    {
+      "pos": [
+        16,
+        1,
+        5
+      ],
+      "outward": "east"
+    },
+    {
+      "pos": [
+        16,
+        1,
+        6
+      ],
+      "outward": "east"
+    }
+  ],
+  "support_corners": [
+    [
+      1,
+      0,
+      1
+    ],
+    [
+      15,
+      0,
+      1
+    ],
+    [
+      1,
+      0,
+      10
+    ],
+    [
+      15,
+      0,
+      10
+    ]
+  ],
+  "source": {
+    "kind": "prior_read_only_world_extraction",
+    "world": "local-authoring-world",
+    "world_available_at_generation": false,
+    "block_entity_nbt_retained": false
+  },
+  "notes": [
+    "Player-designed warehouse extracted from the former test world.",
+    "Two opposite two-block-wide open entrances and thirty-six double chests.",
+    "No block-entity NBT is retained; all generated containers are empty."
+  ],
+  "blocks": [
+    {
+      "pos": [
+        1,
+        0,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        15,
+        0,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        15,
+        0,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        15,
+        0,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        4
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        4
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        4
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        4
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        4
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        4
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        4
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        4
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        4
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        4
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        4
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        4
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        4
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        4
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        15,
+        0,
+        4
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        5
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        5
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        5
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        5
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        5
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        5
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        5
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        5
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        5
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        5
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        5
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        5
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        5
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        5
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        15,
+        0,
+        5
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        6
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        6
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        6
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        6
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        6
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        6
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        6
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        6
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        6
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        6
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        6
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        6
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        6
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        6
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        15,
+        0,
+        6
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        7
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        7
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        7
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        7
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        7
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        7
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        7
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        7
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        7
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        7
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        7
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        7
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        7
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        7
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        15,
+        0,
+        7
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        15,
+        0,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        15,
+        0,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        15,
+        0,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        0,
+        1,
+        0
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        8,
+        1,
+        0
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        16,
+        1,
+        0
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        1,
+        1
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        2,
+        1,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        1,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        1,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        1,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        1,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        1,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        8,
+        1,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        1,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        10,
+        1,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        11,
+        1,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        12,
+        1,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        13,
+        1,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        14,
+        1,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        15,
+        1,
+        1
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        1,
+        2
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        2,
+        1,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        1,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        1,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        1,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        1,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        1,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        1,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        1,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        1,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        1,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        1,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        1,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        1,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        15,
+        1,
+        2
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        1,
+        1,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        8,
+        1,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        15,
+        1,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        0,
+        1,
+        4
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        1,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        15,
+        1,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        16,
+        1,
+        4
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        0,
+        1,
+        7
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        1,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        15,
+        1,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        16,
+        1,
+        7
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        1,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        8,
+        1,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        15,
+        1,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        1,
+        1,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        2,
+        1,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        1,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        1,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        1,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        1,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        1,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        1,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        1,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        1,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        1,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        1,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        1,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        1,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        15,
+        1,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        1,
+        1,
+        10
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        2,
+        1,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        1,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        1,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        1,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        1,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        1,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        8,
+        1,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        1,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        10,
+        1,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        11,
+        1,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        12,
+        1,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        13,
+        1,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        14,
+        1,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        15,
+        1,
+        10
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        0,
+        1,
+        11
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        8,
+        1,
+        11
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        16,
+        1,
+        11
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        0,
+        2,
+        0
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        8,
+        2,
+        0
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        16,
+        2,
+        0
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        2,
+        1
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        2,
+        2,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        2,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        2,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        2,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        2,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        2,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        8,
+        2,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        2,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        10,
+        2,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        11,
+        2,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        12,
+        2,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        13,
+        2,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        14,
+        2,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        15,
+        2,
+        1
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        2,
+        2
+      ],
+      "block": "minecraft:oak_fence",
+      "state": {
+        "north": "false",
+        "east": "false",
+        "south": "false",
+        "west": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        2,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        2,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        2,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        2,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        2,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        2,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        2,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        2,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        2,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        2,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        2,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        2,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        2,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        15,
+        2,
+        2
+      ],
+      "block": "minecraft:oak_fence",
+      "state": {
+        "north": "false",
+        "east": "false",
+        "south": "false",
+        "west": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        2,
+        3
+      ],
+      "block": "minecraft:oak_fence",
+      "state": {
+        "north": "false",
+        "east": "false",
+        "south": "false",
+        "west": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        2,
+        3
+      ],
+      "block": "minecraft:lantern",
+      "state": {
+        "hanging": "true",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        15,
+        2,
+        3
+      ],
+      "block": "minecraft:oak_fence",
+      "state": {
+        "north": "false",
+        "east": "false",
+        "south": "false",
+        "west": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        2,
+        4
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        2,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        15,
+        2,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        16,
+        2,
+        4
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        0,
+        2,
+        7
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        2,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        15,
+        2,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        16,
+        2,
+        7
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        2,
+        8
+      ],
+      "block": "minecraft:oak_fence",
+      "state": {
+        "north": "false",
+        "east": "false",
+        "south": "false",
+        "west": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        2,
+        8
+      ],
+      "block": "minecraft:lantern",
+      "state": {
+        "hanging": "true",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        15,
+        2,
+        8
+      ],
+      "block": "minecraft:oak_fence",
+      "state": {
+        "north": "false",
+        "east": "false",
+        "south": "false",
+        "west": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        2,
+        9
+      ],
+      "block": "minecraft:oak_fence",
+      "state": {
+        "north": "false",
+        "east": "false",
+        "south": "false",
+        "west": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        2,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        2,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        2,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        2,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        2,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        2,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        2,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        2,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        2,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        2,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        2,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        2,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        2,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        15,
+        2,
+        9
+      ],
+      "block": "minecraft:oak_fence",
+      "state": {
+        "north": "false",
+        "east": "false",
+        "south": "false",
+        "west": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        2,
+        10
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        2,
+        2,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        2,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        2,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        2,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        2,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        2,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        8,
+        2,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        2,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        10,
+        2,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        11,
+        2,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        12,
+        2,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        13,
+        2,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        14,
+        2,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        15,
+        2,
+        10
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        0,
+        2,
+        11
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        8,
+        2,
+        11
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        16,
+        2,
+        11
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        0,
+        3,
+        0
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        8,
+        3,
+        0
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        16,
+        3,
+        0
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        3,
+        1
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        2,
+        3,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        3,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        3,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        3,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        3,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        3,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        8,
+        3,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        3,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        10,
+        3,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        11,
+        3,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        12,
+        3,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        13,
+        3,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        14,
+        3,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        15,
+        3,
+        1
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        3,
+        2
+      ],
+      "block": "minecraft:oak_fence",
+      "state": {
+        "north": "false",
+        "east": "false",
+        "south": "false",
+        "west": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        3,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        3,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        3,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        3,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        3,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        3,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        3,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        3,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        3,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        3,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        3,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        3,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        3,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        15,
+        3,
+        2
+      ],
+      "block": "minecraft:oak_fence",
+      "state": {
+        "north": "false",
+        "east": "false",
+        "south": "false",
+        "west": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        3,
+        3
+      ],
+      "block": "minecraft:oak_fence",
+      "state": {
+        "north": "false",
+        "east": "false",
+        "south": "false",
+        "west": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        15,
+        3,
+        3
+      ],
+      "block": "minecraft:oak_fence",
+      "state": {
+        "north": "false",
+        "east": "false",
+        "south": "false",
+        "west": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        3,
+        4
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        3,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        2,
+        3,
+        4
+      ],
+      "block": "minecraft:lantern",
+      "state": {
+        "hanging": "true",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        3,
+        4
+      ],
+      "block": "minecraft:lantern",
+      "state": {
+        "hanging": "true",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        15,
+        3,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        16,
+        3,
+        4
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        0,
+        3,
+        7
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        3,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        2,
+        3,
+        7
+      ],
+      "block": "minecraft:lantern",
+      "state": {
+        "hanging": "true",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        3,
+        7
+      ],
+      "block": "minecraft:lantern",
+      "state": {
+        "hanging": "true",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        15,
+        3,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        16,
+        3,
+        7
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        3,
+        8
+      ],
+      "block": "minecraft:oak_fence",
+      "state": {
+        "north": "false",
+        "east": "false",
+        "south": "false",
+        "west": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        15,
+        3,
+        8
+      ],
+      "block": "minecraft:oak_fence",
+      "state": {
+        "north": "false",
+        "east": "false",
+        "south": "false",
+        "west": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        3,
+        9
+      ],
+      "block": "minecraft:oak_fence",
+      "state": {
+        "north": "false",
+        "east": "false",
+        "south": "false",
+        "west": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        3,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        3,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        3,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        3,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        3,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        3,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        3,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        3,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        3,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        3,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        3,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        3,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        3,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        15,
+        3,
+        9
+      ],
+      "block": "minecraft:oak_fence",
+      "state": {
+        "north": "false",
+        "east": "false",
+        "south": "false",
+        "west": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        3,
+        10
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        2,
+        3,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        3,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        3,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        3,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        3,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        3,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        8,
+        3,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        3,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        10,
+        3,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        11,
+        3,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        12,
+        3,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        13,
+        3,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        14,
+        3,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        15,
+        3,
+        10
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        0,
+        3,
+        11
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        8,
+        3,
+        11
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        16,
+        3,
+        11
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        0,
+        4,
+        0
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        0
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        4,
+        0
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        4,
+        0
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        4,
+        0
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        4,
+        0
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        4,
+        0
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        4,
+        0
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        4,
+        0
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        4,
+        0
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        4,
+        0
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        4,
+        0
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        4,
+        0
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        4,
+        0
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        4,
+        0
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        15,
+        4,
+        0
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        16,
+        4,
+        0
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        4,
+        1
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        1
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        2,
+        4,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        4,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        4,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        4,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        4,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        4,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        8,
+        4,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        4,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        10,
+        4,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        11,
+        4,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        12,
+        4,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        13,
+        4,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        14,
+        4,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        15,
+        4,
+        1
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        16,
+        4,
+        1
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        4,
+        2
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        2
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        2,
+        4,
+        2
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        4,
+        2
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        4,
+        2
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        4,
+        2
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        4,
+        2
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        4,
+        2
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        4,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        4,
+        2
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        4,
+        2
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        4,
+        2
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        4,
+        2
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        4,
+        2
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        4,
+        2
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        15,
+        4,
+        2
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        16,
+        4,
+        2
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        4,
+        3
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        15,
+        4,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        16,
+        4,
+        3
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        4,
+        4
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        2,
+        4,
+        4
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        14,
+        4,
+        4
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        15,
+        4,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        16,
+        4,
+        4
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        0,
+        4,
+        5
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        15,
+        4,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        16,
+        4,
+        5
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        4,
+        6
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        15,
+        4,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        16,
+        4,
+        6
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        4,
+        7
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        2,
+        4,
+        7
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        14,
+        4,
+        7
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        15,
+        4,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        16,
+        4,
+        7
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        0,
+        4,
+        8
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        15,
+        4,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        16,
+        4,
+        8
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        4,
+        9
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        2,
+        4,
+        9
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        4,
+        9
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        4,
+        9
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        4,
+        9
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        4,
+        9
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        4,
+        9
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        4,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        4,
+        9
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        4,
+        9
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        4,
+        9
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        4,
+        9
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        4,
+        9
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        4,
+        9
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        15,
+        4,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        16,
+        4,
+        9
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        4,
+        10
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        10
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        2,
+        4,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        4,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        4,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        4,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        4,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        4,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        8,
+        4,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        4,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        10,
+        4,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        11,
+        4,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        12,
+        4,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        13,
+        4,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        14,
+        4,
+        10
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        15,
+        4,
+        10
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        16,
+        4,
+        10
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        4,
+        11
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        11
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        4,
+        11
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        4,
+        11
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        4,
+        11
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        4,
+        11
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        4,
+        11
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        4,
+        11
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        4,
+        11
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        4,
+        11
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        4,
+        11
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        4,
+        11
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        4,
+        11
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        4,
+        11
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        4,
+        11
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        15,
+        4,
+        11
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        16,
+        4,
+        11
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        5,
+        1
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        5,
+        1
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        5,
+        1
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        5,
+        1
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        5,
+        1
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        5,
+        1
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        5,
+        1
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        5,
+        1
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        5,
+        1
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        5,
+        1
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        5,
+        1
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        5,
+        1
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        5,
+        1
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        5,
+        1
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        5,
+        1
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        15,
+        5,
+        1
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        16,
+        5,
+        1
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        5,
+        2
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        5,
+        2
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        2,
+        5,
+        2
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        5,
+        2
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        5,
+        2
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        5,
+        2
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        5,
+        2
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        5,
+        2
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        8,
+        5,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        5,
+        2
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        10,
+        5,
+        2
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        11,
+        5,
+        2
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        12,
+        5,
+        2
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        13,
+        5,
+        2
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        14,
+        5,
+        2
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        15,
+        5,
+        2
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        16,
+        5,
+        2
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        5,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        2,
+        5,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        5,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        5,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        5,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        5,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        5,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        8,
+        5,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        5,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        10,
+        5,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        11,
+        5,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        12,
+        5,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        13,
+        5,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        14,
+        5,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        15,
+        5,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        0,
+        5,
+        4
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        5,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        2,
+        5,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        5,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        5,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        5,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        5,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        5,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        8,
+        5,
+        4
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        5,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        10,
+        5,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        11,
+        5,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        12,
+        5,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        13,
+        5,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        14,
+        5,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        15,
+        5,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        16,
+        5,
+        4
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        5,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        2,
+        5,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        5,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        5,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        5,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        5,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        5,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        8,
+        5,
+        5
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        5,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        10,
+        5,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        11,
+        5,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        12,
+        5,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        13,
+        5,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        14,
+        5,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        15,
+        5,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        1,
+        5,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        2,
+        5,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        5,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        5,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        5,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        5,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        5,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        8,
+        5,
+        6
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        5,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        10,
+        5,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        11,
+        5,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        12,
+        5,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        13,
+        5,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        14,
+        5,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        15,
+        5,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        0,
+        5,
+        7
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        5,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        2,
+        5,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        5,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        5,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        5,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        5,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        5,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        8,
+        5,
+        7
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        5,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        10,
+        5,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        11,
+        5,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        12,
+        5,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        13,
+        5,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        14,
+        5,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        15,
+        5,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        16,
+        5,
+        7
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        5,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        2,
+        5,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        5,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        5,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        5,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        5,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        5,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        8,
+        5,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        5,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        10,
+        5,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        11,
+        5,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        12,
+        5,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        13,
+        5,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        14,
+        5,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        15,
+        5,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        0,
+        5,
+        9
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        5,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        2,
+        5,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        5,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        5,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        5,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        5,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        5,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        8,
+        5,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        5,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        10,
+        5,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        11,
+        5,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        12,
+        5,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        13,
+        5,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        14,
+        5,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        15,
+        5,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        16,
+        5,
+        9
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        5,
+        10
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        5,
+        10
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        5,
+        10
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        5,
+        10
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        5,
+        10
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        5,
+        10
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        5,
+        10
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        5,
+        10
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        5,
+        10
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        5,
+        10
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        5,
+        10
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        5,
+        10
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        5,
+        10
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        5,
+        10
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        5,
+        10
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        15,
+        5,
+        10
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        16,
+        5,
+        10
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        6,
+        2
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        6,
+        2
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        6,
+        2
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        6,
+        2
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        6,
+        2
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        6,
+        2
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        6,
+        2
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        6,
+        2
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        6,
+        2
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        6,
+        2
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        6,
+        2
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        6,
+        2
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        6,
+        2
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        6,
+        2
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        6,
+        2
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        15,
+        6,
+        2
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        16,
+        6,
+        2
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        6,
+        3
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        6,
+        3
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        6,
+        3
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        6,
+        3
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        6,
+        3
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        6,
+        3
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        6,
+        3
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        6,
+        3
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        6,
+        3
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        6,
+        3
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        6,
+        3
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        6,
+        3
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        6,
+        3
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        6,
+        3
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        6,
+        3
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        15,
+        6,
+        3
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        16,
+        6,
+        3
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        6,
+        4
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        6,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        2,
+        6,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        6,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        6,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        6,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        6,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        6,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        8,
+        6,
+        4
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        6,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        10,
+        6,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        11,
+        6,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        12,
+        6,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        13,
+        6,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        14,
+        6,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        15,
+        6,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        16,
+        6,
+        4
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        0,
+        6,
+        5
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        6,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        2,
+        6,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        6,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        6,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        6,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        6,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        6,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        8,
+        6,
+        5
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        6,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        10,
+        6,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        11,
+        6,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        12,
+        6,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        13,
+        6,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        14,
+        6,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        15,
+        6,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        16,
+        6,
+        5
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        0,
+        6,
+        6
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        6,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        2,
+        6,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        6,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        6,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        6,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        6,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        6,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        8,
+        6,
+        6
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        6,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        10,
+        6,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        11,
+        6,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        12,
+        6,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        13,
+        6,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        14,
+        6,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        15,
+        6,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        16,
+        6,
+        6
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        0,
+        6,
+        7
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        6,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        2,
+        6,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        6,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        6,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        6,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        6,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        6,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        8,
+        6,
+        7
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        6,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        10,
+        6,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        11,
+        6,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        12,
+        6,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        13,
+        6,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        14,
+        6,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        15,
+        6,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        16,
+        6,
+        7
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        0,
+        6,
+        8
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        6,
+        8
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        6,
+        8
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        6,
+        8
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        6,
+        8
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        6,
+        8
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        6,
+        8
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        6,
+        8
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        6,
+        8
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        6,
+        8
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        6,
+        8
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        6,
+        8
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        6,
+        8
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        6,
+        8
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        6,
+        8
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        15,
+        6,
+        8
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        16,
+        6,
+        8
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        6,
+        9
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        6,
+        9
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        6,
+        9
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        6,
+        9
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        6,
+        9
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        6,
+        9
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        6,
+        9
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        6,
+        9
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        6,
+        9
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        6,
+        9
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        6,
+        9
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        6,
+        9
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        6,
+        9
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        6,
+        9
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        6,
+        9
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        15,
+        6,
+        9
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        16,
+        6,
+        9
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        7,
+        4
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        7,
+        4
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        7,
+        4
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        7,
+        4
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        7,
+        4
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        7,
+        4
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        7,
+        4
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        7,
+        4
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        7,
+        4
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        7,
+        4
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        7,
+        4
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        7,
+        4
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        7,
+        4
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        7,
+        4
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        7,
+        4
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        15,
+        7,
+        4
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        16,
+        7,
+        4
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        7,
+        5
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        7,
+        5
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        7,
+        5
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        7,
+        5
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        7,
+        5
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        7,
+        5
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        7,
+        5
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        7,
+        5
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        7,
+        5
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        7,
+        5
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        7,
+        5
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        7,
+        5
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        7,
+        5
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        7,
+        5
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        7,
+        5
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        15,
+        7,
+        5
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        16,
+        7,
+        5
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        7,
+        6
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        7,
+        6
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        7,
+        6
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        7,
+        6
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        7,
+        6
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        7,
+        6
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        7,
+        6
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        7,
+        6
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        7,
+        6
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        7,
+        6
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        7,
+        6
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        7,
+        6
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        7,
+        6
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        7,
+        6
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        7,
+        6
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        15,
+        7,
+        6
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        16,
+        7,
+        6
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        7,
+        7
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        7,
+        7
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        7,
+        7
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        7,
+        7
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        7,
+        7
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        7,
+        7
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        7,
+        7
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        7,
+        7
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        7,
+        7
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        7,
+        7
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        7,
+        7
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        7,
+        7
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        7,
+        7
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        7,
+        7
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        7,
+        7
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        15,
+        7,
+        7
+      ],
+      "block": "minecraft:oak_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        16,
+        7,
+        7
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    }
+  ]
+}

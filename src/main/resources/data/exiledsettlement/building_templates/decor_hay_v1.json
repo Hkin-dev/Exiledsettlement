@@ -1,0 +1,7 @@
+{
+  "schema_version": 1, "status": "approved_runtime_snapshot",
+  "id": "decor_hay_v1", "building_type": "woodshed",
+  "source_interior_facing": "south", "size": [1, 2, 1], "anchor": [0, 1, 0],
+  "transition_margin": 1, "entrances": [{"pos": [0, 1, -1], "outward": "north"}],
+  "support_corners": [], "blocks": [{"pos": [0, 1, 0], "block": "minecraft:hay_block"}]
+}

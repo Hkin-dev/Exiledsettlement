@@ -1,0 +1,18 @@
+{
+  "season_days": 30,
+  "adulthood_days": 32,
+  "birth_interval_days": 32,
+  "need_interval_ticks": 2400,
+  "nutrition_loss": 3,
+  "diet_window_days": 8,
+  "carried_food_target": 16,
+  "home_fuel_target": 4,
+  "home_garment_target": 1,
+  "recovery_interval_ticks": 100,
+  "recovery_nutrition_minimum": 80,
+  "recovery_nutrition_cost": 2,
+  "farmer_work_start_tick": 0,
+  "farmer_work_end_tick": 14000,
+  "schedule_offset_ticks": 1000,
+  "crises_enabled": true
+}

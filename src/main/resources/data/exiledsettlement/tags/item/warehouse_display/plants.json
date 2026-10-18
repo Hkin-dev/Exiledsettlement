@@ -1,0 +1,41 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "#minecraft:saplings",
+      "required": false
+    },
+    {
+      "id": "#minecraft:leaves",
+      "required": false
+    },
+    {
+      "id": "#minecraft:flowers",
+      "required": false
+    },
+    "minecraft:vine",
+    "minecraft:glow_lichen",
+    "minecraft:moss_block",
+    "minecraft:moss_carpet",
+    "minecraft:sugar_cane",
+    "minecraft:cactus",
+    "minecraft:kelp",
+    "minecraft:seagrass",
+    "minecraft:short_grass",
+    "minecraft:fern",
+    "minecraft:large_fern",
+    "minecraft:tall_grass",
+    "minecraft:dead_bush",
+    "minecraft:lily_pad",
+    "minecraft:bone",
+    "minecraft:bone_meal",
+    "minecraft:leather",
+    "minecraft:feather",
+    "minecraft:string",
+    "minecraft:honeycomb",
+    {
+      "id": "#minecraft:wool",
+      "required": false
+    }
+  ]
+}

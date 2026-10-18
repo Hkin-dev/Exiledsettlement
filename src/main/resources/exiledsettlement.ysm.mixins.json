@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.hkin.exiledsettlement.mixin",
+  "plugin": "net.okitsu.ysmmapping.internal.mixin.YsmMappingMixinPlugin",
+  "refmap": "exiledsettlement.refmap.json",
+  "refmapWrapper": "YsmReferenceMapper",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "YsmPlayerStateCapabilityMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

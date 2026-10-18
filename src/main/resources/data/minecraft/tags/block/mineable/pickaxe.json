@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "exiledsettlement:settlement_core",
+    "exiledsettlement:useless_settlement_core"
+  ]
+}

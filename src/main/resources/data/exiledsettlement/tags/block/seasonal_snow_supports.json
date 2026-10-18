@@ -1,0 +1,4 @@
+{
+  "replace":false,
+  "values":["#minecraft:leaves","#minecraft:planks","#minecraft:logs","minecraft:grass_block","minecraft:dirt","minecraft:coarse_dirt","minecraft:podzol","minecraft:rooted_dirt","minecraft:moss_block","minecraft:stone","minecraft:andesite","minecraft:diorite","minecraft:granite","minecraft:cobblestone","minecraft:mossy_cobblestone","minecraft:stone_bricks","minecraft:mossy_stone_bricks","minecraft:bricks","minecraft:deepslate","minecraft:cobbled_deepslate","minecraft:deepslate_bricks","#minecraft:terracotta"]
+}

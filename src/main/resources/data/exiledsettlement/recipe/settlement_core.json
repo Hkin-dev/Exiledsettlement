@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": { "item": "minecraft:bell" },
+    "C": { "item": "minecraft:compass" },
+    "L": { "tag": "minecraft:logs" }
+  },
+  "pattern": [
+    "LCL",
+    "LBL",
+    "LLL"
+  ],
+  "result": {
+    "count": 1,
+    "id": "exiledsettlement:settlement_core"
+  }
+}
+

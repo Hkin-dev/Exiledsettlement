@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "C": { "item": "minecraft:chest" },
+    "P": { "tag": "minecraft:planks" }
+  },
+  "pattern": [
+    "PCP",
+    "CCC",
+    "PPP"
+  ],
+  "result": {
+    "count": 1,
+    "id": "exiledsettlement:warehouse_marker"
+  }
+}
+

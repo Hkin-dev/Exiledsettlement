@@ -1,0 +1,4587 @@
+{
+  "schema_version": 1,
+  "status": "approved_runtime_snapshot",
+  "id": "house_t1_player_v2",
+  "building_type": "house",
+  "source_interior_facing": "east",
+  "coordinate_convention": {
+    "x": "west_to_east",
+    "y": "foundation_to_roof",
+    "z": "north_to_south"
+  },
+  "size": [
+    9,
+    9,
+    11
+  ],
+  "anchor": [
+    0,
+    1,
+    5
+  ],
+  "transition_margin": 2,
+  "entrances": [
+    {
+      "pos": [
+        1,
+        1,
+        5
+      ],
+      "outward": "west"
+    }
+  ],
+  "support_corners": [
+    [
+      0,
+      0,
+      0
+    ],
+    [
+      8,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      10
+    ],
+    [
+      8,
+      0,
+      10
+    ]
+  ],
+  "source": {
+    "kind": "read_only_anvil_extraction",
+    "world": "local-authoring-world",
+    "bounds": [
+      [
+        10,
+        -61,
+        10
+      ],
+      [
+        18,
+        -53,
+        20
+      ]
+    ],
+    "region_sha256": {
+      "r.0.0.mca": "fc8191f77c6a8b23c54a5bc5150690e47635c6e8c519e9ef485cd57ab3cfa751"
+    },
+    "block_entity_nbt_retained": false
+  },
+  "notes": [
+    "Player-approved two-person house extracted from the building-template test world.",
+    "Two beds, two double chests, three lanterns and one west-side single door.",
+    "No block-entity NBT is retained; generated containers are empty."
+  ],
+  "blocks": [
+    {
+      "pos": [
+        0,
+        0,
+        0
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        0
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        0
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        0
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        0
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        0
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        0
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        0
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        0
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        0,
+        0,
+        1
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        1
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        1
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        1
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        1
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        1
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        1
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        1
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        1
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        0,
+        0,
+        2
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        2
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        2
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        2
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        2
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        2
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        2
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        2
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        2
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        0,
+        0,
+        3
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        3
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        3
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        3
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        3
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        3
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        3
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        3
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        3
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        0,
+        0,
+        4
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        4
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        4
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        4
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        4
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        4
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        4
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        4
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        4
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        0,
+        0,
+        5
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        5
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        5
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        5
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        5
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        5
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        5
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        5
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        5
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        0,
+        0,
+        6
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        6
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        6
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        6
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        6
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        6
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        6
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        6
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        6
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        0,
+        0,
+        7
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        7
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        7
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        7
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        7
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        7
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        7
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        7
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        7
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        0,
+        0,
+        8
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        8
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        8
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        8
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        8
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        8
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        8
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        8
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        8
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        0,
+        0,
+        9
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        9
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        9
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        9
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        9
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        9
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        9
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        9
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        9
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        0,
+        0,
+        10
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        10
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        10
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        10
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        10
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        10
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        10
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        10
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        10
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        1,
+        1,
+        1
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        2,
+        1,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        1,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        1,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        1,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        1,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        1,
+        1
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        1,
+        2
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        1,
+        2
+      ],
+      "block": "minecraft:red_bed",
+      "state": {
+        "facing": "east",
+        "occupied": "false",
+        "part": "foot"
+      }
+    },
+    {
+      "pos": [
+        6,
+        1,
+        2
+      ],
+      "block": "minecraft:red_bed",
+      "state": {
+        "facing": "east",
+        "occupied": "false",
+        "part": "head"
+      }
+    },
+    {
+      "pos": [
+        7,
+        1,
+        2
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        1,
+        1,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        1,
+        3
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "west",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        1,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        1,
+        1,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        1,
+        4
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "west",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        1,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        1,
+        1,
+        5
+      ],
+      "block": "minecraft:oak_door",
+      "state": {
+        "facing": "east",
+        "half": "lower",
+        "hinge": "right",
+        "open": "false",
+        "powered": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        1,
+        5
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        7,
+        1,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        1,
+        1,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        1,
+        6
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "west",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        1,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        1,
+        1,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        1,
+        7
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "west",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        1,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        1,
+        1,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        1,
+        8
+      ],
+      "block": "minecraft:red_bed",
+      "state": {
+        "facing": "east",
+        "occupied": "false",
+        "part": "foot"
+      }
+    },
+    {
+      "pos": [
+        6,
+        1,
+        8
+      ],
+      "block": "minecraft:red_bed",
+      "state": {
+        "facing": "east",
+        "occupied": "false",
+        "part": "head"
+      }
+    },
+    {
+      "pos": [
+        7,
+        1,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        1,
+        1,
+        9
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        2,
+        1,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        1,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        1,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        1,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        1,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        1,
+        9
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        2,
+        1
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        2,
+        2,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        2,
+        1
+      ],
+      "block": "minecraft:glass_pane",
+      "state": {
+        "east": "true",
+        "north": "false",
+        "south": "false",
+        "waterlogged": "false",
+        "west": "true"
+      }
+    },
+    {
+      "pos": [
+        4,
+        2,
+        1
+      ],
+      "block": "minecraft:glass_pane",
+      "state": {
+        "east": "true",
+        "north": "false",
+        "south": "false",
+        "waterlogged": "false",
+        "west": "true"
+      }
+    },
+    {
+      "pos": [
+        5,
+        2,
+        1
+      ],
+      "block": "minecraft:glass_pane",
+      "state": {
+        "east": "true",
+        "north": "false",
+        "south": "false",
+        "waterlogged": "false",
+        "west": "true"
+      }
+    },
+    {
+      "pos": [
+        6,
+        2,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        2,
+        1
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        2,
+        2
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        2,
+        2
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        1,
+        2,
+        3
+      ],
+      "block": "minecraft:glass_pane",
+      "state": {
+        "east": "false",
+        "north": "true",
+        "south": "true",
+        "waterlogged": "false",
+        "west": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        2,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        1,
+        2,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        2,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        1,
+        2,
+        5
+      ],
+      "block": "minecraft:oak_door",
+      "state": {
+        "facing": "east",
+        "half": "upper",
+        "hinge": "right",
+        "open": "false",
+        "powered": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        2,
+        5
+      ],
+      "block": "minecraft:lantern",
+      "state": {
+        "hanging": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        2,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        1,
+        2,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        2,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        1,
+        2,
+        7
+      ],
+      "block": "minecraft:glass_pane",
+      "state": {
+        "east": "false",
+        "north": "true",
+        "south": "true",
+        "waterlogged": "false",
+        "west": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        2,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        1,
+        2,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        2,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        1,
+        2,
+        9
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        2,
+        2,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        2,
+        9
+      ],
+      "block": "minecraft:glass_pane",
+      "state": {
+        "east": "true",
+        "north": "false",
+        "south": "false",
+        "waterlogged": "false",
+        "west": "true"
+      }
+    },
+    {
+      "pos": [
+        4,
+        2,
+        9
+      ],
+      "block": "minecraft:glass_pane",
+      "state": {
+        "east": "true",
+        "north": "false",
+        "south": "false",
+        "waterlogged": "false",
+        "west": "true"
+      }
+    },
+    {
+      "pos": [
+        5,
+        2,
+        9
+      ],
+      "block": "minecraft:glass_pane",
+      "state": {
+        "east": "true",
+        "north": "false",
+        "south": "false",
+        "waterlogged": "false",
+        "west": "true"
+      }
+    },
+    {
+      "pos": [
+        6,
+        2,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        2,
+        9
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        3,
+        1
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        2,
+        3,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        3,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        3,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        3,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        3,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        3,
+        1
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        3,
+        2
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        3,
+        2
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        1,
+        3,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        3,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        1,
+        3,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        3,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        1,
+        3,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        3,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        1,
+        3,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        3,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        1,
+        3,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        3,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        1,
+        3,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        3,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        1,
+        3,
+        9
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        2,
+        3,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        3,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        3,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        3,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        3,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        3,
+        9
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        0,
+        4,
+        0
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        0
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "west",
+        "half": "top",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        4,
+        0
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "east",
+        "half": "top",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        4,
+        0
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        4,
+        1
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        1
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        2,
+        4,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        4,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        4,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        4,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        4,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        4,
+        1
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        8,
+        4,
+        1
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        4,
+        2
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        2
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        2,
+        4,
+        2
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        4,
+        2
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        4,
+        2
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        4,
+        2
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        4,
+        2
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        4,
+        2
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        8,
+        4,
+        2
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        4,
+        3
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        2,
+        4,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        4,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        4,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        4,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        4,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        4,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        8,
+        4,
+        3
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        4,
+        4
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        2,
+        4,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        4,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        4,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        4,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        4,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        4,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        8,
+        4,
+        4
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        4,
+        5
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        2,
+        4,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        4,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        4,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        4,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        4,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        4,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        8,
+        4,
+        5
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        4,
+        6
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        2,
+        4,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        4,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        4,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        4,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        4,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        4,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        8,
+        4,
+        6
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        4,
+        7
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        2,
+        4,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        4,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        4,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        4,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        4,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        4,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        8,
+        4,
+        7
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        4,
+        8
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        2,
+        4,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        4,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        4,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        4,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        4,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        4,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        8,
+        4,
+        8
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        4,
+        9
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        9
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        2,
+        4,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        4,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        4,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        4,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        4,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        4,
+        9
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        8,
+        4,
+        9
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        4,
+        10
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        10
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "west",
+        "half": "top",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        4,
+        10
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "east",
+        "half": "top",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        4,
+        10
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        5,
+        0
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        5,
+        0
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "west",
+        "half": "top",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        5,
+        0
+      ],
+      "block": "minecraft:cobblestone_slab",
+      "state": {
+        "type": "top",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        5,
+        0
+      ],
+      "block": "minecraft:cobblestone_slab",
+      "state": {
+        "type": "top",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        5,
+        0
+      ],
+      "block": "minecraft:cobblestone_slab",
+      "state": {
+        "type": "top",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        5,
+        0
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "east",
+        "half": "top",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        5,
+        0
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        5,
+        1
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        5,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        5,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        5,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        5,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        5,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        5,
+        1
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        5,
+        2
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        5,
+        2
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        5,
+        2
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        5,
+        2
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        5,
+        2
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        5,
+        2
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        5,
+        2
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        5,
+        3
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        5,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        5,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        5,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        5,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        5,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        5,
+        3
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        5,
+        4
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        5,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        5,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        5,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        5,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        5,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        5,
+        4
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        5,
+        5
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        5,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        5,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        5,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        5,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        5,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        5,
+        5
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        5,
+        6
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        5,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        5,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        5,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        5,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        5,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        5,
+        6
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        5,
+        7
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        5,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        5,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        5,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        5,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        5,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        5,
+        7
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        5,
+        8
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        5,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        5,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        5,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        5,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        5,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        5,
+        8
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        5,
+        9
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        5,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        5,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        5,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        5,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        5,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        5,
+        9
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        5,
+        10
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        5,
+        10
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "west",
+        "half": "top",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        5,
+        10
+      ],
+      "block": "minecraft:cobblestone_slab",
+      "state": {
+        "type": "top",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        5,
+        10
+      ],
+      "block": "minecraft:cobblestone_slab",
+      "state": {
+        "type": "top",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        5,
+        10
+      ],
+      "block": "minecraft:cobblestone_slab",
+      "state": {
+        "type": "top",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        5,
+        10
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "east",
+        "half": "top",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        5,
+        10
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        6,
+        0
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        6,
+        0
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "west",
+        "half": "top",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        6,
+        0
+      ],
+      "block": "minecraft:lantern",
+      "state": {
+        "hanging": "true",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        6,
+        0
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "east",
+        "half": "top",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        6,
+        0
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        6,
+        1
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        6,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        6,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        6,
+        1
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        6,
+        1
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        6,
+        2
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        6,
+        2
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        6,
+        2
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        6,
+        2
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        6,
+        2
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        6,
+        3
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        6,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        6,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        6,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        6,
+        3
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        6,
+        4
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        6,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        6,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        6,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        6,
+        4
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        6,
+        5
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        6,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        6,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        6,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        6,
+        5
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        6,
+        6
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        6,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        6,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        6,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        6,
+        6
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        6,
+        7
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        6,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        6,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        6,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        6,
+        7
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        6,
+        8
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        6,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        6,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        6,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        6,
+        8
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        6,
+        9
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        6,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        6,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        6,
+        9
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        6,
+        9
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        6,
+        10
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        6,
+        10
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "west",
+        "half": "top",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        6,
+        10
+      ],
+      "block": "minecraft:lantern",
+      "state": {
+        "hanging": "true",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        6,
+        10
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "east",
+        "half": "top",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        6,
+        10
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        7,
+        0
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        7,
+        0
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        5,
+        7,
+        0
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        7,
+        1
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        7,
+        1
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        5,
+        7,
+        1
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        7,
+        2
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        7,
+        2
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        5,
+        7,
+        2
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        7,
+        3
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        7,
+        3
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        5,
+        7,
+        3
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        7,
+        4
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        7,
+        4
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        5,
+        7,
+        4
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        7,
+        5
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        7,
+        5
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        5,
+        7,
+        5
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        7,
+        6
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        7,
+        6
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        5,
+        7,
+        6
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        7,
+        7
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        7,
+        7
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        5,
+        7,
+        7
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        7,
+        8
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        7,
+        8
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        5,
+        7,
+        8
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        7,
+        9
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        7,
+        9
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        5,
+        7,
+        9
+      ],
+      "block": "minecraft:oak_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        7,
+        10
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        7,
+        10
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        5,
+        7,
+        10
+      ],
+      "block": "minecraft:cobblestone_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        8,
+        0
+      ],
+      "block": "minecraft:cobblestone_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        8,
+        1
+      ],
+      "block": "minecraft:cobblestone_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        8,
+        2
+      ],
+      "block": "minecraft:cobblestone_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        8,
+        3
+      ],
+      "block": "minecraft:cobblestone_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        8,
+        4
+      ],
+      "block": "minecraft:cobblestone_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        8,
+        5
+      ],
+      "block": "minecraft:cobblestone_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        8,
+        6
+      ],
+      "block": "minecraft:cobblestone_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        8,
+        7
+      ],
+      "block": "minecraft:cobblestone_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        8,
+        8
+      ],
+      "block": "minecraft:cobblestone_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        8,
+        9
+      ],
+      "block": "minecraft:cobblestone_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        8,
+        10
+      ],
+      "block": "minecraft:cobblestone_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    }
+  ]
+}

@@ -1,0 +1,5192 @@
+{
+  "schema_version": 1,
+  "status": "approved_runtime_snapshot",
+  "id": "restaurant_v1",
+  "building_type": "restaurant",
+  "source_interior_facing": "south",
+  "size": [
+    17,
+    10,
+    13
+  ],
+  "anchor": [
+    8,
+    1,
+    2
+  ],
+  "transition_margin": 2,
+  "entrances": [
+    {
+      "pos": [
+        8,
+        1,
+        2
+      ],
+      "outward": "north"
+    }
+  ],
+  "support_corners": [],
+  "blocks": [
+    {
+      "pos": [
+        2,
+        0,
+        2
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        2
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        2
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        2
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        2
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        2
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        2
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        2
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        2
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        2
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        2
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        2
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        2
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        3
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        3
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        3
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        3
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        3
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        3
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        3
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        3
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        3
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        3
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        3
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        3
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        3
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        4
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        4
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        4
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        4
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        4
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        4
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        4
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        4
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        4
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        4
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        4
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        4
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        4
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        5
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        5
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        5
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        5
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        5
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        5
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        5
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        5
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        5
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        5
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        5
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        5
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        5
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        6
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        6
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        6
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        6
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        6
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        6
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        6
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        6
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        6
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        6
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        6
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        6
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        6
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        7
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        7
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        7
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        7
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        7
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        7
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        7
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        7
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        7
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        7
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        7
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        7
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        7
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        8
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        8
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        8
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        8
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        8
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        8
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        8
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        8
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        8
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        8
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        8
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        8
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        8
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        9
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        9
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        9
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        9
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        9
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        9
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        9
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        9
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        9
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        9
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        9
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        9
+      ],
+      "role": "foundation",
+      "block": "minecraft:spruce_planks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        9
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        10
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        10
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        10
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        10
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        10
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        10
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        10
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        10
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        10
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        10
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        10
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        10
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        10
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        1,
+        2
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        3,
+        1,
+        2
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        4,
+        1,
+        2
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        5,
+        1,
+        2
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        6,
+        1,
+        2
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        7,
+        1,
+        2
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        8,
+        1,
+        2
+      ],
+      "role": "door",
+      "block": "minecraft:spruce_door",
+      "state": {
+        "facing": "north",
+        "half": "lower",
+        "hinge": "left",
+        "open": "false",
+        "powered": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        1,
+        2
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        10,
+        1,
+        2
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        11,
+        1,
+        2
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        12,
+        1,
+        2
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        13,
+        1,
+        2
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        14,
+        1,
+        2
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        2,
+        1,
+        3
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        14,
+        1,
+        3
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        2,
+        1,
+        4
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        14,
+        1,
+        4
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        2,
+        1,
+        5
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        4,
+        1,
+        5
+      ],
+      "role": "table",
+      "block": "minecraft:spruce_slab",
+      "state": {
+        "type": "top",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        1,
+        5
+      ],
+      "role": "seat",
+      "block": "minecraft:spruce_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        1,
+        5
+      ],
+      "role": "table",
+      "block": "minecraft:spruce_slab",
+      "state": {
+        "type": "top",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        1,
+        5
+      ],
+      "role": "seat",
+      "block": "minecraft:spruce_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        1,
+        5
+      ],
+      "role": "workstation",
+      "block": "minecraft:smoker",
+      "state": {
+        "facing": "west",
+        "lit": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        1,
+        5
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        2,
+        1,
+        6
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        12,
+        1,
+        6
+      ],
+      "role": "workstation",
+      "block": "minecraft:crafting_table"
+    },
+    {
+      "pos": [
+        14,
+        1,
+        6
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        2,
+        1,
+        7
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        14,
+        1,
+        7
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        2,
+        1,
+        8
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        4,
+        1,
+        8
+      ],
+      "role": "container",
+      "block": "minecraft:barrel",
+      "state": {
+        "facing": "north",
+        "open": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        1,
+        8
+      ],
+      "role": "container",
+      "block": "minecraft:barrel",
+      "state": {
+        "facing": "north",
+        "open": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        1,
+        8
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        2,
+        1,
+        9
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        14,
+        1,
+        9
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        2,
+        1,
+        10
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        3,
+        1,
+        10
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        4,
+        1,
+        10
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        5,
+        1,
+        10
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        6,
+        1,
+        10
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        7,
+        1,
+        10
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        8,
+        1,
+        10
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        9,
+        1,
+        10
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        10,
+        1,
+        10
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        11,
+        1,
+        10
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        12,
+        1,
+        10
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        13,
+        1,
+        10
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        14,
+        1,
+        10
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        2,
+        2,
+        2
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        3,
+        2,
+        2
+      ],
+      "role": "window",
+      "block": "minecraft:glass_pane",
+      "state": {
+        "north": "false",
+        "east": "false",
+        "south": "false",
+        "west": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        2,
+        2
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        5,
+        2,
+        2
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        6,
+        2,
+        2
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        7,
+        2,
+        2
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        8,
+        2,
+        2
+      ],
+      "role": "door",
+      "block": "minecraft:spruce_door",
+      "state": {
+        "facing": "north",
+        "half": "upper",
+        "hinge": "left",
+        "open": "false",
+        "powered": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        2,
+        2
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        10,
+        2,
+        2
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        11,
+        2,
+        2
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        12,
+        2,
+        2
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        13,
+        2,
+        2
+      ],
+      "role": "window",
+      "block": "minecraft:glass_pane",
+      "state": {
+        "north": "false",
+        "east": "false",
+        "south": "false",
+        "west": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        2,
+        2
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        2,
+        2,
+        3
+      ],
+      "role": "window",
+      "block": "minecraft:glass_pane",
+      "state": {
+        "north": "false",
+        "east": "false",
+        "south": "false",
+        "west": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        2,
+        3
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        2,
+        2,
+        4
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        14,
+        2,
+        4
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        2,
+        2,
+        5
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        14,
+        2,
+        5
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        2,
+        2,
+        6
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        14,
+        2,
+        6
+      ],
+      "role": "window",
+      "block": "minecraft:glass_pane",
+      "state": {
+        "north": "false",
+        "east": "false",
+        "south": "false",
+        "west": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        2,
+        7
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        14,
+        2,
+        7
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        2,
+        2,
+        8
+      ],
+      "role": "window",
+      "block": "minecraft:glass_pane",
+      "state": {
+        "north": "false",
+        "east": "false",
+        "south": "false",
+        "west": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        2,
+        8
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        2,
+        2,
+        9
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        14,
+        2,
+        9
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        2,
+        2,
+        10
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        3,
+        2,
+        10
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        4,
+        2,
+        10
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        5,
+        2,
+        10
+      ],
+      "role": "window",
+      "block": "minecraft:glass_pane",
+      "state": {
+        "north": "false",
+        "east": "false",
+        "south": "false",
+        "west": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        2,
+        10
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        7,
+        2,
+        10
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        8,
+        2,
+        10
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        9,
+        2,
+        10
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        10,
+        2,
+        10
+      ],
+      "role": "window",
+      "block": "minecraft:glass_pane",
+      "state": {
+        "north": "false",
+        "east": "false",
+        "south": "false",
+        "west": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        2,
+        10
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        12,
+        2,
+        10
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        13,
+        2,
+        10
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        14,
+        2,
+        10
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        2,
+        3,
+        2
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        3,
+        3,
+        2
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        4,
+        3,
+        2
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        5,
+        3,
+        2
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        6,
+        3,
+        2
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        7,
+        3,
+        2
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        8,
+        3,
+        2
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        9,
+        3,
+        2
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        10,
+        3,
+        2
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        11,
+        3,
+        2
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        12,
+        3,
+        2
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        13,
+        3,
+        2
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        14,
+        3,
+        2
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        2,
+        3,
+        3
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        14,
+        3,
+        3
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        2,
+        3,
+        4
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        14,
+        3,
+        4
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        2,
+        3,
+        5
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        14,
+        3,
+        5
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        2,
+        3,
+        6
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        14,
+        3,
+        6
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        2,
+        3,
+        7
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        14,
+        3,
+        7
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        2,
+        3,
+        8
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        14,
+        3,
+        8
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        2,
+        3,
+        9
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        14,
+        3,
+        9
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        2,
+        3,
+        10
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        3,
+        3,
+        10
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        4,
+        3,
+        10
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        5,
+        3,
+        10
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        6,
+        3,
+        10
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        7,
+        3,
+        10
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        8,
+        3,
+        10
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        9,
+        3,
+        10
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        10,
+        3,
+        10
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        11,
+        3,
+        10
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        12,
+        3,
+        10
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        13,
+        3,
+        10
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        14,
+        3,
+        10
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        2,
+        4,
+        2
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        3,
+        4,
+        2
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        4,
+        4,
+        2
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        5,
+        4,
+        2
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        6,
+        4,
+        2
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        7,
+        4,
+        2
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        8,
+        4,
+        2
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        9,
+        4,
+        2
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        10,
+        4,
+        2
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        11,
+        4,
+        2
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        12,
+        4,
+        2
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        13,
+        4,
+        2
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        14,
+        4,
+        2
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        2,
+        4,
+        3
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        14,
+        4,
+        3
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        2,
+        4,
+        4
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        14,
+        4,
+        4
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        2,
+        4,
+        5
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        14,
+        4,
+        5
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        2,
+        4,
+        6
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        14,
+        4,
+        6
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        2,
+        4,
+        7
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        14,
+        4,
+        7
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        2,
+        4,
+        8
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        14,
+        4,
+        8
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        2,
+        4,
+        9
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        14,
+        4,
+        9
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        2,
+        4,
+        10
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        3,
+        4,
+        10
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        4,
+        4,
+        10
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        5,
+        4,
+        10
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        6,
+        4,
+        10
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        7,
+        4,
+        10
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        8,
+        4,
+        10
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        9,
+        4,
+        10
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        10,
+        4,
+        10
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        11,
+        4,
+        10
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        12,
+        4,
+        10
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        13,
+        4,
+        10
+      ],
+      "role": "wall",
+      "block": "minecraft:smooth_stone"
+    },
+    {
+      "pos": [
+        14,
+        4,
+        10
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        5,
+        1
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        15,
+        5,
+        1
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        5,
+        2
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        15,
+        5,
+        2
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        5,
+        3
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        15,
+        5,
+        3
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        5,
+        4
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        15,
+        5,
+        4
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        5,
+        5
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        15,
+        5,
+        5
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        5,
+        6
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        15,
+        5,
+        6
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        5,
+        7
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        15,
+        5,
+        7
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        5,
+        8
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        15,
+        5,
+        8
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        5,
+        9
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        15,
+        5,
+        9
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        5,
+        10
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        15,
+        5,
+        10
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        5,
+        11
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        15,
+        5,
+        11
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        6,
+        1
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        6,
+        1
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        6,
+        2
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        6,
+        2
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        6,
+        3
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        6,
+        3
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        6,
+        4
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        6,
+        4
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        6,
+        5
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        6,
+        5
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        6,
+        6
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        6,
+        6
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        6,
+        7
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        6,
+        7
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        6,
+        8
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        6,
+        8
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        6,
+        9
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        6,
+        9
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        6,
+        10
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        6,
+        10
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        6,
+        11
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        6,
+        11
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        7,
+        1
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        7,
+        1
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        7,
+        2
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        7,
+        2
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        7,
+        3
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        7,
+        3
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        7,
+        4
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        7,
+        4
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        7,
+        5
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        7,
+        5
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        7,
+        6
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        7,
+        6
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        7,
+        7
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        7,
+        7
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        7,
+        8
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        7,
+        8
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        7,
+        9
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        7,
+        9
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        7,
+        10
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        7,
+        10
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        7,
+        11
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        7,
+        11
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        8,
+        1
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        8,
+        1
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        8,
+        2
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        8,
+        2
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        8,
+        3
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        8,
+        3
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        8,
+        4
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        8,
+        4
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        8,
+        5
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        8,
+        5
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        8,
+        6
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        8,
+        6
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        8,
+        7
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        8,
+        7
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        8,
+        8
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        8,
+        8
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        8,
+        9
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        8,
+        9
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        8,
+        10
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        8,
+        10
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        8,
+        11
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        8,
+        11
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        9,
+        1
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        9,
+        1
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        9,
+        2
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        9,
+        2
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        9,
+        3
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        9,
+        3
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        9,
+        4
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        9,
+        4
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        9,
+        5
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        9,
+        5
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        9,
+        6
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        9,
+        6
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        9,
+        7
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        9,
+        7
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        9,
+        8
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        9,
+        8
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        9,
+        9
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        9,
+        9
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        9,
+        10
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        9,
+        10
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        9,
+        11
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        9,
+        11
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        10,
+        1
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        10,
+        1
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        10,
+        2
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        10,
+        2
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        10,
+        3
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        10,
+        3
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        10,
+        4
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        10,
+        4
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        10,
+        5
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        10,
+        5
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        10,
+        6
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        10,
+        6
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        10,
+        7
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        10,
+        7
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        10,
+        8
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        10,
+        8
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        10,
+        9
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        10,
+        9
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        10,
+        10
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        10,
+        10
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        10,
+        11
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        10,
+        11
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        11,
+        1
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        11,
+        1
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        11,
+        2
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        11,
+        2
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        11,
+        3
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        11,
+        3
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        11,
+        4
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        11,
+        4
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        11,
+        5
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        11,
+        5
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        11,
+        6
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        11,
+        6
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        11,
+        7
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        11,
+        7
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        11,
+        8
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        11,
+        8
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        11,
+        9
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        11,
+        9
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        11,
+        10
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        11,
+        10
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        11,
+        11
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "east",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        11,
+        11
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_stairs",
+      "state": {
+        "facing": "west",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        12,
+        1
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        12,
+        2
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        12,
+        3
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        12,
+        4
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        12,
+        5
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        12,
+        6
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        12,
+        7
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        12,
+        8
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        12,
+        9
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        12,
+        10
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        12,
+        11
+      ],
+      "role": "roof",
+      "block": "minecraft:deepslate_tile_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    }
+  ]
+}

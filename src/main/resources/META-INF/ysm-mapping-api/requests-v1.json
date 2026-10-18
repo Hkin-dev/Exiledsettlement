@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "symbols": [
+    {
+      "key": "ysm.player_state.capability.class",
+      "kind": "CLASS",
+      "required": true,
+      "sourceAlias": {
+        "common": {
+          "owner": "com/hkin/exiledsettlement/compat/ysm/YsmPlayerStateCapabilityAlias"
+        }
+      }
+    },
+    {
+      "key": "ysm.player_state.model_id_getter.method",
+      "kind": "METHOD",
+      "required": true
+    },
+    {
+      "key": "ysm.player_state.model_disabled_getter.method",
+      "kind": "METHOD",
+      "required": true
+    },
+    {
+      "key": "resident_player_state.selection_setter",
+      "kind": "METHOD",
+      "required": true,
+      "sourceAlias": {
+        "common": {
+          "owner": "com.hkin.exiledsettlement.compat.ysm.YsmPlayerStateAlias",
+          "name": "setModelAndTexture",
+          "descriptor": "(Ljava/lang/String;Ljava/lang/String;)V"
+        }
+      },
+      "definition": {
+        "common": {
+          "requiredAccess": 1,
+          "descriptorShapes": ["(Ljava/lang/String;Ljava/lang/String;)V"],
+          "opcodeDigests": ["9b42be13c17c36ae82bffdd32c8f3534e9ce9e6c32126068f2da57ef6df11bba"],
+          "constantDigests": ["e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"]
+        }
+      }
+    }
+  ],
+  "mixinRequirements": {
+    "com.hkin.exiledsettlement.mixin.YsmPlayerStateCapabilityMixin": [
+      "ysm.player_state.capability.class"
+    ]
+  }
+}

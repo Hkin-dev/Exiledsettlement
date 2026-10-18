@@ -1,0 +1,7 @@
+{
+  "beam": "minecraft:oak_log",
+  "deck": "minecraft:oak_planks",
+  "abutment": "minecraft:cobblestone",
+  "rail": "minecraft:oak_fence",
+  "stair": "minecraft:oak_stairs"
+}

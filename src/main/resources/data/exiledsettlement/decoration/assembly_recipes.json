@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "recipes": {
+    "minecraft:composter": {"output": 1, "inputs": {"minecraft:spruce_slab": 7}},
+    "minecraft:hay_block": {"output": 1, "inputs": {"minecraft:wheat": 9}},
+    "minecraft:spruce_planks": {
+      "output": 4,
+      "inputs": {
+        "#minecraft:logs": 1
+      }
+    },
+    "minecraft:stripped_spruce_log": {
+      "output": 1,
+      "inputs": {
+        "#minecraft:logs": 1
+      }
+    },
+    "minecraft:spruce_log": {
+      "output": 1,
+      "inputs": {
+        "#minecraft:logs": 1
+      }
+    },
+    "minecraft:stick": {
+      "output": 4,
+      "inputs": {
+        "minecraft:spruce_planks": 2
+      }
+    },
+    "minecraft:spruce_fence": {
+      "output": 3,
+      "inputs": {
+        "minecraft:spruce_planks": 4,
+        "minecraft:stick": 2
+      }
+    },
+    "minecraft:spruce_slab": {
+      "output": 6,
+      "inputs": {
+        "minecraft:spruce_planks": 3
+      }
+    },
+    "minecraft:spruce_stairs": {
+      "output": 4,
+      "inputs": {
+        "minecraft:spruce_planks": 6
+      }
+    },
+    "minecraft:spruce_sign": {
+      "output": 3,
+      "inputs": {
+        "minecraft:spruce_planks": 6,
+        "minecraft:stick": 1
+      }
+    },
+    "minecraft:crafting_table": {
+      "output": 1,
+      "inputs": {
+        "minecraft:spruce_planks": 4
+      }
+    },
+    "minecraft:iron_nugget": {
+      "output": 9,
+      "inputs": {
+        "minecraft:iron_ingot": 1
+      }
+    },
+    "minecraft:torch": {
+      "output": 4,
+      "inputs": {
+        "minecraft:stick": 1,
+        "#minecraft:coals": 1
+      }
+    },
+    "minecraft:lantern": {
+      "output": 1,
+      "inputs": {
+        "minecraft:iron_nugget": 8,
+        "minecraft:torch": 1
+      }
+    },
+    "minecraft:stone": {
+      "output": 8,
+      "inputs": {
+        "minecraft:cobblestone": 8,
+        "#minecraft:coals": 1
+      }
+    },
+    "minecraft:stone_bricks": {
+      "output": 4,
+      "inputs": {
+        "minecraft:stone": 4
+      }
+    },
+    "minecraft:stone_brick_slab": {
+      "output": 6,
+      "inputs": {
+        "minecraft:stone_bricks": 3
+      }
+    },
+    "minecraft:stone_slab": {
+      "output": 6,
+      "inputs": {
+        "minecraft:stone": 3
+      }
+    },
+    "minecraft:cobblestone_slab": {
+      "output": 6,
+      "inputs": {
+        "minecraft:cobblestone": 3
+      }
+    },
+    "minecraft:grindstone": {
+      "output": 1,
+      "inputs": {
+        "minecraft:stick": 2,
+        "minecraft:spruce_planks": 2,
+        "minecraft:stone_slab": 1
+      }
+    }
+  }
+}

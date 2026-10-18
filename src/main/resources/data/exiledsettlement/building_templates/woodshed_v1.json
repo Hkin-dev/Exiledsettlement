@@ -1,0 +1,626 @@
+{
+  "schema_version": 1,
+  "status": "approved_runtime_snapshot",
+  "id": "woodshed_v1",
+  "building_type": "woodshed",
+  "source_interior_facing": "south",
+  "size": [
+    5,
+    5,
+    4
+  ],
+  "anchor": [
+    2,
+    1,
+    0
+  ],
+  "transition_margin": 1,
+  "entrances": [
+    {
+      "pos": [
+        2,
+        1,
+        -1
+      ],
+      "outward": "north"
+    }
+  ],
+  "support_corners": [],
+  "blocks": [
+    {
+      "pos": [
+        0,
+        0,
+        1
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "decoration"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        1
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "decoration"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        1
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "decoration"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        1
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "decoration"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        1
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "decoration"
+    },
+    {
+      "pos": [
+        0,
+        0,
+        2
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "decoration"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        2
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "decoration"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        2
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "decoration"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        2
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "decoration"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        2
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "decoration"
+    },
+    {
+      "pos": [
+        0,
+        0,
+        3
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "decoration"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        3
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "decoration"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        3
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "decoration"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        3
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "decoration"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        3
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "decoration"
+    },
+    {
+      "pos": [
+        0,
+        1,
+        1
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "decoration",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        4,
+        1,
+        1
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "decoration",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        1,
+        2
+      ],
+      "block": "minecraft:spruce_log",
+      "role": "decoration",
+      "state": {
+        "axis": "z"
+      }
+    },
+    {
+      "pos": [
+        2,
+        1,
+        2
+      ],
+      "block": "minecraft:spruce_log",
+      "role": "decoration",
+      "state": {
+        "axis": "z"
+      }
+    },
+    {
+      "pos": [
+        3,
+        1,
+        2
+      ],
+      "block": "minecraft:spruce_log",
+      "role": "decoration",
+      "state": {
+        "axis": "z"
+      }
+    },
+    {
+      "pos": [
+        0,
+        1,
+        3
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "decoration",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        1,
+        3
+      ],
+      "block": "minecraft:spruce_log",
+      "role": "decoration",
+      "state": {
+        "axis": "z"
+      }
+    },
+    {
+      "pos": [
+        2,
+        1,
+        3
+      ],
+      "block": "minecraft:spruce_log",
+      "role": "decoration",
+      "state": {
+        "axis": "z"
+      }
+    },
+    {
+      "pos": [
+        3,
+        1,
+        3
+      ],
+      "block": "minecraft:spruce_log",
+      "role": "decoration",
+      "state": {
+        "axis": "z"
+      }
+    },
+    {
+      "pos": [
+        4,
+        1,
+        3
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "decoration",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        0,
+        2,
+        1
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "decoration",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        4,
+        2,
+        1
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "decoration",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        0,
+        2,
+        3
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "decoration",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        2,
+        2,
+        3
+      ],
+      "block": "minecraft:spruce_log",
+      "role": "decoration",
+      "state": {
+        "axis": "z"
+      }
+    },
+    {
+      "pos": [
+        4,
+        2,
+        3
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "decoration",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        0,
+        3,
+        0
+      ],
+      "block": "minecraft:spruce_stairs",
+      "role": "decoration",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        3,
+        0
+      ],
+      "block": "minecraft:spruce_stairs",
+      "role": "decoration",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        3,
+        0
+      ],
+      "block": "minecraft:spruce_stairs",
+      "role": "decoration",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        3,
+        0
+      ],
+      "block": "minecraft:spruce_stairs",
+      "role": "decoration",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        3,
+        0
+      ],
+      "block": "minecraft:spruce_stairs",
+      "role": "decoration",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        3,
+        3
+      ],
+      "block": "minecraft:spruce_stairs",
+      "role": "decoration",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        3,
+        3
+      ],
+      "block": "minecraft:spruce_stairs",
+      "role": "decoration",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        3,
+        3
+      ],
+      "block": "minecraft:spruce_stairs",
+      "role": "decoration",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        3,
+        3
+      ],
+      "block": "minecraft:spruce_stairs",
+      "role": "decoration",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        3,
+        3
+      ],
+      "block": "minecraft:spruce_stairs",
+      "role": "decoration",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        4,
+        1
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "decoration",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        1
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "decoration",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        4,
+        1
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "decoration",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        4,
+        1
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "decoration",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        4,
+        1
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "decoration",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        4,
+        2
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "decoration",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        2
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "decoration",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        4,
+        2
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "decoration",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        4,
+        2
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "decoration",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        4,
+        2
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "decoration",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    }
+  ]
+}

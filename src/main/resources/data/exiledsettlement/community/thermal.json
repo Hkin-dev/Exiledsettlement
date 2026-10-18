@@ -1,0 +1,13 @@
+{
+  "season_ambient_celsius": [14,26,10,-8],
+  "warning_celsius": 36,
+  "retreat_celsius": 35,
+  "injury_celsius": 33,
+  "resume_celsius": 36.5,
+  "wool_insulation": 14,
+  "leather_insulation": 7,
+  "blizzard_chance": 0.2,
+  "maximum_cooling_per_100_ticks": 0.03,
+  "fuel_heat_ticks": 6000,
+  "tailor_ticks": 400
+}

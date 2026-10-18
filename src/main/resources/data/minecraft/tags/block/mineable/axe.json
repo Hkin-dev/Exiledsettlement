@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "exiledsettlement:exile_wagon",
+    "exiledsettlement:house_marker",
+    "exiledsettlement:warehouse_marker",
+    "exiledsettlement:farmstead_marker",
+    "exiledsettlement:pasture_marker",
+    "exiledsettlement:hunting_lodge_marker",
+    "exiledsettlement:tool_workshop_marker",
+    "exiledsettlement:forester_lodge_marker",
+    "exiledsettlement:fishing_hut_marker",
+    "exiledsettlement:town_hall_marker"
+  ]
+}

@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "status": "approved_runtime_snapshot",
+  "id": "decor_toolrack_v1",
+  "building_type": "signpost",
+  "source_interior_facing": "south",
+  "size": [
+    3,
+    4,
+    1
+  ],
+  "anchor": [
+    0,
+    1,
+    0
+  ],
+  "transition_margin": 1,
+  "entrances": [
+    {
+      "pos": [
+        0,
+        1,
+        -1
+      ],
+      "outward": "north"
+    }
+  ],
+  "support_corners": [
+    [
+      0,
+      0,
+      0
+    ]
+  ],
+  "blocks": [
+    {
+      "pos": [
+        0,
+        0,
+        0
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        0
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        0
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        0,
+        1,
+        0
+      ],
+      "block": "minecraft:spruce_fence"
+    },
+    {
+      "pos": [
+        0,
+        2,
+        0
+      ],
+      "block": "minecraft:spruce_fence"
+    },
+    {
+      "pos": [
+        2,
+        1,
+        0
+      ],
+      "block": "minecraft:spruce_fence"
+    },
+    {
+      "pos": [
+        2,
+        2,
+        0
+      ],
+      "block": "minecraft:spruce_fence"
+    },
+    {
+      "pos": [
+        0,
+        3,
+        0
+      ],
+      "block": "minecraft:spruce_slab",
+      "state": {
+        "type": "bottom"
+      }
+    },
+    {
+      "pos": [
+        1,
+        3,
+        0
+      ],
+      "block": "minecraft:spruce_slab",
+      "state": {
+        "type": "bottom"
+      }
+    },
+    {
+      "pos": [
+        2,
+        3,
+        0
+      ],
+      "block": "minecraft:spruce_slab",
+      "state": {
+        "type": "bottom"
+      }
+    },
+    {
+      "pos": [
+        1,
+        2,
+        0
+      ],
+      "block": "minecraft:grindstone",
+      "state": {
+        "face": "ceiling",
+        "facing": "south"
+      }
+    }
+  ]
+}

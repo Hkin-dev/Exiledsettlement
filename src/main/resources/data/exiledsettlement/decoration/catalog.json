@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "attempts_per_cycle": 4,
+  "pending_limit": 3,
+  "wood_reserve": 32,
+  "entries": [
+    {
+      "id": "composter",
+      "type": "woodshed",
+      "version": 3,
+      "family": 4,
+      "cost": 1,
+      "usage_clearance": 1
+    },
+    {
+      "id": "hay",
+      "type": "woodshed",
+      "version": 4,
+      "family": 4,
+      "cost": 1,
+      "usage_clearance": 0
+    },
+    {
+      "id": "lamp_small",
+      "type": "lamp_small",
+      "version": 1,
+      "family": 1,
+      "cost": 4,
+      "usage_clearance": 0
+    },
+    {
+      "id": "lamp_arm",
+      "type": "lamp_arm",
+      "version": 1,
+      "family": 1,
+      "cost": 7,
+      "usage_clearance": 0
+    },
+    {
+      "id": "bench",
+      "type": "bench",
+      "version": 1,
+      "family": 8,
+      "cost": 8,
+      "usage_clearance": 1
+    },
+    {
+      "id": "signpost",
+      "type": "signpost",
+      "version": 1,
+      "family": 8,
+      "cost": 7,
+      "usage_clearance": 0
+    },
+    {
+      "id": "flowerbed",
+      "type": "flowerbed",
+      "version": 1,
+      "family": 2,
+      "cost": 36,
+      "usage_clearance": 0
+    },
+    {
+      "id": "woodpile",
+      "type": "woodshed",
+      "version": 2,
+      "family": 4,
+      "cost": 14,
+      "usage_clearance": 1
+    },
+    {
+      "id": "workbench",
+      "type": "bench",
+      "version": 2,
+      "family": 4,
+      "cost": 12,
+      "usage_clearance": 1
+    },
+    {
+      "id": "toolrack",
+      "type": "signpost",
+      "version": 2,
+      "family": 4,
+      "cost": 11,
+      "usage_clearance": 1
+    },
+    {
+      "id": "laundry",
+      "type": "signpost",
+      "version": 3,
+      "family": 2,
+      "cost": 14,
+      "usage_clearance": 1
+    },
+    {
+      "id": "natural_patch",
+      "type": "flowerbed",
+      "version": 2,
+      "family": 8,
+      "cost": 8,
+      "usage_clearance": 0
+    }
+  ]
+}

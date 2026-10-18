@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "status": "approved_runtime_snapshot",
+  "id": "signpost_v1",
+  "building_type": "signpost",
+  "source_interior_facing": "south",
+  "size": [
+    1,
+    4,
+    3
+  ],
+  "anchor": [
+    0,
+    1,
+    0
+  ],
+  "transition_margin": 1,
+  "entrances": [
+    {
+      "pos": [
+        0,
+        1,
+        -1
+      ],
+      "outward": "north"
+    }
+  ],
+  "support_corners": [],
+  "blocks": [
+    {
+      "pos": [
+        0,
+        0,
+        1
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "decoration"
+    },
+    {
+      "pos": [
+        0,
+        1,
+        1
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "decoration",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        0,
+        2,
+        0
+      ],
+      "block": "minecraft:spruce_wall_sign",
+      "role": "decoration",
+      "state": {
+        "facing": "north",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        2,
+        1
+      ],
+      "block": "minecraft:stripped_spruce_log",
+      "role": "decoration",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        0,
+        2,
+        2
+      ],
+      "block": "minecraft:spruce_wall_sign",
+      "role": "decoration",
+      "state": {
+        "facing": "south",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        3,
+        1
+      ],
+      "block": "minecraft:spruce_slab",
+      "role": "decoration",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    }
+  ]
+}

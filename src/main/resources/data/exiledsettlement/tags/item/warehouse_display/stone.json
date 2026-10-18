@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:clay_ball",
+    "minecraft:flint",
+    "minecraft:brick",
+    "minecraft:nether_brick"
+  ]
+}

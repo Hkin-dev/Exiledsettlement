@@ -1,0 +1,4478 @@
+{
+  "schema_version": 1,
+  "status": "approved_runtime_snapshot",
+  "id": "market_v1",
+  "building_type": "market",
+  "source_interior_facing": "south",
+  "size": [
+    19,
+    8,
+    15
+  ],
+  "anchor": [
+    9,
+    1,
+    0
+  ],
+  "transition_margin": 2,
+  "entrances": [
+    {
+      "pos": [
+        9,
+        1,
+        0
+      ],
+      "outward": "north"
+    },
+    {
+      "pos": [
+        9,
+        1,
+        14
+      ],
+      "outward": "south"
+    },
+    {
+      "pos": [
+        0,
+        1,
+        7
+      ],
+      "outward": "west"
+    },
+    {
+      "pos": [
+        18,
+        1,
+        7
+      ],
+      "outward": "east"
+    }
+  ],
+  "support_corners": [],
+  "blocks": [
+    {
+      "pos": [
+        0,
+        0,
+        0
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        0
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        0
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        0
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        0
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        0
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        0
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        0
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        0
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        0
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        0
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        0
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        0
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        0
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        0
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        15,
+        0,
+        0
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        16,
+        0,
+        0
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        17,
+        0,
+        0
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        18,
+        0,
+        0
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        0,
+        0,
+        1
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        1
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        1
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        1
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        1
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        1
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        1
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        1
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        1
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        1
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        1
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        1
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        1
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        1
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        1
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        15,
+        0,
+        1
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        16,
+        0,
+        1
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        17,
+        0,
+        1
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        18,
+        0,
+        1
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        0,
+        0,
+        2
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        2
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        2
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        2
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        2
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        2
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        2
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        2
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        2
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        2
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        2
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        2
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        2
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        2
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        2
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        15,
+        0,
+        2
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        16,
+        0,
+        2
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        17,
+        0,
+        2
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        18,
+        0,
+        2
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        0,
+        0,
+        3
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        3
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        3
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        3
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        3
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        3
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        3
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        3
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        3
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        3
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        3
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        3
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        3
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        3
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        3
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        15,
+        0,
+        3
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        16,
+        0,
+        3
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        17,
+        0,
+        3
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        18,
+        0,
+        3
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        0,
+        0,
+        4
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        4
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        4
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        4
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        4
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        4
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        4
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        4
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        4
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        4
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        4
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        4
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        4
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        4
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        4
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        15,
+        0,
+        4
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        16,
+        0,
+        4
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        17,
+        0,
+        4
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        18,
+        0,
+        4
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        0,
+        0,
+        5
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        5
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        5
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        5
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        5
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        5
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        5
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        5
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        5
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        5
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        5
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        5
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        5
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        5
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        5
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        15,
+        0,
+        5
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        16,
+        0,
+        5
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        17,
+        0,
+        5
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        18,
+        0,
+        5
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        0,
+        0,
+        6
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        6
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        6
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        6
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        6
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        6
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        6
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        6
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        6
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        6
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        6
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        6
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        6
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        6
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        6
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        15,
+        0,
+        6
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        16,
+        0,
+        6
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        17,
+        0,
+        6
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        18,
+        0,
+        6
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        0,
+        0,
+        7
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        7
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        7
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        7
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        7
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        7
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        7
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        7
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        7
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        7
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        7
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        7
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        7
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        7
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        7
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        15,
+        0,
+        7
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        16,
+        0,
+        7
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        17,
+        0,
+        7
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        18,
+        0,
+        7
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        0,
+        0,
+        8
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        8
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        8
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        8
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        8
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        8
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        8
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        8
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        8
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        8
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        8
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        8
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        8
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        8
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        8
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        15,
+        0,
+        8
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        16,
+        0,
+        8
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        17,
+        0,
+        8
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        18,
+        0,
+        8
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        0,
+        0,
+        9
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        9
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        9
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        9
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        9
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        9
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        9
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        9
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        9
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        9
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        9
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        9
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        9
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        9
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        9
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        15,
+        0,
+        9
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        16,
+        0,
+        9
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        17,
+        0,
+        9
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        18,
+        0,
+        9
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        0,
+        0,
+        10
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        10
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        10
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        10
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        10
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        10
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        10
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        10
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        10
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        10
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        10
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        10
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        10
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        10
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        10
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        15,
+        0,
+        10
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        16,
+        0,
+        10
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        17,
+        0,
+        10
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        18,
+        0,
+        10
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        0,
+        0,
+        11
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        11
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        11
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        11
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        11
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        11
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        11
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        11
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        11
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        11
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        11
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        11
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        11
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        11
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        11
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        15,
+        0,
+        11
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        16,
+        0,
+        11
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        17,
+        0,
+        11
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        18,
+        0,
+        11
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        0,
+        0,
+        12
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        12
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        12
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        12
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        12
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        12
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        12
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        12
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        12
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        12
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        12
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        12
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        12
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        12
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        12
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        15,
+        0,
+        12
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        16,
+        0,
+        12
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        17,
+        0,
+        12
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        18,
+        0,
+        12
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        0,
+        0,
+        13
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        13
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        13
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        13
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        13
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        13
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        13
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        13
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        13
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        13
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        13
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        13
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        13
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        13
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        13
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        15,
+        0,
+        13
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        16,
+        0,
+        13
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        17,
+        0,
+        13
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        18,
+        0,
+        13
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        0,
+        0,
+        14
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        14
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        14
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        14
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        14
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        14
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        14
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        14
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        14
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        14
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        14
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        14
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        14
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        14
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        14
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        15,
+        0,
+        14
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        16,
+        0,
+        14
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        17,
+        0,
+        14
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        18,
+        0,
+        14
+      ],
+      "role": "foundation",
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        1,
+        2
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        7,
+        1,
+        2
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        11,
+        1,
+        2
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        17,
+        1,
+        2
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        2,
+        1,
+        4
+      ],
+      "role": "container",
+      "block": "minecraft:barrel",
+      "state": {
+        "facing": "south",
+        "open": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        1,
+        4
+      ],
+      "role": "container",
+      "block": "minecraft:barrel",
+      "state": {
+        "facing": "south",
+        "open": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        1,
+        4
+      ],
+      "role": "container",
+      "block": "minecraft:barrel",
+      "state": {
+        "facing": "south",
+        "open": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        1,
+        4
+      ],
+      "role": "container",
+      "block": "minecraft:barrel",
+      "state": {
+        "facing": "south",
+        "open": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        1,
+        4
+      ],
+      "role": "container",
+      "block": "minecraft:barrel",
+      "state": {
+        "facing": "south",
+        "open": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        1,
+        4
+      ],
+      "role": "container",
+      "block": "minecraft:barrel",
+      "state": {
+        "facing": "south",
+        "open": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        1,
+        4
+      ],
+      "role": "container",
+      "block": "minecraft:barrel",
+      "state": {
+        "facing": "south",
+        "open": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        1,
+        4
+      ],
+      "role": "container",
+      "block": "minecraft:barrel",
+      "state": {
+        "facing": "south",
+        "open": "false"
+      }
+    },
+    {
+      "pos": [
+        15,
+        1,
+        4
+      ],
+      "role": "container",
+      "block": "minecraft:barrel",
+      "state": {
+        "facing": "south",
+        "open": "false"
+      }
+    },
+    {
+      "pos": [
+        16,
+        1,
+        4
+      ],
+      "role": "container",
+      "block": "minecraft:barrel",
+      "state": {
+        "facing": "south",
+        "open": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        1,
+        5
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        7,
+        1,
+        5
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        11,
+        1,
+        5
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        17,
+        1,
+        5
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        9,
+        1,
+        7
+      ],
+      "role": "market",
+      "block": "minecraft:bell",
+      "state": {
+        "attachment": "floor",
+        "facing": "north",
+        "powered": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        1,
+        9
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        7,
+        1,
+        9
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        11,
+        1,
+        9
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        17,
+        1,
+        9
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        2,
+        1,
+        11
+      ],
+      "role": "container",
+      "block": "minecraft:barrel",
+      "state": {
+        "facing": "south",
+        "open": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        1,
+        11
+      ],
+      "role": "container",
+      "block": "minecraft:barrel",
+      "state": {
+        "facing": "south",
+        "open": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        1,
+        11
+      ],
+      "role": "container",
+      "block": "minecraft:barrel",
+      "state": {
+        "facing": "south",
+        "open": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        1,
+        11
+      ],
+      "role": "container",
+      "block": "minecraft:barrel",
+      "state": {
+        "facing": "south",
+        "open": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        1,
+        11
+      ],
+      "role": "container",
+      "block": "minecraft:barrel",
+      "state": {
+        "facing": "south",
+        "open": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        1,
+        11
+      ],
+      "role": "container",
+      "block": "minecraft:barrel",
+      "state": {
+        "facing": "south",
+        "open": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        1,
+        11
+      ],
+      "role": "container",
+      "block": "minecraft:barrel",
+      "state": {
+        "facing": "south",
+        "open": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        1,
+        11
+      ],
+      "role": "container",
+      "block": "minecraft:barrel",
+      "state": {
+        "facing": "south",
+        "open": "false"
+      }
+    },
+    {
+      "pos": [
+        15,
+        1,
+        11
+      ],
+      "role": "container",
+      "block": "minecraft:barrel",
+      "state": {
+        "facing": "south",
+        "open": "false"
+      }
+    },
+    {
+      "pos": [
+        16,
+        1,
+        11
+      ],
+      "role": "container",
+      "block": "minecraft:barrel",
+      "state": {
+        "facing": "south",
+        "open": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        1,
+        12
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        7,
+        1,
+        12
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        11,
+        1,
+        12
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        17,
+        1,
+        12
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        2,
+        2
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        7,
+        2,
+        2
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        11,
+        2,
+        2
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        17,
+        2,
+        2
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        2,
+        5
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        7,
+        2,
+        5
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        11,
+        2,
+        5
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        17,
+        2,
+        5
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        2,
+        9
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        7,
+        2,
+        9
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        11,
+        2,
+        9
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        17,
+        2,
+        9
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        2,
+        12
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        7,
+        2,
+        12
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        11,
+        2,
+        12
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        17,
+        2,
+        12
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        3,
+        2
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        7,
+        3,
+        2
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        11,
+        3,
+        2
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        17,
+        3,
+        2
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        3,
+        5
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        7,
+        3,
+        5
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        11,
+        3,
+        5
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        17,
+        3,
+        5
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        3,
+        9
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        7,
+        3,
+        9
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        11,
+        3,
+        9
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        17,
+        3,
+        9
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        3,
+        12
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        7,
+        3,
+        12
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        11,
+        3,
+        12
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        17,
+        3,
+        12
+      ],
+      "role": "frame",
+      "block": "minecraft:stripped_spruce_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        2
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        2,
+        4,
+        2
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        3,
+        4,
+        2
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        4,
+        4,
+        2
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        5,
+        4,
+        2
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        6,
+        4,
+        2
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        7,
+        4,
+        2
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        11,
+        4,
+        2
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        12,
+        4,
+        2
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        13,
+        4,
+        2
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        14,
+        4,
+        2
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        15,
+        4,
+        2
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        16,
+        4,
+        2
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        17,
+        4,
+        2
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        1,
+        4,
+        3
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        2,
+        4,
+        3
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        3,
+        4,
+        3
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        4,
+        4,
+        3
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        5,
+        4,
+        3
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        6,
+        4,
+        3
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        7,
+        4,
+        3
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        11,
+        4,
+        3
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        12,
+        4,
+        3
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        13,
+        4,
+        3
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        14,
+        4,
+        3
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        15,
+        4,
+        3
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        16,
+        4,
+        3
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        17,
+        4,
+        3
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        1,
+        4,
+        4
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        2,
+        4,
+        4
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        3,
+        4,
+        4
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        4,
+        4,
+        4
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        5,
+        4,
+        4
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        6,
+        4,
+        4
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        7,
+        4,
+        4
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        11,
+        4,
+        4
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        12,
+        4,
+        4
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        13,
+        4,
+        4
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        14,
+        4,
+        4
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        15,
+        4,
+        4
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        16,
+        4,
+        4
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        17,
+        4,
+        4
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        1,
+        4,
+        5
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        2,
+        4,
+        5
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        3,
+        4,
+        5
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        4,
+        4,
+        5
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        5,
+        4,
+        5
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        6,
+        4,
+        5
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        7,
+        4,
+        5
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        11,
+        4,
+        5
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        12,
+        4,
+        5
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        13,
+        4,
+        5
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        14,
+        4,
+        5
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        15,
+        4,
+        5
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        16,
+        4,
+        5
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        17,
+        4,
+        5
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        1,
+        4,
+        9
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        2,
+        4,
+        9
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        3,
+        4,
+        9
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        4,
+        4,
+        9
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        5,
+        4,
+        9
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        6,
+        4,
+        9
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        7,
+        4,
+        9
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        11,
+        4,
+        9
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        12,
+        4,
+        9
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        13,
+        4,
+        9
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        14,
+        4,
+        9
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        15,
+        4,
+        9
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        16,
+        4,
+        9
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        17,
+        4,
+        9
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        1,
+        4,
+        10
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        2,
+        4,
+        10
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        3,
+        4,
+        10
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        4,
+        4,
+        10
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        5,
+        4,
+        10
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        6,
+        4,
+        10
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        7,
+        4,
+        10
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        11,
+        4,
+        10
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        12,
+        4,
+        10
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        13,
+        4,
+        10
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        14,
+        4,
+        10
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        15,
+        4,
+        10
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        16,
+        4,
+        10
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        17,
+        4,
+        10
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        1,
+        4,
+        11
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        2,
+        4,
+        11
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        3,
+        4,
+        11
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        4,
+        4,
+        11
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        5,
+        4,
+        11
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        6,
+        4,
+        11
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        7,
+        4,
+        11
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        11,
+        4,
+        11
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        12,
+        4,
+        11
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        13,
+        4,
+        11
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        14,
+        4,
+        11
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        15,
+        4,
+        11
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        16,
+        4,
+        11
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        17,
+        4,
+        11
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        1,
+        4,
+        12
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        2,
+        4,
+        12
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        3,
+        4,
+        12
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        4,
+        4,
+        12
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        5,
+        4,
+        12
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        6,
+        4,
+        12
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        7,
+        4,
+        12
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        11,
+        4,
+        12
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        12,
+        4,
+        12
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        13,
+        4,
+        12
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        14,
+        4,
+        12
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        15,
+        4,
+        12
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    },
+    {
+      "pos": [
+        16,
+        4,
+        12
+      ],
+      "role": "awning",
+      "block": "minecraft:white_wool"
+    },
+    {
+      "pos": [
+        17,
+        4,
+        12
+      ],
+      "role": "awning",
+      "block": "minecraft:yellow_wool"
+    }
+  ]
+}

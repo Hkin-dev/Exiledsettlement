@@ -1,0 +1,203 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    id 'net.neoforged.moddev' version '2.0.141'
+    id 'idea'
+}
+
+version = mod_version
+group = mod_group_id
+
+base {
+    archivesName = mod_id
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+repositories {
+    maven { url = uri("https://maven.aliyun.com/repository/public") }
+    mavenCentral()
+    maven {
+        name = 'CurseMaven'
+        url = uri('https://www.cursemaven.com')
+        content { includeGroup 'curse.maven' }
+    }
+
+    def moduleCache = file("${System.getProperty('user.home')}/.gradle/caches/modules-2/files-2.1")
+    if (moduleCache.exists()) {
+        flatDir {
+            dirs fileTree(moduleCache) {
+                include '**/*.jar'
+            }.files.collect { it.parentFile }.unique()
+        }
+    }
+}
+
+dependencies {
+    // Optional resident-model compatibility; neither mod is required or bundled.
+    compileOnly 'curse.maven:ysm-mapping-api-1682145:8857149'
+}
+
+neoForge {
+    version = project.neo_version
+
+    parchment {
+        mappingsVersion = project.parchment_mappings_version
+        minecraftVersion = project.parchment_minecraft_version
+    }
+
+    runs {
+        client {
+            client()
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        }
+
+        // Separate saves and logs: work acceptance must never modify a player's test world.
+        workAcceptanceClient {
+            client()
+            gameDirectory = file('run-work-acceptance')
+            systemProperty 'neoforge.enableGameTest', 'true'
+            systemProperty 'neoforge.enabledGameTestNamespaces', "${project.mod_id},minecraft"
+            programArguments.addAll '--username', 'WorkAcceptance', '--width', '1280', '--height', '720'
+        }
+
+        server {
+            server()
+            programArgument '--nogui'
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        }
+
+        // Real player-save copies, not synthetic GameTest structures.
+        saveAcceptanceServer {
+            server()
+            gameDirectory = file(project.findProperty('saveTestDirectory') ?: 'run-save-acceptance')
+            programArgument '--nogui'
+            systemProperty 'exiledsettlement.testHarness', 'true'
+            systemProperty 'exiledsettlement.testStartFrozen', project.findProperty('saveTestFrozen') ?: 'false'
+        }
+
+        gameTestServer {
+            type = "gameTestServer"
+            // The current tests reuse Mojang's empty structure while exercising only
+            // our server-side simulation records. Both namespaces must therefore be enabled.
+            systemProperty 'neoforge.enabledGameTestNamespaces', "${project.mod_id},exiledsettlement_seasons,minecraft"
+        }
+
+        buildingLabGameTestServer {
+            type = "gameTestServer"
+            gameDirectory = file('run-building-lab-tests')
+            systemProperty 'neoforge.enabledGameTestNamespaces', "${project.mod_id},exiledsettlement_seasons,minecraft"
+        }
+
+        buildingApiGameTestServer {
+            type = "gameTestServer"
+            gameDirectory = file('run-building-api-tests')
+            systemProperty 'neoforge.enabledGameTestNamespaces', "${project.mod_id},exiledsettlement_seasons,minecraft"
+        }
+
+        realSeasonGameTestServer {
+            type = "gameTestServer"
+            gameDirectory = file('run-real-season-tests')
+            systemProperty 'neoforge.enabledGameTestNamespaces', "exiledsettlement_seasons"
+        }
+
+        timedConstructionGameTestServer {
+            type = "gameTestServer"
+            gameDirectory = file(project.findProperty('timedTestDirectory') ?: 'run-timed-construction-tests-2')
+            systemProperty 'exiledsettlement.testSuite', 'timed_construction'
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.findProperty('timedTestNamespaces') ?: "exiledsettlement_timed,exiledsettlement_groundrepair"
+        }
+
+        homeLogisticsGameTestServer {
+            type = "gameTestServer"
+            gameDirectory = file(project.findProperty('homeTestDirectory') ?: 'run-home7-tests')
+            systemProperty 'exiledsettlement.testSuite', 'home_logistics'
+            systemProperty 'neoforge.enabledGameTestNamespaces', 'exiledsettlement_home,exiledsettlement_timed'
+        }
+
+        autoRoadGameTestServer {
+            type = "gameTestServer"
+            gameDirectory = file('run-auto-road-tests')
+            systemProperty 'neoforge.enabledGameTestNamespaces', "${project.mod_id},minecraft"
+        }
+
+        sleepGameTestServer {
+            type = "gameTestServer"
+            gameDirectory = file('run-sleep-tests')
+            systemProperty 'neoforge.enabledGameTestNamespaces', "${project.mod_id},minecraft"
+        }
+
+        residentExperienceGameTestServer {
+            type = "gameTestServer"
+            gameDirectory = file('run-resident-experience-tests')
+            systemProperty 'neoforge.enabledGameTestNamespaces', "${project.mod_id},minecraft"
+        }
+
+        data {
+            data()
+            programArguments.addAll '--mod', project.mod_id, '--all',
+                    '--output', file('src/generated/resources/').getAbsolutePath(),
+                    '--existing', file('src/main/resources/').getAbsolutePath()
+        }
+
+        configureEach {
+            systemProperty 'forge.logging.markers', 'REGISTRIES'
+            logLevel = org.slf4j.event.Level.INFO
+        }
+    }
+
+    mods {
+        "${mod_id}" {
+            sourceSet(sourceSets.main)
+        }
+    }
+}
+
+var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
+    var replaceProperties = [
+            minecraft_version      : minecraft_version,
+            minecraft_version_range: minecraft_version_range,
+            neo_version            : neo_version,
+            loader_version_range   : loader_version_range,
+            mod_id                 : mod_id,
+            mod_name               : mod_name,
+            mod_license            : mod_license,
+            mod_version            : mod_version,
+    ]
+    inputs.properties replaceProperties
+    expand replaceProperties
+    from "src/main/templates"
+    into "build/generated/sources/modMetadata"
+}
+
+sourceSets.main.resources.srcDir generateModMetadata
+neoForge.ideSyncTask generateModMetadata
+
+publishing {
+    publications {
+        register('mavenJava', MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            url "file://${project.projectDir}/repo"
+        }
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+    }
+}
+
+// Include the project license in distributable archives.
+tasks.named('jar') {
+    from('LICENSE')
+}

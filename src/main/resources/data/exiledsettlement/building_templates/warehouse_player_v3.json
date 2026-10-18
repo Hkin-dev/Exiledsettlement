@@ -1,0 +1,7583 @@
+{
+  "schema_version": 1,
+  "status": "approved_runtime_snapshot",
+  "id": "warehouse_player_v3",
+  "building_type": "warehouse",
+  "source_interior_facing": "east",
+  "coordinate_convention": {
+    "x": "west_to_east",
+    "y": "foundation_to_roof",
+    "z": "north_to_south"
+  },
+  "size": [
+    15,
+    8,
+    12
+  ],
+  "anchor": [
+    0,
+    1,
+    5
+  ],
+  "transition_margin": 2,
+  "entrances": [
+    {
+      "pos": [
+        1,
+        1,
+        5
+      ],
+      "outward": "west"
+    },
+    {
+      "pos": [
+        1,
+        1,
+        6
+      ],
+      "outward": "west"
+    },
+    {
+      "pos": [
+        13,
+        1,
+        5
+      ],
+      "outward": "east"
+    },
+    {
+      "pos": [
+        13,
+        1,
+        6
+      ],
+      "outward": "east"
+    }
+  ],
+  "support_corners": [
+    [
+      0,
+      0,
+      0
+    ],
+    [
+      14,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      11
+    ],
+    [
+      14,
+      0,
+      11
+    ]
+  ],
+  "source": {
+    "kind": "reviewed_derivative_of_hash_pinned_player_litematic",
+    "file_name": "简易仓库_屋顶楼梯修正版.litematic",
+    "sha256": "aa2a44b22762d28f44b0b847e0a59534a1aed5c039e6913047eb75ad5d450fd1",
+    "parent_file_name": "简易仓库.litematic",
+    "parent_sha256": "9e247991dd6d953d1a2c1ef65a67d024b63a777a2a9751cf4708d47419a52456",
+    "format_version": 7,
+    "minecraft_data_version": 3955,
+    "author": "Hkin",
+    "region_count": 1,
+    "block_entity_nbt_retained": false,
+    "entities_retained": false
+  },
+  "notes": [
+    "Template version 5 preserves the player's compact two-entrance warehouse geometry.",
+    "All 120 stone-brick roof stairs were corrected to face with their roof slopes.",
+    "Template version 4 remains immutable for existing buildings, repair and demolition."
+  ],
+  "blocks": [
+    {
+      "pos": [
+        0,
+        0,
+        0
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        0
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        0
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        0
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        0
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        0
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        0
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        0
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        0
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        0
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        0
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        0
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        0
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        0
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        0
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        0,
+        0,
+        1
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        1
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        0,
+        0,
+        2
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        2
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        0,
+        0,
+        3
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        3
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        0,
+        0,
+        4
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        4
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        4
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        4
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        4
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        4
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        4
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        4
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        4
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        4
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        4
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        4
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        4
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        4
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        4
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        0,
+        0,
+        5
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        5
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        5
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        5
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        5
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        5
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        5
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        5
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        5
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        5
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        5
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        5
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        5
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        5
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        5
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        0,
+        0,
+        6
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        6
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        6
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        6
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        6
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        6
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        6
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        6
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        6
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        6
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        6
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        6
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        6
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        6
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        6
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        0,
+        0,
+        7
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        7
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        7
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        7
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        7
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        7
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        7
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        7
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        7
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        7
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        7
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        7
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        7
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        7
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        7
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        0,
+        0,
+        8
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        8
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        0,
+        0,
+        9
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        9
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        0,
+        0,
+        10
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        10
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        0,
+        0,
+        11
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        1,
+        0,
+        11
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        11
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        11
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        4,
+        0,
+        11
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        5,
+        0,
+        11
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        6,
+        0,
+        11
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        7,
+        0,
+        11
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        8,
+        0,
+        11
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        9,
+        0,
+        11
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        10,
+        0,
+        11
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        11,
+        0,
+        11
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        12,
+        0,
+        11
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        13,
+        0,
+        11
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        14,
+        0,
+        11
+      ],
+      "block": "minecraft:cobblestone"
+    },
+    {
+      "pos": [
+        1,
+        1,
+        1
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        2,
+        1,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        1,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        1,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        1,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        1,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        1,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        1,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        1,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        1,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        1,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        1,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        1,
+        1
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        1,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        1,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        1,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        1,
+        2
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        5,
+        1,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        1,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        1,
+        2
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        8,
+        1,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        1,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        1,
+        2
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        11,
+        1,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        1,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        1,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        1,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        1,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        1,
+        4
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        13,
+        1,
+        4
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        1,
+        7
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        13,
+        1,
+        7
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        1,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        1,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        1,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        1,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        1,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        1,
+        9
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        5,
+        1,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        1,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        1,
+        9
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        8,
+        1,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        1,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        1,
+        9
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        11,
+        1,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        1,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        1,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        1,
+        10
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        2,
+        1,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        1,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        1,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        1,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        1,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        1,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        1,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        1,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        1,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        1,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        1,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        1,
+        10
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        2,
+        1
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        2,
+        2,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        2,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        2,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        2,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        2,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        2,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        2,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        2,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        2,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        2,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        2,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        2,
+        1
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        2,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        2,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        2,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        2,
+        2
+      ],
+      "block": "minecraft:lantern",
+      "state": {
+        "hanging": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        2,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        2,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        2,
+        2
+      ],
+      "block": "minecraft:lantern",
+      "state": {
+        "hanging": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        2,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        2,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        2,
+        2
+      ],
+      "block": "minecraft:lantern",
+      "state": {
+        "hanging": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        2,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        2,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        2,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        2,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        2,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        2,
+        4
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        13,
+        2,
+        4
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        2,
+        7
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        13,
+        2,
+        7
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        2,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        2,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        2,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        2,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        2,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        2,
+        9
+      ],
+      "block": "minecraft:lantern",
+      "state": {
+        "hanging": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        2,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        2,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        2,
+        9
+      ],
+      "block": "minecraft:lantern",
+      "state": {
+        "hanging": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        2,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        2,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        2,
+        9
+      ],
+      "block": "minecraft:lantern",
+      "state": {
+        "hanging": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        2,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        2,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        2,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        2,
+        10
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        2,
+        2,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        2,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        2,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        2,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        2,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        2,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        2,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        2,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        2,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        2,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        2,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        2,
+        10
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        3,
+        1
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        2,
+        3,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        3,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        3,
+        1
+      ],
+      "block": "minecraft:oak_trapdoor",
+      "state": {
+        "facing": "north",
+        "half": "top",
+        "open": "true",
+        "powered": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        3,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        3,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        3,
+        1
+      ],
+      "block": "minecraft:oak_trapdoor",
+      "state": {
+        "facing": "north",
+        "half": "top",
+        "open": "true",
+        "powered": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        3,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        3,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        3,
+        1
+      ],
+      "block": "minecraft:oak_trapdoor",
+      "state": {
+        "facing": "north",
+        "half": "top",
+        "open": "true",
+        "powered": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        3,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        3,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        3,
+        1
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        3,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        3,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        3,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        3,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        3,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        3,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        3,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        3,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        3,
+        2
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "north",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        3,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        3,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        3,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        3,
+        4
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        13,
+        3,
+        4
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        3,
+        7
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        13,
+        3,
+        7
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        3,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        3,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        3,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        3,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        3,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        3,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        3,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        3,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        3,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        3,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "left",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        3,
+        9
+      ],
+      "block": "minecraft:chest",
+      "state": {
+        "facing": "south",
+        "type": "right",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        3,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        3,
+        10
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        2,
+        3,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        3,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        3,
+        10
+      ],
+      "block": "minecraft:oak_trapdoor",
+      "state": {
+        "facing": "south",
+        "half": "top",
+        "open": "true",
+        "powered": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        3,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        3,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        3,
+        10
+      ],
+      "block": "minecraft:oak_trapdoor",
+      "state": {
+        "facing": "south",
+        "half": "top",
+        "open": "true",
+        "powered": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        3,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        3,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        3,
+        10
+      ],
+      "block": "minecraft:oak_trapdoor",
+      "state": {
+        "facing": "south",
+        "half": "top",
+        "open": "true",
+        "powered": "false",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        3,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        3,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        3,
+        10
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        0,
+        4,
+        0
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        0
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        4,
+        0
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        4,
+        0
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        4,
+        0
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        4,
+        0
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        4,
+        0
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        4,
+        0
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        4,
+        0
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        4,
+        0
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        4,
+        0
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        4,
+        0
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        4,
+        0
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        4,
+        0
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        4,
+        0
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        4,
+        1
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "top",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        4,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        4,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        4,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        4,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        4,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        4,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        4,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        4,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        4,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        4,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        4,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        4,
+        1
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        4,
+        1
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "top",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        4,
+        2
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "top",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        4,
+        2
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "top",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        4,
+        2
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "top",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        4,
+        2
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "top",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        4,
+        2
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "top",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        4,
+        2
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "top",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        4,
+        2
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "top",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        4,
+        2
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "top",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        4,
+        2
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "top",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        4,
+        2
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "top",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        4,
+        2
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "top",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        4,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        4,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        4,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        4,
+        4
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        13,
+        4,
+        4
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        5
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        4,
+        5
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        4,
+        6
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        4,
+        6
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        4,
+        7
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        13,
+        4,
+        7
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        4,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        4,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        4,
+        9
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "top",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        4,
+        9
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "top",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        4,
+        9
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "top",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        4,
+        9
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "top",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        4,
+        9
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "top",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        4,
+        9
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "top",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        4,
+        9
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "top",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        4,
+        9
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "top",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        4,
+        9
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "top",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        4,
+        9
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "top",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        4,
+        9
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "top",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        4,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        0,
+        4,
+        10
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "top",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        4,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        4,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        4,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        4,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        4,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        4,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        4,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        4,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        4,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        4,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        4,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        4,
+        10
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        4,
+        10
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "top",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        4,
+        11
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        4,
+        11
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        4,
+        11
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        4,
+        11
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        4,
+        11
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        4,
+        11
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        4,
+        11
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        4,
+        11
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        4,
+        11
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        4,
+        11
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        4,
+        11
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        4,
+        11
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        4,
+        11
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        4,
+        11
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        4,
+        11
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        5,
+        1
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        5,
+        1
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        5,
+        1
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        5,
+        1
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        5,
+        1
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        5,
+        1
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        5,
+        1
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        5,
+        1
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        5,
+        1
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        5,
+        1
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        5,
+        1
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        5,
+        1
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        5,
+        1
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        5,
+        1
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        5,
+        1
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        5,
+        2
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "top",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        5,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        5,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        5,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        5,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        5,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        5,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        5,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        5,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        5,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        5,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        5,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        5,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        5,
+        2
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        5,
+        2
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "top",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        5,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        5,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        5,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        5,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        5,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        5,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        5,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        8,
+        5,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        9,
+        5,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        10,
+        5,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        11,
+        5,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        12,
+        5,
+        3
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        13,
+        5,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        5,
+        4
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        2,
+        5,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        5,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        5,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        5,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        5,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        5,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        8,
+        5,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        9,
+        5,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        10,
+        5,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        11,
+        5,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        12,
+        5,
+        4
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        13,
+        5,
+        4
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        5,
+        5
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        5,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        5,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        5,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        5,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        5,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        5,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        8,
+        5,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        9,
+        5,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        10,
+        5,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        11,
+        5,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        12,
+        5,
+        5
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        13,
+        5,
+        5
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        5,
+        6
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        5,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        5,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        5,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        5,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        5,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        5,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        8,
+        5,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        9,
+        5,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        10,
+        5,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        11,
+        5,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        12,
+        5,
+        6
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        13,
+        5,
+        6
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        5,
+        7
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        2,
+        5,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        5,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        5,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        5,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        5,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        5,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        8,
+        5,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        9,
+        5,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        10,
+        5,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        11,
+        5,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        12,
+        5,
+        7
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        13,
+        5,
+        7
+      ],
+      "block": "minecraft:oak_log",
+      "state": {
+        "axis": "y"
+      }
+    },
+    {
+      "pos": [
+        1,
+        5,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        5,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        3,
+        5,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        4,
+        5,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        5,
+        5,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        6,
+        5,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        7,
+        5,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        8,
+        5,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        9,
+        5,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        10,
+        5,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        11,
+        5,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        12,
+        5,
+        8
+      ],
+      "block": "minecraft:oak_planks"
+    },
+    {
+      "pos": [
+        13,
+        5,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        0,
+        5,
+        9
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "top",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        5,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        5,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        5,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        5,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        5,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        5,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        5,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        5,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        5,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        5,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        5,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        5,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        5,
+        9
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        5,
+        9
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "top",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        5,
+        10
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        5,
+        10
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        5,
+        10
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        5,
+        10
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        5,
+        10
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        5,
+        10
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        5,
+        10
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        5,
+        10
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        5,
+        10
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        5,
+        10
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        5,
+        10
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        5,
+        10
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        5,
+        10
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        5,
+        10
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        5,
+        10
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        6,
+        2
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        6,
+        2
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        6,
+        2
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        6,
+        2
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        6,
+        2
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        6,
+        2
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        6,
+        2
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        6,
+        2
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        6,
+        2
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        6,
+        2
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        6,
+        2
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        6,
+        2
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        6,
+        2
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        6,
+        2
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        6,
+        2
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        6,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        6,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        6,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        6,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        6,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        6,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        6,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        6,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        6,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        6,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        6,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        6,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        6,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        6,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        6,
+        3
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        0,
+        6,
+        4
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        6,
+        4
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        6,
+        4
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        6,
+        4
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        6,
+        4
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        6,
+        4
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        6,
+        4
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        6,
+        4
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        6,
+        4
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        6,
+        4
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        6,
+        4
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        6,
+        4
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        6,
+        4
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        6,
+        4
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        6,
+        4
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        0,
+        6,
+        5
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        6,
+        5
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        6,
+        5
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        6,
+        5
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        6,
+        5
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        6,
+        5
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        6,
+        5
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        6,
+        5
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        6,
+        5
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        6,
+        5
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        6,
+        5
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        6,
+        5
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        6,
+        5
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        6,
+        5
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        6,
+        5
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        0,
+        6,
+        6
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        6,
+        6
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        6,
+        6
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        6,
+        6
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        6,
+        6
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        6,
+        6
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        6,
+        6
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        6,
+        6
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        6,
+        6
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        6,
+        6
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        6,
+        6
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        6,
+        6
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        6,
+        6
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        6,
+        6
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        6,
+        6
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        0,
+        6,
+        7
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        6,
+        7
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        6,
+        7
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        6,
+        7
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        6,
+        7
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        6,
+        7
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        6,
+        7
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        6,
+        7
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        6,
+        7
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        6,
+        7
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        6,
+        7
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        6,
+        7
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        6,
+        7
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        6,
+        7
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        6,
+        7
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        0,
+        6,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        1,
+        6,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        2,
+        6,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        3,
+        6,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        4,
+        6,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        5,
+        6,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        6,
+        6,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        7,
+        6,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        8,
+        6,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        9,
+        6,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        10,
+        6,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        11,
+        6,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        12,
+        6,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        13,
+        6,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        14,
+        6,
+        8
+      ],
+      "block": "minecraft:stone_bricks"
+    },
+    {
+      "pos": [
+        0,
+        6,
+        9
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        6,
+        9
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        6,
+        9
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        6,
+        9
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        6,
+        9
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        6,
+        9
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        6,
+        9
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        6,
+        9
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        6,
+        9
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        6,
+        9
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        6,
+        9
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        6,
+        9
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        6,
+        9
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        6,
+        9
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        6,
+        9
+      ],
+      "block": "minecraft:stone_brick_stairs",
+      "state": {
+        "facing": "north",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        7,
+        3
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        7,
+        3
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        7,
+        3
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        7,
+        3
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        7,
+        3
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        7,
+        3
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        7,
+        3
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        7,
+        3
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        7,
+        3
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        7,
+        3
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        7,
+        3
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        7,
+        3
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        7,
+        3
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        7,
+        3
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        7,
+        3
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        7,
+        4
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        7,
+        4
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        7,
+        5
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        7,
+        5
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        7,
+        6
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        7,
+        6
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        7,
+        7
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        7,
+        7
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        0,
+        7,
+        8
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        7,
+        8
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        7,
+        8
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        7,
+        8
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        7,
+        8
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        5,
+        7,
+        8
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        6,
+        7,
+        8
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        7,
+        7,
+        8
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        8,
+        7,
+        8
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        9,
+        7,
+        8
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        10,
+        7,
+        8
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        11,
+        7,
+        8
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        12,
+        7,
+        8
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        13,
+        7,
+        8
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        14,
+        7,
+        8
+      ],
+      "block": "minecraft:stone_brick_slab",
+      "state": {
+        "type": "bottom",
+        "waterlogged": "false"
+      }
+    }
+  ]
+}

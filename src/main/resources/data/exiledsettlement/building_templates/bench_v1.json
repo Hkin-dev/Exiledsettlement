@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "status": "approved_runtime_snapshot",
+  "id": "bench_v1",
+  "building_type": "bench",
+  "source_interior_facing": "south",
+  "size": [
+    5,
+    2,
+    2
+  ],
+  "anchor": [
+    2,
+    1,
+    0
+  ],
+  "transition_margin": 1,
+  "entrances": [
+    {
+      "pos": [
+        2,
+        1,
+        -1
+      ],
+      "outward": "north"
+    }
+  ],
+  "support_corners": [],
+  "blocks": [
+    {
+      "pos": [
+        1,
+        0,
+        1
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "decoration"
+    },
+    {
+      "pos": [
+        2,
+        0,
+        1
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "decoration"
+    },
+    {
+      "pos": [
+        3,
+        0,
+        1
+      ],
+      "block": "minecraft:stone_bricks",
+      "role": "decoration"
+    },
+    {
+      "pos": [
+        0,
+        1,
+        1
+      ],
+      "block": "minecraft:spruce_wall_sign",
+      "role": "decoration",
+      "state": {
+        "facing": "west",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        1,
+        1,
+        1
+      ],
+      "block": "minecraft:spruce_stairs",
+      "role": "decoration",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        2,
+        1,
+        1
+      ],
+      "block": "minecraft:spruce_stairs",
+      "role": "decoration",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        3,
+        1,
+        1
+      ],
+      "block": "minecraft:spruce_stairs",
+      "role": "decoration",
+      "state": {
+        "facing": "south",
+        "half": "bottom",
+        "shape": "straight",
+        "waterlogged": "false"
+      }
+    },
+    {
+      "pos": [
+        4,
+        1,
+        1
+      ],
+      "block": "minecraft:spruce_wall_sign",
+      "role": "decoration",
+      "state": {
+        "facing": "east",
+        "waterlogged": "false"
+      }
+    }
+  ]
+}

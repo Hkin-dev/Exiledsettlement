@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:coal",
+    "minecraft:charcoal",
+    "minecraft:coal_block",
+    "minecraft:blaze_rod",
+    "minecraft:lava_bucket",
+    "minecraft:dried_kelp_block"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "B": { "item": "minecraft:red_bed" },
+    "D": { "item": "minecraft:oak_door" },
+    "P": { "tag": "minecraft:planks" }
+  },
+  "pattern": [
+    " P ",
+    "PBP",
+    "PDP"
+  ],
+  "result": {
+    "count": 1,
+    "id": "exiledsettlement:house_marker"
+  }
+}
+

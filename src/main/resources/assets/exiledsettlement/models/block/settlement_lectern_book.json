@@ -1,0 +1,89 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "particle": "minecraft:block/lectern_sides",
+    "bottom": "minecraft:block/oak_planks",
+    "base": "minecraft:block/lectern_base",
+    "front": "minecraft:block/lectern_front",
+    "sides": "minecraft:block/lectern_sides",
+    "top": "minecraft:block/lectern_top",
+    "book": "minecraft:item/book",
+    "page": "minecraft:block/birch_planks"
+  },
+  "elements": [
+    {
+      "from": [0, 0, 0],
+      "to": [16, 2, 16],
+      "faces": {
+        "north": { "uv": [0, 14, 16, 16], "texture": "#base", "cullface": "north" },
+        "east": { "uv": [0, 6, 16, 8], "texture": "#base", "cullface": "east" },
+        "south": { "uv": [0, 6, 16, 8], "texture": "#base", "cullface": "south" },
+        "west": { "uv": [0, 6, 16, 8], "texture": "#base", "cullface": "west" },
+        "up": { "uv": [0, 0, 16, 16], "rotation": 180, "texture": "#base" },
+        "down": { "uv": [0, 0, 16, 16], "texture": "#bottom", "cullface": "down" }
+      }
+    },
+    {
+      "from": [4, 2, 4],
+      "to": [12, 15, 12],
+      "faces": {
+        "north": { "uv": [0, 0, 8, 13], "texture": "#front" },
+        "east": { "uv": [2, 16, 15, 8], "rotation": 90, "texture": "#sides" },
+        "south": { "uv": [8, 3, 16, 16], "texture": "#front" },
+        "west": { "uv": [2, 8, 15, 16], "rotation": 90, "texture": "#sides" }
+      }
+    },
+    {
+      "from": [0.0125, 12, 3],
+      "to": [15.9875, 16, 16],
+      "rotation": { "angle": -22.5, "axis": "x", "origin": [8, 8, 8] },
+      "faces": {
+        "north": { "uv": [0, 0, 16, 4], "texture": "#sides" },
+        "east": { "uv": [0, 4, 13, 8], "texture": "#sides" },
+        "south": { "uv": [0, 4, 16, 8], "texture": "#sides" },
+        "west": { "uv": [0, 4, 13, 8], "texture": "#sides" },
+        "up": { "uv": [0, 1, 16, 14], "rotation": 180, "texture": "#top" },
+        "down": { "uv": [0, 0, 16, 13], "texture": "#bottom" }
+      }
+    },
+    {
+      "from": [1.75, 15.65, 5.25],
+      "to": [14.25, 15.9, 13.75],
+      "rotation": { "angle": -22.5, "axis": "x", "origin": [8, 8, 8] },
+      "faces": {
+        "north": { "texture": "#book" },
+        "east": { "texture": "#book" },
+        "south": { "texture": "#book" },
+        "west": { "texture": "#book" },
+        "up": { "texture": "#book" },
+        "down": { "texture": "#book" }
+      }
+    },
+    {
+      "from": [2.15, 15.91, 5.65],
+      "to": [7.9, 16.05, 13.35],
+      "rotation": { "angle": -22.5, "axis": "x", "origin": [8, 8, 8] },
+      "faces": {
+        "north": { "texture": "#page" },
+        "east": { "texture": "#page" },
+        "south": { "texture": "#page" },
+        "west": { "texture": "#page" },
+        "up": { "uv": [0, 0, 8, 16], "texture": "#page" },
+        "down": { "texture": "#page" }
+      }
+    },
+    {
+      "from": [8.1, 15.91, 5.65],
+      "to": [13.85, 16.05, 13.35],
+      "rotation": { "angle": -22.5, "axis": "x", "origin": [8, 8, 8] },
+      "faces": {
+        "north": { "texture": "#page" },
+        "east": { "texture": "#page" },
+        "south": { "texture": "#page" },
+        "west": { "texture": "#page" },
+        "up": { "uv": [8, 0, 16, 16], "texture": "#page" },
+        "down": { "texture": "#page" }
+      }
+    }
+  ]
+}

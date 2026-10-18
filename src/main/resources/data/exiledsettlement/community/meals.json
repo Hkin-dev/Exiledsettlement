@@ -1,0 +1,50 @@
+[
+  {
+    "input": "minecraft:wheat",
+    "input_count": 3,
+    "output": "minecraft:bread",
+    "output_count": 1
+  },
+  {
+    "input": "minecraft:potato",
+    "input_count": 4,
+    "output": "minecraft:baked_potato",
+    "output_count": 4
+  },
+  {
+    "input": "minecraft:beef",
+    "input_count": 4,
+    "output": "minecraft:cooked_beef",
+    "output_count": 4
+  },
+  {
+    "input": "minecraft:porkchop",
+    "input_count": 4,
+    "output": "minecraft:cooked_porkchop",
+    "output_count": 4
+  },
+  {
+    "input": "minecraft:chicken",
+    "input_count": 4,
+    "output": "minecraft:cooked_chicken",
+    "output_count": 4
+  },
+  {
+    "input": "minecraft:mutton",
+    "input_count": 4,
+    "output": "minecraft:cooked_mutton",
+    "output_count": 4
+  },
+  {
+    "input": "minecraft:cod",
+    "input_count": 4,
+    "output": "minecraft:cooked_cod",
+    "output_count": 4
+  },
+  {
+    "input": "minecraft:salmon",
+    "input_count": 4,
+    "output": "minecraft:cooked_salmon",
+    "output_count": 4
+  }
+]

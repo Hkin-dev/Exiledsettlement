@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": { "item": "minecraft:chest" },
+    "L": { "tag": "minecraft:logs" },
+    "P": { "tag": "minecraft:planks" }
+  },
+  "pattern": [
+    "PCP",
+    "LLL"
+  ],
+  "result": {
+    "count": 1,
+    "id": "exiledsettlement:exile_wagon"
+  }
+}
+
