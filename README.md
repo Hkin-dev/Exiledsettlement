@@ -37,6 +37,26 @@ YSM 和 YSM Mapping API 为可选兼容。未安装时使用内置居民模型�
 - 建造多档住宅与二十床公寓。
 - 将聚落、居民、建筑及库存状态保存在世界中。
 
+## Design Philosophy · 设计理念
+
+Exiled Settlement aims to make a settlement's growth visible in the Minecraft world. These principles guide its ongoing development:
+
+- **Residents are at the heart of the settlement.** Homes, meals, tools, and daily routines give planning a purpose. A growing population brings both more workers and more people to support.
+- **Progress comes from visible work.** Gathering supplies, carrying materials, and building step by step connect the settlement's growth to what its residents do in the world.
+- **Layout is part of management.** The distance between homes, workplaces, and storage affects time spent walking and hauling. Terrain, entrances, and roads deserve as much thought as the buildings themselves.
+- **Expansion calls for preparation.** Finite starting supplies are a foundation for a lasting production system. Food, fuel, tools, and building materials need to support daily life as well as population growth and changing seasons.
+- **The player sets the direction and can lend a hand.** Choose what to build, where to build it, and how to assign work. Residents handle routine labor, while you can gather supplies, build, and help the settlement through shortages.
+- **Development belongs in the Minecraft world.** Buildings and work should fit the terrain, paths, and structures around them. Respecting player construction and edits is part of that design.
+
+《放逐聚落》希望让玩家在 Minecraft 世界中亲眼看见聚落逐渐成长。以下理念指导本项目的持续开发：
+
+- **以居民的生活为中心。** 住房、饮食、工具与日常作息赋予规划具体的意义。增加人口，既意味着更多劳动力，也意味着更多需要供养的人。
+- **让发展来自看得见的劳动。** 从领取物资、搬运材料到逐步施工，让聚落的变化与居民在世界中的行动联系起来。
+- **布局本身就是经营。** 住宅、工作地与仓储之间的距离影响行走和搬运所需的时间。地形、入口与道路，同样值得认真规划。
+- **为扩张提前做准备。** 有限的开局物资用于建立持续运转的生产体系。食物、燃料、工具和建材既要满足日常生活，也要为人口增长与季节变化留出余量。
+- **玩家决定方向，也能亲手参与。** 玩家决定建什么、建在哪里，以及如何分配职业；居民承担日常劳动。玩家也可以亲自采集、建设和补充物资，帮助聚落渡过短缺。
+- **让聚落融入 Minecraft 世界。** 建筑与居民工作应与周围的地形、通道和既有建筑相协调，并尊重玩家亲手建造与修改的内容。
+
 ## Installation and first steps
 
 1. Install Minecraft 1.21.1 with the required NeoForge version and Java 21.
