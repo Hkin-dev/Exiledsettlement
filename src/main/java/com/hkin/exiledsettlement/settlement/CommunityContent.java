@@ -20,6 +20,9 @@ public final class CommunityContent extends SimpleJsonResourceReloadListener {
     private static List<String> surnames = List.of("Brook", "Field", "Reed", "Vale");
     public CommunityContent() { super(new Gson(), "community"); }
     @Override protected void apply(Map<ResourceLocation, JsonElement> files, ResourceManager manager, ProfilerFiller profiler) {
+        var wildlife=files.get(ExiledSettlementMod.id("wildlife"));
+        if(wildlife!=null)try {SettlementWildlifeService.reload(wildlife.getAsJsonObject());}
+        catch(RuntimeException e){ExiledSettlementMod.LOGGER.warn("Rejected settlement wildlife settings",e);}
         var bridge=files.get(ExiledSettlementMod.id("bridge"));
         if(bridge!=null)try {com.hkin.exiledsettlement.road.BridgePalette.reload(bridge.getAsJsonObject());}
         catch(RuntimeException e){ExiledSettlementMod.LOGGER.warn("Rejected bridge material palette",e);}

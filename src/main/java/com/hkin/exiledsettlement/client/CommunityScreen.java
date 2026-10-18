@@ -76,7 +76,7 @@ public final class CommunityScreen extends Screen {
         if (tab.equals("report")) return snapshot.lines();
         var lines = new ArrayList<String>();
         if(tab.equals("works")) {
-            boolean keep=false;for(String line:snapshot.lines()){if(line.startsWith("——"))keep=line.equals("—— 居民整地 ——") || line.equals("—— 居民自动修路 ——") || line.equals("—— 公共工程分工 ——");if(keep)lines.add(line);}
+            boolean keep=false;for(String line:snapshot.lines()){if(line.startsWith("——"))keep=line.equals("—— 工程缺料 ——") || line.equals("—— 居民整地 ——") || line.equals("—— 居民自动修路 ——") || line.equals("—— 公共工程分工 ——");if(keep)lines.add(line);}
         }else if (tab.equals("decor")) {
             String marker = tab.equals("terrain")?"—— 居民整地 ——":tab.equals("roads") ? "—— 居民自动修路 ——" : "—— 自动装饰性模块 ——";
             boolean found = false;
@@ -101,6 +101,17 @@ public final class CommunityScreen extends Screen {
         }
         for (var action : ACTIONS) if (action.group().equals(tab)) lines.add(action.label() + "：" + action.help());
         return lines;
+    }
+
+    private static Component reportComponent(String line) {
+        var result=Component.empty();
+        var matcher=java.util.regex.Pattern.compile("\\{\\{([a-z0-9_.:/-]+)\\}\\}").matcher(line);
+        int last=0;
+        while(matcher.find()) {
+            result.append(Component.literal(line.substring(last,matcher.start())));
+            result.append(Component.translatable(matcher.group(1)));last=matcher.end();
+        }
+        return result.append(Component.literal(line.substring(last)));
     }
 
     private void rebuild() {
@@ -136,7 +147,7 @@ public final class CommunityScreen extends Screen {
             }
         }
         var text = new ArrayList<FormattedCharSequence>();
-        for (String line : lines) { text.addAll(font.split(Component.literal(line), contentWidth())); text.add(FormattedCharSequence.EMPTY); }
+        for (String line : lines) { text.addAll(font.split(reportComponent(line), contentWidth())); text.add(FormattedCharSequence.EMPTY); }
         wrapped = List.copyOf(text); scroll = Math.min(scroll, Math.max(0, wrapped.size() - visibleRows()));
         int perPage = Math.max(1, (height - 134) / 23);
         pageCount = Math.max(1, (controls.size() + perPage - 1) / perPage);

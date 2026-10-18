@@ -39,19 +39,21 @@ public final class WarehouseStewardService {
         var old = RESERVES.get(s); long now = level.getGameTime();
         long signature=s.community().seedRounds;
         for(var b:s.buildings())if(b.type()==BuildingType.FARM_FIELD)
-            signature=31*signature+Objects.hash(b.id(),b.active(),b.productionId(),b.region()==null?0:b.region().cells.size(),b.region()==null?0:b.region().revision);
+            signature=31*signature+Objects.hash(b.id(),b.active(),b.productionId(),b.region()==null?0:b.region().cells.size(),b.region()==null?0:b.region().revision,b.productionSite()==null?0:b.productionSite().workCells().hashCode());
         for(var b:s.blueprints())if(b.type()==BuildingType.FARM_FIELD)
-            signature=31*signature+Objects.hash(b.id(),b.cancellationQueued(),b.region()==null?0:b.region().cells.size(),b.region()==null?0:b.region().revision);
+            signature=31*signature+Objects.hash(b.id(),b.cancellationQueued(),b.region()==null?0:b.region().cells.size(),b.region()==null?0:b.region().revision,b.productionSite()==null?0:b.productionSite().workCells().hashCode());
         if (old != null && old.signature==signature && now < old.until && now >= old.until - 200) return old.seeds;
         Set<Long> cells = new HashSet<>();
         for (var b : s.buildings()) if (b.active() && b.type() == BuildingType.FARM_FIELD) {
-            if (b.region() != null) addCells(cells,b.region());
+            if (b.productionSite()!=null) addCells(cells,b.productionSite());
+            else if (b.region() != null) addCells(cells,b.region());
             else if (BuildingProductionService.seed(b.productionId()) == Items.WHEAT_SEEDS)
                 BlueprintTemplates.createForBuilding(b).placements().stream().filter(p -> p.state().is(Blocks.FARMLAND))
                         .forEach(p -> cells.add(ProductionRegion.key(p.position().getX(),p.position().getZ())));
         }
         for (var b : s.blueprints()) if (!b.cancellationQueued() && b.type() == BuildingType.FARM_FIELD) {
-            if (b.region()!=null) addCells(cells,b.region());
+            if (b.productionSite()!=null) addCells(cells,b.productionSite());
+            else if (b.region()!=null) addCells(cells,b.region());
             else BlueprintTemplates.create(b).placements().stream().filter(p -> p.state().is(Blocks.FARMLAND))
                     .forEach(p -> cells.add(ProductionRegion.key(p.position().getX(),p.position().getZ())));
         }
@@ -62,6 +64,11 @@ public final class WarehouseStewardService {
         r.cells.values().stream().filter(c -> c.use()==ProductionRegion.Use.CROP
                 && BuildingProductionService.seed(BuildingProductionService.cropAt(c.production(),c.ground()))==Items.WHEAT_SEEDS)
                 .forEach(c -> cells.add(ProductionRegion.key(c.ground().getX(),c.ground().getZ())));
+    }
+    private static void addCells(Set<Long> cells,com.hkin.exiledsettlement.region.ProductionSiteSnapshot site) {
+        site.workCells().stream().filter(c->c.use()==ProductionRegion.Use.CROP
+                && BuildingProductionService.seed(BuildingProductionService.cropAt(c.production(),c.ground()))==Items.WHEAT_SEEDS)
+                .forEach(c->cells.add(ProductionRegion.key(c.ground().getX(),c.ground().getZ())));
     }
     public static boolean pauseWheat(ServerLevel level, SettlementRecord s) {
         if(SettlementInventoryService.warehouses(s).stream().anyMatch(WarehouseStock::applies)) {

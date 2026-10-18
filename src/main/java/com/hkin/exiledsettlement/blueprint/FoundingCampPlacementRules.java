@@ -59,8 +59,10 @@ public final class FoundingCampPlacementRules {
                 // Unchanged deeper support needs no excavation.
                 if(pos.getY()<ground && sturdy) {supported=true;break;}
                 if(!targets.containsKey(pos)) {
+                    // Existing walkable terrain or flooring is not part of the kit's replacement footprint.
+                    if(pos.getY()==ground && FoundationFootprint.usableSurface(level,pos,current)) {supported=true;break;}
                     if(!natural(level,pos,current)) return failure(pos,"FOUNDING_CAMP_SITE");
-                    var state=pos.getY()==ground?Blocks.COARSE_DIRT.defaultBlockState():Blocks.COBBLESTONE.defaultBlockState();
+                    var state=pos.getY()==ground?Blocks.DIRT.defaultBlockState():Blocks.COBBLESTONE.defaultBlockState();
                     targets.put(pos,new BlueprintPlacement(pos,state,null));
                     fills.add(pos);
                 }

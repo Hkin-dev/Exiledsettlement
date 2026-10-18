@@ -141,6 +141,13 @@ public final class DecorationService {
     }
     private static boolean safeSite(ServerLevel level, SettlementRecord s, BuildingBlueprintTemplate t,UUID ignored) {
         var roads = RoadSpaceData.get(level);
+        // Automatic decoration selects an existing full ground plane; it never grants fill work.
+        int floor=FoundationFootprint.floor(t);
+        for(int x=t.minCorner().getX();x<=t.maxCorner().getX();x++)for(int z=t.minCorner().getZ();z<=t.maxCorner().getZ();z++) {
+            var ground=new BlockPos(x,floor,z);
+            if(!level.hasChunkAt(ground) || level.isOutsideBuildHeight(ground) || !s.contains(ground)
+                    || !FoundationFootprint.usableSurface(level,ground,level.getBlockState(ground)))return false;
+        }
         // Every occupied and access cell must be loaded, in bounds, outside existing building/blueprint reservations.
         for (var p : t.placements()) {
             var at = p.position();

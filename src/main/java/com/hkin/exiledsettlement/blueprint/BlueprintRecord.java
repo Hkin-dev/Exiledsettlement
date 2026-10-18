@@ -52,6 +52,9 @@ public final class BlueprintRecord {
     private static final String CLEARANCE_BLOCK_TAG = "Block";
     private static final String CLEARANCE_PROPERTIES_TAG = "Properties";
 
+    private com.hkin.exiledsettlement.region.ProductionSiteSnapshot productionSite;
+    public com.hkin.exiledsettlement.region.ProductionSiteSnapshot productionSite(){return productionSite;}
+    public BlueprintRecord withProductionSite(com.hkin.exiledsettlement.region.ProductionSiteSnapshot value){productionSite=value;return this;}
     private com.hkin.exiledsettlement.region.ProductionRegion region;
     public com.hkin.exiledsettlement.region.ProductionRegion region(){return region;}
     public BlueprintRecord withRegion(com.hkin.exiledsettlement.region.ProductionRegion value){region=value;return this;}
@@ -393,11 +396,12 @@ public final class BlueprintRecord {
         return progressIndex;
     }
 
-    public boolean dynamicArea() { return dynamicArea; }
-    public BlockPos areaMin() { return region!=null && region.surveyed?region.min():customTemplate == null ? areaMin : customTemplate.template().minCorner(); }
-    public BlockPos areaMax() { return region!=null && region.surveyed?region.max():customTemplate == null ? areaMax : customTemplate.template().maxCorner(); }
+    public boolean dynamicArea() { return productionSite==null && dynamicArea; }
+    public BlockPos areaMin() { return productionSite!=null?productionSite.template().minCorner():region!=null && region.surveyed?region.min():customTemplate == null ? areaMin : customTemplate.template().minCorner(); }
+    public BlockPos areaMax() { return productionSite!=null?productionSite.template().maxCorner():region!=null && region.surveyed?region.max():customTemplate == null ? areaMax : customTemplate.template().maxCorner(); }
     /** The stored area corners are selection data; ordinary buildings store only their anchor there. */
     public boolean containsColumn(BlockPos position) {
+        if(productionSite!=null)return productionSite.containsColumn(position);
         if(region!=null) {
             if(region.surveyed)return region.cell(position)!=null;
             return position.getX()>=Math.min(region.first.getX(),region.second.getX())-region.selectionMargin
@@ -518,7 +522,8 @@ public final class BlueprintRecord {
         CompoundTag tag = new CompoundTag();
         if(terrainProject!=null)tag.put("TerrainProject",terrainProject.save());
         if (earthworkPlan != null) tag.put("FarmEarthwork", earthworkPlan.save());
-        if(region!=null)tag.put("ProductionRegion",region.save());
+        if(productionSite!=null)tag.put("ProductionSite",productionSite.save());
+        else if(region!=null)tag.put("ProductionRegion",region.save());
         if (customTemplate != null) tag.put("CustomTemplate", customTemplate.save());
         tag.putString(ID_TAG, id.toString());
         tag.putString(TYPE_TAG, type.serializedName());
@@ -630,7 +635,8 @@ public final class BlueprintRecord {
                 temporaryFootingOrders,
                 clearanceTargets
         );
-        if(tag.contains("ProductionRegion"))loaded.withRegion(com.hkin.exiledsettlement.region.ProductionRegion.load(tag.getCompound("ProductionRegion")));
+        if(tag.contains("ProductionSite"))loaded.withProductionSite(com.hkin.exiledsettlement.region.ProductionSiteSnapshot.load(tag.getCompound("ProductionSite")));
+        else if(tag.contains("ProductionRegion"))loaded.withRegion(com.hkin.exiledsettlement.region.ProductionRegion.load(tag.getCompound("ProductionRegion")));
         if (tag.contains("CustomTemplate")) loaded.withCustomTemplate(CustomTemplateSnapshot.load(tag.getCompound("CustomTemplate")));
         if(tag.contains("TerrainProject"))loaded.withTerrainProject(com.hkin.exiledsettlement.terrain.TerrainProject.load(tag.getCompound("TerrainProject")));
         if (tag.contains("FarmEarthwork")) loaded.withEarthworkPlan(FarmEarthworkPlan.load(tag.getCompound("FarmEarthwork")));

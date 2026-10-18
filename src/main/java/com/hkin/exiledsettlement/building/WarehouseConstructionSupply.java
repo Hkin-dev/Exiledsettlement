@@ -74,5 +74,45 @@ public final class WarehouseConstructionSupply {
         if(settlement!=null)CommunityStock.invalidate(level,settlement);
         return plan.output();
     }
+    /** Simulate one shared stock budget across all materials without committing any inventory changes. */
+    public static Map<Item,Integer> shortages(ServerLevel level,SettlementRecord settlement,Map<Item,Integer> needed) {
+        var remaining=new LinkedHashMap<Item,Integer>();
+        needed.entrySet().stream().filter(e->e.getValue()>0)
+                .sorted(Comparator.comparing(e->net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(e.getKey()).toString()))
+                .forEach(e->remaining.put(e.getKey(),e.getValue()));
+        if(settlement.creativeCoreInstalled())return Map.of();
+        var stocks=new LinkedHashMap<BuildingRecord,List<ItemStack>>();
+        for(var warehouse:SettlementInventoryService.warehouses(settlement)) {
+            if(WarehouseInventoryService.hasCreativeSupply(level,warehouse))return Map.of();
+            List<ItemStack> source=new ArrayList<>();
+            if(WarehouseStock.applies(warehouse))source=snapshot(WarehouseInventoryService.stock(level,warehouse));
+            else for(var container:WarehouseInventoryService.loadedContainers(level,warehouse))
+                for(int i=0;i<container.container().getContainerSize();i++)source.add(container.container().getItem(i).copy());
+            // Claim existing final goods before converting shared ingredients for any other requirement.
+            for(var stack:source) {
+                int count=Math.min(stack.getCount(),remaining.getOrDefault(stack.getItem(),0));
+                if(count>0){remaining.put(stack.getItem(),remaining.get(stack.getItem())-count);stack.shrink(count);}
+            }
+            stocks.put(warehouse,source);
+        }
+        for(var entry:remaining.entrySet()) {
+            int missing=entry.getValue();
+            for(var stock:stocks.entrySet()) {
+                if(missing<=0)break;
+                if(!WarehouseStock.applies(stock.getKey()))continue;
+                var reserved=reserves(settlement,WarehouseInventoryService.stock(level,stock.getKey()),entry.getKey());
+                int low=0,high=missing; WarehouseCrafting.Plan best=null;
+                while(low<high) {
+                    int amount=low+(high-low+1)/2;
+                    var plan=WarehouseCrafting.plan(level,stock.getValue(),entry.getKey(),amount,reserved);
+                    if(plan==null)high=amount-1;else {low=amount;best=plan;}
+                }
+                if(best!=null && low>0){missing-=low;stock.setValue(best.remaining());}
+            }
+            entry.setValue(missing);
+        }
+        remaining.entrySet().removeIf(e->e.getValue()<=0);
+        return remaining;
+    }
     private WarehouseConstructionSupply() { }
 }

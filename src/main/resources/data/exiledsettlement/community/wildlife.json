@@ -1,0 +1,11 @@
+{
+  "enabled": true,
+  "interval_ticks": 2400,
+  "batch_size": 2,
+  "local_cap": 8,
+  "settlement_cap": 16,
+  "local_crowding_cap": 32,
+  "settlement_crowding_cap": 64,
+  "min_distance_blocks": 20,
+  "max_distance_blocks": 44
+}

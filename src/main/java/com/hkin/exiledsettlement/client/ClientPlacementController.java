@@ -199,9 +199,10 @@ public final class ClientPlacementController {
         BuildingType type = payload.buildingType();
         BlockPos core = payload.corePosition();
         int boundaryRadius = payload.boundaryRadiusChunks();
-        placementMode = type.isDynamicArea() ? PlacementMode.AREA : PlacementMode.BUILDING;
         selectedType = type;
         selectedTemplateVersion = Math.max(1, payload.templateVersion());
+        placementMode = BlueprintTemplates.flexibleProduction(type, selectedTemplateVersion)
+                ? PlacementMode.AREA : PlacementMode.BUILDING;
         selectedDisplayTranslationKey = payload.displayTranslationKey();
         selectTerritory(core);
         boundaryRadiusChunks = Math.max(1, boundaryRadius);
@@ -393,17 +394,17 @@ public final class ClientPlacementController {
             refreshOneFuturePreview(minecraft);
         }
         if (minecraft.screen == null) {
-            while (placementMode == PlacementMode.BUILDING && ROTATE_KEY.consumeClick()) {
+            while ((placementMode == PlacementMode.BUILDING || productionAreaSelection()) && ROTATE_KEY.consumeClick()) {
                 facing = facing.getClockWise();
                 minecraft.player.displayClientMessage(
                         Component.translatable("message.exiledsettlement.placement.rotated", facingName(facing)),
                         true
                 );
             }
-            while ((placementMode == PlacementMode.BUILDING || terrainRegionSelection()) && HEIGHT_UP_KEY.consumeClick()) {
+            while ((placementMode == PlacementMode.BUILDING || productionAreaSelection()) && HEIGHT_UP_KEY.consumeClick()) {
                 adjustPlacementHeight(1);
             }
-            while ((placementMode == PlacementMode.BUILDING || terrainRegionSelection()) && HEIGHT_DOWN_KEY.consumeClick()) {
+            while ((placementMode == PlacementMode.BUILDING || productionAreaSelection()) && HEIGHT_DOWN_KEY.consumeClick()) {
                 adjustPlacementHeight(-1);
             }
             while (minecraft.options.keyDrop.consumeClick()) { }
@@ -430,7 +431,7 @@ public final class ClientPlacementController {
         if (!active() || scrollDelta == 0.0D) {
             return;
         }
-        if (placementMode == PlacementMode.BUILDING || terrainRegionSelection()) {
+        if (placementMode == PlacementMode.BUILDING || productionAreaSelection()) {
             adjustPlacementHeight((int)Math.signum(scrollDelta));
             return;
         }
@@ -440,7 +441,7 @@ public final class ClientPlacementController {
 
     private static void adjustPlacementHeight(int delta) {
         int next=Math.clamp(heightOffset+delta,MIN_HEIGHT_OFFSET,MAX_HEIGHT_OFFSET);
-        if(terrainRegionSelection() && areaStart!=null)areaStart=areaStart.above(next-heightOffset);
+        if(productionAreaSelection() && areaStart!=null)areaStart=areaStart.above(next-heightOffset);
         heightOffset=next;
     }
 
@@ -471,12 +472,7 @@ public final class ClientPlacementController {
         if (targetAnchor == null || !targetValid) {
             if (minecraft.player != null) {
                 minecraft.player.displayClientMessage(targetPlacementFailure != null ? targetPlacementFailure :
-                        Component.translatable(terrainRegionSelection()
-                                ? (areaStart!=null && targetAnchor!=null
-                                    && (Math.abs(areaStart.getX()-targetAnchor.getX())+1<selectedType.minimumAreaSize()
-                                    || Math.abs(areaStart.getZ()-targetAnchor.getZ())+1<selectedType.minimumAreaSize())
-                                    ? "error.exiledsettlement.area_too_small" : "error.exiledsettlement.region_outside")
-                                : "error.exiledsettlement.placement_invalid_target"),
+                        Component.translatable("error.exiledsettlement.placement_invalid_target"),
                         true
                 );
             }
@@ -668,7 +664,7 @@ public final class ClientPlacementController {
                     ? Component.translatable("gui.exiledsettlement.management.select_building")
                     : Component.translatable("gui.exiledsettlement.management.hovered",
                     hoveredBuilding.name().isBlank()
-                            ? Component.translatable(hoveredBuilding.type().translationKey())
+                            ? Component.translatable(hoveredBuilding.displayTypeKey())
                             : Component.literal(hoveredBuilding.name()),
                     Component.translatable(hoveredBuilding.status().translationKey()));
         } else if (placementMode == PlacementMode.ROAD) {
@@ -678,21 +674,14 @@ public final class ClientPlacementController {
                     +(roadStart==null?"：选择起点":"：选择终点，随后确认服务端清单"));
         } else if (placementMode == PlacementMode.AREA) {
             if (areaStart != null && targetAnchor != null) {
-                int width = Math.abs(areaStart.getX() - targetAnchor.getX()) + 1;
-                int depth = Math.abs(areaStart.getZ() - targetAnchor.getZ()) + 1;
-                if (terrainRegionSelection()) {
-                    title=Component.translatable("gui.exiledsettlement.area.select_end_region",
-                            selectedDisplayName(),width,depth,(long)width*depth,areaStart.getY()-1);
-                } else {
-                    long usableCells=targetTemplate==null?0L:targetTemplate.placements().stream()
-                            .filter(placement->placement.mode()==BlueprintPlacementMode.STRUCTURE).count();
-                    title=Component.translatable("gui.exiledsettlement.area.select_end_sized",
-                            selectedDisplayName(),width,depth,usableCells);
-                }
+                long width = Math.abs((long)areaStart.getX() - targetAnchor.getX()) + 1;
+                long depth = Math.abs((long)areaStart.getZ() - targetAnchor.getZ()) + 1;
+                title=Component.translatable("gui.exiledsettlement.area.selection_size",
+                        selectedDisplayName(),width,depth,width*depth,areaStart.getY()-1);
             } else {
                 title = Component.translatable("gui.exiledsettlement.area.select_start",
                         selectedDisplayName());
-                if(terrainRegionSelection() && targetAnchor!=null)title=title.copy().append(
+                if(productionAreaSelection() && targetAnchor!=null)title=title.copy().append(
                         Component.translatable("gui.exiledsettlement.area.plane_height",targetAnchor.getY()-1));
             }
         } else {
@@ -710,7 +699,7 @@ public final class ClientPlacementController {
             Direction entrance = entranceFacing(targetTemplate);
             graphics.drawCenteredString(minecraft.font,
                     Component.translatable("gui.exiledsettlement.placement.entrance_direction",
-                            facingName(entrance == null ? facing : entrance)),
+                            facingName(productionAreaSelection() || entrance == null ? facing : entrance)),
                     centerX, controlsY, 0xFFFFC23D);
             controlsY += 12;
         }
@@ -738,9 +727,10 @@ public final class ClientPlacementController {
                         ? 0xFFAAAAAA : 0xFF74E8FF);
         graphics.drawCenteredString(
                 minecraft.font,
-                Component.translatable(terrainRegionSelection()
-                        ? (targetValid ? "gui.exiledsettlement.region.selection_ready" : "gui.exiledsettlement.region.selection_invalid")
-                        : targetValid && foundingCampPlacement() ? "gui.exiledsettlement.placement.camp_ready"
+                productionAreaSelection() ? Component.translatable(targetValid
+                        ? "gui.exiledsettlement.area.selection_ready" : "gui.exiledsettlement.area.selection_invalid",
+                        selectedType.minimumAreaSize(), BlueprintService.MAX_DYNAMIC_AREA_BLOCKS)
+                        : Component.translatable(targetValid && foundingCampPlacement() ? "gui.exiledsettlement.placement.camp_ready"
                         : targetValid ? targetClearancePositions.isEmpty()
                         ? "gui.exiledsettlement.placement.valid" : "gui.exiledsettlement.placement.clearance_required"
                         : "gui.exiledsettlement.placement.invalid",targetClearancePositions.size()),
@@ -790,19 +780,10 @@ public final class ClientPlacementController {
             targetValid = hoveredBuilding != null;
             return;
         }
-        if(terrainRegionSelection() && areaStart!=null) {
+        if(productionAreaSelection() && areaStart!=null) {
             targetAnchor=cursorRay==null?null:com.hkin.exiledsettlement.blueprint.AreaSelectionPlane.corner(
                     cursorRay.start(),cursorRay.end(),areaStart.getY());
-            targetMarker=null;targetTemplate=null;targetValid=false;
-            if(targetAnchor==null)return;
-            int width=Math.abs(areaStart.getX()-targetAnchor.getX())+1;
-            int depth=Math.abs(areaStart.getZ()-targetAnchor.getZ())+1;
-            var min=new BlockPos(Math.min(areaStart.getX(),targetAnchor.getX()),areaStart.getY(),Math.min(areaStart.getZ(),targetAnchor.getZ()));
-            var max=new BlockPos(Math.max(areaStart.getX(),targetAnchor.getX()),areaStart.getY(),Math.max(areaStart.getZ(),targetAnchor.getZ()));
-            targetTemplate=new BuildingBlueprintTemplate(selectedType,areaStart,facing,width,depth,1,min,max,0,List.of(),List.of());
-            targetValid=width>=selectedType.minimumAreaSize() && depth>=selectedType.minimumAreaSize()
-                    && ownsChunk(new ChunkPos(areaStart)) && ownsChunk(new ChunkPos(targetAnchor))
-                    && areaStart.getY()-1>=minecraft.level.getMinBuildHeight() && areaStart.getY()+6<minecraft.level.getMaxBuildHeight();
+            refreshAreaTemplate(minecraft);
             return;
         }
         HitResult hit = cursorRay == null || minecraft.level == null ? null : minecraft.level.clip(new ClipContext(
@@ -827,20 +808,38 @@ public final class ClientPlacementController {
                 targetMarker = null;
                 targetValid = validateAreaAnchor(minecraft, targetAnchor);
             } else {
-                int width = Math.abs(areaStart.getX() - targetAnchor.getX()) + 1;
-                int depth = Math.abs(areaStart.getZ() - targetAnchor.getZ()) + 1;
-                int minimum = selectedType.minimumAreaSize();
-                targetTemplate=BlueprintTemplates.createArea(selectedType,areaStart,targetAnchor,facing,selectedTemplateVersion);
-                targetValid=width>=minimum && depth>=minimum && validateClientSite(minecraft,targetTemplate);
-                targetMarker = null;
+                targetAnchor = new BlockPos(targetAnchor.getX(), areaStart.getY(), targetAnchor.getZ());
+                refreshAreaTemplate(minecraft);
             }
         } else if (selectedType != null) {
             targetAnchor = blockHit.getBlockPos().above().offset(0, heightOffset, 0);
             targetTemplate = BlueprintTemplates.create(
                     selectedType, targetAnchor, facing, selectedTemplateVersion);
+            if(!foundingCampPlacement())targetTemplate=com.hkin.exiledsettlement.blueprint.ConstructionWorkArea.template(targetTemplate);
             targetValid = validateClientSite(minecraft, targetTemplate);
             targetMarker = null;
         }
+    }
+
+    private static void refreshAreaTemplate(Minecraft minecraft) {
+        targetMarker=null;targetTemplate=null;targetValid=false;
+        if(targetAnchor==null || areaStart==null || selectedType==null)return;
+        long width=Math.abs((long)areaStart.getX()-targetAnchor.getX())+1;
+        long depth=Math.abs((long)areaStart.getZ()-targetAnchor.getZ())+1;
+        int minimum=selectedType.minimumAreaSize();
+        int maximum=BlueprintService.MAX_DYNAMIC_AREA_BLOCKS;
+        if(width<minimum || depth<minimum) {
+            targetPlacementFailure=Component.translatable("gui.exiledsettlement.area.minimum_size",
+                    selectedDisplayName(),minimum);
+            return;
+        }
+        if(width>maximum || depth>maximum || width*depth>maximum) {
+            targetPlacementFailure=Component.translatable("error.exiledsettlement.area_too_large");
+            return;
+        }
+        targetTemplate=com.hkin.exiledsettlement.blueprint.ConstructionWorkArea.template(
+                BlueprintTemplates.createArea(selectedType,areaStart,targetAnchor,facing,selectedTemplateVersion));
+        targetValid=validateClientSite(minecraft,targetTemplate);
     }
 
     private static Component selectedDisplayName() {
@@ -915,25 +914,6 @@ public final class ClientPlacementController {
         if (minecraft.player == null || minecraft.level == null || corePosition == null) {
             return false;
         }
-        if(com.hkin.exiledsettlement.blueprint.FarmEarthworkPlan.applies(template.type()) && placementMode==PlacementMode.AREA) {
-            long now=minecraft.level.getGameTime();
-            if(earthworkPreviewTemplate!=template || earthworkPreviewAt<=now) {
-                if(nextEarthworkSurveyTick>now) {
-                    targetEarthwork=new com.hkin.exiledsettlement.blueprint.FarmEarthworkPlan.Survey(null,template.anchor(),"FARM_EARTHWORK_SURVEY_PENDING");
-                    return false;
-                }
-                targetEarthwork=com.hkin.exiledsettlement.blueprint.FarmEarthworkPlan.survey(minecraft.level,template,
-                        p -> ownsChunk(new ChunkPos(p)) && conflictingFutureBlueprintFootprint(p)==null);
-                earthworkPreviewTemplate=template;earthworkPreviewAt=now+20;
-                nextEarthworkSurveyTick=now+5;
-            } else targetEarthwork=cachedEarthwork;
-            cachedEarthwork=targetEarthwork;
-            if(targetEarthwork==null || !targetEarthwork.valid()) return false;
-            Set<BlockPos> digs=new LinkedHashSet<>(),fills=new LinkedHashSet<>();
-            for(var step:targetEarthwork.plan().remaining()) (step.fill()?fills:digs).add(step.position());
-            targetClearancePositions=Set.copyOf(digs);targetFillPositions=Set.copyOf(fills);
-            return true;
-        }
         if (template.type()==BuildingType.STARTER_CAMP && selectedTemplateVersion>=2) {
             var plan=com.hkin.exiledsettlement.blueprint.FoundingCampPlacementRules.plan(minecraft.level,template);
             if(!plan.valid()) return placementFailure(minecraft,plan.failurePosition(),plan.reason());
@@ -952,7 +932,7 @@ public final class ClientPlacementController {
                     layout.reserves(other.position())?other.position():null) : layout.conflict(existing.placementLayout());
             if(other.position().equals(template.anchor()))conflict=template.anchor();
             if(conflict!=null) {
-                targetConflictLabel=other.name().isBlank()?Component.translatable(other.type().translationKey()):Component.literal(other.name());
+                targetConflictLabel=other.name().isBlank()?Component.translatable(other.displayTypeKey()):Component.literal(other.name());
                 targetConflictPositions=Set.of(conflict.immutable());
                 targetPlacementFailure=Component.translatable("gui.exiledsettlement.placement.structure_conflict",
                         targetConflictLabel,conflict.toShortString());
@@ -1012,13 +992,14 @@ public final class ClientPlacementController {
                 && !minecraft.level.getBlockState(position).isAir();
     }
 
-    private static boolean terrainRegionSelection() {
+    private static boolean productionAreaSelection() {
         return placementMode==PlacementMode.AREA && selectedType!=null
-                && com.hkin.exiledsettlement.region.ProductionRegionService.supports(selectedType);
+                && BlueprintTemplates.flexibleProduction(selectedType,selectedTemplateVersion);
     }
 
     private static boolean validateAreaAnchor(Minecraft minecraft, BlockPos position) {
-        if(terrainRegionSelection())return minecraft.level!=null && ownsChunk(new ChunkPos(position))
+        if(productionAreaSelection())return minecraft.level!=null && minecraft.level.hasChunkAt(position)
+                && ownsChunk(new ChunkPos(position))
                 && position.getY()-1>=minecraft.level.getMinBuildHeight() && position.getY()+6<minecraft.level.getMaxBuildHeight();
         if (!validateRoadTarget(minecraft, position.below())) return false;
         return minecraft.level != null && minecraft.level.getFluidState(position.below()).isEmpty();
@@ -1052,7 +1033,9 @@ public final class ClientPlacementController {
         poseStack.mulPose(event.getCamera().rotation());
         float scale = hoveredBuilding != null && hoveredBuilding.id().equals(building.id()) ? 1.15F : 0.90F;
         poseStack.scale(scale, scale, scale);
-        minecraft.getItemRenderer().renderStatic(buildingIcon(building.type()), ItemDisplayContext.GUI,
+        ItemStack icon = building.workKind().publicWorks()
+                ? new ItemStack(building.workKind().icon()) : buildingIcon(building.type());
+        minecraft.getItemRenderer().renderStatic(icon, ItemDisplayContext.GUI,
                 0x00F000F0, OverlayTexture.NO_OVERLAY, poseStack, buffers, minecraft.level,
                 building.id().hashCode());
         poseStack.popPose();
@@ -1322,7 +1305,7 @@ public final class ClientPlacementController {
         RenderSystem.disableDepthTest();
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
-        if(terrainRegionSelection()) {
+        if(productionAreaSelection()) {
             LevelRenderer.addChainedFilledBoxVertices(poseStack,filled,
                     minX,y,minZ,maxX+1.0D,y+0.10D,maxZ+1.0D,
                     valid?0.08F:1.0F,valid?0.90F:0.15F,valid?0.16F:0.12F,0.48F);
@@ -1439,13 +1422,20 @@ public final class ClientPlacementController {
                     entry.maxCorner().getY() - entry.minCorner().getY() + 1,
                     entry.minCorner(), entry.maxCorner(), entry.transitionMargin(), java.util.List.of());
         }
-        if (!entry.type().isDynamicArea()) {
+        if(BlueprintTemplates.flexibleProduction(entry.type(),entry.templateVersion())) {
+            int y=entry.position().getY();
+            return BlueprintTemplates.createArea(entry.type(),
+                    new BlockPos(entry.minCorner().getX(),y,entry.minCorner().getZ()),
+                    new BlockPos(entry.maxCorner().getX(),y,entry.maxCorner().getZ()),
+                    entry.facing(),entry.templateVersion());
+        }
+        if (!entry.type().isDynamicArea() || BlueprintTemplates.fixedProduction(entry.type(), entry.templateVersion())) {
             return BlueprintTemplates.create(entry.type(), entry.position(), entry.facing(), entry.templateVersion());
         }
         int y = entry.maxCorner().getY();
         return BlueprintTemplates.createArea(entry.type(),
                 new BlockPos(entry.minCorner().getX(), y, entry.minCorner().getZ()),
-                new BlockPos(entry.maxCorner().getX(), y, entry.maxCorner().getZ()), entry.facing());
+                new BlockPos(entry.maxCorner().getX(), y, entry.maxCorner().getZ()), entry.facing(), entry.templateVersion());
     }
 
     private static void renderFutureBlueprints(

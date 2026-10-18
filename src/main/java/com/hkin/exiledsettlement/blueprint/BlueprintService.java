@@ -53,6 +53,13 @@ public final class BlueprintService {
     private BlueprintService() {
     }
 
+    /** Revoke this construction request and only the unfinished work that no longer has an owner. */
+    public static boolean cancelConstruction(SettlementRecord settlement, BlueprintRecord blueprint) {
+        if (blueprint == null || settlement.blueprint(blueprint.id()) != blueprint) return false;
+        boolean changed = blueprint.queueCancellation();
+        return com.hkin.exiledsettlement.terrain.TerrainChildLifecycle.cancel(settlement, blueprint) || changed;
+    }
+
     public static OperationResult<BlueprintRecord> placeBlueprint(
             ServerLevel level, UUID actorId, BuildingType type, BlockPos anchor, Direction facing,
             boolean refundItem, @Nullable ServerPlayer feedbackPlayer
@@ -73,7 +80,7 @@ public final class BlueprintService {
 
         BuildingBlueprintTemplate template;
         try {
-            template = BlueprintTemplates.create(type, anchor, facing, templateVersion);
+            template = ConstructionWorkArea.template(BlueprintTemplates.create(type, anchor, facing, templateVersion));
         } catch (IllegalArgumentException exception) {
             return OperationResult.failure("UNSUPPORTED_BLUEPRINT");
         }
@@ -133,42 +140,44 @@ public final class BlueprintService {
             ServerLevel level, UUID actorId, BuildingType type, BlockPos first, BlockPos second,
             Direction facing, @Nullable ServerPlayer feedbackPlayer
     ) {
-        if(com.hkin.exiledsettlement.region.ProductionRegionService.supports(type))
-            return com.hkin.exiledsettlement.region.ProductionRegionService.place(level,type,first,second,facing,actorId,feedbackPlayer);
-        if (!type.isDynamicArea()) {
+        return placeAreaBlueprint(level,actorId,type,first,second,facing,
+                BlueprintTemplates.currentTemplateVersion(type),feedbackPlayer);
+    }
+
+    public static OperationResult<BlueprintRecord> placeAreaBlueprint(
+            ServerLevel level, UUID actorId, BuildingType type, BlockPos first, BlockPos second,
+            Direction facing, int templateVersion, @Nullable ServerPlayer feedbackPlayer
+    ) {
+        if (!BlueprintTemplates.flexibleProduction(type,templateVersion)
+                || templateVersion>BlueprintTemplates.currentTemplateVersion(type)) {
             return OperationResult.failure("UNSUPPORTED_BLUEPRINT");
         }
-        int width = Math.abs(first.getX() - second.getX()) + 1;
-        int depth = Math.abs(first.getZ() - second.getZ()) + 1;
+        long width = Math.abs((long)first.getX() - second.getX()) + 1;
+        long depth = Math.abs((long)first.getZ() - second.getZ()) + 1;
         int minimum = type.minimumAreaSize();
         if (width < minimum || depth < minimum) return OperationResult.failure("AREA_TOO_SMALL");
-        if (width * depth > MAX_DYNAMIC_AREA_BLOCKS) return OperationResult.failure("AREA_TOO_LARGE");
+        if (width > MAX_DYNAMIC_AREA_BLOCKS || depth > MAX_DYNAMIC_AREA_BLOCKS
+                || width * depth > MAX_DYNAMIC_AREA_BLOCKS) return OperationResult.failure("AREA_TOO_LARGE");
+        // The first selected point fixes the floor. Both saved corners must retain that same plane.
+        second = second.atY(first.getY());
         SettlementSavedData data = SettlementSavedData.get(level);
-        BlockPos center = new BlockPos((first.getX() + second.getX()) / 2, first.getY(),
-                (first.getZ() + second.getZ()) / 2);
+        BlockPos center = new BlockPos((int)(((long)first.getX() + second.getX()) / 2), first.getY(),
+                (int)(((long)first.getZ() + second.getZ()) / 2));
         SettlementRecord settlement = data.findContaining(center).orElse(null);
         if (settlement == null || !settlement.contains(first) || !settlement.contains(second)) {
             return OperationResult.failure("OUTSIDE_SETTLEMENT_BOUNDARY");
         }
         if (!settlement.isMember(actorId)) return OperationResult.failure("NO_PERMISSION");
-        BuildingBlueprintTemplate template = BlueprintTemplates.createArea(type, first, second, facing);
-        FarmEarthworkPlan.Survey earthwork = FarmEarthworkPlan.applies(type)
-                ? FarmEarthworkPlan.survey(level, template, p -> FarmEarthworkService.allowed(settlement, null, template, p)) : null;
-        if (earthwork != null && !earthwork.valid()) {
-            if (feedbackPlayer != null) feedbackPlayer.displayClientMessage(Component.translatable(
-                    "message.exiledsettlement.farm_earthwork.blocked", earthwork.position().toShortString(),
-                    Component.translatable("work_failure.exiledsettlement."+earthwork.reason().toLowerCase(java.util.Locale.ROOT))), false);
-            return OperationResult.failure(earthwork.reason());
-        }
+        BuildingBlueprintTemplate template = ConstructionWorkArea.template(
+                BlueprintTemplates.createArea(type, first, second, facing, templateVersion));
         SiteCheck site = validateSite(level, settlement, template);
         if (!site.valid()) {
             sendSiteFailure(feedbackPlayer, site);
             return OperationResult.failure(site.reason());
         }
         releaseUnstartedDecorations(settlement,template);
-        BlueprintRecord blueprint = settlement.addAreaBlueprint(type, center, center, facing, actorId,
-                false, first, second, site.clearances());
-        if (earthwork != null) blueprint.withEarthworkPlan(earthwork.plan());
+        BlueprintRecord blueprint = settlement.addAreaBlueprint(type, template.anchor(), center, facing, actorId,
+                false, first, second, templateVersion, site.clearances());
         com.hkin.exiledsettlement.terrain.P0PlanningService.placed(level,settlement,blueprint);
         data.touch();
         if (feedbackPlayer != null) sendPlaced(feedbackPlayer, blueprint, template);
@@ -185,6 +194,8 @@ public final class BlueprintService {
         }
         UUID actorId = player == null ? blueprint.ownerId() : player.getUUID();
         if (!settlement.isMember(actorId)) return OperationResult.failure("NO_PERMISSION");
+        if(!com.hkin.exiledsettlement.terrain.TerrainService.dependenciesReady(settlement,blueprint.id()))
+            return OperationResult.failure("TERRAIN_FOUNDATION_PENDING");
 
         SettlementSavedData data = SettlementSavedData.get(level);
         BuildingBlueprintTemplate template = BlueprintTemplates.create(blueprint);
@@ -575,12 +586,15 @@ public final class BlueprintService {
             },cleared->cleared.failure().isEmpty());
             if(!result.failure().isEmpty())return OperationResult.failure(result.failure());
             result.removed().forEach(blueprint::removeClearanceTarget);
+        } else if(IrrigationConstructionService.waterlogging(template,placement)) {
+            if(!IrrigationConstructionService.placeWater(level,template,placement,worker))return OperationResult.failure("PROTECTED_AREA");
         } else if(BlueprintPlacementGroups.isPaired(placement.state())) {
             var result=BlueprintPlacementGroups.placeTimed(level,settlement,template,placement,worker);
             if(!result.success())return OperationResult.failure(result.reason());
         } else if(!TimedConstructionService.put(level,position,BlueprintBlockStateResolver.resolve(level,placement),worker))
             return OperationResult.failure("PROTECTED_AREA");
         if(placement.material()!=null)supplied.shrink(1);
+        IrrigationConstructionService.returnBucket(level,template,placement,worker);
         for(var part:parts) {blueprint.removeClearanceTarget(part.position());blueprint.removeTemporaryFooting(part.position());}
         data.touch();
         return TimedConstructionService.first(level,blueprint,Set.of())==null
@@ -590,6 +604,8 @@ public final class BlueprintService {
     public static OperationResult<BuildingRecord> finishTimedIfReady(ServerLevel level, SettlementSavedData data,
             SettlementRecord settlement, BlueprintRecord blueprint) {
         reconcileClearanceTargets(level,data,blueprint);
+        if(!com.hkin.exiledsettlement.terrain.TerrainService.dependenciesReady(settlement,blueprint.id()))
+            return OperationResult.failure("TERRAIN_FOUNDATION_PENDING");
         if(blueprint.cancellationQueued() || TimedConstructionService.first(level,blueprint,Set.of())!=null)
             return OperationResult.failure("CONSTRUCTION_INCOMPLETE");
         var template=BlueprintTemplates.create(blueprint);
@@ -698,15 +714,15 @@ public final class BlueprintService {
         PendingPlacement remaining = nextPending(level, data, blueprint);
         if (remaining == null) {
             if(blueprint.region()!=null && !constructionComplete(level,blueprint)) {
-                if(placement.material()==Items.WATER_BUCKET)Block.popResource(level,placement.position(),new ItemStack(Items.BUCKET));return OperationResult.success(null);
+                IrrigationConstructionService.returnBucket(level,template,placement,worker);return OperationResult.success(null);
             }
-            if (!blueprint.temporaryFootings().isEmpty()) return OperationResult.success(null);
+            if (!blueprint.temporaryFootings().isEmpty()) {IrrigationConstructionService.returnBucket(level,template,placement,worker);return OperationResult.success(null);}
             var result = complete(level, data, settlement, blueprint, template, blueprint.ownerId(), null, snapshots);
             if (!result.success() && placement.material() != null) suppliedMaterial.grow(1);
-            if(result.success() && blueprint.region()!=null && placement.material()==Items.WATER_BUCKET)Block.popResource(level,placement.position(),new ItemStack(Items.BUCKET));
+            if(result.success())IrrigationConstructionService.returnBucket(level,template,placement,worker);
             return result;
         }
-        if(blueprint.region()!=null && placement.material()==Items.WATER_BUCKET)Block.popResource(level,placement.position(),new ItemStack(Items.BUCKET));
+        IrrigationConstructionService.returnBucket(level,template,placement,worker);
         return OperationResult.success(null);
     }
 
@@ -1009,10 +1025,10 @@ public final class BlueprintService {
             List<BlockSnapshot> snapshots, boolean timed
     ) {
         if(!timed && blueprint.region()!=null && !constructionComplete(level,blueprint)){rollback(snapshots);return OperationResult.failure("CONSTRUCTION_IN_PROGRESS");}
+        if(blueprint.terrainProject()==null && !com.hkin.exiledsettlement.terrain.TerrainService.dependenciesReady(settlement,blueprint.id())){rollback(snapshots);return OperationResult.failure("TERRAIN_FOUNDATION_PENDING");}
         if(blueprint.region()!=null && blueprint.region().workingBuilding!=null)
             return com.hkin.exiledsettlement.region.ProductionRegionService.completeMaintenance(level,data,settlement,blueprint);
         if(blueprint.terrainProject()!=null) {com.hkin.exiledsettlement.terrain.TerrainService.completed(level,settlement,blueprint);data.touch();return OperationResult.success(null);}
-        if(!timed && !com.hkin.exiledsettlement.terrain.TerrainService.dependenciesReady(settlement,blueprint.id())){rollback(snapshots);return OperationResult.failure("TERRAIN_FOUNDATION_PENDING");}
         if(!timed && FarmEarthworkService.applies(blueprint)) {
             String failure=FarmEarthworkService.prepareTarget(level,settlement,blueprint,null);
             if(!failure.isEmpty() || blueprint.earthworkPlan()==null || !blueprint.earthworkPlan().done()) {
@@ -1033,6 +1049,7 @@ public final class BlueprintService {
             registration.value().rename(blueprint.customTemplate().name());
         }
         if(blueprint.region()!=null){registration.value().withRegion(blueprint.region());}
+        if(blueprint.productionSite()!=null){registration.value().withProductionSite(blueprint.productionSite());}
         for(var project:settlement.terrain().projects.values())if(project.dependencies.contains(blueprint.id()))project.dependencies.add(registration.value().id());
         com.hkin.exiledsettlement.road.AutoRoadService.transfer(settlement,blueprint.id(),registration.value().id());
         settlement.removeBlueprint(blueprint.markerPosition());

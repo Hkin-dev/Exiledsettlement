@@ -51,7 +51,7 @@ public final class RoadEarthworkService {
         if(!s.contains(p) || !s.contains(p.above(ROAD_CLEARANCE_HEIGHT)) || !level.hasChunkAt(p)
                 || level.isOutsideBuildHeight(p) || level.isOutsideBuildHeight(p.above(ROAD_CLEARANCE_HEIGHT))
                 || s.decorations().forbidden(p) || s.community().danger(p) || s.terrain().suppressed.contains(p.asLong()))return false;
-        for(var b:s.buildings())if(b.active() && (b.region()!=null?b.region().cell(p)!=null:p.getX()>=b.minCorner().getX() && p.getX()<=b.maxCorner().getX() && p.getZ()>=b.minCorner().getZ() && p.getZ()<=b.maxCorner().getZ()))return false;
+        for(var b:s.buildings())if(b.active() && b.containsColumn(p))return false;
         for(var b:s.formalBlueprints())if(!b.cancellationQueued()) {
             if(b.containsColumn(p))return false;
         }

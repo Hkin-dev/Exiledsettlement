@@ -92,181 +92,14 @@ public final class ProductionRegionService {
         return changed;
     }
     public static void tickLevel(ServerLevel level) {
-        var data=SettlementSavedData.get(level);
-        for(var s:data.settlements())if(s.active()) {
-            if(FarmConstructionPolicy.stopAutomaticMaintenance(s))data.touch();
-            for(var pending:s.blueprints())if(pending.region()!=null && !maintenanceScopeUnchanged(s,pending.region())){
-                pending.region().groundPaused=true;pending.region().status="维修范围或高度与原建筑不一致，保留工程等待处理";data.touch();
-            }
-            RegionGroundService.tick(level,s);
-            // Established farms no longer publish automatic worker redesign/upgrade jobs.
-            for(var pending:List.copyOf(s.blueprints()))if(pending.region()!=null && pending.region().surveyed && pending.region().levelled() && !pending.cancellationQueued() && !FarmConstructionPolicy.maintenance(s,pending)) {
-                if(pending.region().groundPaused)continue;
-                if(level.getGameTime()%100==0){if(reconcileOwnership(s,pending))data.touch();releaseObsoleteRegionOrders(level,s,pending);FarmEntranceService.plan(level,s,pending);}
-                var working=s.building(pending.region().workingBuilding);
-                if(working!=null && level.getGameTime()%100==0){releaseCrossingRoadOrders(level,s,pending.region());}
-            }
-            // Recheck only irrigation walls belonging to an active selected region.
-            // A previously cleared wall may already be water-filled; repair it through
-            // a paid earthwork order instead of leaving a generic placement blocked.
-            // Irrigation repairs may publish another blueprint during this pass.
-            for(var pending:List.copyOf(s.blueprints()))if(pending.region()!=null && pending.region().surveyed && !pending.cancellationQueued() && !FarmConstructionPolicy.maintenance(s,pending)) {
-                var r=pending.region();if(r.groundPaused)continue;var ordered=r.ordered();if(ordered.isEmpty())continue;
-                int cursor=IRRIGATION_CHECKS.getOrDefault(r,0);IRRIGATION_CHECKS.put(r,(cursor+8)%ordered.size());
-                for(int work=0;work<Math.min(8,ordered.size());work++) {
-                    int i=(cursor+work)%ordered.size();
-                    var cell=ordered.get(i);var p=cell.ground();
-                    if(r.agricultural() && r.flatY!=null) {
-                        int top=level.getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.WORLD_SURFACE,p.getX(),p.getZ())-1;
-                        for(int y=r.flatY+1;y<=top;y++) {
-                            var wet=p.atY(y);var wetState=level.getBlockState(wet);
-                            if(wetState.getFluidState().isSource() && wetState.getBlock() instanceof BucketPickup
-                                    && (wetState.is(Blocks.WATER) || farmClearable(level,s,pending,wet,wetState)) && allowed(s,pending,wet)) {
-                                if(r.oldIrrigation.add(wet.asLong()))data.touch();
-                                if(!TerrainService.pendingAt(level,s,wet)) {
-                                    var order=publish(level,s,pending.id(),"农业旧灌溉回收",wet,List.of(new TerrainProject.Step(wet,Blocks.AIR.defaultBlockState(),wetState)));
-                                    if(order!=null && r.workingBuilding!=null)order.dependencies.add(r.workingBuilding);
-                                }
-                            }
-                        }
-                    }
-                    long key=ProductionRegion.key(p.getX(),p.getZ());
-                    if(cell.use()==ProductionRegion.Use.CROP && level.hasChunkAt(p) && level.getBlockState(p).is(Blocks.FARMLAND)
-                            && FarmEarthworkPlan.support(level,p.below()) && r.cultivated.add(p.asLong()))data.touch();
-                    if((cell.use()==ProductionRegion.Use.BOUNDARY || cell.use()==ProductionRegion.Use.GATE) && level.hasChunkAt(p)) {
-                        if(!FarmEarthworkPlan.soil(level.getBlockState(p)) || !FarmEarthworkPlan.support(level,p.below()))r.preparationRetries.add(i);
-                        // Flowing irrigation can enter a future retaining wall above
-                        // the soil. Ordinary placement cannot fill it; use paid,
-                        // supported earthwork just like the lower foundation.
-                        var wetWall=new ArrayList<TerrainProject.Step>();
-                        for(int y=p.getY()+1;y<=r.max().getY();y++) {
-                            var at=p.atY(y);var goal=r.template().placementAt(at);
-                            if(goal!=null && goal.state().is(Blocks.COBBLESTONE) && TerrainService.replaceableWater(level.getBlockState(at))
-                                    && !TerrainService.pendingAt(level,s,at) && allowed(s,pending,at))
-                                wetWall.add(new TerrainProject.Step(at,goal.state(),level.getBlockState(at)));
-                        }
-                        if(!wetWall.isEmpty()) {
-                            var project=publish(level,s,pending.id(),"农田围栏水边支撑",p,wetWall);
-                            if(project!=null && r.workingBuilding!=null)project.dependencies.add(r.workingBuilding);
-                        }
-                    }
-                    boolean barrier=r.waterBarriers.contains(key);
-                    boolean soilCell=cell.use()==ProductionRegion.Use.CROP || cell.use()==ProductionRegion.Use.FRUIT || cell.use()==ProductionRegion.Use.PATH;
-                    if(!barrier && !soilCell || !level.hasChunkAt(p) || TerrainService.pendingAt(level,s,p) || TerrainService.exitInUse(level,s,p))continue;
-                    var actual=level.getBlockState(p);
-                    var finalGround=r.template().placementAt(p);
-                    if(finalGround!=null && BlueprintService.placementSatisfied(level,r.template(),finalGround))continue;
-                    if(FarmEarthworkPlan.soil(actual) && (!barrier || actual.isFaceSturdy(level,p,Direction.UP)))continue;
-                    // Excavation or receding water can expose an already scanned column.
-                    // Requeue its real support/fill work; never replace a later solid facility.
-                    if(!barrier && !actual.isAir() && !TerrainService.replaceableWater(actual) && !obsoleteFarmPath(s,pending.id(),p,actual))continue;
-                    if(r.preparationRetries.add(i))data.touch();
-                }
-            }
-            for(var cancelled:List.copyOf(s.blueprints()))if(cancelled.region()!=null && cancelled.cancellationQueued()) {
-                var region=cancelled.region();
-                for(var project:s.terrain().dependingOn(cancelled.id()))if(project.dependencies.remove(cancelled.id())) {
-                    project.dependencies.remove(region.workingBuilding);
-                    if(project.dependencies.isEmpty()){project.cancelled=true;var work=s.blueprint(project.id);if(work!=null)work.queueCancellation();}
-                }
-            }
-            var candidates=s.blueprints().stream().filter(b->b.region()!=null && !b.cancellationQueued() && !FarmConstructionPolicy.maintenance(s,b) && (!b.region().prepared || !b.region().preparationRetries.isEmpty()) && (!b.region().surveyed || b.region().waterSurveyDone)).toList();
-            if(candidates.isEmpty())continue;
-            int cursor=CURSORS.getOrDefault(s,0);CURSORS.put(s,cursor+1);var site=candidates.get(Math.floorMod(cursor,candidates.size()));
-            var r=site.region();
-            if(r.groundPaused || r.groundMaintenance && !r.plainSoil() && (!s.terrain().enabled || s.terrain().publicPaused)){r.status="地面维护已暂缓，保留现场及安全围合";continue;}
-            if(!r.surveyed){r.survey(level,at->allowed(s,site,at),32);data.touch();if(!r.surveyed)continue;PublicGroundService.requestReview(s);}
-            if(!r.layoutReady) {
-                // Each accepted selection remains independent, even when directly adjacent.
-                refreshUnbuiltLayout(level,s,r);r.rebuildUses(level);r.layoutReady=true;PublicGroundService.requestReview(s);
-            }
-            if(level.getGameTime()%100==0)releaseObsoleteRegionOrders(level,s,site);
-            if(r.cells.isEmpty()){r.status="选区没有可用的真实陆地";continue;}
-            if(r.plainSoil() && !PastureGroundSafety.prepare(level,s,site))continue;
-            int budget=8;var batch=new ArrayList<TerrainProject.Step>();
-            while((r.preparationCursor<r.ordered().size() || !r.preparationRetries.isEmpty()) && budget-->0) {
-                int cellIndex=r.preparationCursor<r.ordered().size()?r.preparationCursor++:r.preparationRetries.iterator().next();
-                r.preparationRetries.remove(cellIndex);var cell=r.ordered().get(cellIndex);var at=cell.ground();
-                if(!level.hasChunkAt(at)){r.status="等待正常加载地形："+at.toShortString();r.preparationRetries.add(cellIndex);continue;}
-                if(!allowed(s,site,at)){r.preparationRetries.add(cellIndex);r.status="局部准备被设施、领地或禁放区阻挡："+at.toShortString();continue;}
-                boolean usingExit=s.terrain().projects.values().stream().anyMatch(p->p.escapeFor!=null && p.dependencies.contains(site.id())
-                        && p.accessSurfaces.stream().anyMatch(surface->surface.getX()==at.getX() && surface.getZ()==at.getZ())
-                        && s.citizens().stream().anyMatch(c->c.alive() && p.accessSurfaces.stream().anyMatch(surface->surface.getX()==c.lastPosition().getX()
-                        && surface.getZ()==c.lastPosition().getZ()) && c.lastPosition().getY()<=at.getY()));
-                if(usingExit){r.preparationRetries.add(cellIndex);r.status="等待居民走出临时施工出口："+at.toShortString();continue;}
-                String wait=RegionGroundService.columnWait(level,s,site,at);
-                if(!wait.isEmpty()){r.status=wait;r.groundBlockers.put(ProductionRegion.key(at.getX(),at.getZ()),wait);r.preparationRetries.add(cellIndex);continue;}
-                r.groundBlockers.remove(ProductionRegion.key(at.getX(),at.getZ()));
-                List<TerrainProject.Step> steps=new ArrayList<>();
-                if(r.levelled() || r.gradeOrigins.containsKey(ProductionRegion.key(at.getX(),at.getZ()))) {
-                    int worldTop=level.getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.WORLD_SURFACE,at.getX(),at.getZ())-1;
-                    int originalY=at.getY();
-                    while(originalY<worldTop && farmNatural(level.getBlockState(at.atY(originalY+1)))
-                            && FarmEarthworkPlan.support(level,at.atY(originalY+1)))originalY++;
-                    int top=RegionConstructionStages.applies(r)?worldTop:RegionGroundService.clearanceTop(r,at.getY(),worldTop);
-                    boolean blocked=false;
-                    for(int y=top;y>at.getY();y--) {
-                        var p=at.atY(y);var current=level.getBlockState(p);
-                        if(current.isAir())continue;
-                        if(RegionConstructionStages.applies(r) && y>Math.max(at.getY()+RegionGroundService.clearanceHeight(r),originalY)
-                                && !(FarmVegetation.leaf(current) || r.naturalTrees.contains(ProductionRegion.key(p.getX(),p.getZ())) && current.is(BlockTags.LOGS)))continue;
-                        var placedGoal=r.plainSoil()?r.template().placementAt(p):null;
-                        if(placedGoal!=null && !placedGoal.state().isAir() && BlueprintService.placementSatisfied(level,r.template(),placedGoal))continue;
-                        if(r.type==BuildingType.TREE_FARM && RegionGroundService.keepTree(level,r,at,current,p))continue;
-                        if(!current.getFluidState().isEmpty() && current.getBlock() instanceof BucketPickup && farmClearable(level,s,site,p,current)) {r.preparationRetries.add(cellIndex);blocked=true;break;}
-                        // Seal the real irrigation barrier first. Flowing water
-                        // above crops recedes naturally and is not a solid obstacle.
-                        if(TerrainService.replaceableWater(current))continue;
-                        if(!farmClearable(level,s,site,p,current) || !allowed(s,site,p)){blocked=true;break;}
-                        steps.add(new TerrainProject.Step(p,Blocks.AIR.defaultBlockState(),current));
-                    }
-                    if(blocked){r.status="台面修整保留已有设施："+at.toShortString();r.preparationRetries.add(cellIndex);continue;}
-                }
-                // Agriculture uses the saved common plane; every column retains continuous real support.
-                if(r.levelled() || cell.use()!=ProductionRegion.Use.PASTURE || r.waterFill.contains(ProductionRegion.key(at.getX(),at.getZ()))) {
-                    int bottom=at.getY()-1;
-                    while(bottom>=level.getMinBuildHeight() && !FarmEarthworkPlan.support(level,at.atY(bottom))) {
-                        var p=at.atY(bottom);var state=level.getBlockState(p);
-                        if(!TerrainService.replaceableWater(state) && (!state.getFluidState().isEmpty() && !TerrainService.clearableWetNatural(state) || !farmNatural(state)) || !allowed(s,site,p)){r.status="局部支撑被阻挡："+p.toShortString();bottom=Integer.MIN_VALUE;break;}
-                        if(!state.isAir() && !TerrainService.replaceableWater(state))steps.add(new TerrainProject.Step(p,Blocks.AIR.defaultBlockState(),state));bottom--;
-                    }
-                    if(bottom<level.getMinBuildHeight()){r.status="局部支撑尚不可施工："+at.toShortString();r.preparationRetries.add(cellIndex);continue;}
-                    for(int y=bottom+1;y<at.getY();y++){var p=at.atY(y);var current=level.getBlockState(p);steps.add(new TerrainProject.Step(p,Blocks.DIRT.defaultBlockState(),TerrainService.replaceableWater(current)?current:Blocks.AIR.defaultBlockState()));}
-                    var state=level.getBlockState(at);
-                    if(cell.use()!=ProductionRegion.Use.WATER && !FarmEarthworkPlan.soil(state) && !(cell.use()==ProductionRegion.Use.PATH && (state.is(Blocks.DIRT_PATH) || BlueprintService.matchesPlacedState(state,r.template().placementAt(at).state())))) {
-                        if(TerrainService.replaceableWater(state)) {
-                            r.waterFill.add(ProductionRegion.key(at.getX(),at.getZ()));
-                            steps.add(new TerrainProject.Step(at,Blocks.DIRT.defaultBlockState(),state));
-                        }else {
-                        if(!farmClearable(level,s,site,at,state)){r.status="保留表面设施："+at.toShortString();r.preparationRetries.add(cellIndex);continue;}
-                        steps.add(new TerrainProject.Step(at,Blocks.AIR.defaultBlockState(),state));steps.add(new TerrainProject.Step(at,Blocks.DIRT.defaultBlockState(),Blocks.AIR.defaultBlockState()));
-                        }
-                    }
-                    if(cell.use()==ProductionRegion.Use.WATER && !r.legacyWater.contains(ProductionRegion.key(at.getX(),at.getZ())) && (!level.getBlockState(at).is(Blocks.OAK_SLAB) || level.getBlockState(at).getValue(net.minecraft.world.level.block.SlabBlock.TYPE)!=net.minecraft.world.level.block.state.properties.SlabType.TOP)) {
-                        var current=level.getBlockState(at);
-                        if(!current.isAir() && !TerrainService.replaceableWater(current))steps.add(new TerrainProject.Step(at,Blocks.AIR.defaultBlockState(),current));
-                        steps.add(new TerrainProject.Step(at,Blocks.OAK_SLAB.defaultBlockState().setValue(net.minecraft.world.level.block.SlabBlock.TYPE,net.minecraft.world.level.block.state.properties.SlabType.TOP),TerrainService.replaceableWater(current)?current:Blocks.AIR.defaultBlockState()));
-                    }
-                    for(int h=2;h>=1;h--) {
-                        var p=at.above(h);var stateAbove=level.getBlockState(p);
-                        if(r.type==BuildingType.TREE_FARM && stateAbove.getBlock() instanceof SaplingBlock && r.groundReady(level,cell))continue;
-                        if(cell.use()==ProductionRegion.Use.PATH?farmNatural(stateAbove) && !stateAbove.isAir():stateAbove.getBlock() instanceof BushBlock && !(stateAbove.getBlock() instanceof CropBlock) && !(stateAbove.getBlock() instanceof StemBlock))steps.add(new TerrainProject.Step(p,Blocks.AIR.defaultBlockState(),stateAbove));
-                    }
-                }
-                if(!steps.isEmpty()) {
-                    releasePaidObsoleteTargets(level,s,steps);
-                    String conflict=conflict(s,site.id(),steps);
-                    if(!conflict.isEmpty()){r.status=conflict;r.preparationRetries.add(cellIndex);continue;}
-                    batch.addAll(steps);
-                }
-                data.touch();
-            }
-            if(!batch.isEmpty()) {
-                var project=publish(level,s,site.id(),"区域局部土层与支撑",batch.getFirst().position(),batch);
-                if(project!=null && r.workingBuilding!=null)project.dependencies.add(r.workingBuilding);
-            }
-            if(r.preparationCursor>=r.ordered().size()){r.prepared=true;if(r.preparationRetries.isEmpty())r.status="准备工单已安排，等待工人完成建筑后投产";data.touch();}
-        }
+        ProductionSiteMigration.tickLevel(level);
+    }
+    /** Finish only the original read-only survey; never publish fresh region maintenance. */
+    static boolean finishLegacySurvey(ServerLevel level,SettlementRecord s,BlueprintRecord site) {
+        var r=site.region();
+        if(!r.surveyed && !r.survey(level,at->allowed(s,site,at),32))return false;
+        if(!r.layoutReady){refreshUnbuiltLayout(level,s,r);r.rebuildUses(level);r.layoutReady=true;}
+        return true;
     }
     private static boolean farmNatural(net.minecraft.world.level.block.state.BlockState state) {
         return TerrainService.natural(state) || FarmEarthworkPlan.soil(state) || state.is(Blocks.DIRT_PATH) || state.is(net.neoforged.neoforge.common.Tags.Blocks.ORES);
@@ -425,9 +258,16 @@ public final class ProductionRegionService {
     }
     public static boolean matchesAnimal(BuildingRecord b,net.minecraft.world.entity.animal.Animal animal) {
         var id=net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getKey(animal.getType());
+        if(b.productionSite()!=null)return b.productionSite().productions().contains(id);
         return b.region()==null?BuildingProductionService.matchesAnimal(animal,b.productionId()):b.region().productions().contains(id);
     }
     public static boolean animalSurplus(BuildingRecord b,List<net.minecraft.world.entity.animal.Animal> animals,net.minecraft.world.entity.animal.Animal animal) {
+        if(b.productionSite()!=null){
+            var id=net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getKey(animal.getType());
+            long area=b.productionSite().workCells().stream().filter(c->c.use()==ProductionRegion.Use.PASTURE && c.production().equals(id)).count();
+            int quota=Math.max(b.productionSite().animalFloor(id),Math.max(1,(int)(area/8)));
+            return animals.stream().filter(a->a.getType()==animal.getType()).count()>quota;
+        }
         if(b.region()==null)return animals.size()>BuildingProductionService.animalCapacity(b);
         var id=net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getKey(animal.getType());
         long area=b.region().ordered().stream().filter(c->c.use()==ProductionRegion.Use.PASTURE && b.region().readyPasture.contains(c.ground().asLong()) && c.production().equals(id)).count();

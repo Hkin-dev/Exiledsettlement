@@ -412,7 +412,7 @@ public final class BuildingManagementScreen extends Screen {
         super.render(graphics, mouseX, mouseY, partialTick);
         graphics.drawCenteredString(font, Component.literal(displayName()), width / 2, top + 12, 0xFFF8E8C8);
         int typeStatusY = payload.building().blueprint() ? top + 51 : top + 73;
-        graphics.drawString(font, Component.translatable(payload.building().type().translationKey()),
+        graphics.drawString(font, Component.translatable(payload.building().displayTypeKey()),
                 left + 20, typeStatusY, 0xFF2C2118, false);
         graphics.drawString(font, Component.translatable(payload.building().status().translationKey()),
                 left + (payload.building().blueprint() ? 220 : 120), typeStatusY,
@@ -677,8 +677,11 @@ public final class BuildingManagementScreen extends Screen {
 
     private String displayName() {
         if (payload.building().blueprint()) {
+            Component name = payload.building().workKind().publicWorks() && !payload.building().name().isBlank()
+                    ? Component.literal(payload.building().name())
+                    : Component.translatable(payload.building().displayTypeKey());
             return Component.translatable("gui.exiledsettlement.building_management.construction_name",
-                    Component.translatable(payload.building().type().translationKey())).getString();
+                    name).getString();
         }
         return payload.building().name().isBlank()
                 ? Component.translatable(payload.building().type().translationKey()).getString()

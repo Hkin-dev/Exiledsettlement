@@ -193,7 +193,7 @@ public final class WorkerAccessService {
                     || !l.getBlockState(at).getCollisionShape(l,at).isEmpty())return false;
             var state=l.getBlockState(at);
             var tag=state.is(BlockTags.MINEABLE_WITH_PICKAXE)?ItemTags.PICKAXES:state.is(BlockTags.MINEABLE_WITH_AXE)?ItemTags.AXES:ItemTags.SHOVELS;
-            if(c.findInventorySlot(stack->stack.is(tag) && (!state.requiresCorrectToolForDrops() || stack.isCorrectToolForDrops(state)))<0)return false;
+
             var item=BuriedFillMaterials.choose(l,s,p,step,c).getBlock().asItem();needed.merge(item,1,Integer::sum);
         }
         var landing=feet.atY(surface+1);
@@ -222,7 +222,7 @@ public final class WorkerAccessService {
         if(!registered)return false;
         var state=l.getBlockState(cut);
         var tag=state.is(BlockTags.MINEABLE_WITH_PICKAXE)?ItemTags.PICKAXES:state.is(BlockTags.MINEABLE_WITH_AXE)?ItemTags.AXES:state.is(BlockTags.MINEABLE_WITH_SHOVEL)?ItemTags.SHOVELS:null;
-        return tag==null || c.findInventorySlot(stack->stack.is(tag) && (!state.requiresCorrectToolForDrops() || stack.isCorrectToolForDrops(state)))>=0;
+        return true;
     }
     public static boolean requestFoundationRaise(ServerLevel l,SettlementRecord s,CitizenRecord c,SettlementCitizenEntity e,
             BlueprintRecord site,int surface){
@@ -353,8 +353,8 @@ public final class WorkerAccessService {
             cut.clear();data.touch();return false;
         }
         var tag=state.is(BlockTags.MINEABLE_WITH_PICKAXE)?ItemTags.PICKAXES:state.is(BlockTags.MINEABLE_WITH_AXE)?ItemTags.AXES:state.is(BlockTags.MINEABLE_WITH_SHOVEL)?ItemTags.SHOVELS:null;
-        int slot=tag==null?-1:c.findInventorySlot(stack->stack.is(tag) && (!state.requiresCorrectToolForDrops() || stack.isCorrectToolForDrops(state)));
-        if(tag!=null && slot<0){cut.clear();CitizenWorkService.requestConstructionTool(level,data,s,c,entity,tag==ItemTags.PICKAXES?Items.IRON_PICKAXE:tag==ItemTags.AXES?Items.IRON_AXE:Items.IRON_SHOVEL,state);return true;}
+        int slot=tag==null?-1:c.findInventorySlot(stack->stack.is(tag));
+
         // A candidate seen from a neighbouring bank may be the worker's current
         // footing. Walk onto that bank before cutting; never remove support in place.
         boolean standingOnTarget=p.equals(entity.navigationFeetPosition().below());
@@ -380,7 +380,7 @@ public final class WorkerAccessService {
         c.updateActivity(CitizenActivity.BUILDING);c.updateWorkFailure("");entity.setActivity(CitizenActivity.BUILDING);
         if(slot>=0)c.selectActiveSlot(slot);
         entity.swing(net.minecraft.world.InteractionHand.MAIN_HAND);
-        int duration=Math.max(24,(int)Math.ceil(state.getDestroySpeed(level,p)*30/Math.max(1,tool.getDestroySpeed(state))));
+        int duration=Math.max(24,(int)Math.ceil(state.getDestroySpeed(level,p)*30/CitizenToolSpeed.multiplier(tool)));
         if(cut.ticks<duration){data.touch();return true;}
         // Never remove a footing used by any live resident, even if its own worker moved meanwhile.
         if(!level.getEntitiesOfClass(SettlementCitizenEntity.class,new net.minecraft.world.phys.AABB(p).inflate(1,2,1),a->a.isAlive() && a.blockPosition().below().equals(p)).isEmpty()){

@@ -25,7 +25,7 @@ public final class BlueprintCancellationService {
             List<BlueprintPlacement> placements = template.placements();
             for (int index = placements.size() - 1; index >= 0; index--) {
                 BlueprintPlacement placement = placements.get(index);
-                if(blueprint.terrainProject()!=null || blueprint.region()!=null || retainedFarmSoil(blueprint,placement)) continue;
+                if(blueprint.terrainProject()!=null || blueprint.region()!=null || blueprint.productionSite()!=null || retainedFarmSoil(blueprint,placement)) continue;
                 if (!placement.mode().isFinalStructure()
                         || BlueprintPlacementGroups.claimed(template, placement, claimedPositions)
                         || supportsResident(level, placement.position())) continue;
@@ -79,6 +79,7 @@ public final class BlueprintCancellationService {
             blueprint.removeTemporaryFooting(position);
             return true;
         }
+        if(blueprint.productionSite()!=null)return false;
         BlueprintPlacement placement = BlueprintTemplates.create(blueprint).placements().stream()
                 .filter(candidate -> candidate.mode().isFinalStructure())
                 .filter(candidate -> !retainedFarmSoil(blueprint,candidate))

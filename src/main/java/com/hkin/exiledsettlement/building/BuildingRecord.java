@@ -42,6 +42,9 @@ public final class BuildingRecord {
     private static final String CONFIGURATION_REVISION_TAG = "ConfigurationRevision";
     private static final String WORKSITE_ASSIGNMENT_MODE_TAG = "WorksiteAssignmentMode";
 
+    private com.hkin.exiledsettlement.region.ProductionSiteSnapshot productionSite;
+    public com.hkin.exiledsettlement.region.ProductionSiteSnapshot productionSite(){return productionSite;}
+    public BuildingRecord withProductionSite(com.hkin.exiledsettlement.region.ProductionSiteSnapshot value){productionSite=value;return this;}
     private com.hkin.exiledsettlement.region.ProductionRegion region;
     public com.hkin.exiledsettlement.region.ProductionRegion region(){return region;}
     public BuildingRecord withRegion(com.hkin.exiledsettlement.region.ProductionRegion value){region=value;return this;}
@@ -208,8 +211,8 @@ public final class BuildingRecord {
 
     public String customName() { return customName; }
     public Direction facing() { return facing; }
-    public BlockPos minCorner() { return region!=null?region.min():minCorner; }
-    public BlockPos maxCorner() { return region!=null?region.max():maxCorner; }
+    public BlockPos minCorner() { return productionSite!=null?productionSite.template().minCorner():region!=null?region.min():minCorner; }
+    public BlockPos maxCorner() { return productionSite!=null?productionSite.template().maxCorner():region!=null?region.max():maxCorner; }
     public int transitionMargin() { return transitionMargin; }
     public boolean demolitionQueued() { return demolitionQueued; }
     public int warehouseCategoryMask() { return warehouseCategoryMask; }
@@ -257,8 +260,9 @@ public final class BuildingRecord {
     }
 
     public boolean setProductionId(ResourceLocation value) {
-        if (!BuildingProductionService.supported(type, value) || productionId.equals(value) && (region==null || region.productions().stream().allMatch(value::equals))) return false;
+        if (!BuildingProductionService.supported(type, value) || productionId.equals(value) && (productionSite==null || productionSite.productions().stream().allMatch(value::equals)) && (region==null || region.productions().stream().allMatch(value::equals))) return false;
         productionId = value;
+        if(productionSite!=null)productionSite=productionSite.withProduction(value);
         if(region!=null){region.cells.replaceAll((key,cell)->new com.hkin.exiledsettlement.region.ProductionRegion.Cell(cell.ground(),cell.use(),BuildingProductionService.supported(cell.type(),value)?value:cell.production(),cell.type()));region.invalidate();}
         return true;
     }
@@ -303,6 +307,7 @@ public final class BuildingRecord {
 
     public boolean contains(BlockPos blockPos) {
         if (type == BuildingType.MINE && MineExpansionService.owns(this, blockPos)) return true;
+        if(productionSite!=null)return productionSite.contains(blockPos);
         if(region!=null)return region.contains(blockPos);
         return blockPos.getX() >= minCorner.getX() && blockPos.getX() <= maxCorner.getX()
                 && blockPos.getY() >= minCorner.getY() - 4 && blockPos.getY() <= maxCorner.getY()
@@ -339,7 +344,8 @@ public final class BuildingRecord {
         CompoundTag tag = new CompoundTag();
         if (type == BuildingType.MINE) tag.put("MineExpansion", mineExpansion.save());
         if (WarehouseStock.applies(this)) tag.put("WarehouseStock", warehouseStock.snapshot());
-        if(region!=null)tag.put("ProductionRegion",region.save());
+        if(productionSite!=null)tag.put("ProductionSite",productionSite.save());
+        else if(region!=null)tag.put("ProductionRegion",region.save());
         if (customTemplate != null) tag.put("CustomTemplate", customTemplate.save());
         tag.putString(ID_TAG, id.toString());
         tag.putString(TYPE_TAG, type.serializedName());
@@ -407,7 +413,8 @@ public final class BuildingRecord {
                         ? WorksiteAssignmentMode.fromSerializedName(tag.getString(WORKSITE_ASSIGNMENT_MODE_TAG))
                         : WorksiteAssignmentMode.AUTO
         );
-        if(tag.contains("ProductionRegion"))loaded.withRegion(com.hkin.exiledsettlement.region.ProductionRegion.load(tag.getCompound("ProductionRegion")));
+        if(tag.contains("ProductionSite"))loaded.withProductionSite(com.hkin.exiledsettlement.region.ProductionSiteSnapshot.load(tag.getCompound("ProductionSite")));
+        else if(tag.contains("ProductionRegion"))loaded.withRegion(com.hkin.exiledsettlement.region.ProductionRegion.load(tag.getCompound("ProductionRegion")));
         if (tag.contains("CustomTemplate")) loaded.withCustomTemplate(CustomTemplateSnapshot.load(tag.getCompound("CustomTemplate")));
         if(tag.contains("WarehouseStock"))loaded.warehouseStock.load(tag.getCompound("WarehouseStock"));
         if(tag.contains("MineExpansion") && loaded.type()==BuildingType.MINE)loaded.mineExpansion.load(tag.getCompound("MineExpansion"));
@@ -416,6 +423,7 @@ public final class BuildingRecord {
 
     /** Production membership can be L-shaped; height does not exempt its support columns. */
     public boolean containsColumn(BlockPos at) {
+        if(productionSite!=null)return productionSite.containsColumn(at);
         if(region()!=null)return region().cell(at)!=null;
         return at.getX()>=minCorner().getX() && at.getX()<=maxCorner().getX()
                 && at.getZ()>=minCorner().getZ() && at.getZ()<=maxCorner().getZ();

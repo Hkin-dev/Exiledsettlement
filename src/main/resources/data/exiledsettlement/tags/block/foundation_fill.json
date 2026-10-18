@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:cobblestone", "minecraft:stone", "minecraft:granite",
+    "minecraft:diorite", "minecraft:andesite", "minecraft:cobbled_deepslate",
+    "minecraft:deepslate", "minecraft:tuff", "minecraft:calcite",
+    "minecraft:blackstone", "minecraft:basalt", "minecraft:smooth_basalt",
+    "minecraft:sandstone", "minecraft:red_sandstone", "minecraft:stone_bricks",
+    "minecraft:deepslate_bricks", "minecraft:deepslate_tiles",
+    "minecraft:polished_blackstone_bricks", "minecraft:bricks",
+    "minecraft:dirt", "minecraft:coarse_dirt", "minecraft:rooted_dirt"
+  ]
+}

@@ -37,7 +37,7 @@ public final class TerrainProject {
     public void advance(){while(cursor<steps.size() && finished.get(cursor))cursor++;}
     public void mark(int index){finished.set(index);advance();workChanged.run();}
     /** Real damage restores the order to the live publication index as well as clearing progress. */
-    public void reopen(int index){finished.clear(index);cursor=Math.min(cursor,index);completed=false;workChanged.run();}
+    public void reopen(int index){finished.clear(index);cursor=Math.min(cursor,index);layerFrontier=0;completed=false;workChanged.run();}
     public int remaining(){return Math.max(0,steps.size()-cursor-finished.get(cursor,steps.size()).cardinality());}
     public boolean cancelled, completed, explicit, road;
     public UUID regionOwner;
@@ -64,7 +64,7 @@ public final class TerrainProject {
     }
     public void appendBridgeRepair(List<Step> extra){if(!bridge)throw new IllegalStateException("Not a bridge");var copy=new ArrayList<>(steps);copy.addAll(extra);steps=List.copyOf(copy);template=null;positionIndices=null;completed=false;geometryChanged.run();}
     public void appendFoundationSupport(List<Step> extra){if(bridge || extra.isEmpty())return;var copy=new ArrayList<>(steps);copy.addAll(extra);steps=List.copyOf(copy);template=null;positionIndices=null;completed=false;geometryChanged.run();}
-    public void restorePlanningProgress(int savedCursor,BitSet done,BitSet ignored){cursor=savedCursor;finished.clear();finished.or(done);abandoned.clear();abandoned.or(ignored);template=null;workChanged.run();}
+    public void restorePlanningProgress(int savedCursor,BitSet done,BitSet ignored){cursor=savedCursor;finished.clear();finished.or(done);abandoned.clear();abandoned.or(ignored);layerFrontier=0;template=null;workChanged.run();}
     public boolean hasUnfinishedGroundColumn(){
         var pendingColumns=new HashSet<Long>();
         for(int i=cursor;i<steps.size();i++)if(!finished.get(i) && !abandoned.get(i)){

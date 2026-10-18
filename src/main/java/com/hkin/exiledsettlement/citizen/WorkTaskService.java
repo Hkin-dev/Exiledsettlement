@@ -26,7 +26,7 @@ public final class WorkTaskService {
                 || p.name.equals(com.hkin.exiledsettlement.region.FarmEntranceService.NAME)
                 || p.name.startsWith("牧场安全")))return true;
         // A shared public order may include unrelated surroundings. Only the actual foundation is a P0 child.
-        return parent.containsColumn(at) && at.getY()<parent.anchor().getY();
+        return com.hkin.exiledsettlement.terrain.TerrainService.foundationAt(parent,at);
     }
     public static UUID mother(SettlementRecord s, BlueprintRecord b, BlockPos at) {
         if(b==null)return null;

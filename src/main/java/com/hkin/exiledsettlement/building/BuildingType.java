@@ -101,7 +101,8 @@ public enum BuildingType {
 
     public int minimumAreaSize() {
         return switch (this) {
-            case FARM_FIELD, MELON_FIELD -> 1;
+            case FARM_FIELD -> 4;
+            case MELON_FIELD -> 8;
             case PASTURE_AREA -> 5;
             case TREE_FARM -> 9;
             default -> 0;

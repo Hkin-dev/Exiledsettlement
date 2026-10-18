@@ -74,6 +74,7 @@ public record SettlementDetailsPayload(BlockPos corePosition, int boundaryRadius
         buffer.writeVarInt(entry.constructionProgress());
         buffer.writeVarInt(entry.constructionTotal());
         buffer.writeBoolean(entry.customTemplate());buffer.writeBoolean(entry.terrainRegion());buffer.writeVarInt(entry.remainingPlacements());buffer.writeVarInt(entry.preparationActions());buffer.writeVarInt(entry.foundationPlacements());buffer.writeVarInt(entry.suggestedWorkers());
+        buffer.writeVarInt(entry.workKind().ordinal());
     }
 
     public static BuildingEntry readEntry(RegistryFriendlyByteBuf buffer) {
@@ -111,13 +112,14 @@ public record SettlementDetailsPayload(BlockPos corePosition, int boundaryRadius
         int constructionProgress = buffer.readVarInt();
         int constructionTotal = buffer.readVarInt();
         boolean customTemplate = buffer.readBoolean();boolean terrainRegion=buffer.readBoolean();int remaining=buffer.readVarInt(),preparation=buffer.readVarInt(),foundation=buffer.readVarInt(),suggested=buffer.readVarInt();
+        WorksiteDisplayKind workKind = enumValue(WorksiteDisplayKind.values(), buffer.readVarInt(), WorksiteDisplayKind.TERRAIN);
         return new BuildingEntry(id, type, name, position, facing, minCorner, maxCorner, transitionMargin,
                 operational, status, capacity, templateVersion, workerTarget, lockedWorkers,
                 assignedWorkers, arrivedWorkers, workingWorkers, configurationRevision, staffingProfessionOrdinal,
                 worksiteAssignmentMode,
                 occupants, usedSlots, creativeSupply,
                 demolitionQueued, warehouseCategoryMask, productionId, productionCount,
-                productionCapacity, repairCount, blueprint, constructionProgress, constructionTotal, customTemplate,terrainRegion,remaining,preparation,foundation,suggested);
+                productionCapacity, repairCount, blueprint, constructionProgress, constructionTotal, customTemplate,terrainRegion,remaining,preparation,foundation,suggested,workKind);
     }
 
     private static <T> T enumValue(T[] values, int ordinal, T fallback) {
@@ -134,7 +136,35 @@ public record SettlementDetailsPayload(BlockPos corePosition, int boundaryRadius
                                 int occupants, int usedSlots, boolean creativeSupply, boolean demolitionQueued,
                                 int warehouseCategoryMask, ResourceLocation productionId,
                                 int productionCount, int productionCapacity, int repairCount,
-                                boolean blueprint, int constructionProgress, int constructionTotal, boolean customTemplate, boolean terrainRegion,int remainingPlacements,int preparationActions,int foundationPlacements,int suggestedWorkers) {
+                                boolean blueprint, int constructionProgress, int constructionTotal, boolean customTemplate, boolean terrainRegion,int remainingPlacements,int preparationActions,int foundationPlacements,int suggestedWorkers,
+                                WorksiteDisplayKind workKind) {
+        /** Existing Java callers describe ordinary buildings unless they explicitly supply a work kind. */
+        public BuildingEntry(UUID id, BuildingType type, String name, BlockPos position, Direction facing,
+                             BlockPos minCorner, BlockPos maxCorner, int transitionMargin,
+                             boolean operational, BuildingStatus status, int capacity,
+                             int templateVersion, int workerTarget, int lockedWorkers,
+                             int assignedWorkers, int arrivedWorkers, int workingWorkers, int configurationRevision,
+                             int staffingProfessionOrdinal, WorksiteAssignmentMode worksiteAssignmentMode,
+                             int occupants, int usedSlots, boolean creativeSupply, boolean demolitionQueued,
+                             int warehouseCategoryMask, ResourceLocation productionId,
+                             int productionCount, int productionCapacity, int repairCount,
+                             boolean blueprint, int constructionProgress, int constructionTotal,
+                             boolean customTemplate, boolean terrainRegion, int remainingPlacements,
+                             int preparationActions, int foundationPlacements, int suggestedWorkers) {
+            this(id, type, name, position, facing, minCorner, maxCorner, transitionMargin,
+                    operational, status, capacity, templateVersion, workerTarget, lockedWorkers,
+                    assignedWorkers, arrivedWorkers, workingWorkers, configurationRevision,
+                    staffingProfessionOrdinal, worksiteAssignmentMode, occupants, usedSlots,
+                    creativeSupply, demolitionQueued, warehouseCategoryMask, productionId,
+                    productionCount, productionCapacity, repairCount, blueprint, constructionProgress,
+                    constructionTotal, customTemplate, terrainRegion, remainingPlacements,
+                    preparationActions, foundationPlacements, suggestedWorkers, WorksiteDisplayKind.BUILDING);
+        }
+
+        public String displayTypeKey() {
+            return workKind.publicWorks() ? workKind.translationKey() : type.translationKey();
+        }
+
         /** Wire-compatible flag: geometry comes from the server, not a built-in type template.
          * Includes custom buildings and public terrain orders whose internal worksite type is HOUSE. */
         public boolean serverDefinedGeometry() { return customTemplate; }

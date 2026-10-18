@@ -42,7 +42,7 @@ import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import java.util.List;
 
 public final class PlacementNetworking {
-    private static final String NETWORK_VERSION = "24";
+    private static final String NETWORK_VERSION = "25";
     private static final BuildingSnapshotRequestLimiter BUILDING_SNAPSHOT_LIMITER = new BuildingSnapshotRequestLimiter();
 
     private PlacementNetworking() {
@@ -275,7 +275,9 @@ public final class PlacementNetworking {
                         building.minCorner().getX(), building.minCorner().getY(), building.minCorner().getZ(),
                         building.maxCorner().getX() + 1, building.maxCorner().getY() + 5,
                         building.maxCorner().getZ() + 1),
-                animal -> (building.region()==null || building.region().contains(animal.blockPosition())) && com.hkin.exiledsettlement.region.ProductionRegionService.matchesAnimal(building,animal)).size() : 0;
+                animal -> (building.region()==null || building.region().contains(animal.blockPosition()))
+                        && (building.productionSite()==null || building.productionSite().contains(animal.blockPosition()))
+                        && com.hkin.exiledsettlement.region.ProductionRegionService.matchesAnimal(building,animal)).size() : 0;
         int productionCapacity = building.type() == BuildingType.PASTURE_AREA
                 ? BuildingProductionService.animalCapacity(building) : 0;
         CitizenProfession staffingProfession = CitizenProfession.forWorkplace(building.type());
@@ -321,7 +323,7 @@ public final class PlacementNetworking {
                 warehouse && (settlement.creativeCoreInstalled()
                         || WarehouseInventoryService.hasCreativeSupply(player.serverLevel(), building)),
                 building.demolitionQueued(), building.warehouseCategoryMask(), building.productionId(),
-                productionCount, productionCapacity, building.repairPositions().size(), false, 0, 0, building.customTemplate() != null, building.region()!=null,0,0,0,0);
+                productionCount, productionCapacity, building.repairPositions().size(), false, 0, 0, building.customTemplate() != null || building.productionSite()!=null, building.region()!=null,0,0,0,0);
     }
 
     public static SettlementDetailsPayload.BuildingEntry blueprintEntry(
@@ -364,8 +366,9 @@ public final class PlacementNetworking {
                 blueprint.assignmentMode(),
                 0, 0, false, false, 0, BuiltInRegistries.ITEM.getKey(net.minecraft.world.item.Items.AIR),
                 0, 0, blueprint.temporaryFootings().size(), true, Math.min(completed, total), total,
-                blueprint.customTemplate() != null || blueprint.terrainProject() != null,
-                blueprint.region()!=null,workCounts.placements(),workCounts.preparation(),workCounts.foundation(),workCounts.suggested());
+                blueprint.customTemplate() != null || blueprint.terrainProject() != null || blueprint.productionSite()!=null,
+                blueprint.region()!=null,workCounts.placements(),workCounts.preparation(),workCounts.foundation(),workCounts.suggested(),
+                WorksiteDisplayKind.of(settlement, blueprint));
     }
 
     private static void handleBuildingManagementRequest(
@@ -493,7 +496,7 @@ public final class PlacementNetworking {
         }
         if (blueprint != null) {
             boolean changed = switch (payload.action()) {
-                case CANCEL_CONSTRUCTION -> blueprint.queueCancellation();
+                case CANCEL_CONSTRUCTION -> BlueprintService.cancelConstruction(settlement, blueprint);
                 case TOGGLE_GROUND -> com.hkin.exiledsettlement.region.RegionGroundService.toggle(settlement,blueprint.id());
                 case SET_WORKSITE_MODE -> false; // Handled transactionally above.
                 default -> false;

@@ -29,55 +29,68 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.WeakHashMap;
 
-/** Profession loadout policy. Inventory is persistent; this class only chooses required tools. */
+/** Profession loadout policy. Inventory is persistent; tools are optional work accelerators. */
 public final class CitizenEquipmentService {
     private static final long STOCK_SNAPSHOT_TICKS = 20L;
     private static final Map<ServerLevel, Map<UUID, EquipmentStock>> STOCK_CACHE = new WeakHashMap<>();
+    private static final Map<CitizenRecord,Long> RETRY_AFTER = new WeakHashMap<>();
+    private static final Map<CitizenRecord,Long> TRIP_STARTED = new WeakHashMap<>();
+
+    public static boolean optionalTripExpired(ServerLevel level,CitizenRecord citizen) {
+        return level.getGameTime()-TRIP_STARTED.computeIfAbsent(citizen,c->level.getGameTime())>=240;
+    }
+    public static void deferOptionalTrip(ServerLevel level,CitizenRecord citizen) {
+        RETRY_AFTER.put(citizen,level.getGameTime()+200);TRIP_STARTED.remove(citizen);
+    }
+    public static void finishOptionalTrip(CitizenRecord citizen) { TRIP_STARTED.remove(citizen); }
 
     private CitizenEquipmentService() {
     }
 
     @Nullable
     public static Item missingEquipment(CitizenRecord citizen) {
+        return null;
+    }
+
+    @Nullable
+    public static Item preferredEquipment(CitizenRecord citizen) {
         return switch (citizen.profession()) {
-            case FARMER, MELON_FARMER -> has(citizen, HoeItem.class) ? null : Items.IRON_HOE;
+            case FARMER, MELON_FARMER -> has(citizen, HoeItem.class) ? null : Items.WOODEN_HOE;
             case WORKER, WAREHOUSE_KEEPER, TRAVELING_MERCHANT, CHEF, KILN_WORKER -> null;
             case HERDSMAN -> has(citizen, Items.LEAD) ? null : Items.LEAD;
-            case HUNTER -> !hasWeapon(citizen) ? Items.IRON_SWORD
+            case HUNTER -> !hasWeapon(citizen) ? Items.WOODEN_SWORD
                     : has(citizen, BowItem.class) && !has(citizen, Items.ARROW) ? Items.ARROW : null;
-            case TOOLSMITH, MINER -> has(citizen, PickaxeItem.class) ? null : Items.IRON_PICKAXE;
-            case LUMBERJACK -> has(citizen, AxeItem.class) ? null : Items.IRON_AXE;
+            case TOOLSMITH, MINER -> has(citizen, PickaxeItem.class) ? null : Items.WOODEN_PICKAXE;
+            case LUMBERJACK -> has(citizen, AxeItem.class) ? null : Items.WOODEN_AXE;
             case FISHER -> has(citizen, FishingRodItem.class) ? null : Items.FISHING_ROD;
-            case SAWYER -> has(citizen, AxeItem.class) ? null : Items.IRON_AXE;
+            case SAWYER -> has(citizen, AxeItem.class) ? null : Items.WOODEN_AXE;
         };
     }
 
-    /** Mandatory profession gear first, then one wearable armor piece that is actually available. */
+    /** Available optional profession gear first, then one wearable armor piece that is actually available. */
     @Nullable
     public static Item nextEquipment(ServerLevel level, SettlementRecord settlement, CitizenRecord citizen) {
+        if(level.getGameTime()<RETRY_AFTER.getOrDefault(citizen,Long.MIN_VALUE))return null;
         if (citizen.constructionTool()!=null) {
-            Item requested=compatibleConstructionRequest(citizen.constructionTool(),citizen.constructionToolTarget());
-            var target=citizen.constructionToolTarget();
-            if(requested!=citizen.constructionTool())citizen.requestConstructionTool(requested,target);
-            if(citizen.hasInventoryItem(stack -> interchangeableTool(requested,stack.getItem())
-                    && (target==null || !target.requiresCorrectToolForDrops() || stack.isCorrectToolForDrops(target)))) {
+            Item requested=citizen.constructionTool();
+            if(citizen.hasInventoryItem(stack -> interchangeableTool(requested,stack.getItem()))) {
                 citizen.requestConstructionTool(null,null);
                 com.hkin.exiledsettlement.settlement.SettlementSavedData.get(level).touch();
             } else return equipmentStock(level,settlement).items().stream()
                     .filter(item -> interchangeableTool(requested,item))
-                    .filter(item -> target==null || !target.requiresCorrectToolForDrops() || new ItemStack(item).isCorrectToolForDrops(target))
-                    .min(Comparator.comparing(item -> BuiltInRegistries.ITEM.getKey(item).toString())).orElse(requested);
+                    .min(Comparator.<Item>comparingDouble(item -> CitizenToolSpeed.multiplier(new ItemStack(item))).thenComparing(item -> BuiltInRegistries.ITEM.getKey(item).toString())).orElse(null);
         }
-        Item mandatory = missingEquipment(citizen);
+        Item mandatory = preferredEquipment(citizen);
         EquipmentStock stock = equipmentStock(level, settlement);
         if (mandatory != null) {
-            // A profession requires a usable tool category, not an iron-only item.
+            // Prefer the basic tool category when stock is available.
             // Match the same policy used for tools already in the resident backpack.
-            return stock.items().stream()
+            Item available = stock.items().stream()
                     .filter(item -> interchangeableTool(mandatory, item))
                     .distinct()
-                    .min(java.util.Comparator.comparing(item -> BuiltInRegistries.ITEM.getKey(item).toString()))
-                    .orElse(mandatory);
+                    .min(java.util.Comparator.<Item>comparingDouble(item -> CitizenToolSpeed.multiplier(new ItemStack(item))).thenComparing(item -> BuiltInRegistries.ITEM.getKey(item).toString()))
+                    .orElse(null);
+            if(available!=null)return available;
         }
         if(citizen.profession()==CitizenProfession.WORKER && citizen.pitReserve().getCount()<PitEscapeService.RESERVE
                 && citizen.inventoryCapacityFor(new ItemStack(Items.DIRT))>=PitEscapeService.RESERVE-citizen.pitReserve().getCount()
@@ -87,7 +100,7 @@ public final class CitizenEquipmentService {
                     .filter(item -> stock.byWarehouse().keySet().stream().map(settlement::building)
                             .anyMatch(warehouse -> warehouse != null && WarehouseInventoryService.countItem(level, warehouse, item)
                                     >= plantingSeedMinimum(item)))
-                    .sorted(Comparator.comparing(item -> BuiltInRegistries.ITEM.getKey(item).toString()))
+                    .sorted(Comparator.<Item>comparingDouble(item -> CitizenToolSpeed.multiplier(new ItemStack(item))).thenComparing(item -> BuiltInRegistries.ITEM.getKey(item).toString()))
                     .findFirst().orElse(null);
             if (seed != null && citizen.inventoryCapacityFor(new ItemStack(seed)) >= plantingSeedMinimum(seed)) return seed;
             if (settlement.creativeCoreInstalled() || stock.items().contains(ModItems.CREATIVE_SUPPLY_CORE.get())) {
@@ -99,7 +112,7 @@ public final class CitizenEquipmentService {
                 if (citizen.hasInventoryItem(stack -> interchangeableTool(tool, stack.getItem()))) continue;
                 Item available = stock.items().stream().filter(item -> interchangeableTool(tool, item))
                         .filter(item -> citizen.inventoryCapacityFor(new ItemStack(item)) > 0)
-                        .sorted(Comparator.comparing(item -> BuiltInRegistries.ITEM.getKey(item).toString())).findFirst().orElse(null);
+                        .sorted(Comparator.<Item>comparingDouble(item -> CitizenToolSpeed.multiplier(new ItemStack(item))).thenComparing(item -> BuiltInRegistries.ITEM.getKey(item).toString())).findFirst().orElse(null);
                 if (available != null) return available;
             }
         }
@@ -111,7 +124,7 @@ public final class CitizenEquipmentService {
             Item available = stock.items().stream()
                     .filter(item -> item instanceof ArmorItem armor && armor.getEquipmentSlot() == slot)
                     .distinct()
-                    .min(java.util.Comparator.comparing(item -> BuiltInRegistries.ITEM.getKey(item).toString()))
+                    .min(java.util.Comparator.<Item>comparingDouble(item -> CitizenToolSpeed.multiplier(new ItemStack(item))).thenComparing(item -> BuiltInRegistries.ITEM.getKey(item).toString()))
                     .orElse(null);
             if (available != null) return available;
             if (creative) return creativeArmor(slot);
@@ -121,15 +134,6 @@ public final class CitizenEquipmentService {
             return Items.SHIELD;
         }
         return null;
-    }
-
-    /** Repair an already-saved incompatible request before checking carried gear or extracting more stock. */
-    private static Item compatibleConstructionRequest(Item requested, @Nullable net.minecraft.world.level.block.state.BlockState target) {
-        if(target==null || !target.requiresCorrectToolForDrops() || new ItemStack(requested).isCorrectToolForDrops(target))return requested;
-        if(target.is(net.minecraft.tags.BlockTags.MINEABLE_WITH_PICKAXE))return Items.DIAMOND_PICKAXE;
-        if(target.is(net.minecraft.tags.BlockTags.MINEABLE_WITH_AXE))return Items.IRON_AXE;
-        if(target.is(net.minecraft.tags.BlockTags.MINEABLE_WITH_SHOVEL))return Items.IRON_SHOVEL;
-        return requested;
     }
 
     /** Shared discovery cache; inventory extraction and selected-source checks remain authoritative. */
@@ -282,34 +286,47 @@ public final class CitizenEquipmentService {
 
     public static int toolSlotForWork(CitizenRecord citizen) {
         return switch (citizen.profession()) {
-            case FARMER, MELON_FARMER -> citizen.findInventorySlot(stack -> stack.getItem() instanceof HoeItem);
+            case FARMER, MELON_FARMER -> bestTool(citizen,stack -> stack.getItem() instanceof HoeItem);
             case WORKER -> switch (citizen.workState()) {
-                case TO_BLUEPRINT, TO_REPAIR, TO_DEMOLITION -> citizen.findInventorySlot(
+                case TO_ROAD, TO_ROAD_TOOL -> bestTool(citizen, stack -> stack.getItem() instanceof net.minecraft.world.item.ShovelItem);
+                case TO_BLUEPRINT, TO_REPAIR, TO_DEMOLITION -> bestTool(citizen,
                         stack -> stack.getItem() instanceof PickaxeItem || stack.getItem() instanceof AxeItem
                                 || stack.getItem() instanceof net.minecraft.world.item.ShovelItem);
                 default -> -1;
             };
             case HUNTER -> {
-                int bow = citizen.findInventorySlot(stack -> stack.getItem() instanceof BowItem);
-                yield bow >= 0 && citizen.findInventorySlot(stack -> stack.is(Items.ARROW)) >= 0
-                        ? bow : citizen.findInventorySlot(stack -> stack.getItem() instanceof SwordItem);
+                int bow = bestTool(citizen,stack -> stack.getItem() instanceof BowItem);
+                yield bow >= 0 && bestTool(citizen,stack -> stack.is(Items.ARROW)) >= 0
+                        ? bow : bestTool(citizen,stack -> stack.getItem() instanceof SwordItem);
             }
-            case TOOLSMITH, MINER -> citizen.findInventorySlot(stack -> stack.getItem() instanceof PickaxeItem);
-            case LUMBERJACK -> citizen.findInventorySlot(stack -> stack.getItem() instanceof AxeItem);
-            case FISHER -> citizen.findInventorySlot(stack -> stack.getItem() instanceof FishingRodItem);
-            case SAWYER -> citizen.findInventorySlot(stack -> stack.getItem() instanceof AxeItem);
-            case HERDSMAN, WAREHOUSE_KEEPER, TRAVELING_MERCHANT, CHEF, KILN_WORKER -> -1;
+            case TOOLSMITH, MINER -> bestTool(citizen,stack -> stack.getItem() instanceof PickaxeItem);
+            case LUMBERJACK -> bestTool(citizen,stack -> stack.getItem() instanceof AxeItem);
+            case FISHER -> bestTool(citizen,stack -> stack.getItem() instanceof FishingRodItem);
+            case SAWYER -> bestTool(citizen,stack -> stack.getItem() instanceof AxeItem);
+            case HERDSMAN -> bestTool(citizen, stack -> stack.is(Items.SHEARS) || stack.is(Items.LEAD));
+            case WAREHOUSE_KEEPER, TRAVELING_MERCHANT, CHEF, KILN_WORKER -> -1;
         };
     }
 
-    private static final Item[] PERSONAL_TOOLS = {Items.IRON_AXE, Items.IRON_PICKAXE, Items.IRON_SHOVEL,
-            Items.IRON_HOE, Items.SHEARS, Items.FISHING_ROD, Items.LEAD};
+    private static int bestTool(CitizenRecord citizen, java.util.function.Predicate<ItemStack> match) {
+        int best=-1; double speed=0;
+        for(int i=0;i<citizen.inventory().size();i++) {
+            var stack=citizen.inventoryItem(i);
+            if(!stack.isEmpty() && match.test(stack) && CitizenToolSpeed.multiplier(stack)>speed) {
+                best=i; speed=CitizenToolSpeed.multiplier(stack);
+            }
+        }
+        return best;
+    }
+
+    private static final Item[] PERSONAL_TOOLS = {Items.WOODEN_AXE, Items.WOODEN_PICKAXE, Items.WOODEN_SHOVEL,
+            Items.WOODEN_HOE, Items.SHEARS, Items.FISHING_ROD, Items.LEAD};
 
     /** Nearby workers first reach a real source rather than leaving without a usable engineering kit. */
     public static boolean prepareConstructionDeparture(ServerLevel level,SettlementRecord s,CitizenRecord c,SettlementCitizenEntity e){
         if(c.profession()!=CitizenProfession.WORKER || !s.creativeCoreInstalled()
                 || e.blockPosition().distSqr(s.corePosition())>144 || s.blueprints().isEmpty())return false;
-        for(Item tool:new Item[]{Items.IRON_AXE,Items.IRON_PICKAXE,Items.IRON_SHOVEL}){
+        for(Item tool:new Item[]{Items.WOODEN_AXE,Items.WOODEN_PICKAXE,Items.WOODEN_SHOVEL}){
             if(c.hasInventoryItem(stack->interchangeableTool(tool,stack.getItem())) || c.equipmentCapacityFor(new ItemStack(tool))<1)continue;
             c.requestConstructionTool(tool,null);
             return c.startEquipmentFetch(null,s.corePosition());
@@ -332,7 +349,7 @@ public final class CitizenEquipmentService {
             com.hkin.exiledsettlement.settlement.CommunityLifeService.topUpRations(level,settlement,citizen,entity,null);
             CitizenClothingService.prepareDeparture(level,settlement,citizen,entity);
         }
-        for (Item required : new Item[]{Items.IRON_AXE, Items.IRON_PICKAXE, Items.IRON_SHOVEL}) {
+        for (Item required : new Item[]{Items.WOODEN_AXE, Items.WOODEN_PICKAXE, Items.WOODEN_SHOVEL}) {
             if (citizen.hasInventoryItem(stack -> interchangeableTool(required, stack.getItem()))) continue;
             BuildingRecord warehouse = supplyWarehouse(level, settlement, citizen, entity.blockPosition(), required);
             boolean localWarehouse = warehouse != null && WarehouseInventoryService.canInteract(level, warehouse, entity);
@@ -360,7 +377,9 @@ public final class CitizenEquipmentService {
         for (Item required : PERSONAL_TOOLS) {
             if (citizen.hasInventoryItem(stack -> interchangeableTool(required, stack.getItem()))) continue;
             Item item = equipmentStock(level, settlement).items().stream()
-                    .filter(candidate -> interchangeableTool(required, candidate)).findFirst().orElse(null);
+                    .filter(candidate -> interchangeableTool(required, candidate))
+                    .filter(candidate -> WarehouseInventoryService.countItem(level,warehouse,candidate)>0)
+                    .min(Comparator.comparingDouble(candidate -> CitizenToolSpeed.multiplier(new ItemStack(candidate)))).orElse(null);
             if (item == null || citizen.inventoryCapacityFor(new ItemStack(item)) < 1) continue;
             citizen.insertIntoInventory(WarehouseInventoryService.extractItemForResident(level, warehouse, entity, item, 1));
         }

@@ -18,7 +18,7 @@ public final class BridgeService {
     private static boolean structurePermitted(ServerLevel level,SettlementRecord s,BlockPos at){
         if(!s.contains(at) || level.isOutsideBuildHeight(at) || !level.hasChunkAt(at) || s.community().danger(at)
                 || s.decorations().forbidden(at) || s.terrain().suppressed.contains(at.asLong()) || RoadSpaceData.get(level).manual(at) || RoadSpaceData.get(level).levelAt(at)>1)return false;
-        for(var b:s.buildings())if(b.active() && (b.region()!=null?b.region().cell(at)!=null:at.getX()>=b.minCorner().getX() && at.getX()<=b.maxCorner().getX() && at.getZ()>=b.minCorner().getZ() && at.getZ()<=b.maxCorner().getZ()))return false;
+        for(var b:s.buildings())if(b.active() && b.containsColumn(at))return false;
         for(var b:s.formalBlueprints())if(!b.cancellationQueued() && b.containsColumn(at))return false;
         return true;
     }

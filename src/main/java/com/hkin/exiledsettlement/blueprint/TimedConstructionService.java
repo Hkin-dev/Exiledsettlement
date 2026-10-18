@@ -56,6 +56,11 @@ public final class TimedConstructionService {
                 && (!BlueprintService.placementSatisfied(level,template,p) || site.hasTemporaryFooting(p.position()));
     }
     private record ClearancePhase(boolean active,List<BlueprintService.PendingPlacement> work) {}
+    /** Clearance can open the site first; final building work waits for its surveyed foundation. */
+    private static boolean foundationReady(ServerLevel level,BlueprintRecord site) {
+        var settlement=com.hkin.exiledsettlement.settlement.SettlementSavedData.get(level).findContaining(site.anchor()).orElse(null);
+        return settlement!=null && com.hkin.exiledsettlement.terrain.TerrainService.dependenciesReady(settlement,site.id());
+    }
     /** Read live obstacles before dispatch AND execution. Claimed obstacles still hold the phase gate. */
     private static ClearancePhase clearancePhase(ServerLevel level,BlueprintRecord site,BuildingBlueprintTemplate template) {
         // Region earthworks already have their own preparation sequence.
@@ -68,7 +73,7 @@ public final class TimedConstructionService {
                     || p.mode()==BlueprintPlacementMode.CLEARANCE && !BuildingPlacementRules.requiresClearance(template,at))continue;
             if(!level.hasChunkAt(at) || level.isOutsideBuildHeight(at)){unloaded=true;continue;}
             if(level.getBlockState(at).isAir() || BlueprintService.placementSatisfied(level,template,p))continue;
-            var cell=BuildingPlacementRules.checkCell(level,template,p);
+            var cell=BuildingPlacementRules.checkCell(level,template,IrrigationConstructionService.stage(level,template,p));
             // Soil transforms and waterlogging are construction, not demolition.
             if(cell.valid() && !cell.clearable())continue;
             work.putIfAbsent(at,new BlueprintService.PendingPlacement(i,new BlueprintPlacement(at,
@@ -89,8 +94,10 @@ public final class TimedConstructionService {
         if(at==null)return null;var template=BlueprintTemplates.create(site);
         var phase=clearancePhase(level,site,template);
         if(phase.active())return phase.work().stream().filter(p->p.placement().position().equals(at)).findFirst().orElse(null);
+        if(!foundationReady(level,site))return null;
         for(int i:indices(template).getOrDefault(at,List.of())) {var p=template.placements().get(i);
-            if(needed(level,site,template,p,Set.of()))return new BlueprintService.PendingPlacement(i,p);}
+            if(needed(level,site,template,p,Set.of())){var action=IrrigationConstructionService.stage(level,template,p);
+                if(IrrigationConstructionService.ready(level,template,action))return new BlueprintService.PendingPlacement(i,action);}}
         if(template.placementAt(at)==null && site.hasClearanceTarget(at) && level.hasChunkAt(at) && !level.getBlockState(at).isAir())
             return new BlueprintService.PendingPlacement(-1,new BlueprintPlacement(at,net.minecraft.world.level.block.Blocks.AIR.defaultBlockState(),null,BlueprintPlacementMode.CLEARANCE));
         return null;
@@ -104,8 +111,10 @@ public final class TimedConstructionService {
             for(var p:phase.work())if(!claimed.contains(p.placement().position()))return p;
             return null;
         }
+        if(!foundationReady(level,site))return null;
         for(int i=0;i<template.placements().size();i++) {var p=template.placements().get(i);
-            if(needed(level,site,template,p,claimed))return new BlueprintService.PendingPlacement(i,p);}
+            if(needed(level,site,template,p,claimed)){var action=IrrigationConstructionService.stage(level,template,p);
+                if(IrrigationConstructionService.ready(level,template,action))return new BlueprintService.PendingPlacement(i,action);}}
         for(var at:site.clearanceTargets().keySet())if(!claimed.contains(at) && template.placementAt(at)==null) {
             var p=at(level,site,at);if(p!=null)return p;}
         return null;
@@ -114,7 +123,7 @@ public final class TimedConstructionService {
     public static boolean building(BlueprintRecord site) { return site != null && site.terrainProject() == null
             && (site.customTemplate()!=null || site.region()!=null || BlueprintTemplates.supports(site.type())); }
 
-    /** Choose saved goals directly; old support, closure, tool and material gates do not participate. */
+    /** Clearance precedes the surveyed foundation gate; final goals retain real material and protection checks. */
     public static List<BlueprintService.PendingPlacement> pending(ServerLevel level, BlueprintRecord site, Set<BlockPos> claimed) {
         claimed=com.hkin.exiledsettlement.citizen.TreeSurvey.claimed(level,claimed);
         if(!com.hkin.exiledsettlement.region.RegionConstructionStages.facilitiesReady(level,site))return List.of();
@@ -125,14 +134,17 @@ public final class TimedConstructionService {
             for(var p:phase.work())if(!claimed.contains(p.placement().position()))available.add(p);
             return available;
         }
+        if(!foundationReady(level,site))return List.of();
         var result = new ArrayList<BlueprintService.PendingPlacement>();
         for (int i = 0; i < template.placements().size(); i++) {
             var p = template.placements().get(i);
             if (!level.hasChunkAt(p.position()) || level.isOutsideBuildHeight(p.position())
                     || BlueprintPlacementGroups.isPaired(p.state()) && !BlueprintPlacementGroups.isPrimary(p.state())
                     || BlueprintPlacementGroups.claimed(template,p,claimed)) continue;
-            if (!BlueprintService.placementSatisfied(level,template,p) || site.hasTemporaryFooting(p.position()))
-                result.add(new BlueprintService.PendingPlacement(i,p));
+            if (!BlueprintService.placementSatisfied(level,template,p) || site.hasTemporaryFooting(p.position())){
+                var action=IrrigationConstructionService.stage(level,template,p);
+                if(IrrigationConstructionService.ready(level,template,action))result.add(new BlueprintService.PendingPlacement(i,action));
+            }
         }
         for(var at:site.clearanceTargets().keySet())if(template.placementAt(at)==null && level.hasChunkAt(at)
                 && !level.getBlockState(at).isAir() && !claimed.contains(at))

@@ -156,11 +156,29 @@ public final class TerrainService {
                 && (p.explicit || !s.terrain().publicPaused && (p.road?s.autoRoads().enabled:p.publicGround?s.terrain().enabled:s.terrain().enabled || s.autoRoads().enabled) || p.dependencies.stream().anyMatch(id->s.blueprint(id)!=null));
     }
     public static boolean needsFoundation(SettlementRecord s,BlueprintRecord site) {
-        return !owned(site) && site.type()!=BuildingType.MINE && !site.type().isDynamicArea() && !com.hkin.exiledsettlement.decoration.DecorationService.owned(s,site.id());
+        boolean production=site.region()==null && (site.productionSite()!=null || BlueprintTemplates.fixedProduction(site.type(),site.templateVersion()));
+        return !owned(site) && site.type()!=BuildingType.MINE && (!site.type().isDynamicArea() || production)
+                && !com.hkin.exiledsettlement.decoration.DecorationService.owned(s,site.id());
+    }
+    /** Established production sites maintain facilities, never natural working soil. */
+    public static boolean productionStructure(BuildingRecord building,BlockPos at) {
+        if(building==null || at==null || building.region()!=null
+                || building.productionSite()==null && !BlueprintTemplates.fixedProduction(building.type(),building.templateVersion()))return false;
+        var placement=BlueprintTemplates.createForBuilding(building).placementAt(at);
+        if(placement==null || placement.mode()!=BlueprintPlacementMode.STRUCTURE || placement.state().isAir())return false;
+        if(building.productionSite()!=null)return building.productionSite().structural(at);
+        var state=placement.state();
+        return !FarmEarthworkPlan.soil(state) && !state.is(BlockTags.DIRT) && !state.is(Blocks.MOSS_BLOCK)
+                && !state.is(Blocks.MUD) && !state.is(Blocks.MUDDY_MANGROVE_ROOTS);
+    }
+    /** The scheduling priority uses the exact same base columns as foundation planning. */
+    public static boolean foundationAt(BlueprintRecord site,BlockPos at) {
+        return FoundationFootprint.belowBase(site,at);
     }
     public static boolean dependenciesReady(SettlementRecord s,UUID id) {
         var parent=s.blueprint(id);
         if(parent==null)return true;
+        if(needsFoundation(s,parent) && (!s.terrain().surveyed.contains(id) || !FoundationFootprint.legacySurveyInitialized(parent)))return false;
         for(var p:s.terrain().dependingOn(id))if(!p.cancelled && !p.completed){
             // A registered road or bridge is never a global construction gate. Each real action still checks access and support.
             if(p.road || p.bridge)continue;
@@ -169,20 +187,38 @@ public final class TerrainService {
         }
         return true;
     }
+    /** Forget both the persisted and in-flight slices of a withdrawn request. */
+    static boolean forgetSurvey(SettlementRecord s,UUID id) {
+        boolean changed=s.terrain().surveys.remove(id)!=null;
+        changed|=s.terrain().surveySnapshots.remove(id)!=null;
+        changed|=s.terrain().surveyed.remove(id);
+        changed|=s.terrain().blockers.remove(id)!=null;
+        var running=SURVEYS.get(s);
+        if(running!=null){changed|=running.remove(id)!=null;if(running.isEmpty())SURVEYS.remove(s);}
+        return changed;
+    }
     public static void tickLevel(ServerLevel level) {
         PlayerWorksService.tick(level);
         flushRemovals(level);
         var activeData=SettlementSavedData.get(level);
         for(var settlement:activeData.settlements()) {
+            if(TerrainChildLifecycle.tick(settlement,level.getGameTime()))activeData.touch();
+            if(TerrainChildLifecycle.retireFoundationReviews(settlement,level.getGameTime()))activeData.touch();
+            for(var site:settlement.formalBlueprints())if(!site.cancellationQueued() && needsFoundation(settlement,site)
+                    && FoundationFootprint.startLegacySurvey(site)) {
+                if(forgetSurvey(settlement,site.id()))activeData.touch();
+            }
             migrateFoundationSurroundings(settlement);
             PublicGroundService.tick(level,settlement);
             PublicStairRepairService.tick(level,settlement);
             var pendingSurveys=List.copyOf(settlement.terrain().surveys.values());
             if(pendingSurveys.isEmpty())continue;var next=pendingSurveys.get(Math.floorMod(settlement.terrain().surveyCursor++,pendingSurveys.size()));
-            UUID id=next.getUUID("Dependency");var site=settlement.blueprint(id);var building=settlement.building(id);
-            if(site==null && building==null){settlement.terrain().surveys.remove(id);continue;}
-            if(site==null && !BlueprintTemplates.supports(building.type())){settlement.terrain().surveys.remove(id);continue;}
-            var template=site!=null?BlueprintTemplates.create(site):BlueprintTemplates.createForBuilding(building);
+            UUID id=next.getUUID("Dependency");var site=settlement.blueprint(id);
+            // Completed-building reviews from old saves are withdrawn, never resumed.
+            if(site==null || site.cancellationQueued()){
+                if(forgetSurvey(settlement,id))activeData.touch();continue;
+            }
+            var template=BlueprintTemplates.create(site);
             String result=plan(level,settlement,template,id,next.getString("Name"),next.getBoolean("Surroundings"));
             settlement.terrain().status=result.isEmpty()?"公共整地勘察完成":result;
             if(result.isEmpty()){settlement.terrain().surveyed.add(id);settlement.terrain().blockers.remove(id);}activeData.touch();
@@ -190,25 +226,15 @@ public final class TerrainService {
         long now=level.getGameTime();if(now-LAST_SURVEY.getOrDefault(level,now-100)<100)return;LAST_SURVEY.put(level,now);
         var data=SettlementSavedData.get(level);
         for(var s:data.settlements())if(s.active() && level.hasChunkAt(s.corePosition())) {
-            // One building per five seconds; no full block scan per tick.
-            var waiting=s.blueprints().stream().filter(b->!b.cancellationQueued() && needsFoundation(s,b) && !s.terrain().surveyed.contains(b.id())).toList();
-            var pending=waiting.isEmpty()?null:waiting.get(Math.floorMod(s.terrain().surveyCursor++,waiting.size()));
-            if(pending!=null) {
-                String error=plan(level,s,BlueprintTemplates.create(pending),pending.id(),"地基与台地",false);
-                s.terrain().status=error.isEmpty()?"必要地基已勘察，居民先整地再建房":error;
-                if(error.isEmpty()){s.terrain().surveyed.add(pending.id());s.terrain().blockers.remove(pending.id());}
-                else s.terrain().blockers.put(pending.id(),error);data.touch();continue;
-            }
-            if(!s.terrain().enabled)continue;
-            var buildings=s.buildings().stream().filter(b->b.active()&&!b.demolitionQueued() && !b.type().isDynamicArea() && BlueprintTemplates.supports(b.type()))
-                    .filter(b->b.type().isHouse() || b.type().isStorage() || b.type().category()==BuildingCategory.PRODUCTION).toList();
-            if(buildings.isEmpty())continue;
-            var b=buildings.get(Math.floorMod(s.terrain().surveyCursor++,buildings.size()));
-            if(s.terrain().surveyed.contains(b.id()) || !level.hasChunkAt(b.position()))continue;
-            String error=plan(level,s,BlueprintTemplates.createForBuilding(b),b.id(),"修整 · "+(!b.customName().isBlank()?b.customName():b.type().isHouse()?"住宅":b.type().isStorage()?"仓储建筑":"生产建筑"),false);
-            s.terrain().status=error.isEmpty()?"已安排居民修整地基、台地和连接通路":error;
-            if(error.isEmpty()){s.terrain().surveyed.add(b.id());s.terrain().blockers.remove(b.id());}
-            else s.terrain().blockers.put(b.id(),error);data.touch();
+            // Only unfinished buildings request a bounded foundation survey.
+            var waiting=s.blueprints().stream().filter(b->!b.cancellationQueued() && needsFoundation(s,b)
+                    && !s.terrain().surveyed.contains(b.id()) && !s.terrain().surveys.containsKey(b.id())).toList();
+            if(waiting.isEmpty())continue;
+            var pending=waiting.get(Math.floorMod(s.terrain().surveyCursor++,waiting.size()));
+            String error=plan(level,s,BlueprintTemplates.create(pending),pending.id(),"地基与台地",false);
+            s.terrain().status=error.isEmpty()?"必要地基已勘察，居民先整地再建房":error;
+            if(error.isEmpty()){s.terrain().surveyed.add(pending.id());s.terrain().blockers.remove(pending.id());}
+            else s.terrain().blockers.put(pending.id(),error);data.touch();
         }
     }
     private static void migrateFoundationSurroundings(SettlementRecord s){
@@ -243,7 +269,13 @@ public final class TerrainService {
         BlockPos at(){return new BlockPos(x,y,z);}
     }
     public static String plan(ServerLevel level,SettlementRecord s,BuildingBlueprintTemplate t,UUID dependency,String name,boolean surroundings) {
+        var site=s.blueprint(dependency);
+        if(site==null || site.cancellationQueued()){
+            forgetSurvey(s,dependency);
+            return "";
+        }
         if(t.type()==BuildingType.MINE)return "";
+        if(FoundationFootprint.startLegacySurvey(site))forgetSurvey(s,dependency);
         Survey survey=SURVEYS.computeIfAbsent(s,key->new LinkedHashMap<>()).computeIfAbsent(dependency,key->{var work=new Survey(t,dependency,name,surroundings);var saved=s.terrain().surveys.get(dependency);if(saved!=null)work.restore(saved);return work;});
         String result=survey.advance(level,s);
         if(!result.equals("勘察中，分片继续")) { SURVEYS.get(s).remove(dependency); s.terrain().surveys.remove(dependency);s.terrain().surveySnapshots.remove(dependency); }
@@ -255,6 +287,7 @@ public final class TerrainService {
     }
     private static final Map<SettlementRecord,Map<UUID,Survey>> SURVEYS=new WeakHashMap<>();
     private static final class Survey {
+        private static final int RULES_VERSION=1;
         final BuildingBlueprintTemplate t;
         final UUID dependency;
         final String name;
@@ -262,14 +295,17 @@ public final class TerrainService {
         final int floor,depth,margin,reach,minX,maxX,minZ,maxZ;
         int foundationCursor,columnCursor,targetCursor,stage,profileCursor,approachCursor,edgeCursor;
         final Set<Long> approachColumns=new LinkedHashSet<>(),wallColumns=new LinkedHashSet<>();
+        final Set<BlockPos> groundCaps=new LinkedHashSet<>();
         String connectionWarning="";
         long ringCursor;
         final Map<BlockPos,Column> columns=new LinkedHashMap<>();
         final Map<BlockPos,BlockState> targets=new LinkedHashMap<>();
         List<Column> columnList=List.of();
+        List<FoundationFootprint.GroundColumn> foundationColumns;
         List<Map.Entry<BlockPos,BlockState>> targetList=List.of();
         final List<TerrainProject.Step> clear=new ArrayList<>(),fill=new ArrayList<>();
         final Set<UUID> shared=new LinkedHashSet<>();
+        final Map<UUID,Set<Integer>> reopen=new LinkedHashMap<>();
         Survey(BuildingBlueprintTemplate t,UUID dependency,String name,boolean surroundings) {
             this.t=t;this.dependency=dependency;this.name=name;this.surroundings=surroundings;
             floor=t.entrances().stream().mapToInt(e->e.position().getY()-1).min().orElse(t.anchor().getY()-1);
@@ -278,14 +314,15 @@ public final class TerrainService {
         }
         String advance(ServerLevel level,SettlementRecord s) {
             if(stage==0) {
+                if(foundationColumns==null)foundationColumns=FoundationFootprint.columns(s.blueprint(dependency),t).values().stream()
+                        .sorted(Comparator.comparingLong(column->column.top().asLong())).toList();
                 int budget=256;
-                while(foundationCursor<t.placements().size() && budget-->0) {
-                    var placement=t.placements().get(foundationCursor++);
-                    if(!placement.state().isAir() && placement.mode().isFinalStructure() && placement.position().getY()<=floor && placement.position().getY()>=floor-1) {
-                        var p=placement.position().below();columns.merge(new BlockPos(p.getX(),0,p.getZ()),new Column(p.getX(),p.getZ(),p.getY(),true,false),(x,y)->x.y()<y.y()?x:y);
-                    }
+                while(foundationCursor<foundationColumns.size() && budget-->0) {
+                    var planned=foundationColumns.get(foundationCursor++);var p=planned.top();
+                    columns.put(horizontal(p),new Column(p.getX(),p.getZ(),p.getY(),true,false));
+                    if(planned.surface())groundCaps.add(p.immutable());
                 }
-                if(foundationCursor<t.placements().size())return "勘察中，分片继续";
+                if(foundationCursor<foundationColumns.size())return "勘察中，分片继续";
                 stage=1;
             }
             if(stage==1 && surroundings) {
@@ -347,7 +384,8 @@ public final class TerrainService {
                 var q=at.atY(y);if(!level.hasChunkAt(q) || level.isOutsideBuildHeight(q))return failure("地基范围未加载",q);
                 var state=level.getBlockState(q);
                 if(!state.getFluidState().isEmpty() && !replaceableWater(state))return failure("不可填筑的流体或水中设施",q);
-                if(state.isFaceSturdy(level,q,Direction.UP) && state.getFluidState().isEmpty()){bottom=y;break;}
+                if(state.isFaceSturdy(level,q,Direction.UP) && state.getFluidState().isEmpty()
+                        && (!c.foundation() || !isolatedSoil(level,q,state))){bottom=y;break;}
                 if(!clearable(level,s,dependency,q,state))return failure("保留地下设施",q);
             }
             if(bottom==Integer.MIN_VALUE)return failure("实际高度边界内找不到连续支撑",at);
@@ -360,12 +398,14 @@ public final class TerrainService {
             }
             for(int y=bottom+1;y<=at.getY();y++) {
                 var q=at.atY(y);var current=level.getBlockState(q);
+                boolean groundCap=groundCaps.contains(q);
+                if(groundCap && FoundationFootprint.usableSurface(level,q,current))continue;
                 if((!current.getFluidState().isEmpty() && !replaceableWater(current)) || !clearable(level,s,dependency,q,current)) {
-                    if(c.foundation() && current.isFaceSturdy(level,q,Direction.UP) && current.getFluidState().isEmpty())continue;
+                    if(c.foundation() && !groundCap && current.isFaceSturdy(level,q,Direction.UP) && current.getFluidState().isEmpty())continue;
                     return failure("保留地基或玩家设施",q);
                 }
-                if(c.foundation() && current.isFaceSturdy(level,q,Direction.UP) && current.getFluidState().isEmpty())continue;
-                targets.putIfAbsent(q,retaining || c.foundation()?Blocks.COBBLESTONE.defaultBlockState():Blocks.DIRT.defaultBlockState());
+                if(c.foundation() && !groundCap && current.isFaceSturdy(level,q,Direction.UP) && current.getFluidState().isEmpty())continue;
+                targets.putIfAbsent(q,groundCap?Blocks.DIRT.defaultBlockState():retaining || c.foundation()?Blocks.COBBLESTONE.defaultBlockState():Blocks.DIRT.defaultBlockState());
             }
             if(exposed && !c.foundation() && !approachColumns.contains(columnKey(at)))
                 targets.putIfAbsent(at.above(),Blocks.COBBLESTONE_WALL.defaultBlockState());
@@ -379,14 +419,28 @@ public final class TerrainService {
                 while(targetCursor<targetList.size() && budget-->0) {
                     var entry=targetList.get(targetCursor++);
                     BlockPos p=entry.getKey();BlockState target=entry.getValue(),current=level.getBlockState(p);
+                    // Another worker or the player may have supplied a real floor since this column was surveyed.
+                    // It is already usable ground, regardless of the old shared order's chosen material.
+                    if(groundCaps.contains(p) && FoundationFootprint.usableSurface(level,p,current))continue;
                     if(s.terrain().suppressed.contains(p.asLong()))return failure("此处曾被主动移除，保留空地",p);
                     var owner=s.terrain().cells.get(p);
                     if(owner!=null) {
                         var other=s.terrain().projects.get(owner);
                         if(other==null)return failure("公共工程记录缺失",p);
+                        var carrier=s.blueprint(owner);
+                        if(carrier!=null && carrier.cancellationQueued())return failure("关联地基工单正在撤销，稍后复查",p);
                         if(!other.completed && !other.cancelled) {
                             var expected=other.template().placementAt(p);
-                            if(expected==null || !satisfied(expected.state(),target) && !(target.is(Blocks.DIRT)&&expected.state().is(Blocks.COBBLESTONE)))return failure("公共地形目标冲突",p);
+                            var column=columns.get(horizontal(p));
+                            boolean paidFoundation=column!=null && column.foundation() && target.is(Blocks.COBBLESTONE)
+                                    && expected!=null && BuriedFillMaterials.ordinary(level,p,expected.state());
+                            if(expected==null || !satisfied(expected.state(),target) && !(!groundCaps.contains(p)&&target.is(Blocks.DIRT)&&expected.state().is(Blocks.COBBLESTONE)) && !paidFoundation)return failure("公共地形目标冲突",p);
+                            // A partly unfinished order can contain a damaged,
+                            // previously completed fill. Reopen its real paid
+                            // step instead of treating its reservation as work.
+                            if(!satisfied(current,expected.state()))for(int i:other.indices(p))
+                                if(other.finished.get(i) && !other.abandoned.get(i) && other.steps.get(i).fill()
+                                        && other.steps.get(i).target().equals(expected.state()))reopen.computeIfAbsent(owner,key->new LinkedHashSet<>()).add(i);
                             shared.add(owner);continue;
                         }
                     }
@@ -406,15 +460,52 @@ public final class TerrainService {
         fill.sort(Comparator.comparingInt((TerrainProject.Step a)->a.position().getY()).thenComparingInt(a->a.target().is(Blocks.DIRT)?1:0).thenComparingLong(a->a.position().asLong()));
         clear.addAll(fill);
         // Survey is atomic: publish no reservation or cost until all cells are valid.
+        for(var id:shared){var project=s.terrain().projects.get(id);var carrier=s.blueprint(id);
+            if(project==null || project.cancelled || carrier!=null && carrier.cancellationQueued())return failure("关联地基工单已变更，稍后复查",t.anchor());}
         for(var c:columns.values())if(!c.foundation() && !wallColumns.contains(columnKey(c.at())))s.terrain().platformPlanes.putIfAbsent(new BlockPos(c.x(),0,c.z()).asLong(),c.y());
-        for(var id:shared)s.terrain().projects.get(id).dependencies.add(dependency);
+        for(var id:shared){var project=s.terrain().projects.get(id);if(project!=null && !project.cancelled){
+            project.dependencies.add(dependency);
+            if(!project.publicGround && !project.road && !project.bridge && !project.areaClearance && !project.roadReclaim)
+                for(var cap:groundCaps){var goal=project.template().placementAt(cap);if(goal!=null && goal.state().is(Blocks.DIRT))project.groundSurfaces.add(cap);}
+        }}
+        boolean reopened=false;
+        for(var entry:reopen.entrySet()) {
+            var project=s.terrain().projects.get(entry.getKey());if(project==null || project.cancelled)continue;
+            for(int index:entry.getValue())if(index>=0 && index<project.steps.size()
+                    && project.finished.get(index) && !project.abandoned.get(index)) {
+                var step=project.steps.get(index);
+                if(groundCaps.contains(step.position()) && acceptGroundCap(level,project,step))continue;
+                if(step.fill() && level.hasChunkAt(step.position()) && !satisfied(level.getBlockState(step.position()),step.target())){
+                    project.reopen(index);
+                    if(s.blueprint(project.id)==null)s.resumeTerrain(project);
+                    reopened=true;
+                }
+            }
+        }
+        if(reopened)TerrainLayerService.invalidate(s);
         if(clear.isEmpty())return "";
         BlockPos marker=t.anchor().above(96);
         while(s.blueprintAt(marker)!=null)marker=marker.above();
         var site=s.addBlueprint(BuildingType.HOUSE,t.anchor(),marker,t.facing(),s.ownerId(),false,1,Map.of());
         var project=new TerrainProject(site.id(),name,t.anchor(),clear);project.layoutVersion=LAYOUT_VERSION;project.connectionWarning=connectionWarning;project.dependencies.add(dependency);
+        project.groundSurfaces.addAll(groundCaps);
         for(var c:columns.values())if(approachColumns.contains(columnKey(c.at())))project.accessSurfaces.add(c.at());
         site.withTerrainProject(project);s.terrain().index(project);SettlementSavedData.get(level).touch();return "";
+        }
+        private boolean foundationPlacement(SettlementRecord s,BlueprintPlacement placement) {
+            var site=s.blueprint(dependency);
+            return site!=null && FoundationFootprint.isBase(site,t,floor,placement);
+        }
+        private static boolean isolatedSoil(ServerLevel level,BlockPos at,BlockState state) {
+            if(!(state.is(BlockTags.DIRT) || state.is(Blocks.MUD) || state.is(Blocks.CLAY)
+                    || state.is(Blocks.SAND) || state.is(Blocks.RED_SAND) || state.is(Blocks.GRAVEL)))return false;
+            for(var direction:List.of(Direction.DOWN,Direction.NORTH,Direction.SOUTH,Direction.EAST,Direction.WEST)) {
+                var neighbor=at.relative(direction);
+                if(!level.hasChunkAt(neighbor))return false; // Unknown adjacency never expands a foundation.
+                var next=level.getBlockState(neighbor);
+                if(next.getFluidState().isEmpty() && next.isFaceSturdy(level,neighbor,Direction.UP))return false;
+            }
+            return true;
         }
         private static BlockPos horizontal(BlockPos p){return new BlockPos(p.getX(),0,p.getZ());}
         private static long columnKey(BlockPos p){return horizontal(p).asLong();}
@@ -524,6 +615,7 @@ public final class TerrainService {
 
         net.minecraft.nbt.CompoundTag save() {
             var tag=new net.minecraft.nbt.CompoundTag();tag.putUUID("Dependency",dependency);tag.putString("Name",name);tag.putBoolean("Surroundings",surroundings);
+            tag.putInt("SurveyRulesVersion",RULES_VERSION);tag.putLongArray("GroundCaps",groundCaps.stream().mapToLong(BlockPos::asLong).toArray());
             tag.putInt("LayoutVersion",LAYOUT_VERSION);tag.putInt("ProfileCursor",profileCursor);tag.putInt("ApproachCursor",approachCursor);tag.putInt("EdgeCursor",edgeCursor);tag.putString("ConnectionWarning",connectionWarning);
             tag.putLongArray("ApproachColumns",approachColumns.stream().mapToLong(Long::longValue).toArray());tag.putLongArray("WallColumns",wallColumns.stream().mapToLong(Long::longValue).toArray());
             tag.putInt("Stage",stage);tag.putInt("FoundationCursor",foundationCursor);tag.putLong("RingCursor",ringCursor);tag.putInt("ColumnCursor",columnCursor);tag.putInt("TargetCursor",targetCursor);
@@ -531,10 +623,12 @@ public final class TerrainService {
             var target=new net.minecraft.nbt.ListTag();targets.forEach((at,state)->{var a=new net.minecraft.nbt.CompoundTag();a.putLong("At",at.asLong());a.put("State",net.minecraft.nbt.NbtUtils.writeBlockState(state));target.add(a);});tag.put("Targets",target);
             var steps=new net.minecraft.nbt.ListTag();for(var step:clear){var a=new net.minecraft.nbt.CompoundTag();a.putLong("At",step.position().asLong());a.put("Original",net.minecraft.nbt.NbtUtils.writeBlockState(step.original()));steps.add(a);}tag.put("Clear",steps);
             var fills=new net.minecraft.nbt.ListTag();for(var step:fill){var a=new net.minecraft.nbt.CompoundTag();a.putLong("At",step.position().asLong());a.put("State",net.minecraft.nbt.NbtUtils.writeBlockState(step.target()));fills.add(a);}tag.put("Fill",fills);
-            var deps=new net.minecraft.nbt.ListTag();for(var id:shared){var a=new net.minecraft.nbt.CompoundTag();a.putUUID("Id",id);deps.add(a);}tag.put("Shared",deps);return tag;
+            var deps=new net.minecraft.nbt.ListTag();for(var id:shared){var a=new net.minecraft.nbt.CompoundTag();a.putUUID("Id",id);deps.add(a);}tag.put("Shared",deps);
+            var repairs=new net.minecraft.nbt.ListTag();reopen.forEach((id,indices)->{var a=new net.minecraft.nbt.CompoundTag();a.putUUID("Id",id);a.putIntArray("Indices",indices.stream().mapToInt(Integer::intValue).toArray());repairs.add(a);});tag.put("Reopen",repairs);return tag;
         }
         void restore(net.minecraft.nbt.CompoundTag tag) {
-            if(tag.getInt("LayoutVersion")!=LAYOUT_VERSION)return;
+            if(tag.getInt("LayoutVersion")!=LAYOUT_VERSION || tag.getInt("SurveyRulesVersion")!=RULES_VERSION)return;
+            for(long p:tag.getLongArray("GroundCaps"))groundCaps.add(BlockPos.of(p));
             profileCursor=tag.getInt("ProfileCursor");approachCursor=tag.getInt("ApproachCursor");edgeCursor=tag.getInt("EdgeCursor");connectionWarning=tag.getString("ConnectionWarning");
             for(long p:tag.getLongArray("ApproachColumns"))approachColumns.add(p);for(long p:tag.getLongArray("WallColumns"))wallColumns.add(p);
             stage=tag.getInt("Stage");foundationCursor=tag.getInt("FoundationCursor");ringCursor=tag.getLong("RingCursor");columnCursor=tag.getInt("ColumnCursor");targetCursor=tag.getInt("TargetCursor");
@@ -543,6 +637,7 @@ public final class TerrainService {
             var steps=tag.getList("Clear",10);for(int i=0;i<steps.size();i++){var a=steps.getCompound(i);clear.add(new TerrainProject.Step(BlockPos.of(a.getLong("At")),Blocks.AIR.defaultBlockState(),net.minecraft.nbt.NbtUtils.readBlockState(net.minecraft.core.registries.BuiltInRegistries.BLOCK.asLookup(),a.getCompound("Original"))));}
             var fills=tag.getList("Fill",10);for(int i=0;i<fills.size();i++){var a=fills.getCompound(i);fill.add(new TerrainProject.Step(BlockPos.of(a.getLong("At")),net.minecraft.nbt.NbtUtils.readBlockState(net.minecraft.core.registries.BuiltInRegistries.BLOCK.asLookup(),a.getCompound("State")),Blocks.AIR.defaultBlockState()));}
             var deps=tag.getList("Shared",10);for(int i=0;i<deps.size();i++)shared.add(deps.getCompound(i).getUUID("Id"));
+            var repairs=tag.getList("Reopen",10);for(int i=0;i<repairs.size();i++){var a=repairs.getCompound(i);var indices=new LinkedHashSet<Integer>();for(int index:a.getIntArray("Indices"))indices.add(index);reopen.put(a.getUUID("Id"),indices);}
             columnList=new ArrayList<>(columns.values());targetList=new ArrayList<>(targets.entrySet());
         }
     }
@@ -592,6 +687,7 @@ public final class TerrainService {
         if(com.hkin.exiledsettlement.building.MobRecoveryService.owns(s,step.position()))return "RECOVERY_WAITING";
         var p=step.position();if(!s.contains(p)||level.isOutsideBuildHeight(p)||!level.hasChunkAt(p))return "BLUEPRINT_AREA_NOT_LOADED";
         var project=site.terrainProject();
+        if(project!=null && !BuriedFillMaterials.configured(level,s,project,step))return "MATERIALS_MISSING";
         if(project!=null && project.playerBridge!=null && project.playerBridge.buildingModel
                 && (s.buildings().stream().anyMatch(b->b.active() && b.containsColumn(p))
                 || s.formalBlueprints().stream().anyMatch(b->!b.id().equals(site.id()) && !b.cancellationQueued() && b.containsColumn(p))))return "PROTECTED_AREA";
@@ -725,7 +821,7 @@ public final class TerrainService {
         return null;
     }
     private static boolean wallSupportReady(ServerLevel level,TerrainProject project,TerrainProject.Step step) {
-        if(project.layoutVersion<LAYOUT_VERSION || !step.target().is(Blocks.DIRT))return true;
+        if(project.layoutVersion<LAYOUT_VERSION || !step.target().is(Blocks.DIRT) || isGroundCap(level,project,step))return true;
         for(int dx=-2;dx<=2;dx++)for(int dz=-2;dz<=2;dz++) {
             var at=step.position().offset(dx,0,dz);var target=project.template().placementAt(at);
             if(target!=null && target.state().is(Blocks.COBBLESTONE)
@@ -733,9 +829,45 @@ public final class TerrainService {
         }
         return true;
     }
+    /** A new building's missing walking plane, not a public grade or a working farm's soil. */
+    private static boolean isGroundCap(ServerLevel level,TerrainProject project,TerrainProject.Step step) {
+        if(project==null || project.cancelled || project.publicGround || project.road || project.bridge
+                || project.areaClearance || project.roadReclaim || project.escapeFor!=null || project.playerBridge!=null
+                || !project.groundSurfaces.contains(step.position()))return false;
+        var target=project.template().placementAt(step.position());
+        if(!step.target().is(Blocks.DIRT) && (target==null || !target.state().is(Blocks.DIRT)))return false;
+        var settlement=sForProject(level,project);if(settlement==null)return false;
+        for(var id:project.dependencies){var parent=settlement.blueprint(id);
+            if(com.hkin.exiledsettlement.citizen.WorkTaskService.building(settlement,parent)
+                    && parent.region()==null && needsFoundation(settlement,parent))return true;
+        }
+        return false;
+    }
+    /** Preserve a real surface added after survey, including a paired clearance before its fill. */
+    private static boolean acceptGroundCap(ServerLevel level,TerrainProject project,TerrainProject.Step step) {
+        if(!isGroundCap(level,project,step) || !level.hasChunkAt(step.position()))return false;
+        var current=level.getBlockState(step.position());
+        if(!FoundationFootprint.usableSurface(level,step.position(),current))return false;
+        boolean changed=false;
+        for(int index:project.indices(step.position()))if(project.steps.get(index).target().is(Blocks.DIRT)){
+            if(!project.steps.get(index).target().equals(current)){project.recordFill(index,current);changed=true;}
+            // A paired dig must not convert an existing coloured floor into a new grey-wall request.
+            // The actual surface already exists; finish its fill at the same time as adopting it.
+            if(!project.finished.get(index)){project.mark(index);changed=true;}
+        }
+        if(changed)SettlementSavedData.get(level).touch();
+        return true;
+    }
     private static boolean stepSatisfied(ServerLevel level,TerrainProject project,TerrainProject.Step step) {
         if(!level.hasChunkAt(step.position()))return false;
+        if(acceptGroundCap(level,project,step))return true;
         var current=level.getBlockState(step.position());
+        var owner=BuriedFillMaterials.wallStep(project,step)?sForProject(level,project):null;
+        if(owner!=null && BuriedFillMaterials.wallStep(project,step) && !BuriedFillMaterials.hidden(level,owner,project,step)) {
+            if(!BuriedFillMaterials.wall(level,step.position(),current))return false;
+            for(int i:project.indices(step.position()))if(project.steps.get(i).equals(step)){project.recordFill(i,current);break;}
+            return true;
+        }
         if(FoundationPlacement.applies(project,step) && !satisfied(current,step.target())) {
             var settlement=SettlementSavedData.get(level).settlements().stream()
                     .filter(s->s.terrain().projects.get(project.id)==project).findFirst().orElse(null);
@@ -762,6 +894,9 @@ public final class TerrainService {
                 && canFillWater(new TerrainProject.Step(step.position(),finalPlacement.state(),current),current))return true;
         return !step.fill() && finalPlacement!=null && !finalPlacement.state().isAir()
                 && !restore && satisfied(current,finalPlacement.state());
+    }
+    private static SettlementRecord sForProject(ServerLevel level,TerrainProject project){
+        return SettlementSavedData.get(level).settlements().stream().filter(s->s.terrain().projects.get(project.id)==project).findFirst().orElse(null);
     }
     /** A paid soil/slab preparation is still complete after the farm tills or irrigates it. */
     private static boolean farmStageSatisfied(ServerLevel level,TerrainProject project,BlockPos at,BlockState target) {

@@ -48,7 +48,8 @@ public final class AutoRoadService {
                 && !s.community().evacuation;
     }
 
-    private static boolean pending(com.hkin.exiledsettlement.blueprint.BlueprintRecord b){return b.terrainProject()==null && b.region()==null && !b.cancellationQueued() && !b.type().isDynamicArea();}
+    private static boolean pending(com.hkin.exiledsettlement.blueprint.BlueprintRecord b){return b.terrainProject()==null && b.region()==null && !b.cancellationQueued()
+            && (!b.type().isDynamicArea() || b.productionSite()!=null || BlueprintTemplates.fixedProduction(b.type(),b.templateVersion()));}
     public static boolean needsAccess(SettlementRecord s,com.hkin.exiledsettlement.blueprint.BlueprintRecord b){return pending(b) && !DecorationService.owned(s,b.id());}
     public static boolean hasPending(SettlementRecord s){return s.blueprints().stream().anyMatch(b->needsAccess(s,b)) || s.autoRoads().routes.values().stream().anyMatch(r->r.manualBridge && !r.suppressed && r.progress<r.cells.size());}
     public static boolean required(SettlementRecord s,AutoRoadState.Route r){var b=s.blueprint(r.building);return r.manualBridge || b!=null && pending(b);}
@@ -227,7 +228,8 @@ public final class AutoRoadService {
     public static boolean roadEligible(BuildingRecord building) {
         return building!=null && building.active() && !building.demolitionQueued()
                 && (building.operational() || BlueprintTemplates.supports(building.type())
-                    && !building.type().isDynamicArea());
+                    && (!building.type().isDynamicArea() || building.region()==null
+                        && (building.productionSite()!=null || BlueprintTemplates.fixedProduction(building.type(),building.templateVersion()))));
     }
 
     public static boolean entranceMatches(ServerLevel level,SettlementRecord s,BuildingRecord b,BlockPos entrance) {
@@ -259,7 +261,7 @@ public final class AutoRoadService {
         var cover = level.getBlockState(p.above());
         if (!ground.getFluidState().isEmpty() || !cover.isAir()
                 || !level.getBlockState(p.above(2)).isAir()) return false;
-        if (s.buildings().stream().anyMatch(b -> b.active() && (b.region()!=null?b.region().cell(p)!=null:inside(p, b.minCorner(), b.maxCorner())))
+        if (s.buildings().stream().anyMatch(b -> b.active() && b.containsColumn(p))
                 || s.blueprints().stream().anyMatch(b -> b.terrainProject()==null && !b.cancellationQueued() && b.containsColumn(p))) return false;
         if (RoadSpaceData.get(level).contains(p) || plannedAt(s,p)) {
             if(RoadSurfaceProfile.usable(level,p))return true;
@@ -395,9 +397,9 @@ public final class AutoRoadService {
                     .filter(i -> i instanceof ShovelItem)
                     .min(Comparator.comparing(i -> net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(i).toString())).orElse(null);
             if (item != null) return new ToolSource(b, item);
-            if (WarehouseInventoryService.hasCreativeSupply(level, b)) return new ToolSource(b, Items.IRON_SHOVEL);
+            if (WarehouseInventoryService.hasCreativeSupply(level, b)) return new ToolSource(b, Items.WOODEN_SHOVEL);
         }
-        return s.creativeCoreInstalled() ? new ToolSource(null, Items.IRON_SHOVEL) : null;
+        return s.creativeCoreInstalled() ? new ToolSource(null, Items.WOODEN_SHOVEL) : null;
     }
 
     /** Called only after normal construction, repair and logistics had the opportunity to claim this worker. */
@@ -446,14 +448,7 @@ public final class AutoRoadService {
             }
             job.advance();
             if (target==null) { job.status="等待局部整地、通路或保护条件；其他路线继续"; continue; }
-            if (shovelSlot(c) < 0) {
-                var supply = toolSource(level, s, c.lastPosition());
-                if (supply == null) { job.status = "公共库存缺少铲子"; state.status = job.status; return false; }
-                job.status = "工人前往库存领取铲子";
-                boolean started=c.startTask(CitizenWorkState.TO_ROAD_TOOL,
-                        supply.warehouse() == null ? s.corePosition() : supply.warehouse().position(), null, null);
-                if(started)c.setRoadTaskId(job.id);return started;
-            }
+
             if (c.startTask(CitizenWorkState.TO_ROAD, target, null, null)) {
                 c.setRoadTaskId(job.id);
                 claimed.add(target); job.status = "工人前往路面施工"; return true;
@@ -466,7 +461,7 @@ public final class AutoRoadService {
                                CitizenRecord c, SettlementCitizenEntity entity) {
         var state = s.autoRoads(); state.newDay(level.getDayTime() / 24000L);
         if (!com.hkin.exiledsettlement.citizen.CitizenWorkService.constructionCapable(c.profession()) || !allowed(s)) { finish(level, data, c, entity); return; }
-        if (c.workState() == CitizenWorkState.TO_ROAD_TOOL) { fetchTool(level, data, s, c, entity); return; }
+        if (c.workState() == CitizenWorkState.TO_ROAD_TOOL) { finish(level,data,c,entity); return; }
         // Shared physical cells do not change the assigned route's identity.
         // Another route at this same cell may have an invalid entrance; choosing
         // that route repeatedly released every worker before navigation began.
@@ -483,7 +478,7 @@ public final class AutoRoadService {
         if (!safeCell(level, s, c.targetPosition())) {
             job.status = "地形、禁放区或通道已改变，暂停此路线"; finish(level, data, c, entity); return;
         }
-        if (shovelSlot(c) < 0) { job.status = "铲子已用尽，等待补充"; finish(level, data, c, entity); return; }
+
         BlockPos standing = c.targetPosition().above();
         entity.setItemSlot(EquipmentSlot.MAINHAND, c.inventoryItem(shovelSlot(c)).copy());
         // A dirt path is 1/16 block lower than dirt. Keep the existing, collision-checked
@@ -531,7 +526,7 @@ public final class AutoRoadService {
         long now=level.getGameTime();TIMED_WORK.putIfAbsent(c,now);
         entity.swing(InteractionHand.MAIN_HAND);
         activity(data, c, entity, CitizenActivity.ROAD_BUILDING, ""); job.status = "正在铺设土径";
-        if (now-TIMED_WORK.get(c)<com.hkin.exiledsettlement.blueprint.TimedConstructionService.INTERVAL) return;
+        if (now-TIMED_WORK.get(c)<com.hkin.exiledsettlement.citizen.CitizenToolSpeed.interval(c,com.hkin.exiledsettlement.blueprint.TimedConstructionService.INTERVAL)) return;
         var result = layCell(level, s, c, entity, c.targetPosition());
         if (!result.success()) { job.status = result.reason(); activity(data, c, entity, CitizenActivity.BLOCKED, "ROAD_BLOCKED"); WORK.remove(c); return; }
         job.mark(c.targetPosition()); job.status = job.progress == job.cells.size() ? "连接完成" : "继续铺路";
@@ -547,7 +542,6 @@ public final class AutoRoadService {
                 || state.routeAt(p) == null || !safeCell(level, s, p))
             return OperationResult.failure("道路任务暂停或地形已改变");
         int slot = shovelSlot(c);
-        if (slot < 0) return OperationResult.failure("缺少可用铲子");
         var standing = p.above();
         if (!com.hkin.exiledsettlement.blueprint.TimedConstructionService.columnArrived(level,worker,p))
             return OperationResult.failure("工人尚未到达施工位置");
@@ -690,8 +684,7 @@ public final class AutoRoadService {
             if (workers.stream().allMatch(c -> c.workState() != CitizenWorkState.IDLE
                     && c.workState() != CitizenWorkState.TO_ROAD && c.workState() != CitizenWorkState.TO_ROAD_TOOL
                     || CommunityLifeService.handles(c))) reasons.add("工人正处理生活、建设、物流或其他任务，空闲后才会修路。");
-            if (workers.stream().noneMatch(c -> shovelSlot(c) >= 0) && toolSource(level, s, s.corePosition()) == null)
-                reasons.add("缺少铲子：把可用铲子放进已登记公共库存，工人会亲自领取。");
+
         }
         return List.copyOf(reasons);
     }

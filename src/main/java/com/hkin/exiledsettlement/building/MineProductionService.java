@@ -12,7 +12,8 @@ public final class MineProductionService {
     private static final List<Find> FINDS = List.of(
             // Total weight 800. Six rare finds retain 75% of their former draw probability;
             // their removed weight goes to cobblestone and cobbled deepslate.
-            new Find(Items.COBBLESTONE,64,4), new Find(Items.COBBLED_DEEPSLATE,48,4),
+            new Find(Items.COBBLESTONE,48,4), new Find(Items.COBBLED_DEEPSLATE,32,4),
+            new Find(Items.DIRT,32,4),
             new Find(Items.GRAVEL,32,3), new Find(Items.COAL,128,3),
             new Find(Items.RAW_COPPER,96,3), new Find(Items.RAW_IRON,80,2),
             new Find(Items.RAW_GOLD,18,1), new Find(Items.REDSTONE,24,3),

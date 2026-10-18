@@ -41,8 +41,8 @@ public final class FoundingCampSupplies {
         add(result,Items.MELON_SEEDS,64);add(result,Items.PUMPKIN_SEEDS,64);
         add(result,Items.OAK_SAPLING,32);add(result,Items.SPRUCE_SAPLING,32);
         add(result,Items.WHEAT,128);add(result,Items.LEAD,4);
-        add(result,Items.IRON_AXE,6);add(result,Items.IRON_PICKAXE,12);add(result,Items.IRON_SHOVEL,6);
-        add(result,Items.IRON_HOE,4);add(result,Items.FISHING_ROD,2);add(result,Items.IRON_SWORD,2);
+        add(result,Items.WOODEN_AXE,6);add(result,Items.WOODEN_PICKAXE,12);add(result,Items.WOODEN_SHOVEL,6);
+        add(result,Items.WOODEN_HOE,4);add(result,Items.FISHING_ROD,2);add(result,Items.WOODEN_SWORD,2);
         return Collections.unmodifiableMap(result);
     }
     private static void add(Map<Item,Integer> result,Item item,int count) { result.merge(item,count,Integer::sum); }

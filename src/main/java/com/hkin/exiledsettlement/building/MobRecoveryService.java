@@ -12,6 +12,8 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.*;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.neoforged.neoforge.common.util.BlockSnapshot;
 import net.neoforged.neoforge.event.EventHooks;
 import java.util.*;
@@ -23,6 +25,7 @@ public final class MobRecoveryService {
     public static boolean mob(Entity e){return e instanceof Mob && !(e instanceof SettlementCitizenEntity);}
     public static void capture(ServerLevel l,Entity source,Collection<BlockPos> targets,String cause){
         if(!mob(source))return;
+        String recordedCause=source instanceof EnderMan?"enderman":cause;
         var data=SettlementSavedData.get(l);var groups=new LinkedHashMap<SettlementRecord,MobRecoveryState.Incident>();
         var positions=new LinkedHashSet<BlockPos>();
         for(var p:targets)if(l.hasChunkAt(p)){
@@ -34,10 +37,11 @@ public final class MobRecoveryService {
             if(!l.hasChunkAt(p) || l.isOutsideBuildHeight(p))continue;
             var before=l.getBlockState(p);if(before.isAir())continue;
             var s=data.findContaining(p).orElse(null);if(s==null)continue;
+            if(!inRecoveryScope(l,s,recordedCause,p,before))continue;
             var state=s.mobRecovery();var prior=state.owner(p);
             if(prior!=null)continue;
-            var event=groups.computeIfAbsent(s,key->{var e=new MobRecoveryState.Incident(UUID.randomUUID(),source.getUUID(),cause,l.getGameTime());state.incidents.put(e.id,e);return e;});
-            var c=new MobRecoveryState.Cell(p,before);c.blockEntity=l.getBlockEntity(p)!=null;state.add(event,c);
+            var event=groups.computeIfAbsent(s,key->{var e=new MobRecoveryState.Incident(UUID.randomUUID(),source.getUUID(),recordedCause,l.getGameTime());state.incidents.put(e.id,e);return e;});
+            var c=new MobRecoveryState.Cell(p,before);c.blockEntity=l.getBlockEntity(p)!=null;c.scopeChecked=true;state.add(event,c);
         }
         if(!groups.isEmpty())data.touch();
     }
@@ -48,14 +52,22 @@ public final class MobRecoveryService {
         capture(l,mob,p,"enderman");
     }
     public static void tick(ServerLevel l){
-        var data=SettlementSavedData.get(l);int budget=256;
+        var data=SettlementSavedData.get(l);int budget=256,scopeBudget=64;
         for(var s:data.settlements()){
             var state=s.mobRecovery();int count=state.observations.size();
+            int scopeCount=state.scopeReviews.size();
+            while(scopeCount-->0 && scopeBudget-->0 && !state.scopeReviews.isEmpty()) {
+                var entry=state.scopeReviews.removeFirst();var c=entry.getValue();
+                if(c.status!=PENDING || c.scopeChecked)continue;
+                if(!l.hasChunkAt(c.pos)){state.scopeReviews.addLast(entry);continue;}
+                checkScope(l,s,entry.getKey(),c);
+            }
             var reviewed=new HashSet<MobRecoveryState.Incident>();
             while(count-->0 && budget-->0 && !state.observations.isEmpty()){
                 var entry=state.observations.removeFirst();var e=entry.getKey();var c=entry.getValue();
                 if(c.status!=OBSERVING)continue;
                 if(l.getGameTime()<e.time+5 || !l.hasChunkAt(c.pos)){state.observations.addLast(entry);continue;}
+                if(!checkScope(l,s,e,c))continue;
                 c.damaged=l.getBlockState(c.pos);
                 if(matches(c.damaged,c.original)){c.status=UNCHANGED;}
                 else if(c.damaged.is(c.original.getBlock())){c.status=UNCHANGED;}
@@ -67,6 +79,41 @@ public final class MobRecoveryService {
             // Unsuccessful destruction probes must not accumulate an unbounded history.
             for(var e:reviewed)if(e.cells.values().stream().allMatch(c->c.status==UNCHANGED))state.incidents.remove(e.id);
         }
+    }
+    /** A horizontal claim does not make a natural deep cave a resident worksite. */
+    private static boolean inRecoveryScope(ServerLevel l,SettlementRecord s,String cause,BlockPos at,BlockState original) {
+        if(!cause.equals("enderman") || !naturalTerrain(original))return true;
+        int surface=l.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,at.getX(),at.getZ())-1;
+        if(at.getY()>=surface-8)return true;
+        // Registered underground buildings and their actual paid supports are independent of core height.
+        for(var b:s.buildings())if(b.active() && !b.demolitionQueued() && b.contains(at))return true;
+        if(com.hkin.exiledsettlement.road.RoadSpaceData.get(l).contains(at))return true;
+        for(var p:s.terrain().projectsAt(at))for(int i:p.indices(at)) {
+            var step=p.steps.get(i);
+            if(step.position().equals(at) && step.fill() && matches(original,step.target())
+                    && (p.retiredPaid.get(i) || !p.abandoned.get(i) && (i<p.cursor || p.finished.get(i))))return true;
+        }
+        for(var b:s.formalBlueprints())if(!b.cancellationQueued() && b.containsColumn(at)
+                && (b.customTemplate()!=null || b.region()!=null || BlueprintTemplates.supports(b.type()))) {
+            var goal=BlueprintTemplates.create(b).placementAt(at);
+            if(goal!=null && goal.mode().isFinalStructure() && !goal.state().isAir() && matches(original,goal.state()))return true;
+        }
+        return false;
+    }
+    private static boolean naturalTerrain(BlockState state) {
+        return state.is(BlockTags.DIRT) || state.is(BlockTags.SAND) || state.is(BlockTags.BASE_STONE_OVERWORLD)
+                || state.is(BlockTags.BASE_STONE_NETHER) || state.is(Blocks.GRAVEL) || state.is(Blocks.CLAY)
+                || state.is(Blocks.MUD) || state.is(Blocks.MOSS_BLOCK) || state.is(Blocks.MYCELIUM);
+    }
+    private static boolean checkScope(ServerLevel l,SettlementRecord s,MobRecoveryState.Incident e,MobRecoveryState.Cell c) {
+        if(c.status==SKIPPED)return false;
+        if(c.status!=OBSERVING && c.status!=PENDING)return true;
+        if(c.scopeChecked)return true;
+        c.scopeChecked=true;
+        if(!inRecoveryScope(l,s,e.cause,c.pos,c.original)) {
+            c.status=SKIPPED;c.reason="RECOVERY_OUTSIDE_WORK_AREA";s.mobRecovery().index(e,c);
+        }
+        SettlementSavedData.get(l).touch();return c.status!=SKIPPED;
     }
     public static boolean owns(SettlementRecord s,BlockPos p){return p!=null && s.mobRecovery().owner(p)!=null;}
     public static boolean owns(ServerLevel l,BlockPos p){var s=SettlementSavedData.get(l).findContaining(p).orElse(null);return s!=null && owns(s,p);}
@@ -111,6 +158,7 @@ public final class MobRecoveryService {
             .thenComparingInt(v->v.original.hasProperty(BedBlock.PART) && v.original.getValue(BedBlock.PART)==BedPart.HEAD?1:0)).toList();
     }
     public static String ready(ServerLevel l,SettlementRecord s,MobRecoveryState.Incident e,MobRecoveryState.Cell c){
+        if(l.hasChunkAt(c.pos) && !checkScope(l,s,e,c))return c.reason;
         if(c.status!=PENDING)return c.reason.isEmpty()?"RECOVERY_WAITING":c.reason;
         if(c.retryAt>l.getGameTime())return "RECOVERY_WAITING";
         for(var v:group(e,c)){
@@ -134,11 +182,21 @@ public final class MobRecoveryService {
         return "";
     }
     public static MobRecoveryState.Cell candidate(ServerLevel l,SettlementRecord s,CitizenRecord c,Set<BlockPos> claimed){
+        int routeChecks=0;
         for(var e:s.mobRecovery().incidents.values()){
             if(WorkTaskService.assigned(s,e.id)>=2 && task(s,c)!=e)continue;
             for(var v:e.cells.values().stream().filter(v->v.status==PENDING).sorted(Comparator.comparingInt(v->v.pos.getY())).toList()){
                 if(group(e,v).stream().anyMatch(part->claimed.contains(part.pos)))continue;
-                String reason=ready(l,s,e,v);if(!reason.isEmpty()){v.reason=reason;continue;}
+                String reason=ready(l,s,e,v);if(!reason.isEmpty()){if(!reason.equals("RECOVERY_WAITING") || v.reason.isEmpty())v.reason=reason;continue;}
+                if(v.routeFailures>0) {
+                    if(routeChecks++>=2)continue;
+                    var actor=CitizenProjectionService.findProjection(l,c);
+                    if(actor==null)continue;
+                    if(!arrived(e,actor,v.pos)) {
+                        var station=approach(l,e,actor,v.pos);
+                        if(station==null || actor.probeConstructionReturnPath(station)==null){defer(l,s,v,"RECOVERY_UNREACHABLE");continue;}
+                    }
+                }
                 var item=material(v.original);int count=cost(v.original);
                 if(available(c,item)<count
                         && !s.creativeCoreInstalled() && !WarehouseConstructionSupply.available(l,s,item,count)){v.reason="MATERIALS_MISSING";continue;}
@@ -151,18 +209,50 @@ public final class MobRecoveryService {
         var v=candidate(l,s,c,claimed);if(v==null)return false;var e=s.mobRecovery().owner(v.pos);
         if(!c.startRepair(e.id,v.pos))return false;for(var part:group(e,v))claimed.add(part.pos);WorkTaskService.bind(s,c);return true;
     }
+    private static List<BlockPos> workArea(MobRecoveryState.Incident e,BlockPos target) {
+        var first=e.cells.get(target);if(first==null || first.status!=PENDING)return List.of();
+        var result=new ArrayList<BlockPos>();var queue=new ArrayDeque<BlockPos>();var seen=new HashSet<BlockPos>();
+        queue.add(target);seen.add(target);
+        while(!queue.isEmpty() && result.size()<512) {
+            var at=queue.removeFirst();result.add(at);
+            for(var direction:Direction.values()) {
+                var next=at.relative(direction);var cell=e.cells.get(next);
+                if(cell!=null && cell.status==PENDING && seen.add(next))queue.addLast(next);
+            }
+        }
+        return result;
+    }
+    private static boolean withinWorkArea(List<BlockPos> area,BlockPos feet) {
+        return area.stream().anyMatch(at->Math.abs(at.getX()-feet.getX())<=4 && Math.abs(at.getZ()-feet.getZ())<=4
+                && Math.abs(at.getY()-feet.getY())<=4);
+    }
+    public static boolean arrived(MobRecoveryState.Incident e,SettlementCitizenEntity actor,BlockPos target){
+        return actor.onGround() && withinWorkArea(workArea(e,target),actor.navigationFeetPosition());
+    }
+    /** Kept for older callers; terminal records never establish a recovery worksite. */
     public static boolean arrived(MobRecoveryState.Incident e,SettlementCitizenEntity actor){
-        var feet=actor.navigationFeetPosition();
-        return e.cells.values().stream().filter(c->c.status!=UNCHANGED && c.status!=OBSERVING)
-                .anyMatch(c->Math.abs(c.pos.getX()-feet.getX())<=4 && Math.abs(c.pos.getZ()-feet.getZ())<=4
-                    && Math.abs(c.pos.getY()-feet.getY())<=32)
-                && actor.onGround();
+        return actor.onGround() && e.cells.values().stream().anyMatch(c->c.status==PENDING
+                && withinWorkArea(List.of(c.pos),actor.navigationFeetPosition()));
     }
     public static BlockPos approach(ServerLevel l,MobRecoveryState.Incident e,SettlementCitizenEntity actor,BlockPos target){
-        return TimedConstructionService.approach(l,null,actor,target);
+        var area=workArea(e,target);if(area.isEmpty())return null;
+        var feet=actor.navigationFeetPosition();
+        if(withinWorkArea(area,feet) && actor.canStandAtPosition(feet))return feet;
+        var base=area.stream().min(Comparator.comparingDouble(at->at.distSqr(feet))).orElse(target);
+        var candidates=new LinkedHashSet<BlockPos>();
+        for(int dx=-4;dx<=4;dx++)for(int dz=-4;dz<=4;dz++) {
+            var column=base.offset(dx,0,dz);if(!l.hasChunkAt(column))continue;
+            int surface=l.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,column.getX(),column.getZ());
+            for(int y:new int[]{surface,feet.getY(),base.getY(),base.getY()+1}) {
+                var at=column.atY(y);
+                if(withinWorkArea(area,at) && actor.canStandAtPosition(at))candidates.add(at);
+            }
+        }
+        return actor.findReachableBedStation(candidates.stream().sorted(Comparator.comparingDouble(at->at.distSqr(feet))).toList());
     }
     public static String place(ServerLevel l,SettlementRecord s,MobRecoveryState.Incident e,MobRecoveryState.Cell c,SettlementCitizenEntity actor){
         var reason=ready(l,s,e,c);if(!reason.isEmpty())return reason;
+        if(!arrived(e,actor,c.pos))return "RECOVERY_UNREACHABLE";
         var snapshots=new ArrayList<BlockSnapshot>();var changed=new ArrayList<MobRecoveryState.Cell>();
         for(var v:group(e,c))if(!matches(l.getBlockState(v.pos),v.original)){
             var snap=BlockSnapshot.create(l.dimension(),l,v.pos,Block.UPDATE_CLIENTS);snapshots.add(snap);changed.add(v);
@@ -181,11 +271,13 @@ public final class MobRecoveryService {
             for(int i=snapshots.size()-1;i>=0;i--)snapshots.get(i).restore(Block.UPDATE_CLIENTS|Block.UPDATE_KNOWN_SHAPE|Block.UPDATE_SUPPRESS_DROPS);
             return "RECOVERY_SUPPORT";
         }
-        for(var v:group(e,c)){v.status=DONE;v.reason=v.blockEntity?"RECOVERY_BLOCK_ENTITY_DATA":"";s.mobRecovery().index(e,v);}
+        for(var v:group(e,c)){v.status=DONE;v.reason=v.blockEntity?"RECOVERY_BLOCK_ENTITY_DATA":"";v.routeFailures=0;v.retryAt=0;s.mobRecovery().index(e,v);}
         SettlementSavedData.get(l).touch();return "";
     }
     public static void defer(ServerLevel l,SettlementRecord s,MobRecoveryState.Cell c,String reason){
-        c.reason=reason;c.retryAt=l.getGameTime()+100;
+        c.reason=reason;
+        if(reason.equals("RECOVERY_UNREACHABLE"))c.routeFailures=Math.min(6,c.routeFailures+1);
+        c.retryAt=l.getGameTime()+(reason.equals("RECOVERY_UNREACHABLE")?Math.min(2400L,100L<<c.routeFailures):100);
         if(reason.equals("RECOVERY_CHANGED")){c.status=CONFLICT;}
         SettlementSavedData.get(l).touch();
     }

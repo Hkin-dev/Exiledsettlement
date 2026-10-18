@@ -133,6 +133,8 @@ public final class PlacementSessionService {
             cancel(player, true);
             return OperationResult.failure("NO_PERMISSION");
         }
+        if(BlueprintTemplates.flexibleProduction(session.type(),session.templateVersion()))
+            return OperationResult.failure("AREA_SELECTION_REQUIRED");
         Direction horizontalFacing = facing.getAxis().isHorizontal() ? facing : Direction.NORTH;
         OperationResult<BlueprintRecord> placed = BlueprintService.placeBlueprint(
                 level,
@@ -157,7 +159,8 @@ public final class PlacementSessionService {
             ServerPlayer player, BlockPos first, BlockPos second, Direction facing
     ) {
         PlacementSession session = SESSIONS.get(player.getUUID());
-        if (session == null || !session.type().isDynamicArea()) {
+        if (session == null || !BlueprintTemplates.flexibleProduction(session.type(),session.templateVersion())
+                || session.templateVersion()>BlueprintTemplates.currentTemplateVersion(session.type())) {
             return OperationResult.failure("NO_PLACEMENT_SESSION");
         }
         if (!(player.level() instanceof ServerLevel level)) return OperationResult.failure("NO_PLACEMENT_SESSION");
@@ -169,9 +172,23 @@ public final class PlacementSessionService {
             return OperationResult.failure("CORE_INACTIVE");
         }
         if (!settlement.isMember(player.getUUID())) return OperationResult.failure("NO_PERMISSION");
+        long width=Math.abs((long)first.getX()-second.getX())+1;
+        long depth=Math.abs((long)first.getZ()-second.getZ())+1;
+        int minimum=session.type().minimumAreaSize();
+        int maximum=BlueprintService.MAX_DYNAMIC_AREA_BLOCKS;
+        if(width<minimum || depth<minimum)return OperationResult.failure("AREA_TOO_SMALL");
+        if(width>maximum || depth>maximum || width*depth>maximum)return OperationResult.failure("AREA_TOO_LARGE");
+        second=new BlockPos(second.getX(),first.getY(),second.getZ());
+        for(int x=Math.min(first.getX(),second.getX())>>4;x<=(Math.max(first.getX(),second.getX())>>4);x++)
+            for(int z=Math.min(first.getZ(),second.getZ())>>4;z<=(Math.max(first.getZ(),second.getZ())>>4);z++)
+                if(!settlement.ownsChunk(x,z))return OperationResult.failure("OUTSIDE_SETTLEMENT_BOUNDARY");
+        BlockPos center=new BlockPos((int)(((long)first.getX()+second.getX())/2),first.getY(),
+                (int)(((long)first.getZ()+second.getZ())/2));
+        SettlementRecord target=SettlementSavedData.get(level).findContaining(center).orElse(null);
+        if(target==null || !target.id().equals(settlement.id()))return OperationResult.failure("OUTSIDE_SETTLEMENT_BOUNDARY");
         Direction horizontal = facing.getAxis().isHorizontal() ? facing : Direction.NORTH;
         OperationResult<BlueprintRecord> result = BlueprintService.placeAreaBlueprint(
-                level, player.getUUID(), session.type(), first, second, horizontal, player);
+                level, player.getUUID(), session.type(), first, second, horizontal, session.templateVersion(), player);
         if (result.success() && result.value() != null) PacketDistributor.sendToPlayer(player,
                 new ContinuePlacementPayload(false, PlacementNetworking.blueprintEntry(
                         level, settlement, result.value())));

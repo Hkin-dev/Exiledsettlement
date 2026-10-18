@@ -12,7 +12,13 @@ public final class FarmEarthworkService {
     private static final Map<BlueprintRecord, Retry> RETRIES = new WeakHashMap<>();
     private record Retry(long at, FarmEarthworkPlan.Survey survey) { }
     private FarmEarthworkService() { }
-    public static boolean applies(BlueprintRecord b) { return b.region()==null && b.dynamicArea() && b.customTemplate()==null && FarmEarthworkPlan.applies(b.type()); }
+    public static boolean applies(BlueprintRecord b) {
+        // New rectangular production sites use the ordinary paid P0 ground plan.
+        // Keep the old earthwork pipeline only for pre-existing area blueprints.
+        return b.region()==null && b.dynamicArea() && b.customTemplate()==null
+                && !BlueprintTemplates.flexibleProduction(b.type(), b.templateVersion())
+                && FarmEarthworkPlan.applies(b.type());
+    }
     public static boolean allowed(SettlementRecord s, BlueprintRecord own, BuildingBlueprintTemplate t, BlockPos p) {
         if(!s.contains(p)) return false;
         for(var b:s.buildings()) if(b.contains(p)) return false;

@@ -155,6 +155,7 @@ public final class CommunityManagement {
         lines.add("熟食目标 " + state.mealTarget + "；本年烹饪 " + state.mealsProduced + " / 进食 " + state.mealsEaten + " / 保暖用燃料 " + state.coldFuelBurned);
         lines.add("保留线限制烹饪、流民和易货，不禁止居民进食或取暖。冬季农业停止，已采收产物仍可运输。");
         lines.add("餐厅由空闲且未锁定的工人取料、消耗燃料加工，再把熟食送入真实公共库存。");
+        lines.addAll(SettlementWildlifeService.report(level, settlement));
         lines.add("随身口粮目标 " + CommunityContent.carriedFoodTarget + "份；每类保留一件斧、镐、铲、锄、剪刀、鱼竿、拴绳，额外工具在休息或到仓库时领取。");
         lines.add("个人产物在休息时交货；工作中仅背包容量不足时紧急送货，公共物流照常执行。");
         lines.add(CommunityContent.recoveryIntervalTicks == 0 ? "饱食恢复生命：关闭。"
@@ -169,6 +170,7 @@ public final class CommunityManagement {
         lines.add("商队易货：16橡木原木→8西瓜种子；64橡木原木→8铁锭。仅商人在场时可成交，每次访问每种报价限一次。");
         lines.add("居民名称组合库：" + CommunityContent.nameCapacity() + "种；旧姓名和命名牌姓名保持原样。");
         lines.add("阶段目标：" + state.milestones.size() + "项已达成；开拓→熟食生产→安全过冬→新生居民→成年→康复。");
+        lines.addAll(ConstructionShortageReport.lines(level,settlement));
         lines.addAll(com.hkin.exiledsettlement.terrain.TerrainService.report(settlement));
         lines.addAll(com.hkin.exiledsettlement.terrain.PublicWorkService.report(level,settlement));
         var decor = settlement.decorations();

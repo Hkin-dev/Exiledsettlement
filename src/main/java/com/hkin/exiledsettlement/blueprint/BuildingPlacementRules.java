@@ -88,13 +88,15 @@ public final class BuildingPlacementRules {
             BlockPos pos=p.position(); int[] range=columns.get(new BlockPos(pos.getX(),0,pos.getZ()).asLong());
             // Rooms under the actual shell retain their clearance. Empty bounding
             // columns outside an irregular building are not an exclusive volume.
-            if (t.type().isDynamicArea() || range!=null && pos.getY()>range[0] && pos.getY()<range[1]) air.add(pos);
+            if (!FoundationFootprint.groundClearance(t,pos)
+                    && (ConstructionWorkArea.full(t) || t.type().isDynamicArea() || range!=null && pos.getY()>range[0] && pos.getY()<range[1])) air.add(pos);
         }
         air.removeAll(structure);
         return new Layout(Collections.unmodifiableSet(structure),Collections.unmodifiableSet(air));
     }
 
     public static boolean requiresClearance(BuildingBlueprintTemplate t,BlockPos p) {
-        return t.terrainWork() || t.type().isDynamicArea() || t.placementLayout().reserves(p);
+        if(FoundationFootprint.groundClearance(t,p))return false;
+        return ConstructionWorkArea.full(t) || t.terrainWork() || t.type().isDynamicArea() || t.placementLayout().reserves(p);
     }
 }

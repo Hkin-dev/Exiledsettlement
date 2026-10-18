@@ -172,14 +172,14 @@ public final class MineExpansionService {
                 || CitizenWorkService.schedulePhase(level.getDayTime(),citizen)!=CitizenWorkService.SchedulePhase.WORK
                 || frontStations(mine).stream().noneMatch(p->actor.distanceToSqr(p.getX()+.5,p.getY(),p.getZ()+.5)<2.25))return;
         history.work=Math.min(2,history.work+1);data.touch();
-        if(history.work<2 || level.getGameTime()-history.lastAction<200)return;
+        if(history.work<2 || level.getGameTime()-history.lastAction<com.hkin.exiledsettlement.citizen.CitizenToolSpeed.interval(citizen,200))return;
         String reason=guard(level,s,mine,step);
         if(!reason.isEmpty()){history.reason=reason;return;}
         Item material=needed(mine);
         if(material!=null && !citizen.hasInventoryItem(v->v.is(material))) {history.reason="矿道等待支护或照明材料";return;}
         var at=world(mine,step.local());var before=level.getBlockState(at);var target=state(mine,step);
         int tool=CitizenEquipmentService.toolSlotForWork(citizen);
-        if(tool<0 || !before.isAir() && before.requiresCorrectToolForDrops() && !citizen.inventoryItem(tool).isCorrectToolForDrops(before)) {history.reason="矿道等待能开挖当前岩层的镐";return;}
+
         if(!target.isAir() && !level.getEntitiesOfClass(net.minecraft.world.entity.LivingEntity.class,new AABB(at),e->e.isAlive()).isEmpty()) {history.reason="矿道支护位置有居民，稍后施工";return;}
         // Existing work cycle reserves ample free slots; real excavation loot is separate from random finds.
         if(!TimedConstructionService.put(level,at,target,actor)){history.reason="矿道扩张被保护事件阻止";return;}

@@ -29,7 +29,6 @@ import com.hkin.exiledsettlement.settlement.SettlementSavedData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -183,7 +182,8 @@ public final class CitizenWorkService {
     private static boolean staggerWork;
     private static boolean staggerConstruction;
     private static boolean workDue(ServerLevel level,CitizenRecord citizen) {
-        return !staggerWork || com.hkin.exiledsettlement.util.TickCadence.due(level.getGameTime(),citizen.id(),WORK_INTERVAL_TICKS,0);
+        int interval=citizen.workState()==CitizenWorkState.TO_FARM?CitizenToolSpeed.schedulerInterval(citizen,WORK_INTERVAL_TICKS):WORK_INTERVAL_TICKS;
+        return !staggerWork || com.hkin.exiledsettlement.util.TickCadence.due(level.getGameTime(),citizen.id(),interval,0);
     }
     public static void tickLevel(ServerLevel level) {
         SettlementSavedData data = SettlementSavedData.get(level);
@@ -306,6 +306,7 @@ public final class CitizenWorkService {
             boolean staffed = settlement.citizens().stream()
                     .anyMatch(citizen -> citizen.alive()
                             && (citizen.profession() == farmerProfession && farm.id().equals(citizen.workBuildingId())
+                            || farm.productionSite()!=null && farm.productionSite().containsColumn(citizen.lastPosition())
                             || farm.region()!=null && farm.region().cell(citizen.lastPosition())!=null));
             for (BlueprintPlacement placement : BlueprintTemplates.createForBuilding(farm).gatePlacements()) {
                 BlockPos gatePosition = placement.position();
@@ -322,7 +323,7 @@ public final class CitizenWorkService {
     public static void updatePastureGateAccess(ServerLevel level, SettlementRecord settlement) {
         for (BuildingRecord pasture : settlement.buildings()) {
             if (!usable(pasture, BuildingType.PASTURE_AREA)) continue;
-            if(Math.floorMod(level.getGameTime()/10+pasture.id().hashCode(),20)==0)
+            if(pasture.productionSite()==null && Math.floorMod(level.getGameTime()/10+pasture.id().hashCode(),20)==0)
                 com.hkin.exiledsettlement.region.PastureGroundSafety.remember(level,pasture.region());
             com.hkin.exiledsettlement.region.PastureResidentService.reconcile(level,settlement,pasture);
             BuildingBlueprintTemplate template = BlueprintTemplates.createForBuilding(pasture);
@@ -333,8 +334,8 @@ public final class CitizenWorkService {
                     var animal=level.getEntity(resident.targetItemEntityId());var holder=CitizenProjectionService.findProjection(level,resident);
                     if(animal instanceof net.minecraft.world.entity.animal.Animal a && (!a.isLeashed() || a.getLeashHolder()!=holder))goal=a.blockPosition();
                 }
-                boolean from=pasture.region()!=null?pasture.region().cell(resident.lastPosition())!=null:insideBuildingArea(pasture,resident.lastPosition(),0);
-                boolean into=pasture.region()!=null?pasture.region().cell(goal)!=null:insideBuildingArea(pasture,goal,0);
+                boolean from=insideBuildingArea(pasture,resident.lastPosition(),0);
+                boolean into=insideBuildingArea(pasture,goal,0);
                 if(from==into)continue;
                 var destination=goal;var start=resident.lastPosition();
                 activeGate=template.entrances().stream().map(com.hkin.exiledsettlement.blueprint.BlueprintEntrance::position)
@@ -626,13 +627,15 @@ public final class CitizenWorkService {
                     return citizen.startTask(CitizenWorkState.TO_BLUEPRINT,ready.placement().position(),null,blueprint.id());
             }
             // A manually assigned builder also owns this building's real preparation chain.
-            if(!com.hkin.exiledsettlement.terrain.TerrainService.allowed(settlement,blueprint) || blueprint.region()!=null){
+            boolean foundationPending=!com.hkin.exiledsettlement.terrain.TerrainService.dependenciesReady(settlement,blueprint.id());
+            if(!com.hkin.exiledsettlement.terrain.TerrainService.allowed(settlement,blueprint) || blueprint.region()!=null || foundationPending){
                 for(var order:settlement.terrain().projects.values().stream()
                         .sorted(Comparator.comparingInt(p->"农业旧灌溉回收".equals(p.name)?0:com.hkin.exiledsettlement.region.FarmEntranceService.NAME.equals(p.name)?1:2)).toList())if(!order.cancelled && !order.completed && order.dependencies.contains(preferred)){
                     if(order.road || order.bridge)continue;
                     var preparation=settlement.blueprint(order.id);if(preparation==null || !com.hkin.exiledsettlement.terrain.TerrainService.allowed(settlement,preparation))continue;
                     var worker=CitizenProjectionService.findProjection(level,citizen);
                     var pending=BlueprintService.pendingPlacements(level,preparation,claimed,citizen.lastPosition()).stream()
+                            .filter(p->blueprint.region()!=null || !foundationPending || WorkTaskService.essential(settlement,order,blueprint,p.placement().position()))
                             .filter(p->worker==null || !worker.constructionTargetDeferred(p.placement().position()))
                             .sorted(Comparator.comparingDouble(p->p.placement().position().distSqr(citizen.lastPosition())))
                             .findFirst().orElse(null);
@@ -832,8 +835,11 @@ public final class CitizenWorkService {
         // steady mature harvest can starve the last high-level water points forever.
         if(farmers.size()>1 && farmers.getFirst().id().equals(citizen.id())
                 && assignFarmIrrigation(level,settlement,citizen,farm,claimed))return true;
-        if(farm.region()!=null)for(var cell:farm.region().ordered())if(cell.use()==com.hkin.exiledsettlement.region.ProductionRegion.Use.FRUIT) {
-            var fruit=cell.ground().above();
+        var fruitPositions=farm.productionSite()!=null?farm.productionSite().workCells().stream()
+                .filter(cell->cell.use()==com.hkin.exiledsettlement.region.ProductionRegion.Use.FRUIT).map(cell->cell.ground().above()).toList()
+                :farm.region()!=null?farm.region().ordered().stream().filter(cell->cell.use()==com.hkin.exiledsettlement.region.ProductionRegion.Use.FRUIT)
+                    .map(cell->cell.ground().above()).toList():List.<BlockPos>of();
+        for(var fruit:fruitPositions) {
             if((level.getBlockState(fruit).is(Blocks.MELON) || level.getBlockState(fruit).is(Blocks.PUMPKIN))
                     && !farmTargetDeferred(level,citizen,fruit) && claimed.add(fruit))return citizen.startTask(CitizenWorkState.TO_FARM,fruit,null,null);
         }
@@ -881,7 +887,7 @@ public final class CitizenWorkService {
     }
     private static boolean assignFarmIrrigation(ServerLevel level,SettlementRecord settlement,CitizenRecord citizen,
                                                BuildingRecord farm,Set<BlockPos> claimed,boolean entranceOnly) {
-        if (farm.region()==null || settlement.community().evacuation) return false;
+        if (farm.productionSite()!=null || farm.region()==null || settlement.community().evacuation) return false;
         var entity=CitizenProjectionService.findProjection(level,citizen);
         // Retire raised irrigation sources before they flood locally ready rows.
         for(var site:settlement.blueprints())if(site.terrainProject()!=null && !site.cancellationQueued()
@@ -921,7 +927,7 @@ public final class CitizenWorkService {
     ) {
         BuildingRecord farm = workplace(settlement, citizen, BuildingType.MELON_FIELD);
         if (farm == null) return false;
-        if(farm.region()!=null)return assignFarm(level,settlement,citizen,claimed);
+        if(farm.productionSite()!=null || farm.region()!=null)return assignFarm(level,settlement,citizen,claimed);
         if (com.hkin.exiledsettlement.settlement.CommunityLifeService.winter(settlement,
                 com.hkin.exiledsettlement.settlement.CommunityLifeService.day(level))) return false;
         for (BlockPos cursor : BlockPos.betweenClosed(farm.minCorner(), farm.maxCorner().above())) {
@@ -948,6 +954,8 @@ public final class CitizenWorkService {
     }
 
     private static List<BlockPos> farmGroundPositions(BuildingRecord farm) {
+        if(farm.productionSite()!=null)return farm.productionSite().workCells().stream()
+                .filter(c->c.use()==com.hkin.exiledsettlement.region.ProductionRegion.Use.CROP).map(c->c.ground()).toList();
         if(farm.region()!=null)return farm.region().ordered().stream().filter(c->c.use()==com.hkin.exiledsettlement.region.ProductionRegion.Use.CROP && farm.region().readyCrops.contains(c.ground().asLong())).map(c->c.ground()).toList();
         return BlueprintTemplates.createForBuilding(farm).placements().stream()
                 .filter(placement -> placement.state().is(Blocks.FARMLAND))
@@ -960,7 +968,7 @@ public final class CitizenWorkService {
     ) {
         List<CitizenRecord> farmers = settlement.citizens().stream()
                 .filter(CitizenRecord::alive)
-                .filter(other -> (other.profession() == CitizenProfession.FARMER || farm.region()!=null && other.profession()==CitizenProfession.MELON_FARMER))
+                .filter(other -> (other.profession() == CitizenProfession.FARMER || (farm.productionSite()!=null || farm.region()!=null) && other.profession()==CitizenProfession.MELON_FARMER))
                 .filter(other -> farm.id().equals(other.workBuildingId()))
                 .sorted(Comparator.comparing(other -> other.id().toString()))
                 .toList();
@@ -1139,10 +1147,9 @@ public final class CitizenWorkService {
     private static boolean assignHerd(
             ServerLevel level, SettlementRecord settlement, CitizenRecord citizen, Set<UUID> claimed
     ) {
-        if(com.hkin.exiledsettlement.region.PastureGroundSafety.assign(level,settlement,citizen,claimed))return true;
         BuildingRecord pasture = workplace(settlement, citizen, BuildingType.PASTURE_AREA);
         if (pasture == null) return false;
-        if(com.hkin.exiledsettlement.region.PastureGroundSafety.active(pasture.region()))return false;
+        if(pasture.productionSite()==null && com.hkin.exiledsettlement.region.PastureGroundSafety.active(pasture.region()))return false;
         List<Animal> residents = level.getEntitiesOfClass(Animal.class, buildingArea(pasture, 0),
                 animal -> animal.isAlive() && insidePastureInterior(pasture,animal.blockPosition()) && com.hkin.exiledsettlement.region.ProductionRegionService.matchesAnimal(pasture,animal));
         int surplus = (int)residents.stream().filter(a->com.hkin.exiledsettlement.region.ProductionRegionService.animalSurplus(pasture,residents,a)).count();
@@ -1154,7 +1161,9 @@ public final class CitizenWorkService {
                 return citizen.startTask(CitizenWorkState.TO_HERD, animal.blockPosition(), animal.getUUID(), null);
             }
         }
-        if (pasture.productionId().equals(net.minecraft.resources.ResourceLocation.withDefaultNamespace("sheep")) || pasture.region()!=null && pasture.region().cells.values().stream().anyMatch(c->c.production().getPath().equals("sheep"))) {
+        if (pasture.productionId().equals(net.minecraft.resources.ResourceLocation.withDefaultNamespace("sheep"))
+                || pasture.productionSite()!=null && pasture.productionSite().productions().stream().anyMatch(id->id.getPath().equals("sheep"))
+                || pasture.region()!=null && pasture.region().cells.values().stream().anyMatch(c->c.production().getPath().equals("sheep"))) {
             for (Sheep sheep : level.getEntitiesOfClass(Sheep.class, buildingArea(pasture,0),
                     value -> value.isAlive() && !value.isBaby() && !value.isSheared() && insidePastureInterior(pasture,value.blockPosition()))) {
                 if (claimed.add(sheep.getUUID())) {
@@ -1328,11 +1337,11 @@ public final class CitizenWorkService {
         if (settlement.community().policy.equals("emergency")) return false;
         for (BuildingRecord building : settlement.buildings()) {
             var feature = DecorationService.forBuilding(settlement, building.id());
-            if(com.hkin.exiledsettlement.region.FarmConstructionPolicy.farm(building))continue;
             if ((feature != null) != decoration) continue;
             if (feature != null && (!DecorationService.allowed(settlement, feature)
                     || settlement.blueprints().stream().anyMatch(b -> !DecorationService.owned(settlement, b.id()) && !b.cancellationQueued()))) continue;
             for (BlockPos position : List.copyOf(building.repairPositions())) {
+                if (!workerMayRepair(building, position)) continue;
                 if(com.hkin.exiledsettlement.building.MobRecoveryService.owns(settlement,position))continue;
                 BlockState expected = BuildingRepairService.expectedState(level, settlement, building, position);
                 if (expected == null || BuildingRepairService.satisfied(level, building, position)) {
@@ -1386,7 +1395,10 @@ public final class CitizenWorkService {
             citizen.setActivity(CitizenActivity.BLOCKED, "FORESTRY_SAPLINGS_MISSING");
             return false;
         }
-        for (BlockPos planting : treeFarm.servicePositions()) {
+        var plantingPositions=treeFarm.productionSite()!=null?treeFarm.productionSite().workCells().stream()
+                .filter(cell->cell.use()==com.hkin.exiledsettlement.region.ProductionRegion.Use.FOREST)
+                .map(cell->cell.ground().above()).toList():treeFarm.servicePositions();
+        for (BlockPos planting : plantingPositions) {
             if (!isTreeFarmPlantingGrid(treeFarm, planting) || claimed.contains(planting)
                     || forestryTargetDeferred(level, citizen, planting)
                     || treeFarmPlantingPlan(level, treeFarm, planting, null) == null) continue;
@@ -1415,10 +1427,15 @@ public final class CitizenWorkService {
         int maxX = treeFarm.maxCorner().getX() - 1;
         int minZ = treeFarm.minCorner().getZ() + 1;
         int maxZ = treeFarm.maxCorner().getZ() - 1;
-        int minY = treeFarm.position().getY();
-        for (int x = minX; x <= maxX; x++) {
-            for (int z = minZ; z <= maxZ; z++) {
-                if (!level.hasChunkAt(new BlockPos(x, minY, z))) continue;
+        var columns=new ArrayList<BlockPos>();
+        if(treeFarm.productionSite()!=null) {
+            for(var cell:treeFarm.productionSite().workCells())if(cell.use()==com.hkin.exiledsettlement.region.ProductionRegion.Use.FOREST)
+                columns.add(cell.ground().above());
+        }else for(int x=minX;x<=maxX;x++)for(int z=minZ;z<=maxZ;z++)columns.add(new BlockPos(x,treeFarm.position().getY(),z));
+        for(var column:columns) {
+                int x=column.getX(),z=column.getZ();
+                int minY=treeFarm.productionSite()!=null?treeFarm.productionSite().minimumRootY(column):column.getY();
+                if (!level.hasChunkAt(column)) continue;
                 int top = level.getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING, x, z);
                 for (int y = minY; y < top; y++) {
                     BlockPos position = new BlockPos(x, y, z);
@@ -1433,7 +1450,6 @@ public final class CitizenWorkService {
                         remainingRoots.add(forestryWorkBase(level, treeFarm, position));
                     }
                 }
-            }
         }
         // Prefer the trunk's planting base; lateral roots are only fallback targets.
         trunks.addAll(remainingRoots);
@@ -1443,6 +1459,7 @@ public final class CitizenWorkService {
     }
 
     private static boolean isTreeFarmPlantingGrid(BuildingRecord treeFarm, BlockPos position) {
+        if(treeFarm.productionSite()!=null)return treeFarm.productionSite().plantingGrid(position);
         int originX = treeFarm.region()==null?treeFarm.minCorner().getX()+2:treeFarm.region().gridX;
         int originZ = treeFarm.region()==null?treeFarm.minCorner().getZ()+2:treeFarm.region().gridZ;
         return Math.floorMod(position.getX() - originX, 5) == 0
@@ -1585,6 +1602,7 @@ public final class CitizenWorkService {
     }
 
     private static void finishEquipmentWork(ServerLevel level,SettlementSavedData data,SettlementRecord settlement,CitizenRecord citizen,SettlementCitizenEntity entity){
+        CitizenEquipmentService.finishOptionalTrip(citizen);
         UUID resume=citizen.constructionResumeId();BlockPos at=citizen.constructionResumePosition();
         UUID mother=citizen.motherTaskId();
         clear(data,citizen,entity);var site=settlement.blueprint(resume);
@@ -1595,6 +1613,10 @@ public final class CitizenWorkService {
             ServerLevel level, SettlementSavedData data, SettlementRecord settlement,
             CitizenRecord citizen, SettlementCitizenEntity entity
     ) {
+        if(CitizenEquipmentService.optionalTripExpired(level,citizen) || entity.navigationRetryStage()>=3) {
+            CitizenEquipmentService.deferOptionalTrip(level,citizen);
+            finishEquipmentWork(level,data,settlement,citizen,entity);return;
+        }
         Item required = CitizenEquipmentService.nextEquipment(level, settlement, citizen);
         if (required == null) {
             finishEquipmentWork(level,data,settlement,citizen,entity);
@@ -1624,15 +1646,15 @@ public final class CitizenWorkService {
         if (!useWarehouse && !coreSupply) {
             releaseSupplyStation(level, entity);
             entity.stopSettlementNavigation();
-            setActivity(data, citizen, entity, CitizenActivity.BLOCKED, "PROFESSION_EQUIPMENT_MISSING");
+            finishEquipmentWork(level,data,settlement,citizen,entity);
             return;
         }
         BlockPos target = useWarehouse
                 ? WarehouseInventoryService.reserveExtractionPosition(level, warehouse, entity, required)
                 : SettlementCoreInteractionService.reserveSupplyPosition(level, settlement, entity);
         if (target == null) {
-            waitForSupplyStation(level, data, settlement, citizen, entity, warehouse,
-                    useWarehouse, CitizenActivity.FETCHING_EQUIPMENT);
+            CitizenEquipmentService.deferOptionalTrip(level,citizen);
+            finishEquipmentWork(level,data,settlement,citizen,entity);
             return;
         }
         if (!nearWorkPosition(entity, target)) {
@@ -1641,7 +1663,8 @@ public final class CitizenWorkService {
         }
         if (useWarehouse && !WarehouseInventoryService.canInteract(level, warehouse, entity)) {
             abandonSupplyStation(level, entity);
-            setActivity(data, citizen, entity, CitizenActivity.BLOCKED, "WAREHOUSE_INACCESSIBLE");
+            CitizenEquipmentService.deferOptionalTrip(level,citizen);
+            finishEquipmentWork(level,data,settlement,citizen,entity);
             return;
         }
         if (!useWarehouse && !SettlementCoreInteractionService.canReceiveSupply(level, settlement, entity)) {
@@ -1659,7 +1682,7 @@ public final class CitizenWorkService {
         if (extracted.isEmpty() && virtualSupply && carryLimit > 0) extracted = new ItemStack(required, carryLimit);
         if (extracted.isEmpty()) {
             releaseSupplyStation(level, entity);
-            setActivity(data, citizen, entity, CitizenActivity.BLOCKED, "PROFESSION_EQUIPMENT_MISSING");
+            finishEquipmentWork(level,data,settlement,citizen,entity);
             return;
         }
         ItemStack remaining = citizen.receiveEquipment(extracted);
@@ -1700,7 +1723,7 @@ public final class CitizenWorkService {
             data.touch();
         }
         ItemStack carried = citizen.carriedItem().copyWithCount(allowed);
-        if (!usable(warehouse, BuildingType.WAREHOUSE)
+        if (!(usable(warehouse) && warehouse.type().isStorage())
                 || !WarehouseInventoryService.canAccept(level, warehouse, carried)) {
             warehouse = acceptingWarehouse(level, settlement, entity.blockPosition(), carried);
             if (warehouse == null) {
@@ -1836,8 +1859,15 @@ public final class CitizenWorkService {
             clear(data, citizen, entity); return;
         }
         var regionalFarm=farmWorkplace(settlement,citizen);
-        var regionalCell=regionalFarm==null || regionalFarm.region()==null || citizen.targetPosition()==null?null:regionalFarm.region().cell(citizen.targetPosition());
-        if (regionalCell!=null?regionalCell.type()==BuildingType.MELON_FIELD:citizen.profession()==CitizenProfession.MELON_FARMER) {
+        boolean melonCell=citizen.profession()==CitizenProfession.MELON_FARMER;
+        if(regionalFarm!=null && citizen.targetPosition()!=null) {
+            if(regionalFarm.productionSite()!=null) {
+                var cell=regionalFarm.productionSite().cell(citizen.targetPosition());if(cell!=null)melonCell=cell.type()==BuildingType.MELON_FIELD;
+            }else if(regionalFarm.region()!=null) {
+                var cell=regionalFarm.region().cell(citizen.targetPosition());if(cell!=null)melonCell=cell.type()==BuildingType.MELON_FIELD;
+            }
+        }
+        if (melonCell) {
             melonFarm(level, data, settlement, citizen, entity);
             return;
         }
@@ -1852,10 +1882,7 @@ public final class CitizenWorkService {
         if (!enterFarmWorkArea(level,data,citizen,entity,farm,target)) return;
         if (!farmActionReady(level, citizen)) return;
         int toolSlot = CitizenEquipmentService.toolSlotForWork(citizen);
-        if (toolSlot < 0) {
-            clear(data, citizen, entity);
-            return;
-        }
+
 
         BlockState groundState = level.getBlockState(ground);
         if ((groundState.is(Blocks.FARMLAND) || repairableFarmGround(groundState))
@@ -1953,7 +1980,7 @@ public final class CitizenWorkService {
         if (!enterFarmWorkArea(level,data,citizen,entity,farm,target)) return;
         if (!farmActionReady(level, citizen)) return;
         int toolSlot = CitizenEquipmentService.toolSlotForWork(citizen);
-        if (toolSlot < 0) { clear(data, citizen, entity); return; }
+
         BlockState state = level.getBlockState(target);
         if (state.is(Blocks.MELON) || state.is(Blocks.PUMPKIN)) {
             List<ItemStack> drops = Block.getDrops(state, level, target, level.getBlockEntity(target), entity,
@@ -2221,7 +2248,7 @@ public final class CitizenWorkService {
         if (!footingRequest && pending != null && blueprint.terrainProject() != null) {
             var plan = blueprint.terrainProject();
             var step = plan.steps.get(-pending.index() - 1);
-            if (com.hkin.exiledsettlement.terrain.BuriedFillMaterials.hidden(level, settlement, plan, step)) {
+            if (com.hkin.exiledsettlement.terrain.BuriedFillMaterials.flexible(level, settlement, plan, step)) {
                 required = com.hkin.exiledsettlement.terrain.BuriedFillMaterials.choose(level, settlement, plan, step, citizen).getBlock().asItem();
                 // A carried ordinary filler already pays for this cell. A different
                 // warehouse palette must not force an unnecessary resupply trip.
@@ -2269,7 +2296,6 @@ public final class CitizenWorkService {
             yieldUnreachableSite(level,data,settlement,blueprint,citizen,entity);
             return;
         }
-        ServerPlayer owner = level.getServer().getPlayerList().getPlayer(blueprint.ownerId());
         boolean directCoreSupply = settlement.creativeCoreInstalled();
         // An installed creative core is the authoritative infinite construction
         // source. A warehouse that happened to become operational mid-build may
@@ -2282,7 +2308,7 @@ public final class CitizenWorkService {
                 && warehouse.operational() && warehouse.type().isStorage();
         boolean creative = useWarehouse
                 ? WarehouseInventoryService.hasCreativeSupply(level, warehouse) : directCoreSupply;
-        if (!useWarehouse && owner == null && !directCoreSupply) {
+        if (!useWarehouse && !directCoreSupply) {
             releaseSupplyStation(level, entity);
             entity.stopSettlementNavigation();
             setActivity(data, citizen, entity, CitizenActivity.BLOCKED, "MATERIALS_MISSING");
@@ -2308,9 +2334,10 @@ public final class CitizenWorkService {
         requirements.put(requestedMaterial, ConstructionPlanService.relatedTerrainSupplyNeed(settlement,blueprint.terrainProject(),requestedMaterial));
         boolean irrigationRequest=blueprint.region()!=null && requestedMaterial==Items.WATER_BUCKET;
         if (pending != null && !irrigationRequest) {
-            ConstructionPlanService.SupplyPlan supplyPlan = ConstructionPlanService.createSupplyPlan(
-                    level, blueprint, claimed, entity.blockPosition(), pending.placement().position());
-            supplyPlan.requirements().forEach((material, count) ->
+            var batch=blueprint.terrainProject()!=null
+                    ? com.hkin.exiledsettlement.terrain.BuriedFillMaterials.supplyNeeds(level,settlement,blueprint.terrainProject(),citizen)
+                    : ConstructionPlanService.createSupplyPlan(level, blueprint, claimed, entity.blockPosition(), pending.placement().position()).requirements();
+            batch.forEach((material, count) ->
                     requirements.merge(material, count, Math::max));
         }
         for (CitizenRecord other : settlement.citizens()) {
@@ -2330,7 +2357,7 @@ public final class CitizenWorkService {
         boolean craftScaffolds = !creative && citizen.profession() == CitizenProfession.WORKER
                 && (warehouse==null || !WarehouseConstructionSupply.available(level,settlement,warehouse,Items.SCAFFOLDING,1))
                 && (useWarehouse ? WarehouseInventoryService.countItem(level, warehouse, Items.SCAFFOLDING) == 0
-                    : owner != null && !owner.getInventory().contains(new ItemStack(Items.SCAFFOLDING)));
+                    : true);
         if (craftScaffolds) {
             int missing = Math.max(0, requirements.getOrDefault(Items.SCAFFOLDING, 0)
                     - countInventoryItem(citizen, Items.SCAFFOLDING));
@@ -2364,7 +2391,7 @@ public final class CitizenWorkService {
                 ? WarehouseInventoryService.reserveInteractionPosition(level, warehouse, entity)
                 : directCoreSupply
                 ? SettlementCoreInteractionService.reserveSupplyPosition(level, settlement, entity)
-                : owner == null ? null : owner.blockPosition();
+                : null;
         if (target == null) {
             if (directCoreSupply) {
                 waitForSupplyStation(level, data, settlement, citizen, entity, null,
@@ -2398,7 +2425,7 @@ public final class CitizenWorkService {
             if (decorationAssembly && !creative) request = Math.min(request,
                     countInventoryItem(citizen, entry.getKey()) + Math.max(0,
                     SettlementInventoryService.countItem(level, settlement, entry.getKey()) - DecorationCrafting.reserve(settlement, entry.getKey())));
-            loadConstructionMaterial(level, warehouse, owner, citizen, entity,
+            loadConstructionMaterial(level, warehouse, citizen, entity,
                     entry.getKey(), request, useWarehouse, creative);
         }
         if (decorationAssembly && !creative) { DecorationCrafting.craft(level, settlement, citizen, componentOutputs); data.touch(); }
@@ -2468,7 +2495,7 @@ public final class CitizenWorkService {
     }
 
     private static int loadConstructionMaterial(
-            ServerLevel level, @Nullable BuildingRecord warehouse, @Nullable ServerPlayer owner,
+            ServerLevel level, @Nullable BuildingRecord warehouse,
             CitizenRecord citizen, SettlementCitizenEntity entity,
             Item material, int requested, boolean useWarehouse, boolean creative
     ) {
@@ -2480,17 +2507,17 @@ public final class CitizenWorkService {
                 count -> useWarehouse ? WarehouseConstructionSupply.extract(
                         level, warehouse, entity, material, count)
                         : creative ? new ItemStack(material, count)
-                        : owner == null ? ItemStack.EMPTY : extractItem(owner.getInventory(), material, count),
+                        : ItemStack.EMPTY,
                 excess -> {
                     if (useWarehouse) WarehouseInventoryService.insertForResident(level, warehouse, entity, excess);
-                    else if (owner != null && !creative) owner.getInventory().add(excess);
+
                 });
         if(insertedTotal>0) {
             SITE_WAITS.remove(citizen);
             SITE_SUCCESS_TICKS.put(entity, level.getGameTime());
             var supplySettlement=SettlementSavedData.get(level).findContaining(entity.blockPosition()).orElse(null);
             if(supplySettlement!=null)CitizenEquipmentService.topUpConstructionTools(level,supplySettlement,citizen,entity);
-            var supply=useWarehouse && warehouse!=null?warehouse.position():owner!=null?owner.blockPosition()
+            var supply=useWarehouse && warehouse!=null?warehouse.position()
                     :SettlementSavedData.get(level).findContaining(entity.blockPosition()).map(SettlementRecord::corePosition).orElse(null);
             if(supply!=null) {
                 com.hkin.exiledsettlement.debug.SaveAcceptanceService.action(level,citizen,
@@ -2569,7 +2596,7 @@ public final class CitizenWorkService {
         var face=target==null?null:com.hkin.exiledsettlement.terrain.TerrainService.fillSurfaceWorkFace(level,site.terrainProject(),site.terrainProject().steps.get(-target.index()-1));
         return "stage="+SITE_DIAGNOSTICS.get(entity)+",cap="+(site!=null && builderWithinCap(s,c,site.id()))+",personal="+com.hkin.exiledsettlement.settlement.CommunityLifeService.handles(c)+",station="+station+",escape="+escape+",inWater="+entity.isInWater()+",face="+face+",faceVisible="+(face!=null && CitizenInteractionRange.visible(entity,face));
     }
-    private static final Map<SettlementCitizenEntity, Long> SITE_ACTION_TICKS = new java.util.WeakHashMap<>();
+    private static final Map<SettlementCitizenEntity, Double> SITE_ACTION_TICKS = new java.util.WeakHashMap<>();
     private static final Map<SettlementCitizenEntity, Long> SITE_SUCCESS_TICKS = new java.util.WeakHashMap<>();
     private static final Map<SettlementCitizenEntity, Map<BlockPos, Integer>> SITE_ROUTE_FAILURES = new java.util.WeakHashMap<>();
     private record SiteStation(UUID site, BlockPos position, long retryAt, BlockPos workTarget) {
@@ -2699,7 +2726,7 @@ public final class CitizenWorkService {
                 }
             }
             for (CitizenRecord citizen : settlement.citizens()) {
-                if(staggerConstruction && !com.hkin.exiledsettlement.util.TickCadence.due(level.getGameTime(),citizen.id(),5,2))continue;
+                if(staggerConstruction && !com.hkin.exiledsettlement.util.TickCadence.due(level.getGameTime(),citizen.id(),CitizenToolSpeed.schedulerInterval(citizen,5),2))continue;
                 if(citizen.workState()==CitizenWorkState.TO_ROAD && citizen.canWork() && isWorkTime(level,citizen)
                         && !com.hkin.exiledsettlement.settlement.CommunityLifeService.handles(citizen) && !settlement.community().evacuation) {
                     var actor=CitizenProjectionService.findProjection(level,citizen);
@@ -2776,6 +2803,21 @@ public final class CitizenWorkService {
                 return false;
             }
         }
+        // Resolve the current action before choosing any specialised approach.
+        // A just-placed beam can still be the resident's saved target here.
+        if(com.hkin.exiledsettlement.blueprint.TimedConstructionService.building(site)
+                && (citizen.targetPosition()==null || BlueprintService.pendingAt(level,site,citizen.targetPosition())==null)) {
+            var claimed=new HashSet<BlockPos>();
+            for(var other:settlement.citizens())if(other!=citizen && other.workState()==CitizenWorkState.TO_BLUEPRINT
+                    && site.id().equals(other.targetBlueprintId()) && other.targetPosition()!=null)claimed.add(other.targetPosition());
+            var next=BlueprintService.nextUnclaimedPending(level,data,site,claimed,entity.blockPosition());
+            if(next==null) {
+                BlueprintService.finishTimedIfReady(level,data,settlement,site);
+                SITE_STATIONS.remove(entity);clear(data,citizen,entity);return false;
+            }
+            citizen.updateTargetPosition(next.placement().position());
+            SITE_STATIONS.remove(entity);data.touch();
+        }
         if(bridgeSequence && prepareGroundSupplies(level,data,settlement,site,citizen,entity))return false;
         if(!bridgeSequence && treeClearanceTarget(level,site,citizen.targetPosition())) {
             if(treeGroundReady(level,settlement,entity,citizen.targetPosition(),entity.navigationFeetPosition())) {
@@ -2789,7 +2831,11 @@ public final class CitizenWorkService {
                     :treeGroundApproach(level,settlement,site,entity,citizen.targetPosition());
             SITE_STATIONS.put(entity,new SiteStation(site.id(),at,level.getGameTime()+100,citizen.targetPosition()));
             String failure=at==null?"CONSTRUCTION_SITE_NO_ROUTE":entity.navigateTo(at,WALK_SPEED);
-            setActivity(data,citizen,entity,CitizenActivity.BUILDING,failure);return false;
+            if(at==null || terminalNavigationFailure(failure)) {
+                yieldUnreachableSite(level,data,settlement,site,citizen,entity);
+                setActivity(data,citizen,entity,CitizenActivity.BLOCKED,failure);
+            } else setActivity(data,citizen,entity,CitizenActivity.BUILDING,failure);
+            return false;
         }
         if(bridgeSequence || com.hkin.exiledsettlement.blueprint.TimedConstructionService.building(site)
                 || com.hkin.exiledsettlement.blueprint.TimedConstructionService.fill(level,site,citizen.targetPosition())) {
@@ -3045,10 +3091,12 @@ public final class CitizenWorkService {
     }
     private static boolean localWorkRange(SettlementCitizenEntity entity,BlockPos target){return target!=null && CitizenInteractionRange.contains(entity,target);}
     private static boolean treeClearanceTarget(ServerLevel level,BlueprintRecord site,BlockPos target) {
-        if(target==null || !level.hasChunkAt(target) || !ResidentTreeFelling.vegetation(level.getBlockState(target)))return false;
-        if(site.terrainProject()!=null) {var step=com.hkin.exiledsettlement.terrain.TerrainService.at(level,site,target);
-            return step!=null && !site.terrainProject().steps.get(-step.index()-1).fill();}
-        return site.hasClearanceTarget(target) || BlueprintTemplates.create(site).placementAt(target)!=null;
+        if(target==null || !level.hasChunkAt(target))return false;
+        var pending=BlueprintService.pendingAt(level,site,target);
+        // Material tags cannot turn placement, completed work or an obsolete
+        // target into demolition. Only a live clearance action may fell a tree.
+        if(pending==null || pending.placement().mode()!=BlueprintPlacementMode.CLEARANCE)return false;
+        return ResidentTreeFelling.vegetation(level.getBlockState(target)) && TreeSurvey.inspect(level,target).tree();
     }
     private static boolean treeGroundReady(ServerLevel level,SettlementRecord settlement,SettlementCitizenEntity entity,BlockPos target,BlockPos feet) {
         var tree=TreeSurvey.inspect(level,target);if(tree.tree())target=tree.root();
@@ -3222,7 +3270,7 @@ public final class CitizenWorkService {
         for(var entry:requirements.entrySet()){
             if(!c.hasInventoryItem(stack->stack.is(entry.getKey()))
                     && c.inventory().stream().filter(ItemStack::isEmpty).count()<=6)continue;
-            loadConstructionMaterial(level,null,null,c,e,entry.getKey(),entry.getValue(),false,true);
+            loadConstructionMaterial(level,null,c,e,entry.getKey(),entry.getValue(),false,true);
         }
     }
 
@@ -3241,9 +3289,7 @@ public final class CitizenWorkService {
         boolean fill=!pending.placement().state().isAir() && !replacing;
         var tag=fill?net.minecraft.tags.ItemTags.SHOVELS:state.is(net.minecraft.tags.BlockTags.MINEABLE_WITH_PICKAXE)?net.minecraft.tags.ItemTags.PICKAXES
                 :state.is(net.minecraft.tags.BlockTags.MINEABLE_WITH_AXE)?net.minecraft.tags.ItemTags.AXES:state.is(net.minecraft.tags.BlockTags.MINEABLE_WITH_SHOVEL)?net.minecraft.tags.ItemTags.SHOVELS:null;
-        if(tag!=null && c.findInventorySlot(stack->stack.is(tag) && (fill || !state.requiresCorrectToolForDrops() || stack.isCorrectToolForDrops(state)))<0){
-            requestConstructionTool(level,data,s,c,e,tag==net.minecraft.tags.ItemTags.SHOVELS?Items.IRON_SHOVEL:tag==net.minecraft.tags.ItemTags.AXES?Items.IRON_AXE:Items.DIAMOND_PICKAXE,fill?null:state);return true;
-        }
+
         var item=pending.placement().material();
         var plan=site.terrainProject();var step=plan.steps.get(-pending.index()-1);
         if(step.fill())item=com.hkin.exiledsettlement.terrain.BuriedFillMaterials.choose(level,s,plan,step,c).getBlock().asItem();
@@ -3302,9 +3348,10 @@ public final class CitizenWorkService {
         if (warehouse == null && material == Items.SCAFFOLDING) {
             warehouse = WarehouseConstructionSupply.warehouse(level, settlement, entity.blockPosition(), Items.STICK);
         }
-        if (warehouse == null && !settlement.creativeCoreInstalled()
-                && level.getServer().getPlayerList().getPlayer(site.ownerId()) == null) {
-            clear(data,citizen,entity);data.touch();
+        if (warehouse == null && !settlement.creativeCoreInstalled()) {
+            releaseSupplyStation(level,entity);
+            entity.stopSettlementNavigation();
+            setActivity(data,citizen,entity,CitizenActivity.BLOCKED,"MATERIALS_MISSING");
             return;
         }
         SITE_STATIONS.remove(entity);
@@ -3350,12 +3397,8 @@ public final class CitizenWorkService {
                 :replacing && current.is(net.minecraft.tags.BlockTags.MINEABLE_WITH_SHOVEL)?net.minecraft.tags.ItemTags.SHOVELS
                 :plan!=null || placement.state().is(Blocks.DIRT_PATH)?net.minecraft.tags.ItemTags.SHOVELS
                 :placement.mode()==BlueprintPlacementMode.FARM_TILL?net.minecraft.tags.ItemTags.HOES:null;
-        int toolSlot=toolTag==null?-1:citizen.findInventorySlot(stack->stack.is(toolTag)
-                && (!replacing || !current.requiresCorrectToolForDrops() || stack.isCorrectToolForDrops(current)));
-        if(toolTag!=null && toolSlot<0) {
-            requestConstructionTool(level,data,settlement,citizen,entity,toolTag==net.minecraft.tags.ItemTags.SHOVELS?Items.IRON_SHOVEL
-                    :toolTag==net.minecraft.tags.ItemTags.HOES?Items.IRON_HOE:toolTag==net.minecraft.tags.ItemTags.AXES?Items.IRON_AXE:Items.DIAMOND_PICKAXE,replacing?current:null);return;
-        }
+        int toolSlot=toolTag==null?-1:citizen.findInventorySlot(stack->stack.is(toolTag));
+
         if(toolSlot>=0){citizen.selectActiveSlot(toolSlot);syncHeldItem(citizen,entity);}
         int index=plan==null?-1:-pending.index()-1;
         var target=plan==null?placement.state():com.hkin.exiledsettlement.terrain.BuriedFillMaterials.choose(level,settlement,plan,plan.steps.get(index),citizen);
@@ -3410,8 +3453,10 @@ public final class CitizenWorkService {
                 || com.hkin.exiledsettlement.blueprint.TimedConstructionService.fill(level,cadenceSite,citizen.targetPosition());
         int cadence=timed?com.hkin.exiledsettlement.blueprint.TimedConstructionService.INTERVAL
                 :cadenceSite!=null && (cadenceSite.terrainProject()!=null || cadenceSite.earthworkPlan()!=null)?5:10;
-        if (now - SITE_ACTION_TICKS.getOrDefault(entity, now - cadence) < cadence) return;
-        SITE_ACTION_TICKS.put(entity, now); // No catch-up credit after absence or repeated invocations.
+        double due=SITE_ACTION_TICKS.getOrDefault(entity,(double)now);
+        if(now<due)return;
+        // Retain sub-tick fractions so stone and higher tiers keep their advertised average rate.
+        SITE_ACTION_TICKS.put(entity,Math.max(due,now-WORK_INTERVAL_TICKS)+cadence/CitizenToolSpeed.multiplier(citizen));
         if (!prepareSiteStation(level, data, settlement, citizen, entity)) return;
         BlueprintRecord site = settlement.blueprint(citizen.targetBlueprintId());
         if(timed) {advanceTimedConstruction(level,data,settlement,site,citizen,entity,now);return;}
@@ -3447,19 +3492,14 @@ public final class CitizenWorkService {
                 var tag=current.is(net.minecraft.tags.BlockTags.MINEABLE_WITH_PICKAXE) ? net.minecraft.tags.ItemTags.PICKAXES
                         : current.is(net.minecraft.tags.BlockTags.MINEABLE_WITH_AXE) ? net.minecraft.tags.ItemTags.AXES
                         : current.is(net.minecraft.tags.BlockTags.MINEABLE_WITH_SHOVEL) ? net.minecraft.tags.ItemTags.SHOVELS : null;
-                clearanceTool=tag==null ? -1 : citizen.findInventorySlot(stack -> stack.is(tag)
-                        && (!current.requiresCorrectToolForDrops() || stack.isCorrectToolForDrops(current)));
-                if(tag!=null && clearanceTool<0) {
-                    requestConstructionTool(level,data,settlement,citizen,entity,
-                            tag==net.minecraft.tags.ItemTags.PICKAXES ? Items.DIAMOND_PICKAXE
-                                    : tag==net.minecraft.tags.ItemTags.AXES ? Items.IRON_AXE : Items.IRON_SHOVEL,current);return;
-                }
+                clearanceTool=tag==null ? -1 : citizen.findInventorySlot(stack -> stack.is(tag));
+
                 if(!clearanceActionReady(level,citizen,citizen.targetPosition(),current,
                         clearanceTool<0?ItemStack.EMPTY:citizen.inventoryItem(clearanceTool))) return;
                 if(clearanceTool>=0) citizen.selectActiveSlot(clearanceTool);
             }
             var result = BlueprintService.clearAt(level, data, settlement, site, citizen.targetPosition(), entity,
-                    clearanceTool<0 ? citizen.carriedItem() : citizen.inventoryItem(clearanceTool));
+                    clearanceTool<0 ? ItemStack.EMPTY : citizen.inventoryItem(clearanceTool));
             if (!result.success()) { setActivity(data, citizen, entity, CitizenActivity.BLOCKED, result.reason()); return; }
             // Reconciliation of an already satisfied target does not reset the
             // engineering watchdog or count as a physical construction action.
@@ -3474,7 +3514,7 @@ public final class CitizenWorkService {
         } else {
             if(pending.placement().state().is(Blocks.DIRT_PATH)) {
                 int shovel=citizen.findInventorySlot(stack->stack.is(net.minecraft.tags.ItemTags.SHOVELS));
-                if(shovel<0){requestConstructionTool(level,data,settlement,citizen,entity,Items.IRON_SHOVEL,null);return;}
+
                 citizen.selectActiveSlot(shovel);
             }
             if(pending.placement().mode()==BlueprintPlacementMode.FARM_TILL) {
@@ -3489,7 +3529,7 @@ public final class CitizenWorkService {
                     setActivity(data,citizen,entity,CitizenActivity.BLOCKED,"BLUEPRINT_BLOCKED");return;
                 }
                 int hoe=citizen.findInventorySlot(stack -> stack.is(net.minecraft.tags.ItemTags.HOES));
-                if(hoe<0) { requestConstructionTool(level,data,settlement,citizen,entity,Items.IRON_HOE,null); return; }
+
                 citizen.selectActiveSlot(hoe);
             }
             // Ground-site construction does not require an exact standing cell at every block.
@@ -3661,13 +3701,8 @@ public final class CitizenWorkService {
         var toolTag=filling && !replacingSolid || state.is(net.minecraft.tags.BlockTags.MINEABLE_WITH_SHOVEL) ? net.minecraft.tags.ItemTags.SHOVELS
                 : state.is(net.minecraft.tags.BlockTags.MINEABLE_WITH_PICKAXE) ? net.minecraft.tags.ItemTags.PICKAXES
                 : state.is(net.minecraft.tags.BlockTags.MINEABLE_WITH_AXE) ? net.minecraft.tags.ItemTags.AXES : null;
-        int toolSlot=toolTag==null ? -1 : citizen.findInventorySlot(stack -> stack.is(toolTag)
-                && (!state.requiresCorrectToolForDrops() || stack.isCorrectToolForDrops(state)));
-        if(toolTag!=null && toolSlot<0) {
-            Item required=toolTag==net.minecraft.tags.ItemTags.SHOVELS ? Items.IRON_SHOVEL
-                    : toolTag==net.minecraft.tags.ItemTags.AXES ? Items.IRON_AXE : Items.DIAMOND_PICKAXE;
-            requestConstructionTool(level,data,settlement,citizen,entity,required,filling && !replacingSolid?null:state);return true;
-        }
+        int toolSlot=toolTag==null ? -1 : citizen.findInventorySlot(stack -> stack.is(toolTag));
+
         ItemStack tool=toolSlot<0 ? ItemStack.EMPTY : citizen.inventoryItem(toolSlot);
         if(!filling && !clearanceActionReady(level,citizen,p,state,tool)) return true;
         if(toolSlot>=0) citizen.selectActiveSlot(toolSlot);
@@ -3819,13 +3854,8 @@ public final class CitizenWorkService {
         var toolTag=step.fill() || state.is(net.minecraft.tags.BlockTags.MINEABLE_WITH_SHOVEL) ? net.minecraft.tags.ItemTags.SHOVELS
                 : state.is(net.minecraft.tags.BlockTags.MINEABLE_WITH_PICKAXE) ? net.minecraft.tags.ItemTags.PICKAXES
                 : state.is(net.minecraft.tags.BlockTags.MINEABLE_WITH_AXE) ? net.minecraft.tags.ItemTags.AXES : null;
-        int toolSlot=toolTag==null ? -1 : citizen.findInventorySlot(stack -> stack.is(toolTag)
-                && (!state.requiresCorrectToolForDrops() || stack.isCorrectToolForDrops(state)));
-        if(toolTag!=null && toolSlot<0) {
-            Item required=toolTag==net.minecraft.tags.ItemTags.SHOVELS ? Items.IRON_SHOVEL
-                    : toolTag==net.minecraft.tags.ItemTags.AXES ? Items.IRON_AXE : Items.DIAMOND_PICKAXE;
-            requestConstructionTool(level,data,settlement,citizen,entity,required,step.fill()?null:state);return true;
-        }
+        int toolSlot=toolTag==null ? -1 : citizen.findInventorySlot(stack -> stack.is(toolTag));
+
         ItemStack tool=toolSlot<0 ? ItemStack.EMPTY : citizen.inventoryItem(toolSlot);
         if(!step.fill() && !clearanceActionReady(level,citizen,p,state,tool)) return true;
         if(toolSlot>=0) citizen.selectActiveSlot(toolSlot);
@@ -4081,8 +4111,7 @@ public final class CitizenWorkService {
                     level, settlement, entity.blockPosition(), pending.placement().material());
             if (warehouse == null && DecorationService.owned(settlement, blueprint.id()))
                 warehouse = DecorationCrafting.warehouse(level, settlement, citizen, pending.placement().material());
-            ServerPlayer owner = level.getServer().getPlayerList().getPlayer(blueprint.ownerId());
-            if (warehouse == null && owner == null && !settlement.creativeCoreInstalled()) {
+                if (warehouse == null && !settlement.creativeCoreInstalled()) {
                 setActivity(data, citizen, entity, CitizenActivity.BLOCKED, "MATERIALS_MISSING");
             } else {
                 citizen.fetchConstructionMaterial(warehouse == null ? null : warehouse.id());
@@ -4255,8 +4284,7 @@ public final class CitizenWorkService {
                     level, settlement, entity.blockPosition(), next.placement().material());
             if (warehouse == null && DecorationService.owned(settlement, blueprint.id()))
                 warehouse = DecorationCrafting.warehouse(level, settlement, citizen, next.placement().material());
-            ServerPlayer owner = level.getServer().getPlayerList().getPlayer(blueprint.ownerId());
-            if (warehouse == null && owner == null
+                if (warehouse == null
                     && !settlement.creativeCoreInstalled()) {
                 setActivity(data, citizen, entity, CitizenActivity.BLOCKED, "MATERIALS_MISSING");
                 return;
@@ -4389,7 +4417,7 @@ public final class CitizenWorkService {
             BlockState state, ItemStack tool
     ) {
         float hardness = Math.max(0.1F, state.getDestroySpeed(level, target));
-        float toolSpeed = Math.max(1.0F, tool.isEmpty() ? 1.0F : tool.getDestroySpeed(state));
+        float toolSpeed = (float)CitizenToolSpeed.multiplier(tool);
         int interval = net.minecraft.util.Mth.clamp(
                 Math.round(hardness * 30.0F / toolSpeed), WORK_INTERVAL_TICKS, 100);
         int offset = Math.floorMod(citizen.id().hashCode() ^ target.hashCode(), interval);
@@ -4577,9 +4605,9 @@ public final class CitizenWorkService {
             c.fetchRepairMaterial(warehouse==null?null:warehouse.id());MOB_RECOVERY_STARTED.remove(c);data.touch();return;
         }
         int tool=CitizenEquipmentService.toolSlotForWork(c);
-        if(tool<0){releaseMobRecovery(level,data,s,c,actor,"TOOLS_MISSING");return;}
+
         long start=MOB_RECOVERY_STARTED.computeIfAbsent(c,k->level.getGameTime());
-        if(!com.hkin.exiledsettlement.building.MobRecoveryService.arrived(event,actor)){
+        if(!com.hkin.exiledsettlement.building.MobRecoveryService.arrived(event,actor,cell.pos)){
             MOB_RECOVERY_WORK_STARTED.remove(c);
             var station=com.hkin.exiledsettlement.building.MobRecoveryService.approach(level,event,actor,cell.pos);
             if(station==null || level.getGameTime()-start>600){releaseMobRecovery(level,data,s,c,actor,"RECOVERY_UNREACHABLE");return;}
@@ -4587,7 +4615,7 @@ public final class CitizenWorkService {
         }
         actor.stopSettlementNavigation();setActivity(data,c,actor,CitizenActivity.REPAIRING,"");
         long workStart=MOB_RECOVERY_WORK_STARTED.computeIfAbsent(c,k->level.getGameTime());
-        if(level.getGameTime()-workStart<com.hkin.exiledsettlement.blueprint.TimedConstructionService.INTERVAL)return;
+        if(level.getGameTime()-workStart<CitizenToolSpeed.interval(c,com.hkin.exiledsettlement.blueprint.TimedConstructionService.INTERVAL))return;
         reason=com.hkin.exiledsettlement.building.MobRecoveryService.place(level,s,event,cell,actor);
         if(!reason.isEmpty()){releaseMobRecovery(level,data,s,c,actor,reason);return;}
         int remaining=cost;
@@ -4606,10 +4634,11 @@ public final class CitizenWorkService {
         }
         BlockPos position = citizen.targetPosition();
         BuildingRecord repairedBuilding = settlement.building(citizen.sourceBuildingId());
-        if(com.hkin.exiledsettlement.region.FarmConstructionPolicy.farm(repairedBuilding)){clear(data,citizen,entity);return;}
+        if (!workerMayRepair(repairedBuilding, position)) { clear(data,citizen,entity); return; }
         BlockState expected = position == null ? null
                 : BuildingRepairService.expectedState(level, settlement, repairedBuilding, position);
-        Item required = expected == null ? null : repairMaterial(expected);
+        var irrigation = productionRepairStage(level, repairedBuilding, position);
+        Item required = expected == null ? null : irrigation == null ? repairMaterial(expected) : irrigation.action().material();
         BuildingRecord warehouse = settlement.building(citizen.targetBuildingId());
         boolean decorationRepair = repairedBuilding != null && DecorationService.forBuilding(settlement, repairedBuilding.id()) != null
                 && required!=null && !WarehouseConstructionSupply.available(level,settlement,required,1);
@@ -4663,7 +4692,7 @@ public final class CitizenWorkService {
             for (var in : repairInputs.entrySet()) {
                 int request = Math.min(in.getValue(), countInventoryItem(citizen, in.getKey()) + Math.max(0,
                         SettlementInventoryService.countItem(level, settlement, in.getKey()) - DecorationCrafting.reserve(settlement, in.getKey())));
-                loadConstructionMaterial(level, warehouse, null, citizen, entity, in.getKey(), request, true, false);
+                loadConstructionMaterial(level, warehouse, citizen, entity, in.getKey(), request, true, false);
             }
             DecorationCrafting.craft(level, settlement, citizen, Map.of(required, 1)); data.touch();
             if (selectInventoryItem(citizen, required)) { citizen.returnToRepair(); releaseSupplyStation(level, entity); return; }
@@ -4700,7 +4729,7 @@ public final class CitizenWorkService {
         BlockPos position = citizen.targetPosition();
         if(com.hkin.exiledsettlement.building.MobRecoveryService.owns(settlement,position)){clear(data,citizen,entity);return;}
         BuildingRecord building = settlement.building(citizen.targetBuildingId());
-        if(com.hkin.exiledsettlement.region.FarmConstructionPolicy.farm(building)){clear(data,citizen,entity);return;}
+        if (!workerMayRepair(building, position)) { clear(data,citizen,entity); return; }
         BlockState expected = position == null ? null
                 : BuildingRepairService.expectedState(level, settlement, building, position);
         if (position == null || expected == null) {
@@ -4718,7 +4747,9 @@ public final class CitizenWorkService {
             move(data, citizen, entity, position, CitizenActivity.REPAIRING);
             return;
         }
-        Item required = repairMaterial(expected);
+        var irrigation = productionRepairStage(level, building, position);
+        if (irrigation != null) expected = irrigation.action().state();
+        Item required = irrigation == null ? repairMaterial(expected) : irrigation.action().material();
         if (required != null && !selectInventoryItem(citizen, required)) {
             BuildingRecord warehouse = WarehouseConstructionSupply.warehouse(
                     level, settlement, entity.blockPosition(), required);
@@ -4734,13 +4765,26 @@ public final class CitizenWorkService {
         }
         boolean pairedRepair = building != null
                 && com.hkin.exiledsettlement.blueprint.BlueprintPlacementGroups.isPaired(expected);
-        if (!pairedRepair && !level.getBlockState(position).isAir()
+        boolean fillIrrigation = irrigation != null && com.hkin.exiledsettlement.blueprint.IrrigationConstructionService
+                .waterlogging(irrigation.template(), irrigation.action());
+        if (fillIrrigation && !com.hkin.exiledsettlement.blueprint.IrrigationConstructionService
+                .ready(level, irrigation.template(), irrigation.action())) {
+            setActivity(data, citizen, entity, CitizenActivity.BLOCKED, "FARM_EARTHWORK_NO_SUPPORT");
+            return;
+        }
+        if (!pairedRepair && !fillIrrigation && !level.getBlockState(position).isAir()
                 && !level.getBlockState(position).is(com.hkin.exiledsettlement.registry.ExiledSettlementTags.REPLACEABLE_FOUNDATION)) {
             setActivity(data, citizen, entity, CitizenActivity.BLOCKED, "REPAIR_POSITION_OCCUPIED");
             return;
         }
         if (!workCycleReady(level, citizen)) return;
-        if (pairedRepair) {
+        if (fillIrrigation) {
+            if (!com.hkin.exiledsettlement.blueprint.IrrigationConstructionService
+                    .placeWater(level, irrigation.template(), irrigation.action(), entity)) {
+                setActivity(data, citizen, entity, CitizenActivity.BLOCKED, "PROTECTED_AREA");
+                return;
+            }
+        } else if (pairedRepair) {
             var template = BlueprintTemplates.createForBuilding(building);
             var placed = com.hkin.exiledsettlement.blueprint.BlueprintPlacementGroups.place(
                     level, settlement, template, template.placementAt(position), entity, false);
@@ -4762,12 +4806,16 @@ public final class CitizenWorkService {
             supplied.shrink(1);
             citizen.updateCarriedItem(supplied);
         }
+        if (irrigation != null) com.hkin.exiledsettlement.blueprint.IrrigationConstructionService
+                .returnBucket(level, irrigation.template(), irrigation.action(), entity);
         int toolSlot = CitizenEquipmentService.toolSlotForWork(citizen);
         if (toolSlot >= 0) citizen.damageInventoryItem(toolSlot, 1);
         com.hkin.exiledsettlement.debug.SaveAcceptanceService.action(level,citizen,
                 building==null?"road_repair":"building_repair",position,
                 required==null?"":required.toString(),required==null?0:1);
-        BuildingRepairService.clearRepair(settlement, building, position);
+        // The dry slab is a paid intermediate action; retain the same damage record for water delivery.
+        if (irrigation == null || BuildingRepairService.satisfied(level, building, position))
+            BuildingRepairService.clearRepair(settlement, building, position);
         clear(data, citizen, entity);
         Set<BlockPos> claimed = settlement.citizens().stream()
                 .filter(other -> !other.id().equals(citizen.id()))
@@ -4779,6 +4827,25 @@ public final class CitizenWorkService {
         data.touch();
     }
 
+    private static boolean workerMayRepair(@Nullable BuildingRecord building, @Nullable BlockPos position) {
+        return !com.hkin.exiledsettlement.region.FarmConstructionPolicy.farm(building)
+                || position != null && com.hkin.exiledsettlement.terrain.TerrainService.productionStructure(building, position);
+    }
+
+    private record ProductionRepairStage(BuildingBlueprintTemplate template, BlueprintPlacement action) {}
+
+    @Nullable
+    private static ProductionRepairStage productionRepairStage(ServerLevel level, @Nullable BuildingRecord building,
+                                                               @Nullable BlockPos position) {
+        if (building == null || position == null
+                || !com.hkin.exiledsettlement.terrain.TerrainService.productionStructure(building, position)) return null;
+        var template = BlueprintTemplates.createForBuilding(building);
+        var goal = template.placementAt(position);
+        return goal != null && com.hkin.exiledsettlement.blueprint.IrrigationConstructionService.applies(template, goal)
+                ? new ProductionRepairStage(template,
+                    com.hkin.exiledsettlement.blueprint.IrrigationConstructionService.stage(level, template, goal)) : null;
+    }
+
     @Nullable
     private static Item repairMaterial(BlockState state) {
         if (state.is(Blocks.FARMLAND) || state.is(Blocks.DIRT_PATH)) return Items.DIRT;
@@ -4788,7 +4855,7 @@ public final class CitizenWorkService {
 
     private static final Map<SettlementCitizenEntity, SiteStation> DEMOLITION_STATIONS = new java.util.WeakHashMap<>();
     private static final Map<SettlementCitizenEntity, Integer> DEMOLITION_CREDITS = new java.util.WeakHashMap<>();
-    private static final Map<SettlementCitizenEntity, Long> DEMOLITION_TICKS = new java.util.WeakHashMap<>();
+    private static final Map<SettlementCitizenEntity, Double> DEMOLITION_TICKS = new java.util.WeakHashMap<>();
 
     private static void prioritizeDemolition(ServerLevel level, SettlementSavedData data, SettlementRecord settlement) {
         if (settlement.community().evacuation || settlement.community().policy.equals("emergency")) return;
@@ -4822,7 +4889,7 @@ public final class CitizenWorkService {
             if (!settlement.active() || !level.hasChunkAt(settlement.corePosition()) || settlement.community().evacuation
                     || settlement.community().policy.equals("emergency")) continue;
             for (CitizenRecord citizen : settlement.citizens()) {
-                if(staggerConstruction && !com.hkin.exiledsettlement.util.TickCadence.due(level.getGameTime(),citizen.id(),5,2))continue;
+                if(staggerConstruction && !com.hkin.exiledsettlement.util.TickCadence.due(level.getGameTime(),citizen.id(),CitizenToolSpeed.schedulerInterval(citizen,5),2))continue;
                 if (!citizen.canWork() || citizen.workState() != CitizenWorkState.TO_DEMOLITION
                         || com.hkin.exiledsettlement.settlement.CommunityLifeService.handles(citizen)) continue;
                 SettlementCitizenEntity entity = CitizenProjectionService.findProjection(level, citizen);
@@ -4837,8 +4904,9 @@ public final class CitizenWorkService {
             SettlementRecord settlement, CitizenRecord citizen, SettlementCitizenEntity entity) {
         if (pauseForCargoDelivery(level, data, settlement, citizen, entity)) return;
         long now = level.getGameTime();
-        if (now - DEMOLITION_TICKS.getOrDefault(entity, Long.MIN_VALUE / 2) < 5) return;
-        DEMOLITION_TICKS.put(entity, now);
+        double due=DEMOLITION_TICKS.getOrDefault(entity,(double)now);
+        if(now<due)return;
+        DEMOLITION_TICKS.put(entity,Math.max(due,now-WORK_INTERVAL_TICKS)+5.0/CitizenToolSpeed.multiplier(citizen));
         if (citizen.targetBlueprintId() != null) cleanupBlueprintSite(level, data, settlement, citizen, entity);
         else demolish(level, data, settlement, citizen, entity);
     }
@@ -5648,7 +5716,7 @@ public final class CitizenWorkService {
     ) {
         BuildingRecord pasture = workplace(settlement, citizen, BuildingType.PASTURE_AREA);
         Entity targetEntity = citizen.targetItemEntityId() == null ? null : level.getEntity(citizen.targetItemEntityId());
-        if (pasture == null || com.hkin.exiledsettlement.region.PastureGroundSafety.active(pasture.region()) || !(targetEntity instanceof Animal animal)
+        if (pasture == null || pasture.productionSite()==null && com.hkin.exiledsettlement.region.PastureGroundSafety.active(pasture.region()) || !(targetEntity instanceof Animal animal)
                 || !com.hkin.exiledsettlement.region.ProductionRegionService.matchesAnimal(pasture,animal)) {
             clear(data, citizen, entity);
             return;
@@ -5940,10 +6008,7 @@ public final class CitizenWorkService {
             clear(data, citizen, entity);
             return;
         }
-        if (!CitizenEquipmentService.hasWeapon(citizen)) {
-            clear(data, citizen, entity);
-            return;
-        }
+
         if (!(target instanceof Animal animal) || !animal.isAlive()) {
             BlockPos dropPosition = citizen.targetPosition();
             if (dropPosition != null && !near(entity, dropPosition)) {
@@ -6033,7 +6098,8 @@ public final class CitizenWorkService {
     ) {
         BuildingRecord pasture = settlement.building(citizen.targetBuildingId());
         Entity target = citizen.targetItemEntityId() == null ? null : level.getEntity(citizen.targetItemEntityId());
-        if(com.hkin.exiledsettlement.region.PastureGroundSafety.capture(level,settlement,citizen,entity))return;
+        if((pasture==null || pasture.productionSite()==null)
+                && com.hkin.exiledsettlement.region.PastureGroundSafety.capture(level,settlement,citizen,entity))return;
         if (!usable(pasture, BuildingType.PASTURE_AREA) || !(target instanceof Animal animal)
                 || !animal.isAlive()) {
             clear(data, citizen, entity);
@@ -6063,6 +6129,10 @@ public final class CitizenWorkService {
     public static BlockPos pastureCaptureDestination(
             ServerLevel level, BuildingRecord pasture, BlockPos animalPosition
     ) {
+        if(pasture.productionSite()!=null)return pasture.productionSite().workCells().stream()
+                .filter(c->c.use()==com.hkin.exiledsettlement.region.ProductionRegion.Use.PASTURE)
+                .map(c->c.ground().above()).filter(p->com.hkin.exiledsettlement.blueprint.FarmEarthworkPlan.support(level,p.below()) && level.getBlockState(p).isAir() && level.getBlockState(p.above()).isAir())
+                .min(Comparator.comparingDouble(p->p.distSqr(animalPosition))).orElse(null);
         if(pasture.region()!=null)return pasture.region().cells.values().stream()
                 .filter(c->c.use()==com.hkin.exiledsettlement.region.ProductionRegion.Use.PASTURE && pasture.region().readyPasture.contains(c.ground().asLong()))
                 .map(c->c.ground().above()).filter(p->com.hkin.exiledsettlement.blueprint.FarmEarthworkPlan.support(level,p.below()) && level.getBlockState(p).isAir() && level.getBlockState(p.above()).isAir())
@@ -6089,6 +6159,8 @@ public final class CitizenWorkService {
     }
 
     private static boolean insidePastureInterior(BuildingRecord pasture, BlockPos position) {
+        if(pasture.productionSite()!=null){var cell=pasture.productionSite().cell(position);return cell!=null && pasture.productionSite().contains(position)
+                && cell.use()==com.hkin.exiledsettlement.region.ProductionRegion.Use.PASTURE;}
         if(pasture.region()!=null){var c=pasture.region().cell(position);return pasture.region().contains(position) && c.use()==com.hkin.exiledsettlement.region.ProductionRegion.Use.PASTURE && pasture.region().readyPasture.contains(c.ground().asLong());}
         return position.getX() > pasture.minCorner().getX()
                 && position.getX() < pasture.maxCorner().getX()
@@ -6504,10 +6576,7 @@ public final class CitizenWorkService {
         }
         if (!workCycleReady(level, citizen)) return;
         int toolSlot = CitizenEquipmentService.toolSlotForWork(citizen);
-        if (toolSlot < 0) {
-            clear(data, citizen, entity);
-            return;
-        }
+
         var treeSeed=forestrySeed(level,treeFarm,target);
         var wholeTreeSapling=treeSeed==null?null:saplingFor(level.getBlockState(treeSeed));
         var wholeTree=treeSeed==null?null:ResidentTreeFelling.clear(level,treeSeed,entity,citizen.inventoryItem(toolSlot),
@@ -6759,6 +6828,9 @@ public final class CitizenWorkService {
     }
 
     private static boolean insideTreeFarm(BuildingRecord treeFarm, BlockPos position) {
+        if(treeFarm.productionSite()!=null){var cell=treeFarm.productionSite().cell(position);return cell!=null
+                && cell.use()==com.hkin.exiledsettlement.region.ProductionRegion.Use.FOREST
+                && position.getY()>=treeFarm.productionSite().minimumRootY(position);}
         if(treeFarm.region()!=null){var c=treeFarm.region().cell(position);return c!=null && c.use()==com.hkin.exiledsettlement.region.ProductionRegion.Use.FOREST && position.getY()>=Math.min(c.ground().getY(),treeFarm.region().gradeOrigins.getOrDefault(com.hkin.exiledsettlement.region.ProductionRegion.key(position.getX(),position.getZ()),c.ground().getY()))+1;}
         return position.getX() > treeFarm.minCorner().getX() && position.getX() < treeFarm.maxCorner().getX()
                 && position.getZ() > treeFarm.minCorner().getZ() && position.getZ() < treeFarm.maxCorner().getZ()
@@ -6768,7 +6840,8 @@ public final class CitizenWorkService {
     private static BlockPos forestryWorkBase(ServerLevel level, BuildingRecord farm, BlockPos log) {
         // An old suspended crown is worked from the ground, never from its high log.
         BlockPos base = log;
-        while (base.getY() > farm.position().getY()) {
+        int minimumY=farm.productionSite()!=null?farm.productionSite().minimumRootY(log):farm.position().getY();
+        while (base.getY() > minimumY) {
             BlockState below = level.getBlockState(base.below());
             if (!below.isAir() && !below.is(BlockTags.LEAVES) && !below.is(BlockTags.SAPLINGS)
                     && !isMangroveRoot(below)) break;
@@ -6809,7 +6882,7 @@ public final class CitizenWorkService {
             BlockState structure = level.getBlockState(current);
             if (!structure.is(BlockTags.LOGS) && !isMangroveRoot(structure)) continue;
             if (current.getX() < treeFarm.minCorner().getX() - 8
-                    || current.getY() < treeFarm.position().getY() - 2
+                    || current.getY() < (treeFarm.productionSite()!=null?treeFarm.productionSite().minimumRootY(start):treeFarm.position().getY()) - 2
                     || current.getX() > treeFarm.maxCorner().getX() + 8
                     || current.getZ() < treeFarm.minCorner().getZ() - 8
                     || current.getZ() > treeFarm.maxCorner().getZ() + 8
@@ -6891,7 +6964,6 @@ public final class CitizenWorkService {
     @Nullable
     private static ForestryPlantingPlan treeFarmPlantingPlan(ServerLevel level, BuildingRecord farm,
             BlockPos target, @Nullable BlockState preferred, @Nullable CitizenRecord citizen) {
-        if (!com.hkin.exiledsettlement.region.RegionGroundService.plantReady(level,farm,target))return null;
         if (!isTreeFarmPlantingGrid(farm, target) || !insideTreeFarm(farm, target) || !level.hasChunkAt(target)
                 || !level.getBlockState(target).isAir()) return null;
         List<BlockState> choices = new ArrayList<>();
@@ -6913,7 +6985,7 @@ public final class CitizenWorkService {
             if (!state.canSurvive(level, target)) continue;
             if (state.is(Blocks.DARK_OAK_SAPLING)) {
                 List<BlockPos> plot = List.of(target, target.east(), target.south(), target.south().east());
-                if (plot.stream().anyMatch(pos -> !com.hkin.exiledsettlement.region.RegionGroundService.plantReady(level,farm,pos) || !insideTreeFarm(farm, pos) || !level.hasChunkAt(pos)
+                if (plot.stream().anyMatch(pos -> !insideTreeFarm(farm, pos) || !level.hasChunkAt(pos)
                         || !level.getBlockState(pos).isAir() || !state.canSurvive(level, pos))) continue;
                 if (groupSpaced == null) groupSpaced = treePlotSpaced(level, farm, plot);
                 if (groupSpaced) return new ForestryPlantingPlan(state, plot);
@@ -6978,10 +7050,7 @@ public final class CitizenWorkService {
             return;
         }
         int rodSlot = CitizenEquipmentService.toolSlotForWork(citizen);
-        if (rodSlot < 0) {
-            clear(data, citizen, entity);
-            return;
-        }
+
         if (!near(entity, target)) {
             move(data, citizen, entity, target, CitizenActivity.FISHING);
             return;
@@ -7028,7 +7097,7 @@ public final class CitizenWorkService {
             clear(data,citizen,entity);return;
         }
         int tool=CitizenEquipmentService.toolSlotForWork(citizen);
-        if(tool<0){clear(data,citizen,entity);return;}
+
         int cargo=java.util.stream.IntStream.range(0,CitizenRecord.INVENTORY_SIZE).filter(i->!citizen.pitReserveSlot(i)).mapToObj(citizen::inventoryItem).filter(com.hkin.exiledsettlement.building.MineProductionService::isOutput)
                 .mapToInt(ItemStack::getCount).sum();
         int empty=0;for(int i=0;i<CitizenRecord.INVENTORY_SIZE;i++)if(citizen.inventoryItem(i).isEmpty())empty++;
@@ -7065,9 +7134,8 @@ public final class CitizenWorkService {
         }
         setActivity(data,citizen,entity,CitizenActivity.MINING,advancing?mine.mineExpansion().reason:"");
         if(advancing)com.hkin.exiledsettlement.building.MineExpansionService.animate(level,mine,entity);
-        if(!workCycleReady(level,citizen))return;
-        // Keep physical expansion on its existing work cadence; only random finds slow down.
-        int productionInterval=com.hkin.exiledsettlement.building.MineProductionService.PRODUCTION_INTERVAL_TICKS;
+        // Output and excavation each retain their own tool-adjusted work cadence.
+        int productionInterval=CitizenToolSpeed.interval(citizen,com.hkin.exiledsettlement.building.MineProductionService.PRODUCTION_INTERVAL_TICKS);
         int productionOffset=Math.floorMod(citizen.id().hashCode(),productionInterval);
         if(Math.floorMod(level.getGameTime()+productionOffset,productionInterval)<WORK_INTERVAL_TICKS) {
             for(ItemStack output:com.hkin.exiledsettlement.building.MineProductionService.roll(level.random)) {
@@ -7077,7 +7145,7 @@ public final class CitizenWorkService {
             }
             citizen.damageInventoryItem(tool,1);
         }
-        if(advancing)com.hkin.exiledsettlement.building.MineExpansionService.completedCycle(level,data,settlement,mine,citizen,entity);
+        if(advancing && workCycleReady(level,citizen))com.hkin.exiledsettlement.building.MineExpansionService.completedCycle(level,data,settlement,mine,citizen,entity);
         data.touch();
     }
 
@@ -7133,12 +7201,17 @@ public final class CitizenWorkService {
     }
 
     private static boolean workCycleReady(ServerLevel level, CitizenRecord citizen) {
-        int offset = Math.floorMod(citizen.id().hashCode(), 200);
-        return Math.floorMod(level.getGameTime() + offset, 200L) < WORK_INTERVAL_TICKS;
+        int interval=CitizenToolSpeed.interval(citizen,200);
+        int offset=Math.floorMod(citizen.id().hashCode(),interval);
+        return Math.floorMod(level.getGameTime()+offset,interval)<WORK_INTERVAL_TICKS;
     }
 
+    private static final Map<CitizenRecord,Double> FARM_ACTION_DUE=new java.util.WeakHashMap<>();
     private static boolean farmActionReady(ServerLevel level, CitizenRecord citizen) {
-        return farmActionReadyAt(level.getGameTime(), citizen.id());
+        long now=level.getGameTime();double due=FARM_ACTION_DUE.getOrDefault(citizen,(double)now);
+        if(now<due)return false;
+        FARM_ACTION_DUE.put(citizen,Math.max(due,now-WORK_INTERVAL_TICKS)+FARM_ACTION_INTERVAL_TICKS/CitizenToolSpeed.multiplier(citizen));
+        return true;
     }
 
     public static boolean farmActionReadyAt(long gameTime, UUID citizenId) {
@@ -7364,7 +7437,7 @@ public final class CitizenWorkService {
         var id=entity==null?null:CitizenProjectionService.settlementId(entity);
         var settlement=id==null?null:SettlementSavedData.get(level).findById(id).orElse(null);
         var farm=settlement==null?null:settlement.building(citizen.workBuildingId());
-        if(farm!=null && farm.region()!=null){farm.region().nextReview=Math.min(farm.region().nextReview,level.getGameTime()+200);
+        if(farm!=null && farm.productionSite()==null && farm.region()!=null){farm.region().nextReview=Math.min(farm.region().nextReview,level.getGameTime()+200);
             farm.region().reviewStatus="耕作位置不可达，已请求田面与入口复查："+target.toShortString();}
     }
 
@@ -7744,7 +7817,7 @@ public final class CitizenWorkService {
     @Nullable
     private static BuildingRecord workplace(SettlementRecord settlement, CitizenRecord citizen, BuildingType type) {
         BuildingRecord building = settlement.building(citizen.workBuildingId());
-        return usable(building, type) && !com.hkin.exiledsettlement.region.ProductionRegionService.constructionPending(settlement,building) ? building : null;
+        return usable(building, type) ? building : null;
     }
 
     @Nullable
@@ -7758,7 +7831,8 @@ public final class CitizenWorkService {
     }
 
     private static boolean usable(@Nullable BuildingRecord building, BuildingType type) {
-        return usable(building) && (building.type()==type || building.region()!=null && com.hkin.exiledsettlement.region.ProductionRegion.acceptsWorkplace(building.type(),type));
+        return usable(building) && (building.type()==type || (building.productionSite()!=null || building.region()!=null)
+                && com.hkin.exiledsettlement.region.ProductionRegion.acceptsWorkplace(building.type(),type));
     }
 
     private static boolean prepareConstructionReach(
@@ -7904,6 +7978,29 @@ public final class CitizenWorkService {
             // another live route. Only its full route failure may defer work.
             entity.recordConstructionAccessFailure("LOCAL_STEP_REPLAN");
             setActivity(data, citizen, entity, approachActivity, "");
+        }
+        // A cancelled low foundation can be downhill from an ordinary walking
+        // surface. Prove a real route to a legal work station before treating
+        // that height difference as a resident stranded on elevated access.
+        // Live scaffold occupants retain the existing safe-descent sequence.
+        if (approachActivity == CitizenActivity.DEMOLISHING && blueprint.cancellationQueued()
+                && occupiedTemporarySupport(level, blueprint, constructionFeetPosition(entity)) == null
+                && entity.canStandAtPosition(constructionFeetPosition(entity))
+                && constructionFeetPosition(entity).getY() > target.getY() + 1) {
+            BlockPos walkingStation = reserveConstructionWorkPosition(
+                    level, entity, target, settlement, blueprint);
+            if (walkingStation != null) {
+                entity.finishConstructionAccessRetreat();
+                entity.traceConstructionDecision("cleanup-walk-existing:" + walkingStation
+                        + ":target=" + target);
+                if (nearWorkPosition(entity, walkingStation)
+                        && canConstructFromCurrentPosition(entity, target)) return true;
+                // The station search already proved this route. A cancelled
+                // shell's nominal entrance must not replace it with a detour.
+                moveToConstructionPosition(level, data, citizen, entity,
+                        walkingStation, approachActivity);
+                return false;
+            }
         }
         if (constructionFeetPosition(entity).getY() > target.getY() + 1) {
             entity.beginConstructionAccessRetreat();
@@ -9666,8 +9763,7 @@ public final class CitizenWorkService {
             }
             BuildingRecord warehouse = WarehouseConstructionSupply.warehouse(
                     level, settlement, entity.blockPosition(), preferredFooting);
-            ServerPlayer owner = level.getServer().getPlayerList().getPlayer(blueprint.ownerId());
-            if (warehouse == null && owner == null
+                if (warehouse == null
                     && !settlement.creativeCoreInstalled()) {
                 setActivity(data, citizen, entity, CitizenActivity.BLOCKED, "FOOTING_MATERIAL_MISSING");
             } else {
@@ -10814,6 +10910,11 @@ public final class CitizenWorkService {
         return insideFarmWorkArea(entity.navigationFeetPosition(),farm);
     }
     private static boolean insideFarmWorkArea(BlockPos feet,BuildingRecord farm) {
+        if(farm.productionSite()!=null) {
+            var cell=farm.productionSite().cell(feet);
+            return cell!=null && cell.use()!=com.hkin.exiledsettlement.region.ProductionRegion.Use.BOUNDARY
+                    && Math.abs(feet.getY()-(cell.ground().getY()+1))<=1;
+        }
         if(farm.region()!=null) {
             var cell=farm.region().cell(feet);
             return cell!=null && cell.use()!=com.hkin.exiledsettlement.region.ProductionRegion.Use.BOUNDARY
@@ -10827,7 +10928,10 @@ public final class CitizenWorkService {
     private static List<BlockPos> farmWorkPositions(ServerLevel level,SettlementCitizenEntity entity,
             BuildingRecord farm,BlockPos target) {
         Set<BlockPos> ground=new HashSet<>(farmGroundPositions(farm));
-        if(farm.region()!=null)for(var cell:farm.region().cells.values())
+        if(farm.productionSite()!=null)for(var cell:farm.productionSite().cells()) {
+            if(cell.use()!=com.hkin.exiledsettlement.region.ProductionRegion.Use.BOUNDARY)ground.add(cell.ground());
+        }
+        else if(farm.region()!=null)for(var cell:farm.region().cells.values())
             if(cell.use()!=com.hkin.exiledsettlement.region.ProductionRegion.Use.BOUNDARY)ground.add(cell.ground());
         return ground.stream().map(BlockPos::above).filter(p->insideFarmWorkArea(p,farm))
                 .filter(entity::canStandAtPosition).sorted(Comparator.comparingDouble((BlockPos p)->p.distSqr(entity.blockPosition()))
@@ -11077,6 +11181,7 @@ public final class CitizenWorkService {
     }
 
     private static void releaseSupplyStation(ServerLevel level, SettlementCitizenEntity entity) {
+        WarehouseInventoryService.releaseInteractionPosition(level,entity);
         CitizenNavigationReservationService.releaseStation(level, entity.getUUID());
     }
 
@@ -11111,6 +11216,7 @@ public final class CitizenWorkService {
     }
 
     private static void clear(SettlementSavedData data, CitizenRecord citizen, SettlementCitizenEntity entity) {
+        if(entity.level() instanceof ServerLevel server)WarehouseInventoryService.releaseInteractionPosition(server,entity);
         LOGISTICS_EXITS.remove(entity);
         TREE_HARVESTS.remove(entity);
         boolean changed = citizen.clearWork();
@@ -11234,6 +11340,7 @@ public final class CitizenWorkService {
     }
 
     private static boolean insideBuildingArea(BuildingRecord building, BlockPos position, int margin) {
+        if(building.productionSite()!=null)return building.productionSite().contains(position);
         if(building.region()!=null)return building.region().contains(position);
         return buildingArea(building, margin).contains(position.getX() + 0.5D,
                 position.getY() + 0.5D, position.getZ() + 0.5D);

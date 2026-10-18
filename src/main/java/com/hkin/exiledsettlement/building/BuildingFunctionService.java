@@ -74,6 +74,7 @@ public final class BuildingFunctionService {
             return false;
         }
 
+        if(building.productionSite()!=null)return validateProductionSite(level,building);
         if(building.region()!=null)return com.hkin.exiledsettlement.region.ProductionRegionService.validate(level,building);
         refreshDynamicBlockShapes(level, building);
 
@@ -172,102 +173,124 @@ public final class BuildingFunctionService {
 
     private static boolean validateFarmField(ServerLevel level, BuildingRecord building) {
         List<BlockPos> farmland = new ArrayList<>();
-        List<BlockPos> water = new ArrayList<>();
-        int fenceParts = 0;
-        int gates = 0;
         int minX = building.minCorner().getX();
         int maxX = building.maxCorner().getX();
         int minZ = building.minCorner().getZ();
         int maxZ = building.maxCorner().getZ();
         int groundY = building.position().getY() - 1;
-        int edgeY = building.position().getY();
-        for (int x = minX; x <= maxX; x++) {
-            for (int z = minZ; z <= maxZ; z++) {
+        for (int x = minX+1; x < maxX; x++) {
+            for (int z = minZ+1; z < maxZ; z++) {
                 BlockPos ground = new BlockPos(x, groundY, z);
-                BlockPos edge = new BlockPos(x, edgeY, z);
-                boolean perimeter = x == minX || x == maxX || z == minZ || z == maxZ;
-                if (perimeter) {
-                    BlockState edgeState = level.getBlockState(edge);
-                    if (edgeState.is(BlockTags.FENCES)) fenceParts++;
-                    if (edgeState.is(BlockTags.FENCE_GATES)) {
-                        fenceParts++;
-                        gates++;
-                    }
-                } else if (level.getBlockState(ground).is(net.minecraft.world.level.block.Blocks.FARMLAND)) {
-                    farmland.add(ground.immutable());
-                } else if (level.getFluidState(ground).is(FluidTags.WATER)) {
-                    water.add(ground.immutable());
-                }
+                if(usableCropGround(level,ground))farmland.add(ground);
             }
         }
-        int expectedPerimeter = Math.max(0, (maxX - minX + maxZ - minZ) * 2);
-        boolean hydrated = !water.isEmpty() && farmland.stream().allMatch(soil -> water.stream().anyMatch(source ->
-                Math.abs(source.getX() - soil.getX()) <= 4 && Math.abs(source.getZ() - soil.getZ()) <= 4));
         int workerCapacity = Math.max(1, Math.min(16, (farmland.size() + 63) / 64));
-        return farmland.size() < 9 || !hydrated || gates == 0 || fenceParts < expectedPerimeter
+        return farmland.isEmpty()
                 ? building.updateFunction(false, BuildingStatus.REGISTERED_ONLY, 0, farmland)
                 : building.updateFunction(true, BuildingStatus.OPERATIONAL, workerCapacity, farmland);
     }
 
     private static boolean validatePasture(ServerLevel level, BuildingRecord building) {
-        List<BlockPos> gates = new ArrayList<>();
-        int width = building.maxCorner().getX() - building.minCorner().getX() + 1;
-        int depth = building.maxCorner().getZ() - building.minCorner().getZ() + 1;
-        int edgeY = building.position().getY();
-        int perimeterParts = 0;
-        for (int x = building.minCorner().getX(); x <= building.maxCorner().getX(); x++) {
-            for (int z : new int[]{building.minCorner().getZ(), building.maxCorner().getZ()}) {
-                BlockPos cursor = new BlockPos(x, edgeY, z);
-                BlockState state = level.getBlockState(cursor);
-                if (state.is(BlockTags.FENCES) || state.is(BlockTags.FENCE_GATES)) perimeterParts++;
-                if (state.is(BlockTags.FENCE_GATES)) gates.add(cursor.immutable());
-            }
-        }
-        for (int z = building.minCorner().getZ() + 1; z < building.maxCorner().getZ(); z++) {
-            for (int x : new int[]{building.minCorner().getX(), building.maxCorner().getX()}) {
-                BlockPos cursor = new BlockPos(x, edgeY, z);
-                BlockState state = level.getBlockState(cursor);
-                if (state.is(BlockTags.FENCES) || state.is(BlockTags.FENCE_GATES)) perimeterParts++;
-                if (state.is(BlockTags.FENCE_GATES)) gates.add(cursor.immutable());
-            }
-        }
-        int expectedMinimum = Math.max(8, (width + depth) * 2 - 4);
-        int workerCapacity = Math.max(1, Math.min(8, (width * depth + 127) / 128));
-        return perimeterParts < expectedMinimum || gates.isEmpty()
-                ? building.updateFunction(false, BuildingStatus.REGISTERED_ONLY, 0, gates)
-                : building.updateFunction(true, BuildingStatus.OPERATIONAL, workerCapacity, gates);
+        var barrier=productionBarriers(level,building,BlueprintTemplates.createForBuilding(building));
+        int usable=0;
+        for(int x=building.minCorner().getX()+1;x<building.maxCorner().getX();x++)
+            for(int z=building.minCorner().getZ()+1;z<building.maxCorner().getZ();z++)
+                if(usablePastureGround(level,new BlockPos(x,building.position().getY()-1,z)))usable++;
+        boolean ready=barrier.closed() && !barrier.gates().isEmpty() && usable>0;
+        return building.updateFunction(ready,ready?BuildingStatus.OPERATIONAL:BuildingStatus.REGISTERED_ONLY,
+                ready?Math.max(1,Math.min(8,(usable+127)/128)):0,barrier.gates()) | barrier.changed();
     }
 
     private static boolean validateTreeFarm(ServerLevel level, BuildingRecord building) {
-        int fences = 0;
         List<BlockPos> servicePositions = new ArrayList<>();
         int y = building.position().getY();
         int minX = building.minCorner().getX();
         int maxX = building.maxCorner().getX();
         int minZ = building.minCorner().getZ();
         int maxZ = building.maxCorner().getZ();
-        for (BlockPos corner : List.of(
-                new BlockPos(minX, y, minZ), new BlockPos(maxX, y, minZ),
-                new BlockPos(minX, y, maxZ), new BlockPos(maxX, y, maxZ))) {
-            if (level.getBlockState(corner).is(BlockTags.FENCES)) fences++;
-        }
         for (int x = minX + 1; x < maxX; x++) {
             for (int z = minZ + 1; z < maxZ; z++) {
                 BlockPos ground = new BlockPos(x, y - 1, z);
-                if (level.getBlockState(ground).isFaceSturdy(level, ground, net.minecraft.core.Direction.UP)) {
+                if (usableTreeGround(level,ground)) {
                     servicePositions.add(ground.above());
                 }
             }
         }
-        int usableWidth = Math.max(1, maxX - minX - 1);
-        int usableDepth = Math.max(1, maxZ - minZ - 1);
         // Tree farming is deliberately land intensive: one lumberjack for every
         // complete 100 horizontal square metres, with one minimum slot for a
         // valid small plot.
-        int capacity = Math.max(1, Math.min(8, usableWidth * usableDepth / 100));
-        return fences < 4 || servicePositions.isEmpty()
+        int capacity = Math.max(1, Math.min(8, servicePositions.size() / 100));
+        return servicePositions.isEmpty()
                 ? building.updateFunction(false, BuildingStatus.REGISTERED_ONLY, 0, servicePositions)
                 : building.updateFunction(true, BuildingStatus.OPERATIONAL, capacity, servicePositions);
+    }
+
+    /** Geometry remains fixed; individual usable cells determine jobs, not a region-wide survey flag. */
+    private static boolean validateProductionSite(ServerLevel level,BuildingRecord building) {
+        var snapshot=building.productionSite();var positions=new ArrayList<BlockPos>();
+        boolean pasture=building.type()==BuildingType.PASTURE_AREA,forest=building.type()==BuildingType.TREE_FARM;
+        for(var cell:snapshot.workCells()) {
+            BlockPos ground=cell.ground();
+            if(forest && cell.use()==com.hkin.exiledsettlement.region.ProductionRegion.Use.FOREST && usableTreeGround(level,ground))positions.add(ground.above());
+            else if(pasture && cell.use()==com.hkin.exiledsettlement.region.ProductionRegion.Use.PASTURE && usablePastureGround(level,ground))positions.add(ground);
+            else if(!forest && !pasture && cell.use()==com.hkin.exiledsettlement.region.ProductionRegion.Use.CROP && usableCropGround(level,ground))positions.add(ground);
+        }
+        if(pasture) {
+            var barriers=productionBarriers(level,building,snapshot.template());
+            boolean ready=barriers.closed() && !barriers.gates().isEmpty() && !positions.isEmpty();
+            return building.updateFunction(ready,ready?BuildingStatus.OPERATIONAL:BuildingStatus.REGISTERED_ONLY,
+                    ready?Math.max(1,Math.min(8,(positions.size()+127)/128)):0,barriers.gates()) | barriers.changed();
+        }
+        boolean ready=!positions.isEmpty();int capacity=forest?Math.max(1,Math.min(8,positions.size()/100)):Math.max(1,Math.min(16,(positions.size()+63)/64));
+        return building.updateFunction(ready,ready?BuildingStatus.OPERATIONAL:BuildingStatus.REGISTERED_ONLY,ready?capacity:0,positions);
+    }
+    private static boolean usableCropGround(ServerLevel level,BlockPos ground) {
+        if(!level.hasChunkAt(ground) || !com.hkin.exiledsettlement.blueprint.FarmEarthworkPlan.soil(level.getBlockState(ground))
+                || !com.hkin.exiledsettlement.blueprint.FarmEarthworkPlan.support(level,ground.below()))return false;
+        var plant=level.getBlockState(ground.above());
+        return plant.getFluidState().isEmpty() && (plant.getCollisionShape(level,ground.above()).isEmpty()
+                || plant.getBlock() instanceof net.minecraft.world.level.block.CropBlock
+                || plant.getBlock() instanceof net.minecraft.world.level.block.StemBlock
+                || plant.getBlock() instanceof net.minecraft.world.level.block.AttachedStemBlock);
+    }
+    private static boolean usableTreeGround(ServerLevel level,BlockPos ground) {
+        if(!level.hasChunkAt(ground) || !com.hkin.exiledsettlement.blueprint.FarmEarthworkPlan.support(level,ground.below()))return false;
+        var soil=level.getBlockState(ground);var above=level.getBlockState(ground.above());
+        // Podzol and other natural tree soil are legitimate production changes; an existing trunk can still be harvested.
+        return soil.getFluidState().isEmpty() && above.getFluidState().isEmpty()
+                && (above.canBeReplaced() || above.is(BlockTags.LOGS) || above.is(BlockTags.LEAVES)
+                    || above.is(BlockTags.SAPLINGS)) && (soil.is(BlockTags.DIRT)
+                || soil.is(net.minecraft.world.level.block.Blocks.MOSS_BLOCK) || soil.is(net.minecraft.world.level.block.Blocks.MUD)
+                || soil.is(net.minecraft.world.level.block.Blocks.MUDDY_MANGROVE_ROOTS) || above.is(BlockTags.LOGS));
+    }
+    private static boolean usablePastureGround(ServerLevel level,BlockPos ground) {
+        return level.hasChunkAt(ground) && com.hkin.exiledsettlement.blueprint.FarmEarthworkPlan.support(level,ground)
+                && level.getBlockState(ground.above()).getCollisionShape(level,ground.above()).isEmpty()
+                && level.getBlockState(ground.above(2)).getCollisionShape(level,ground.above(2)).isEmpty()
+                && level.getFluidState(ground.above()).isEmpty() && level.getFluidState(ground.above(2)).isEmpty();
+    }
+    private record ProductionBarriers(boolean closed,List<BlockPos> gates,boolean changed) { }
+    private static ProductionBarriers productionBarriers(ServerLevel level,BuildingRecord building,
+            com.hkin.exiledsettlement.blueprint.BuildingBlueprintTemplate template) {
+        var gates=new ArrayList<BlockPos>();boolean closed=true,changed=false;int parts=0;
+        var settlement=SettlementSavedData.get(level).findByBuildingPosition(building.position()).orElse(null);
+        for(var placement:template.placements()) {
+            boolean gate=placement.state().is(BlockTags.FENCE_GATES),fence=placement.state().is(BlockTags.FENCES);
+            if(!gate && !fence)continue;parts++;BlockPos at=placement.position();
+            if(!level.hasChunkAt(at)){closed=false;continue;}
+            var actual=level.getBlockState(at);
+            if(gate?actual.is(BlockTags.FENCE_GATES):actual.is(BlockTags.FENCES)) {
+                if(gate)gates.add(at);
+            }else {
+                closed=false;
+                // Queue a normal paid repair only for a missing piece. Existing player blocks are not auto-replaced.
+                if(actual.isAir() && settlement!=null && !settlement.terrain().suppressed.contains(at.asLong())
+                        && !MobRecoveryService.owns(settlement,at) && !settlement.community().danger(at)
+                        && !com.hkin.exiledsettlement.blueprint.BuildingWorkPolicy.automaticForbidden(settlement,null,at))
+                    changed|=building.markDamaged(at);
+            }
+        }
+        return new ProductionBarriers(closed && parts>0,List.copyOf(gates),changed);
     }
 
     private static boolean validateWarehouse(ServerLevel level, BuildingRecord building) {

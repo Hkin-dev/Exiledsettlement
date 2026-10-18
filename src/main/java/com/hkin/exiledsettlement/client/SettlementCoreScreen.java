@@ -338,8 +338,10 @@ public final class SettlementCoreScreen extends AbstractContainerScreen<Settleme
             graphics.renderItem(buildingIcon(type), x + 8, y + 12);
             graphics.drawString(font, Component.translatable(entry.translationKey()), x + 31, y + 6, TEXT, false);
             Component dimensions;
-            if (type.isDynamicArea()) {
-                dimensions = Component.translatable("gui.exiledsettlement.area.catalog_size", type.minimumAreaSize());
+            if (BlueprintTemplates.flexibleProduction(type,entry.templateVersion())
+                    || type.isDynamicArea() && !BlueprintTemplates.fixedProduction(type,entry.templateVersion())) {
+                dimensions = Component.translatable("gui.exiledsettlement.area.catalog_size", type.minimumAreaSize(),
+                        com.hkin.exiledsettlement.blueprint.BlueprintService.MAX_DYNAMIC_AREA_BLOCKS);
             } else {
                 var template = BlueprintTemplates.create(type, BlockPos.ZERO, Direction.NORTH, entry.templateVersion());
                 dimensions = Component.literal(template.width() + "×" + template.depth() + "×" + template.height());

@@ -45,6 +45,10 @@ public final class PastureResidentService {
     public static void release(Animal a){var goal=CONTROLLED.remove(a);if(goal!=null)a.goalSelector.removeGoal(goal);}
     public static void releaseAll(){for(var a:List.copyOf(CONTROLLED.keySet()))release(a);}
     public static boolean inside(BuildingRecord b,BlockPos p) {
+        if(b.productionSite()!=null){
+            var cell=b.productionSite().cell(p);
+            return cell!=null && cell.use()==ProductionRegion.Use.PASTURE && Math.abs(p.getY()-cell.ground().getY()-1)<2;
+        }
         if(b.region()!=null) {
             var cell=b.region().cell(p);
             return cell!=null && cell.use()==ProductionRegion.Use.PASTURE && b.region().readyPasture.contains(cell.ground().asLong())

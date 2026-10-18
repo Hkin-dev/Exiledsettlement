@@ -65,6 +65,7 @@ public final class SettlementEvents {
         com.hkin.exiledsettlement.debug.BuildingEditBridge.tick(event.getServer());
         com.hkin.exiledsettlement.debug.TickPhaseProfiler.mark(0);
         for (ServerLevel level : event.getServer().getAllLevels()) {
+            com.hkin.exiledsettlement.settlement.SettlementWildlifeService.tickLevel(level);
             com.hkin.exiledsettlement.building.MobRecoveryService.tick(level);
             com.hkin.exiledsettlement.road.PlayerRoadEdits.flush(level);
             com.hkin.exiledsettlement.debug.TickPhaseProfiler.mark(1);

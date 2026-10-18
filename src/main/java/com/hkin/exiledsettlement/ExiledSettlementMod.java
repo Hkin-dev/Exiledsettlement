@@ -131,6 +131,12 @@ public final class ExiledSettlementMod {
     }
 
     private void registerGameTests(RegisterGameTestsEvent event) {
+        if ("resident_test2".equals(System.getProperty("exiledsettlement.testSuite"))) {
+            event.register(com.hkin.exiledsettlement.gametest.ResidentTest2GameTests.class); return;
+        }
+        if ("cleanup_route".equals(System.getProperty("exiledsettlement.testSuite"))) {
+            event.register(com.hkin.exiledsettlement.gametest.CleanupRouteGameTests.class); return;
+        }
         if ("homes_camp".equals(System.getProperty("exiledsettlement.testSuite"))) {
             event.register(com.hkin.exiledsettlement.gametest.HomesCampGameTests.class); return;
         }

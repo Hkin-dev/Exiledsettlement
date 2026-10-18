@@ -99,6 +99,11 @@ public final class BlueprintTemplates {
         if (!supports(type)) {
             throw new IllegalArgumentException("No blueprint template for " + type);
         }
+        if (fixedProduction(type, templateVersion)) {
+            var plan = createArea(type, anchor.offset(-6, 0, -6), anchor.offset(6, 0, 6), facing, templateVersion);
+            return new BuildingBlueprintTemplate(type, anchor, facing, 13, 13, plan.height(),
+                    plan.minCorner(), plan.maxCorner(), plan.transitionMargin(), plan.placements(), plan.entrances());
+        }
         if (PlayerDesignedTemplates.supports(type, templateVersion)) {
             return PlayerDesignedTemplates.create(type, anchor, facing, templateVersion);
         }
@@ -145,9 +150,8 @@ public final class BlueprintTemplates {
             case HUNTING_LODGE, FISHING_HUT -> 4;
             case TOOL_WORKSHOP, SAWMILL, SCHOOL -> 5;
             case MARKET, TAVERN -> 3;
-            case FARM_FIELD, MELON_FIELD -> 4;
-            case PASTURE_AREA -> 4;
-            case TREE_FARM -> 2;
+            case FARM_FIELD, MELON_FIELD, PASTURE_AREA -> 6;
+            case TREE_FARM -> 4;
             case FORESTER_LODGE -> 2;
             default -> 1;
         };
@@ -155,17 +159,26 @@ public final class BlueprintTemplates {
 
     public static BuildingBlueprintTemplate create(BlueprintRecord blueprint) {
         if(blueprint.terrainProject()!=null)return blueprint.terrainProject().template();
+        if(blueprint.productionSite()!=null)return blueprint.productionSite().template();
         if(blueprint.region()!=null)return blueprint.region().template();
-        if (blueprint.customTemplate() != null) return blueprint.customTemplate().template();
-        return RECORDS.computeIfAbsent(blueprint,b->b.dynamicArea()
+        if (blueprint.customTemplate() != null) return ConstructionWorkArea.template(blueprint.customTemplate().template());
+        return RECORDS.computeIfAbsent(blueprint,b->ConstructionWorkArea.template(b.dynamicArea()
                 ? createArea(blueprint.type(), blueprint.areaMin(), blueprint.areaMax(), blueprint.facing(),
                 blueprint.templateVersion())
-                : create(blueprint.type(), blueprint.anchor(), blueprint.facing(), blueprint.templateVersion()));
+                : create(blueprint.type(), blueprint.anchor(), blueprint.facing(), blueprint.templateVersion())));
     }
 
     public static BuildingBlueprintTemplate createForBuilding(BuildingRecord building) {
+        if(building.productionSite()!=null)return building.productionSite().template();
         if(building.region()!=null)return building.region().template();
         if (building.customTemplate() != null) return building.customTemplate().template();
+        if (flexibleProduction(building.type(), building.templateVersion())) {
+            int y = building.position().getY();
+            return createArea(building.type(), building.minCorner().atY(y), building.maxCorner().atY(y),
+                    building.facing(), building.templateVersion());
+        }
+        if (fixedProduction(building.type(), building.templateVersion()))
+            return create(building.type(), building.position(), building.facing(), building.templateVersion());
         if (building.type().isDynamicArea()) {
             int y = building.position().getY();
             BlockPos first = new BlockPos(building.minCorner().getX(), y, building.minCorner().getZ());
@@ -180,6 +193,24 @@ public final class BlueprintTemplates {
             BuildingType type, BlockPos first, BlockPos second, Direction facing
     ) {
         return createArea(type, first, second, facing, currentTemplateVersion(type));
+    }
+
+    /** Legacy name for ordinary production eligibility, including fixed and selectable footprints. */
+    public static boolean fixedProduction(BuildingType type, int version) {
+        return switch (type) {
+            case FARM_FIELD, MELON_FIELD, PASTURE_AREA -> version >= 5;
+            case TREE_FARM -> version >= 3;
+            default -> false;
+        };
+    }
+
+    /** Saved bounds define these ordinary buildings; older versions keep their original geometry. */
+    public static boolean flexibleProduction(BuildingType type, int version) {
+        return switch (type) {
+            case FARM_FIELD, MELON_FIELD, PASTURE_AREA -> version >= 6;
+            case TREE_FARM -> version >= 4;
+            default -> false;
+        };
     }
 
     public static BuildingBlueprintTemplate createArea(

@@ -495,12 +495,14 @@ public final class WarehouseInventoryService {
     }
 
     public static void releaseInteractionPosition(ServerLevel level, LivingEntity entity) {
+        CampStorageAccess.release(entity);
         CitizenNavigationReservationService.releaseStation(level, entity.getUUID());
     }
 
     @Nullable
     private static BlockPos reserveInteractionPosition(ServerLevel level, BuildingRecord warehouse,
             SettlementCitizenEntity entity, Predicate<ContainerAt> containerFilter) {
+        if(CampStorageAccess.applies(warehouse))return CampStorageAccess.destination(level,warehouse,entity);
         if(requiresStorageInterior(warehouse)) {
             if(canInteract(level,warehouse,entity))return entity.navigationFeetPosition();
             return StorageAccessService.destination(level,warehouse,entity);
@@ -579,6 +581,7 @@ public final class WarehouseInventoryService {
     public static BlockPos waitingPosition(
             ServerLevel level, BuildingRecord warehouse, SettlementCitizenEntity entity
     ) {
+        if(CampStorageAccess.applies(warehouse))return CampStorageAccess.waiting(level,warehouse,entity);
         long gameTime = level.getGameTime();
         List<BlockPos> candidates = entrancesForApproach(level, warehouse).stream()
                 .flatMap(entrance -> java.util.stream.IntStream.rangeClosed(2, 6).boxed()
@@ -604,6 +607,7 @@ public final class WarehouseInventoryService {
     }
 
     public static void abandonInteractionPosition(ServerLevel level, LivingEntity entity) {
+        CampStorageAccess.abandon(level,entity);
         CitizenNavigationReservationService.abandonStation(level, entity.getUUID(), level.getGameTime());
     }
 
@@ -631,7 +635,7 @@ public final class WarehouseInventoryService {
             return inside?loadedContainers(level,warehouse):List.of();
         }
         List<ContainerAt> containers = loadedContainers(level, warehouse);
-        if (warehouse.type().isStorage()) {
+        if (warehouse.type().isStorage() && !CampStorageAccess.applies(warehouse)) {
             if (!warehouse.minCorner().equals(warehouse.maxCorner()) && insideStructure(warehouse, entity.blockPosition())
                     && entity.getY()>=warehouse.minCorner().getY()-1 && entity.getY()<=warehouse.maxCorner().getY()+1) return containers;
         }

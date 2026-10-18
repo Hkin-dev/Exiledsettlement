@@ -80,8 +80,9 @@ public final class BuildingProductionService {
         return seed(selected);
     }
 
-    public static ResourceLocation productionAt(BuildingRecord farm,net.minecraft.core.BlockPos ground){return cropAt(farm.region()==null?farm.productionId():farm.region().production(ground,farm.productionId()),ground);}
+    public static ResourceLocation productionAt(BuildingRecord farm,net.minecraft.core.BlockPos ground){return cropAt(farm.productionSite()!=null?farm.productionSite().productionAt(ground,farm.productionId()):farm.region()==null?farm.productionId():farm.region().production(ground,farm.productionId()),ground);}
     public static boolean isPlantingSeed(BuildingRecord farm, Item item) {
+        if(farm.productionSite()!=null)return farm.productionSite().productions().stream().anyMatch(id->seedMatches(id,item));
         if(farm.region()!=null)return farm.region().productions().stream().anyMatch(id->seedMatches(id,item));
         return seedMatches(farm.productionId(),item);
     }
@@ -106,6 +107,7 @@ public final class BuildingProductionService {
     }
 
     public static int animalCapacity(BuildingRecord building) {
+        if(building.productionSite()!=null)return Math.max(Math.max(2,building.productionSite().usableArea()/8),building.productionSite().animalFloorTotal());
         int width = Math.max(1, building.maxCorner().getX() - building.minCorner().getX() + 1);
         int depth = Math.max(1, building.maxCorner().getZ() - building.minCorner().getZ() + 1);
         return building.region()!=null?Math.max(Math.max(2,building.region().readyPasture.size()/8),building.region().animalFloors.values().stream().mapToInt(Integer::intValue).sum()):Math.max(2,Math.max(1,width-2)*Math.max(1,depth-2)/8);
