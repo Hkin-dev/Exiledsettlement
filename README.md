@@ -40,13 +40,13 @@ YSM 和 YSM Mapping API 为可选兼容。未安装时使用内置居民模型�
 ## Installation and first steps
 
 1. Install Minecraft 1.21.1 with the required NeoForge version and Java 21.
-2. Download the mod `.jar` from this repository's **Releases** and place it in the instance's `mods` folder. Remove any other active version of this mod.
+2. Download the mod `.jar` from [Releases](https://github.com/HkinXu/Exiledsettlement/releases) and place it in the instance's `mods` folder. Remove any other active version of this mod.
 3. Restart Minecraft and start a new world for your first test.
 4. Eligible players receive a starting camp blueprint on entering the world. Use it on the ground, choose a location, and confirm the camp.
 5. Open the settlement core to manage residents and plan construction. Initial supplies are finite and need replenishment as the settlement grows.
 
 1. 安装 Minecraft 1.21.1、所需版本的 NeoForge 与 Java 21。
-2. 从本仓库 **Releases** 下载模组 `.jar`，放入游戏实例的 `mods` 文件夹，移出本模组其他启用版本。
+2. 从 [Releases 下载页面](https://github.com/HkinXu/Exiledsettlement/releases)下载模组 `.jar`，放入游戏实例的 `mods` 文件夹，移出本模组其他启用版本。
 3. 完整重启游戏，首次体验建议使用新世界。
 4. 尚未使用开局资格的玩家进入世界后会获得营地蓝图。手持蓝图右键地面，选择位置并确认营地。
 5. 通过聚落核心管理居民和规划建设。初始库存有限，随着聚落发展需要继续补充物资。
@@ -63,9 +63,9 @@ See [BUILDING.md](BUILDING.md) for the Java 21 and Gradle build instructions.
 
 ## Feedback
 
-Use this repository's **Issues** to report problems. Include the mod version, Minecraft and NeoForge versions, reproduction steps, and relevant logs with private information removed.
+Use [Issues](https://github.com/HkinXu/Exiledsettlement/issues) to report problems. Include the mod version, Minecraft and NeoForge versions, reproduction steps, and relevant logs with private information removed.
 
-问题反馈请使用本仓库 **Issues**，附上模组、Minecraft 和 NeoForge 版本、复现步骤及已移除私人信息的相关日志。
+问题反馈请使用 [Issues](https://github.com/HkinXu/Exiledsettlement/issues)，附上模组、Minecraft 和 NeoForge 版本、复现步骤及已移除私人信息的相关日志。
 
 ## AI assistance
 
