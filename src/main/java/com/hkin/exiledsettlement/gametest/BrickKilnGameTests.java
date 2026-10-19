@@ -57,7 +57,7 @@ public final class BrickKilnGameTests {
             var s=new SettlementRecord(UUID.randomUUID(),"Four rotations",at,UUID.randomUUID());
             var b=s.addBuilding(BuildingType.BRICK_KILN,at,facing,t.minCorner(),t.maxCorner(),0,1);
             BuildingFunctionService.validateSingle(h.getLevel(),new SettlementSavedData(),s,b);
-            h.assertTrue(b.operational() && b.workerCapacity()==1,"Kiln failed validation "+facing);
+            h.assertTrue(b.operational() && b.workerCapacity()==4,"Kiln failed validation "+facing);
             var furnaces=t.placements().stream().filter(p->p.state().is(Blocks.FURNACE)).toList();
             h.assertTrue(furnaces.size()==2 && t.placements().stream().anyMatch(p->p.mode()==BlueprintPlacementMode.CLEARANCE),"Missing furnaces or clearance");
             h.assertTrue(t.placements().stream().filter(p->p.state().is(Blocks.WATER_CAULDRON)).count()==1

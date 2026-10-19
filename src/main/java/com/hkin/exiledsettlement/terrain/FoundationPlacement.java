@@ -24,7 +24,8 @@ public final class FoundationPlacement {
     }
 
     public static boolean replaces(ServerLevel level, TerrainProject project, TerrainProject.Step step) {
-        return applies(project, step) && ordinary(level, step.position(), level.getBlockState(step.position()));
+        return applies(project, step) && !(project.pitFill && PitFillSurface.vegetation(level.getBlockState(step.position())))
+                && ordinary(level, step.position(), level.getBlockState(step.position()));
     }
 
     /** Defer an obsolete dig until its final fill succeeds; never credit work in advance. */

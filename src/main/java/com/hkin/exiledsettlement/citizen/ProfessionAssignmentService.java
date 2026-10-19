@@ -62,7 +62,7 @@ public final class ProfessionAssignmentService {
             if (kitchen == null || !kitchen.id().equals(citizen.life().destination)
                     || !kitchen.active() || kitchen.demolitionQueued() || kitchen.workerTarget() <= 0
                     || !(cooking ? com.hkin.exiledsettlement.settlement.CommunityCookingService.offersMeals(kitchen) : kitchen.type() == BuildingType.BRICK_KILN)
-                    || lockedCounts.getOrDefault(kitchen.id(), 0) >= 1) continue;
+                    || lockedCounts.getOrDefault(kitchen.id(), 0) >= (firing ? kitchen.workerTarget() : 1)) continue;
             assigned.add(citizen.id());
             lockedCounts.merge(kitchen.id(), 1, Integer::sum);
         }

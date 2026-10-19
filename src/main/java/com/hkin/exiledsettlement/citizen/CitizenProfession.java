@@ -20,7 +20,8 @@ public enum CitizenProfession {
     TRAVELING_MERCHANT(BuildingType.MARKET),
     MINER(BuildingType.MINE),
     CHEF(BuildingType.TAVERN),
-    KILN_WORKER(BuildingType.BRICK_KILN);
+    KILN_WORKER(BuildingType.BRICK_KILN),
+    TEACHER(BuildingType.SCHOOL);
     
 
     @Nullable

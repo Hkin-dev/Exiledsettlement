@@ -15,6 +15,21 @@ import java.util.*;
 public final class CommunityManagement {
     private CommunityManagement() { }
     private static final Map<ServerPlayer, Long> LAST_REQUEST = new WeakHashMap<>();
+    public static void openLedger(ServerPlayer player, SettlementRecord settlement, int page) {
+        if (!settlement.active() || !settlement.isMember(player.getUUID())) return;
+        var world = player.serverLevel(); var stock = new LinkedHashMap<String,Long>(); int legacyStores = 0;
+        for (var building : settlement.buildings()) {
+            if (!building.active() || !(building.type().isStorage() || building.type() == BuildingType.MINE)) continue;
+            if (!WarehouseStock.applies(building)) { legacyStores++; continue; }
+            WarehouseInventoryService.stock(world, building).summary().forEach((item, count) -> stock.merge(
+                    net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(item).toString(), (long) count, Long::sum));
+        }
+        var ledger = settlement.dailyWarehouseLedger();
+        if (ledger.beginDay(Math.floorDiv(world.getDayTime(), 24000L))) SettlementSavedData.get(world).touch();
+        PacketDistributor.sendToPlayer(player, new CommunitySnapshotPayload(settlement.corePosition(), settlement.name(),
+                com.hkin.exiledsettlement.network.CommunityLedgerData.encode(stock, ledger.outgoing(), ledger.incoming(),
+                        ledger.day(), ledger.partial(), legacyStores, page), Map.of()));
+    }
     public static void open(ServerPlayer player, SettlementRecord settlement) {
         if (!settlement.active() || !settlement.isMember(player.getUUID())) return;
         CommunityLifeService.migrateCalendar(player.serverLevel(), SettlementSavedData.get(player.serverLevel()), settlement);
@@ -29,6 +44,12 @@ public final class CommunityManagement {
         long now = level.getGameTime();
         if (now - LAST_REQUEST.getOrDefault(player, -100L) < 4) return;
         LAST_REQUEST.put(player, now);
+        if (action.startsWith("ledger:")) {
+            try { openLedger(player, settlement, Integer.parseInt(action.substring(7))); }
+            catch (NumberFormatException ignored) { }
+            return;
+        }
+        if (action.equals("management")) { open(player, settlement); return; }
         if(action.startsWith("works_")){
             com.hkin.exiledsettlement.terrain.PlayerWorksService.begin(player,settlement,action.substring(6));return;
         }

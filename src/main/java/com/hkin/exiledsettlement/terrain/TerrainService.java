@@ -384,7 +384,7 @@ public final class TerrainService {
                 var q=at.atY(y);if(!level.hasChunkAt(q) || level.isOutsideBuildHeight(q))return failure("地基范围未加载",q);
                 var state=level.getBlockState(q);
                 if(!state.getFluidState().isEmpty() && !replaceableWater(state))return failure("不可填筑的流体或水中设施",q);
-                if(state.isFaceSturdy(level,q,Direction.UP) && state.getFluidState().isEmpty()
+                if(TerrainSurface.ground(level,q)
                         && (!c.foundation() || !isolatedSoil(level,q,state))){bottom=y;break;}
                 if(!clearable(level,s,dependency,q,state))return failure("保留地下设施",q);
             }
@@ -401,10 +401,10 @@ public final class TerrainService {
                 boolean groundCap=groundCaps.contains(q);
                 if(groundCap && FoundationFootprint.usableSurface(level,q,current))continue;
                 if((!current.getFluidState().isEmpty() && !replaceableWater(current)) || !clearable(level,s,dependency,q,current)) {
-                    if(c.foundation() && !groundCap && current.isFaceSturdy(level,q,Direction.UP) && current.getFluidState().isEmpty())continue;
+                    if(c.foundation() && !groundCap && TerrainSurface.ground(level,q))continue;
                     return failure("保留地基或玩家设施",q);
                 }
-                if(c.foundation() && !groundCap && current.isFaceSturdy(level,q,Direction.UP) && current.getFluidState().isEmpty())continue;
+                if(c.foundation() && !groundCap && TerrainSurface.ground(level,q))continue;
                 targets.putIfAbsent(q,groundCap?Blocks.DIRT.defaultBlockState():retaining || c.foundation()?Blocks.COBBLESTONE.defaultBlockState():Blocks.DIRT.defaultBlockState());
             }
             if(exposed && !c.foundation() && !approachColumns.contains(columnKey(at)))
@@ -433,7 +433,7 @@ public final class TerrainService {
                             var expected=other.template().placementAt(p);
                             var column=columns.get(horizontal(p));
                             boolean paidFoundation=column!=null && column.foundation() && target.is(Blocks.COBBLESTONE)
-                                    && expected!=null && BuriedFillMaterials.ordinary(level,p,expected.state());
+                                    && expected!=null && BuriedFillMaterials.historicalFoundation(level,p,expected.state());
                             if(expected==null || !satisfied(expected.state(),target) && !(!groundCaps.contains(p)&&target.is(Blocks.DIRT)&&expected.state().is(Blocks.COBBLESTONE)) && !paidFoundation)return failure("公共地形目标冲突",p);
                             // A partly unfinished order can contain a damaged,
                             // previously completed fill. Reopen its real paid
@@ -646,7 +646,7 @@ public final class TerrainService {
         int top=level.getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.WORLD_SURFACE,seed.getX(),seed.getZ());
         for(int y=Math.min(top,level.getMaxBuildHeight()-1);y>=level.getMinBuildHeight();y--){var p=seed.atY(y);
             if(!level.hasChunkAt(p))return Integer.MIN_VALUE;
-            var state=level.getBlockState(p);if(state.isFaceSturdy(level,p,Direction.UP)&&state.getFluidState().isEmpty())return y;}
+            if(TerrainSurface.ground(level,p))return y;}
         return Integer.MIN_VALUE;
     }
     private static boolean availableColumn(ServerLevel level,SettlementRecord s,BuildingBlueprintTemplate own,UUID dependency,BlockPos p) {
@@ -683,16 +683,51 @@ public final class TerrainService {
         for(var b:s.buildings())if(b.active() && b.containsColumn(at))return true;
         return s.formalBlueprints().stream().anyMatch(b->!b.cancellationQueued() && b.containsColumn(at));
     }
+    /** One live phase scan per candidate batch; actual execution always scans again. */
+    private static int[] farmFoundationPhase(ServerLevel level,SettlementRecord s,TerrainProject project) {
+        int lowest=Integer.MAX_VALUE;
+        if(project==null)return new int[]{0,lowest};
+        for(var id:project.dependencies) {
+            var parent=s.blueprint(id);
+            if(parent==null || !com.hkin.exiledsettlement.blueprint.FarmConstructionSequence.applies(BlueprintTemplates.create(parent)))continue;
+            if(com.hkin.exiledsettlement.blueprint.FarmConstructionSequence.clearancePending(level,parent))return new int[]{1,lowest};
+            for(var foundation:s.terrain().dependingOn(id))if(!foundation.cancelled && !foundation.completed && !foundation.road && !foundation.bridge)
+                for(int i=foundation.cursor;i<foundation.steps.size();i++) {
+                    var lower=foundation.steps.get(i);
+                    if(!foundation.finished.get(i) && lower.fill() && !foundation.groundSurfaces.contains(lower.position())
+                            && !stepSatisfied(level,foundation,lower))lowest=Math.min(lowest,lower.position().getY());
+                }
+        }
+        return new int[]{0,lowest};
+    }
+    private static String farmFoundationFailure(TerrainProject project,TerrainProject.Step step,int[] phase) {
+        if(!step.fill())return "";
+        if(phase[0]!=0)return "CLEARANCE_REQUIRED";
+        return project!=null && project.groundSurfaces.contains(step.position()) && phase[1]<step.position().getY()
+                ? "TERRAIN_FOUNDATION_PENDING" : "";
+    }
     public static String guard(ServerLevel level,SettlementRecord s,BlueprintRecord site,TerrainProject.Step step) {
+        return guard(level,s,site,step,true);
+    }
+    private static String guard(ServerLevel level,SettlementRecord s,BlueprintRecord site,TerrainProject.Step step,boolean checkFarmSequence) {
         if(com.hkin.exiledsettlement.building.MobRecoveryService.owns(s,step.position()))return "RECOVERY_WAITING";
         var p=step.position();if(!s.contains(p)||level.isOutsideBuildHeight(p)||!level.hasChunkAt(p))return "BLUEPRINT_AREA_NOT_LOADED";
         var project=site.terrainProject();
+        String pitGuard=PitFillPlan.guard(level,s,project,step);if(!pitGuard.isEmpty())return pitGuard;
         if(project!=null && !BuriedFillMaterials.configured(level,s,project,step))return "MATERIALS_MISSING";
+        if(checkFarmSequence) {
+            var farmFailure=farmFoundationFailure(project,step,farmFoundationPhase(level,s,project));
+            if(!farmFailure.isEmpty())return farmFailure;
+        }
         if(project!=null && project.playerBridge!=null && project.playerBridge.buildingModel
                 && (s.buildings().stream().anyMatch(b->b.active() && b.containsColumn(p))
                 || s.formalBlueprints().stream().anyMatch(b->!b.id().equals(site.id()) && !b.cancellationQueued() && b.containsColumn(p))))return "PROTECTED_AREA";
         String bridgeGuard=com.hkin.exiledsettlement.road.PlayerBridgeWork.guard(level,project,step);
         if(!bridgeGuard.isEmpty())return bridgeGuard;
+        if(project!=null && project.roadReclaim){
+            String reclaimGuard=com.hkin.exiledsettlement.road.AdaptiveRoadService.reclaimGuard(level,s,project,p);
+            if(!reclaimGuard.isEmpty())return reclaimGuard;
+        }
         if(step.fill() && !com.hkin.exiledsettlement.region.RegionConstructionStages.fillAllowed(level,s,project))return "REGION_GROUND_NOT_READY";
         if(protectedPublicColumn(s,project,p))return "PROTECTED_AREA";
         if(project!=null && project.publicGround && !project.road && s.formalBlueprints().stream().anyMatch(b->
@@ -757,10 +792,10 @@ public final class TerrainService {
         if(project.road && step.fill() && retainConstructionSupport(level,sFor(level,site),project,step))return false;
         if(project.playerBridge!=null && (!project.playerBridge.admitted.get(index) || !project.playerBridge.current(project,index)))return false;
         if(stepSatisfied(level,project,step)){project.mark(index);SettlementSavedData.get(level).touch();return false;}
-        if(step.fill())return guard(level,sFor(level,site),site,step).isEmpty();
+        if(step.fill())return guard(level,sFor(level,site),site,step,false).isEmpty();
         var current=level.getBlockState(at);if(FoundationPlacement.coveredDig(level,project,step))return false;
         if(step.fill() && (!FoundationPlacement.replaces(level,project,step) && !current.isAir() && !soft(current) && !canFillWater(step,current) || !com.hkin.exiledsettlement.road.BridgeService.supported(level,project,step)))return false;
-        return wallSupportReady(level,project,step) && guard(level,sFor(level,site),site,step).isEmpty();
+        return wallSupportReady(level,project,step) && guard(level,sFor(level,site),site,step,false).isEmpty();
     }
     /** A temporary adjacent pit must not schedule replacement of the road's already buried soil. */
     static boolean retainConstructionSupport(ServerLevel level,SettlementRecord s,TerrainProject p,TerrainProject.Step step){
@@ -784,6 +819,7 @@ public final class TerrainService {
                 out.add(new BlueprintService.PendingPlacement(-i-1,project.steps.get(i).placement()));
             return out;
         }
+        var farmPhase=farmFoundationPhase(level,sFor(level,site),site.terrainProject());
         var project=site.terrainProject();var order=project.layerOrder();var scan=LAYER_SCANS.computeIfAbsent(project,p->new PendingScan());
         if(scan.source!=project.steps){scan.source=project.steps;scan.cursor=project.layerFrontier();scan.ready.clear();scan.checks=new byte[project.steps.size()];scan.tick=Long.MIN_VALUE;}
         if(scan.tick!=level.getGameTime()){scan.tick=level.getGameTime();Arrays.fill(scan.checks,(byte)0);scan.scanned=false;}
@@ -798,7 +834,7 @@ public final class TerrainService {
         project.workCursor=scan.cursor;var result=new ArrayList<BlueprintService.PendingPlacement>();
         for(var iterator=scan.ready.iterator();iterator.hasNext();){int rank=iterator.next();int index=order.get(rank);
             if(!candidatePending(level,site,index,scan)){iterator.remove();continue;}
-            var step=project.steps.get(index);if(excluded.contains(step.position()))continue;
+            var step=project.steps.get(index);if(excluded.contains(step.position()) || !farmFoundationFailure(project,step,farmPhase).isEmpty())continue;
             result.add(new BlueprintService.PendingPlacement(-index-1,currentPlacement(level,site,step,level.getBlockState(step.position()))));
             if(result.size()>=32)break;
         }
@@ -872,7 +908,7 @@ public final class TerrainService {
             var settlement=SettlementSavedData.get(level).settlements().stream()
                     .filter(s->s.terrain().projects.get(project.id)==project).findFirst().orElse(null);
             if(settlement!=null && settlement.terrain().escapeSupport(step.position(),current)
-                    && BuriedFillMaterials.ordinary(level,step.position(),current)
+                    && BuriedFillMaterials.historicalFoundation(level,step.position(),current)
                     && BuriedFillMaterials.hidden(level,settlement,project,step)) {
                 // This block was already paid for during escape. Adopt its real
                 // hidden material, rather than replace it or charge another block.

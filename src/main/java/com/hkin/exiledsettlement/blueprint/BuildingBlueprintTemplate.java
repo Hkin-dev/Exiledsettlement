@@ -81,7 +81,11 @@ public final class BuildingBlueprintTemplate {
         this.transitionMargin = Math.max(0, transitionMargin);
         // Imported snapshots historically charged each half separately. Keep their
         // block states/coordinates unchanged; only the primary owns the single item.
-        this.placements = BuildingPlacementRules.withEntranceClearances(type, placements.stream().map(placement ->
+        this.placements = BuildingPlacementRules.withEntranceClearances(type, placements.stream()
+                .map(placement -> (type==BuildingType.FARM_FIELD || type==BuildingType.MELON_FIELD)
+                        && placement.state().is(net.minecraft.world.level.block.Blocks.FARMLAND)
+                        ? new BlueprintPlacement(placement.position(),placement.state(),null,BlueprintPlacementMode.FARM_TILL)
+                        : placement).map(placement ->
                 BlueprintPlacementGroups.isPaired(placement.state())
                         ? new BlueprintPlacement(placement.position(), placement.state(),
                         BlueprintPlacementGroups.isPrimary(placement.state())

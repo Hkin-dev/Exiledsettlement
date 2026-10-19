@@ -360,6 +360,8 @@ public final class CommunityLifeService {
             entity.stopSettlementNavigation();
             data.touch();
         }
+        if (citizen.profession() == CitizenProfession.TEACHER
+                && TeachingService.work(level, data, settlement, citizen, entity)) return true;
         if (life.task.startsWith("kiln:")) {
             if (CitizenWorkService.schedulePhase(level.getDayTime(), citizen) != CitizenWorkService.SchedulePhase.WORK) return false;
             return KilnProductionService.work(level, data, settlement, citizen, entity);

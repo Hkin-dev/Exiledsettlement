@@ -1,4 +1,26 @@
 {
   "replace": false,
-  "values": []
+  "values": [
+    "minecraft:melon",
+    "minecraft:hay_block",
+    "minecraft:cocoa_beans",
+    "minecraft:sugar_cane",
+    "minecraft:kelp",
+    "minecraft:dried_kelp_block",
+    "minecraft:nether_wart",
+    "minecraft:honey_bottle",
+    "minecraft:honey_block",
+    "minecraft:cod_bucket",
+    "minecraft:salmon_bucket",
+    "minecraft:tropical_fish_bucket",
+    "minecraft:pufferfish_bucket",
+    {
+      "id": "#c:crops",
+      "required": false
+    },
+    {
+      "id": "#c:foods",
+      "required": false
+    }
+  ]
 }

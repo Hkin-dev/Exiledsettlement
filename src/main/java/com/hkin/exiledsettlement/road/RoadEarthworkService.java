@@ -75,7 +75,7 @@ public final class RoadEarthworkService {
                     && !s.terrain().supersededPaid(p.above(y),state))return false;
         }
         int bottom=p.getY()-1;
-        while(bottom>=level.getMinBuildHeight() && (!FarmEarthworkPlan.support(level,p.atY(bottom)) || TreeSurvey.candidate(level.getBlockState(p.atY(bottom))))) {
+        while(bottom>=level.getMinBuildHeight() && (!com.hkin.exiledsettlement.terrain.TerrainSurface.ground(level,p.atY(bottom)) || TreeSurvey.candidate(level.getBlockState(p.atY(bottom))))) {
             var state=level.getBlockState(p.atY(bottom));
             if(TerrainService.replaceableWater(state) && !bridgeApproach)return false;
             if(!state.getFluidState().isEmpty() && !(bridgeApproach && TerrainService.replaceableWater(state)) || !TerrainService.natural(state) && !TerrainService.replaceableWater(state) && !ResidentTreeFelling.plannable(level,s,p.atY(bottom))
@@ -95,7 +95,7 @@ public final class RoadEarthworkService {
         }
         for(int h=1;h<=ROAD_CLEARANCE_HEIGHT;h++){var state=level.getBlockState(p.above(h));if(!state.isAir() && !ResidentTreeFelling.plannable(level,s,p.above(h)))cost+=TerrainService.soft(state)?.25:1+Math.max(0,state.getDestroySpeed(level,p.above(h)));}
         var ground=level.getBlockState(p);if(!FarmEarthworkPlan.soil(ground) && !ground.is(Blocks.DIRT_PATH))cost+=ground.isAir()?1:2+Math.max(0,ground.getDestroySpeed(level,p));
-        int bottom=p.getY()-1;while(bottom>=level.getMinBuildHeight() && (!FarmEarthworkPlan.support(level,p.atY(bottom)) || TreeSurvey.candidate(level.getBlockState(p.atY(bottom))))){cost++;bottom--;}
+        int bottom=p.getY()-1;while(bottom>=level.getMinBuildHeight() && (!com.hkin.exiledsettlement.terrain.TerrainSurface.ground(level,p.atY(bottom)) || TreeSurvey.candidate(level.getBlockState(p.atY(bottom))))){cost++;bottom--;}
         return cost;
     }
     /** Recorded obsolete caps and their paid bases above a new road plane, including above headroom. */

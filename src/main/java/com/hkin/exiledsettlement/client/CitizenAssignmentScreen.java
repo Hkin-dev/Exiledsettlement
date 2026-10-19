@@ -171,24 +171,31 @@ public final class CitizenAssignmentScreen extends Screen {
                             workFailureLabel(payload.workFailure())),
                     left + 20, top + 164, 0xFFAA3333, false);
         }
-        if (payload.targetPosition() != null) {
-            graphics.drawString(font, Component.translatable("gui.exiledsettlement.citizen.target_position",
-                            payload.targetPosition().getX(), payload.targetPosition().getY(), payload.targetPosition().getZ()),
-                    left + 20, top + 177, 0xFF665647, false);
-        }
+        graphics.drawString(font, Component.translatable("gui.exiledsettlement.ui.resident_details"),
+                left + 20, top + 177, 0xFF665647, false);
         graphics.drawString(font, Component.translatable("gui.exiledsettlement.citizen.nutrition", payload.nutrition()),
                 left + 20, top + 190, 0xFF665647, false);
         Component life = payload.projectionLoaded() ? Component.translatable("gui.exiledsettlement.citizen.life",
                 String.format(java.util.Locale.ROOT, "%.1f", payload.life()), String.format(java.util.Locale.ROOT, "%.1f", payload.maxLife()))
                 : Component.translatable("gui.exiledsettlement.citizen.life_unloaded");
         graphics.drawString(font, life, left + 210, top + 190, 0xFF665647, false);
-        if(thermal!=null) {
-            graphics.drawString(font,String.format(java.util.Locale.ROOT,"体温 %.2f℃ %s   当地 %.1f℃   湿润 %d%%",thermal.body(),thermal.change()>.001F?"↑":thermal.change()<-.001F?"↓":"→",thermal.ambient(),Math.round(thermal.wet()*100)),left+20,top+204,thermal.body()<36?0xFFAA3333:0xFF365846,false);
-            String garment=thermal.garment()==1?"羊毛衣物":thermal.garment()==2?"皮革衣物":"无保温衣物";
-            if(thermal.maxDamage()>0)garment+=" · 耐久 "+Math.max(0,thermal.maxDamage()-thermal.damage())+"/"+thermal.maxDamage();
-            graphics.drawString(font,garment,left+20,top+217,0xFF665647,false);
-            graphics.drawString(font,font.plainSubstrByWidth(thermal.reason(),WIDTH-40),left+20,top+230,0xFF665647,false);
+        if (thermal != null) {
+            Component state = Component.translatable(thermal.body() < 36 ? "gui.exiledsettlement.ui.cold"
+                    : thermal.wet() >= 0.5F ? "gui.exiledsettlement.ui.wet" : "gui.exiledsettlement.ui.comfortable");
+            Component garment = Component.translatable(thermal.garment() == 1 ? "gui.exiledsettlement.ui.wool"
+                    : thermal.garment() == 2 ? "gui.exiledsettlement.ui.leather" : "gui.exiledsettlement.ui.no_garment");
+            graphics.drawString(font, Component.translatable("gui.exiledsettlement.ui.warmth", state, garment),
+                    left + 20, top + 204, thermal.body() < 36 ? 0xFFAA3333 : 0xFF365846, false);
         }
+        int xp = payload.professionExperience().get(profession.ordinal());
+        int jobLevel = com.hkin.exiledsettlement.citizen.CitizenProfessionExperience.levelFor(xp);
+        String progress = jobLevel == 4 ? "MAX" : com.hkin.exiledsettlement.citizen.CitizenProfessionExperience.progressFor(xp) + "/"
+                + com.hkin.exiledsettlement.citizen.CitizenProfessionExperience.costFor(jobLevel);
+        Component experience = Component.translatable("gui.exiledsettlement.citizen.profession_experience", jobLevel, progress,
+                String.format(java.util.Locale.ROOT, "%s", jobLevel * 12.5));
+        if (payload.profession() == CitizenProfession.TEACHER) experience = Component.empty().append(experience).append(
+                Component.translatable("gui.exiledsettlement.citizen.teaching_points", payload.teachingPointsToday()));
+        graphics.drawString(font, font.plainSubstrByWidth(experience.getString(), WIDTH - 40), left + 20, top + 243, 0xFF365846, false);
         renderEquipment(graphics, left, top + 253, mouseX, mouseY);
         graphics.drawString(font, Component.translatable("gui.exiledsettlement.citizen.inventory"),
                 left + 110, top + 341, 0xFF2C2118, false);
@@ -196,6 +203,22 @@ public final class CitizenAssignmentScreen extends Screen {
         // Draw after all slots and the preview, so later items cannot cover tooltips.
         if (!hoveredStack.isEmpty()) graphics.renderTooltip(font, hoveredStack, mouseX, mouseY);
         else if (hoveredSlotLabel != null) graphics.renderTooltip(font, hoveredSlotLabel, mouseX, mouseY);
+        else if (mouseX >= left + 20 && mouseX < left + WIDTH - 20
+                && (mouseY >= top + 175 && mouseY < top + 187 || mouseY >= top + 202 && mouseY < top + 216)) {
+            var details = new java.util.ArrayList<Component>();
+            if (payload.targetPosition() != null) details.add(Component.translatable("gui.exiledsettlement.citizen.target_position",
+                    payload.targetPosition().getX(), payload.targetPosition().getY(), payload.targetPosition().getZ()));
+            if (thermal != null) {
+                details.add(Component.translatable("gui.exiledsettlement.ui.thermal_details",
+                        String.format(java.util.Locale.ROOT, "%.2f", thermal.body()),
+                        thermal.change() > .001F ? "↑" : thermal.change() < -.001F ? "↓" : "→",
+                        String.format(java.util.Locale.ROOT, "%.1f", thermal.ambient()), Math.round(thermal.wet() * 100)));
+                if (thermal.maxDamage() > 0) details.add(Component.translatable("gui.exiledsettlement.ui.garment_durability",
+                        Math.max(0, thermal.maxDamage() - thermal.damage()), thermal.maxDamage()));
+                if (!thermal.reason().isBlank()) details.add(Component.literal(thermal.reason()));
+            }
+            if (!details.isEmpty()) graphics.renderComponentTooltip(font, details, mouseX, mouseY);
+        }
         graphics.pose().popPose();
     }
 

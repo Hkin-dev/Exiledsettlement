@@ -49,7 +49,10 @@ public final class CitizenAssignmentService {
                 workplaces, inventory, CitizenRecord.EQUIPMENT_SLOTS.stream().map(citizen::equipmentItem).toList(),
                 CitizenEquipmentService.visibleHand(citizen), citizen.nutrition(),
                 projection == null ? 0.0F : projection.getHealth(), projection == null ? 0.0F : projection.getMaxHealth(),
-                projection != null, projection != null && projection.isArmorReady()));
+                projection != null, projection != null && projection.isArmorReady(),
+                java.util.Arrays.stream(CitizenProfession.values()).map(job -> citizen.professionExperience().experience(job)).toList(),
+                citizen.professionExperience().teachingDay() == com.hkin.exiledsettlement.settlement.CommunityLifeService.day(player.serverLevel())
+                        ? citizen.professionExperience().pointsToday() : 0));
         PacketDistributor.sendToPlayer(player,com.hkin.exiledsettlement.network.CitizenThermalPayload.of(citizen));
     }
 }

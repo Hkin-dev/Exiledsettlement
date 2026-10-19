@@ -380,7 +380,7 @@ public final class WorkerAccessService {
         c.updateActivity(CitizenActivity.BUILDING);c.updateWorkFailure("");entity.setActivity(CitizenActivity.BUILDING);
         if(slot>=0)c.selectActiveSlot(slot);
         entity.swing(net.minecraft.world.InteractionHand.MAIN_HAND);
-        int duration=Math.max(24,(int)Math.ceil(state.getDestroySpeed(level,p)*30/CitizenToolSpeed.multiplier(tool)));
+        int duration=Math.max(24,(int)Math.ceil(state.getDestroySpeed(level,p)*30/CitizenToolSpeed.multiplier(c, tool)));
         if(cut.ticks<duration){data.touch();return true;}
         // Never remove a footing used by any live resident, even if its own worker moved meanwhile.
         if(!level.getEntitiesOfClass(SettlementCitizenEntity.class,new net.minecraft.world.phys.AABB(p).inflate(1,2,1),a->a.isAlive() && a.blockPosition().below().equals(p)).isEmpty()){

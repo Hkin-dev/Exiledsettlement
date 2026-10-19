@@ -21,7 +21,10 @@ public final class CitizenToolSpeed {
                 || stack.is(Items.SHEARS) || stack.is(Items.LEAD) ? 1.15 : 1;
     }
     public static double multiplier(CitizenRecord citizen) {
-        return multiplier(citizen.inventoryItem(CitizenEquipmentService.toolSlotForWork(citizen)));
+        return multiplier(citizen, citizen.inventoryItem(CitizenEquipmentService.toolSlotForWork(citizen)));
+    }
+    public static double multiplier(CitizenRecord citizen, ItemStack tool) {
+        return multiplier(tool) * citizen.professionExperience().multiplier(citizen.profession());
     }
     public static int interval(CitizenRecord citizen,int base) {
         return Math.max(1,(int)Math.ceil(base/multiplier(citizen)));

@@ -73,7 +73,7 @@ public final class TimedConstructionService {
                     || p.mode()==BlueprintPlacementMode.CLEARANCE && !BuildingPlacementRules.requiresClearance(template,at))continue;
             if(!level.hasChunkAt(at) || level.isOutsideBuildHeight(at)){unloaded=true;continue;}
             if(level.getBlockState(at).isAir() || BlueprintService.placementSatisfied(level,template,p))continue;
-            var cell=BuildingPlacementRules.checkCell(level,template,IrrigationConstructionService.stage(level,template,p));
+            var cell=BuildingPlacementRules.checkCell(level,template,FarmConstructionSequence.stage(level,template,p));
             // Soil transforms and waterlogging are construction, not demolition.
             if(cell.valid() && !cell.clearable())continue;
             work.putIfAbsent(at,new BlueprintService.PendingPlacement(i,new BlueprintPlacement(at,
@@ -88,6 +88,9 @@ public final class TimedConstructionService {
         ordered.sort(Comparator.comparingInt((BlueprintService.PendingPlacement p)->p.placement().position().getY()).reversed());
         return new ClearancePhase(unloaded || !ordered.isEmpty(),ordered);
     }
+    public static boolean clearancePending(ServerLevel level,BlueprintRecord site) {
+        return clearancePhase(level,site,BlueprintTemplates.create(site)).active();
+    }
     /** Query only this saved cell, including any ordered preparation at the same position. */
     public static BlueprintService.PendingPlacement at(ServerLevel level,BlueprintRecord site,BlockPos at) {
         if(!com.hkin.exiledsettlement.region.RegionConstructionStages.facilitiesReady(level,site))return null;
@@ -95,6 +98,8 @@ public final class TimedConstructionService {
         var phase=clearancePhase(level,site,template);
         if(phase.active())return phase.work().stream().filter(p->p.placement().position().equals(at)).findFirst().orElse(null);
         if(!foundationReady(level,site))return null;
+        if(FarmConstructionSequence.applies(template))return FarmConstructionSequence.pending(level,site,template,Set.of())
+                .stream().filter(p->p.placement().position().equals(at)).findFirst().orElse(null);
         for(int i:indices(template).getOrDefault(at,List.of())) {var p=template.placements().get(i);
             if(needed(level,site,template,p,Set.of())){var action=IrrigationConstructionService.stage(level,template,p);
                 if(IrrigationConstructionService.ready(level,template,action))return new BlueprintService.PendingPlacement(i,action);}}
@@ -112,6 +117,8 @@ public final class TimedConstructionService {
             return null;
         }
         if(!foundationReady(level,site))return null;
+        if(FarmConstructionSequence.applies(template))return FarmConstructionSequence.pending(level,site,template,claimed)
+                .stream().findFirst().orElse(null);
         for(int i=0;i<template.placements().size();i++) {var p=template.placements().get(i);
             if(needed(level,site,template,p,claimed)){var action=IrrigationConstructionService.stage(level,template,p);
                 if(IrrigationConstructionService.ready(level,template,action))return new BlueprintService.PendingPlacement(i,action);}}
@@ -135,6 +142,7 @@ public final class TimedConstructionService {
             return available;
         }
         if(!foundationReady(level,site))return List.of();
+        if(FarmConstructionSequence.applies(template))return FarmConstructionSequence.pending(level,site,template,claimed);
         var result = new ArrayList<BlueprintService.PendingPlacement>();
         for (int i = 0; i < template.placements().size(); i++) {
             var p = template.placements().get(i);

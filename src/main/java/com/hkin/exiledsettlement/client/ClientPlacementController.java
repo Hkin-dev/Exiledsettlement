@@ -72,6 +72,21 @@ import java.util.Set;
 import java.util.UUID;
 
 public final class ClientPlacementController {
+    private static com.hkin.exiledsettlement.blueprint.SchematicDocument.Draft schematicDraft;
+    // Shared by native and imported building placement; reset with each new selection.
+    private static int schematicOffsetX;
+    private static int schematicOffsetZ;
+    public static void beginSchematic(com.hkin.exiledsettlement.blueprint.SchematicDocument.Draft draft, BlockPos core, int radius) {
+        clear();
+        schematicDraft = draft;
+        selectedType = draft.type(); selectedTemplateVersion = 1; selectedDisplayTranslationKey = null;
+        placementMode = PlacementMode.BUILDING; facing = Direction.NORTH; heightOffset = 0;
+        selectTerritory(core); boundaryRadiusChunks = Math.max(1, radius); rebuildTerritory();
+        Minecraft minecraft = Minecraft.getInstance();
+        enterRtsView(minecraft);
+        PacketDistributor.sendToServer(new RequestOverviewSnapshotPayload(core));
+        refreshTarget(minecraft);
+    }
     public static final KeyMapping ROTATE_KEY = new KeyMapping(
             "key.exiledsettlement.rotate_building",
             InputConstants.Type.KEYSYM,
@@ -162,6 +177,12 @@ public final class ClientPlacementController {
     public static void previewWorks(com.hkin.exiledsettlement.network.WorksPreviewPayload p){
         var game=Minecraft.getInstance();
         if(worksMode.equals("bridge")){game.setScreen(new BridgePlanningScreen(p));return;}
+        if(!p.valid()){
+            game.setScreen(new net.minecraft.client.gui.screens.ConfirmScreen(yes->{
+                PacketDistributor.sendToServer(new com.hkin.exiledsettlement.network.ConfirmWorksPayload(p.token(),false));
+                game.setScreen(null);clear();
+            },Component.literal("无法安排工程"),Component.literal(p.description()),Component.literal("返回"),Component.literal("取消")));return;
+        }
         game.setScreen(new net.minecraft.client.gui.screens.ConfirmScreen(yes->{
             PacketDistributor.sendToServer(new com.hkin.exiledsettlement.network.ConfirmWorksPayload(p.token(),yes));
             game.setScreen(null); if(!yes)clear();
@@ -196,6 +217,10 @@ public final class ClientPlacementController {
     }
 
     public static void begin(StartPlacementPayload payload) {
+        schematicDraft = null;
+        schematicOffsetX = 0;
+        schematicOffsetZ = 0;
+        clearanceConfirmationAnchor = null;
         BuildingType type = payload.buildingType();
         BlockPos core = payload.corePosition();
         int boundaryRadius = payload.boundaryRadiusChunks();
@@ -219,6 +244,7 @@ public final class ClientPlacementController {
     }
 
     public static void beginRoad(BlockPos core, RoadTier tier, int boundaryRadius) {
+        schematicDraft = null;
         worksMode="";
         placementMode = PlacementMode.ROAD;
         selectedType = null;
@@ -239,6 +265,7 @@ public final class ClientPlacementController {
     }
 
     public static void beginManagement(StartBuildingManagementPayload payload) {
+        schematicDraft = null;
         placementMode = PlacementMode.MANAGEMENT;
         selectedType = null;
         selectTerritory(payload.corePosition());
@@ -317,6 +344,9 @@ public final class ClientPlacementController {
     }
 
     public static void clear() {
+        schematicDraft = null;
+        schematicOffsetX = 0;
+        schematicOffsetZ = 0;
         bridgeRows.clear();bridgeCuts.clear();bridgeSupports.clear();bridgeConflicts.clear();bridgeRequest=null;bridgeHeight=null;worksMode="";
         targetEarthwork=null;cachedEarthwork=null;earthworkPreviewTemplate=null;targetFillPositions=Set.of();earthworkPreviewAt=0;nextEarthworkSurveyTick=0;
         selectedType = null;
@@ -431,6 +461,18 @@ public final class ClientPlacementController {
         if (!active() || scrollDelta == 0.0D) {
             return;
         }
+        if ((placementMode == PlacementMode.BUILDING || productionAreaSelection())
+                && net.minecraft.client.gui.screens.Screen.hasAltDown()) {
+            Direction direction = Direction.fromYRot(cameraYaw);
+            int step = (int)Math.signum(scrollDelta);
+            schematicOffsetX += direction.getStepX() * step;
+            schematicOffsetZ += direction.getStepZ() * step;
+            if (productionAreaSelection() && areaStart != null)
+                areaStart = areaStart.relative(direction, step);
+            clearanceConfirmationAnchor = null;
+            refreshTarget(Minecraft.getInstance());
+            return;
+        }
         if (placementMode == PlacementMode.BUILDING || productionAreaSelection()) {
             adjustPlacementHeight((int)Math.signum(scrollDelta));
             return;
@@ -514,6 +556,14 @@ public final class ClientPlacementController {
             } else {
                 PacketDistributor.sendToServer(new PlaceAreaPayload(areaStart, targetAnchor, facing));
                 clearanceConfirmationAnchor = null;
+            }
+        } else if (schematicDraft != null) {
+            try {
+                ProjectionImportScreen.queueSnapshot(schematicDraft.snapshot(targetAnchor, facing));
+                if (minecraft.player != null) minecraft.player.displayClientMessage(Component.translatable("gui.exiledsettlement.schematic.uploading"), false);
+                clear();
+            } catch (java.io.IOException | RuntimeException error) {
+                if (minecraft.player != null) minecraft.player.displayClientMessage(Component.literal(error.getMessage()), true);
             }
         } else {
             PacketDistributor.sendToServer(new PlaceBuildingPayload(targetAnchor, facing));
@@ -608,9 +658,9 @@ public final class ClientPlacementController {
             if (targetAnchor != null) {
                 BlockPos first = roadStart == null ? targetAnchor : roadStart;
                 LevelRenderer.renderLineBox(poseStack, lines,
-                        new AABB(Math.min(first.getX(), targetAnchor.getX()), first.getY(),
+                        new AABB(Math.min(first.getX(), targetAnchor.getX()), worksMode.equals("fill_pits")?com.hkin.exiledsettlement.terrain.PitFillSurface.top(first):first.getY(),
                                 Math.min(first.getZ(), targetAnchor.getZ()),
-                                Math.max(first.getX(), targetAnchor.getX()) + 1D, first.getY() + 1D,
+                                Math.max(first.getX(), targetAnchor.getX()) + 1D, worksMode.equals("fill_pits")?com.hkin.exiledsettlement.terrain.PitFillSurface.top(first):first.getY() + 1D,
                                 Math.max(first.getZ(), targetAnchor.getZ()) + 1D).inflate(0.02D),
                         red, green, 0.25F, 0.95F);
             }
@@ -670,7 +720,7 @@ public final class ClientPlacementController {
         } else if (placementMode == PlacementMode.ROAD) {
             title = Component.translatable(roadStart == null
                     ? "gui.exiledsettlement.road.select_start" : "gui.exiledsettlement.road.select_end", roadTier.level());
-            if(!worksMode.isEmpty())title=Component.literal((worksMode.equals("bridge")?"框选桥面（含护栏至少3格宽，首点定高，下方支撑柱自动规划）":"区域清理（选择地面两角）")
+            if(!worksMode.isEmpty())title=Component.literal((worksMode.equals("bridge")?"框选桥面（含护栏至少3格宽，首点定高，下方支撑柱自动规划）":worksMode.equals("fill_pits")?"框选填坑（首点选岸边地面定高，再选另一角）":"区域清理（选择地面两角）")
                     +(roadStart==null?"：选择起点":"：选择终点，随后确认服务端清单"));
         } else if (placementMode == PlacementMode.AREA) {
             if (areaStart != null && targetAnchor != null) {
@@ -718,7 +768,7 @@ public final class ClientPlacementController {
         if (placementMode == PlacementMode.BUILDING) {
             graphics.drawString(minecraft.font,
                     Component.translatable("gui.exiledsettlement.placement.height", heightOffset),
-                    centerX + 98, controlsY, 0xFFFFD27A, false);
+                    centerX + 98, controlsY + 12, 0xFFFFD27A, false);
         }
         graphics.drawCenteredString(minecraft.font,
                 Component.translatable("gui.exiledsettlement.future_preview.mode",
@@ -780,13 +830,22 @@ public final class ClientPlacementController {
             targetValid = hoveredBuilding != null;
             return;
         }
+        if(worksMode.equals("fill_pits") && roadStart!=null) {
+            targetAnchor=cursorRay==null?null:com.hkin.exiledsettlement.terrain.PitFillSurface.corner(cursorRay.start(),cursorRay.end(),roadStart);
+            targetTemplate=null;targetMarker=null;
+            targetValid=targetAnchor!=null && ownsChunk(new ChunkPos(targetAnchor))
+                && ((long)Math.abs(targetAnchor.getX()-roadStart.getX())+1)*(Math.abs((long)targetAnchor.getZ()-roadStart.getZ())+1)<=1024;
+            return;
+        }
         if(productionAreaSelection() && areaStart!=null) {
             targetAnchor=cursorRay==null?null:com.hkin.exiledsettlement.blueprint.AreaSelectionPlane.corner(
                     cursorRay.start(),cursorRay.end(),areaStart.getY());
+            if (targetAnchor != null) targetAnchor = targetAnchor.offset(schematicOffsetX, 0, schematicOffsetZ);
             refreshAreaTemplate(minecraft);
             return;
         }
-        HitResult hit = cursorRay == null || minecraft.level == null ? null : minecraft.level.clip(new ClipContext(
+        HitResult hit = cursorRay == null || minecraft.level == null ? null : (selectedType!=null || worksMode.isEmpty() || worksMode.equals("fill_pits"))
+                ? com.hkin.exiledsettlement.terrain.PitFillSurface.pick(minecraft.level,cursorRay.start(),cursorRay.end(),camera) : minecraft.level.clip(new ClipContext(
                 cursorRay.start(), cursorRay.end(), ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, camera));
         if (!(hit instanceof BlockHitResult blockHit) || hit.getType() == HitResult.Type.MISS) {
             targetAnchor = null;
@@ -800,9 +859,11 @@ public final class ClientPlacementController {
             targetAnchor = blockHit.getBlockPos().immutable();
             targetTemplate = null;
             targetMarker = null;
-            targetValid = validateRoadTarget(minecraft, targetAnchor);
+            targetValid = validateRoadTarget(minecraft, targetAnchor)
+                    && (!worksMode.equals("fill_pits") || com.hkin.exiledsettlement.terrain.PitFillSurface.ground(minecraft.level,targetAnchor));
         } else if (placementMode == PlacementMode.AREA && selectedType != null) {
             targetAnchor = blockHit.getBlockPos().above().offset(0, heightOffset, 0);
+            if (productionAreaSelection()) targetAnchor = targetAnchor.offset(schematicOffsetX, 0, schematicOffsetZ);
             if (areaStart == null) {
                 targetTemplate = null;
                 targetMarker = null;
@@ -813,9 +874,10 @@ public final class ClientPlacementController {
             }
         } else if (selectedType != null) {
             targetAnchor = blockHit.getBlockPos().above().offset(0, heightOffset, 0);
-            targetTemplate = BlueprintTemplates.create(
+            targetAnchor = targetAnchor.offset(schematicOffsetX, 0, schematicOffsetZ);
+            targetTemplate = schematicDraft != null ? schematicDraft.template(targetAnchor, facing) : BlueprintTemplates.create(
                     selectedType, targetAnchor, facing, selectedTemplateVersion);
-            if(!foundingCampPlacement())targetTemplate=com.hkin.exiledsettlement.blueprint.ConstructionWorkArea.template(targetTemplate);
+            if(schematicDraft == null && !foundingCampPlacement())targetTemplate=com.hkin.exiledsettlement.blueprint.ConstructionWorkArea.template(targetTemplate);
             targetValid = validateClientSite(minecraft, targetTemplate);
             targetMarker = null;
         }
@@ -843,6 +905,7 @@ public final class ClientPlacementController {
     }
 
     private static Component selectedDisplayName() {
+        if (schematicDraft != null) return Component.literal(schematicDraft.name());
         if (selectedDisplayTranslationKey != null && !selectedDisplayTranslationKey.isBlank()) {
             return Component.translatable(selectedDisplayTranslationKey);
         }
@@ -1300,7 +1363,7 @@ public final class ClientPlacementController {
         int maxX = template.maxCorner().getX();
         int minZ = template.minCorner().getZ();
         int maxZ = template.maxCorner().getZ();
-        double y = template.minCorner().getY() + 0.025D;
+        double y = (productionAreaSelection()?template.anchor().getY():template.minCorner().getY()) + 0.025D;
         int margin = template.transitionMargin();
         RenderSystem.disableDepthTest();
         RenderSystem.enableBlend();

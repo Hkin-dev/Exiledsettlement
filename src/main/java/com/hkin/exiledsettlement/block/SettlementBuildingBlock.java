@@ -27,7 +27,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-public final class SettlementBuildingBlock extends Block {
+public class SettlementBuildingBlock extends Block {
     private final BuildingType buildingType;
 
     public SettlementBuildingBlock(BuildingType buildingType, BlockBehaviour.Properties properties) {

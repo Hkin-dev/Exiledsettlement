@@ -42,7 +42,7 @@ public final class WarehouseInventoryService {
     }
 
     public static WarehouseStock stock(ServerLevel level, BuildingRecord building) {
-        var stock=building.warehouseStock().bind(level);stock.importBoxes(level,building);return stock;
+        var stock=building.warehouseStock().bind(level);stock.importBoxes(level,building);stock.attachLedger(level,building);return stock;
     }
 
     public static List<ContainerAt> physicalContainers(ServerLevel level, BuildingRecord warehouse) {

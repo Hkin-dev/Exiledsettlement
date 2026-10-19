@@ -495,7 +495,8 @@ public final class BlueprintTemplates {
                 {1, 2, 4}, {1, 2, 7}, {11, 2, 4}, {13, 2, 5}, {13, 2, 8}}) {
             windowV2(b, width, position[0], position[1], position[2]);
         }
-        putV2(b, width, 5, 1, 4, ModBlocks.TOWN_HALL_MARKER.get().defaultBlockState(), null);
+        putV2(b, width, 5, 1, 4, ModBlocks.TOWN_HALL_MARKER.get().defaultBlockState()
+                .setValue(net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING, relativeFacing(b, Direction.NORTH)), null);
         putV2(b, width, 3, 1, 5, Blocks.LECTERN.defaultBlockState()
                 .setValue(LecternBlock.FACING, relativeFacing(b, Direction.EAST)));
         putV2(b, width, 8, 1, 5, Blocks.CARTOGRAPHY_TABLE.defaultBlockState());
@@ -804,7 +805,8 @@ public final class BlueprintTemplates {
         shell(b, -6, 6, 0, 9, 0, 4, Blocks.DARK_OAK_PLANKS, Blocks.STRIPPED_DARK_OAK_LOG);
         doorway(b, -1, 0);
         BlockPos desk = b.worldPosition(0, 0, 0);
-        b.putWorld(desk, ModBlocks.TOWN_HALL_MARKER.get().defaultBlockState(), null);
+        b.putWorld(desk, ModBlocks.TOWN_HALL_MARKER.get().defaultBlockState()
+                .setValue(net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING, b.facing.getOpposite()), null);
         for (int x : new int[]{-4, -2, 2, 4}) window(b, x, 2, 0);
         window(b, -6, 2, 4); window(b, 6, 2, 4);
         roof(b, -6, 6, 0, 9, 5);

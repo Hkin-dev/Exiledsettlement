@@ -25,7 +25,7 @@ import java.util.UUID;
 
 public final class SettlementSavedData extends SavedData {
     // 26: frozen agricultural excavation/fill plans and pending real construction tools.
-    public static final int SCHEMA_VERSION = 32; // independent P1 mob-damage evidence and recovery goals
+    public static final int SCHEMA_VERSION = 34; // daily warehouse stock flows
     /**
      * Schema 14 is the last released save line before the 0.14.5 additions.
      * New schema-15 fields all have conservative load defaults, so these saves

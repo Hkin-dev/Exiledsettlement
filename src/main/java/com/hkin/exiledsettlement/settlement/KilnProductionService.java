@@ -100,9 +100,9 @@ public final class KilnProductionService {
         if (!kiln.operational() || !kiln.repairPositions().isEmpty()) return reject(citizen,"砖瓦窑设施未就绪或等待维修");
         if (state.danger(kiln.position())) return reject(citizen,"砖瓦窑位于危险区域，暂停烧制");
         if (hasCargo(citizen)) return reject(citizen,"窑工先将携货送回仓库");
-        if(settlement.citizens().stream().anyMatch(c -> c!=citizen && c.alive()
-                && kiln.id().equals(c.life().destination) && c.life().task.startsWith("kiln:")))
-            return reject(citizen,"本窑已有窑工批次，等待完成");
+        if(settlement.citizens().stream().filter(c -> c!=citizen && c.alive()
+                && kiln.id().equals(c.life().destination) && c.life().task.startsWith("kiln:")).count() >= kiln.workerCapacity())
+            return reject(citizen,"本窑生产岗位已满，等待空位");
         var goal=KilnRecipes.forOutput(BuiltInRegistries.ITEM.get(kiln.productionId()));
         if(goal==null)return reject(citizen,"砖瓦窑产物不可用");
         int promised=settlement.citizens().stream().filter(c -> c.alive() && c.life().task.startsWith("kiln:"))
@@ -202,7 +202,7 @@ public final class KilnProductionService {
                 CommunityLifeService.move(citizen, entity, station,
                         atStation(level,settlement,kiln,entity,recipe) ? (recipe.usesFuel() ? CitizenActivity.FIRING_KILN : CitizenActivity.FORMING_BUILDING_MATERIALS) : CitizenActivity.TO_KILN, "");
                 if (atStation(level,settlement,kiln,entity,recipe)) {
-                    life.workTicks += CitizenWorkService.WORK_INTERVAL_TICKS;
+                    life.workTicks += (int)(CitizenWorkService.WORK_INTERVAL_TICKS * citizen.professionExperience().multiplier(citizen.profession()));
                     if (life.workTicks >= 400 && completeBatch(settlement, citizen)) {
                         life.cookingStage = 3; WarehouseInventoryService.releaseInteractionPosition(level, entity);
                     } else if(life.workTicks>=400) {

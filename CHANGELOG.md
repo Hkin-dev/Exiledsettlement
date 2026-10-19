@@ -1,3 +1,27 @@
+# 0.18.0
+
+## 🇨🇳 中文
+
+- 🎓 新增教师与职业经验，让居民通过教育提高工作效率。
+- 🏗️ 支持直接导入建筑投影，无需额外模组，由居民备料建造。
+- 📦 整理建筑规划和仓库界面，方便查找建筑、物资及每日收支。
+- ⛏️ 新增框选填坑功能，改善水坑填筑和自动整地。
+- 🌾 修正农田施工流程，让居民先建设农田，再翻耕种植。
+- 🧭 改善地形识别与规划预览，减少草丛、土径和楼梯带来的干扰。
+- 🛤️ 修复道路改线后的旧路清理，并改善建筑摆放和材料混搭效果。
+- 👷 增加部分生产建筑的岗位，支持更多居民共同工作。
+
+## 🌐 English
+
+- 🎓 Added teachers and profession experience, helping residents work more efficiently through education.
+- 🏗️ Import building schematics directly without an extra mod, and let residents gather materials and build them.
+- 📦 Reorganized building planning and warehouse menus to make buildings, supplies, and daily stock movements easier to find.
+- ⛏️ Added area selection for filling pits, with improvements to water-filled pits and automatic terrain preparation.
+- 🌾 Corrected farm construction so residents build the farm before tilling and planting.
+- 🧭 Improved terrain detection and planning previews, reducing interference from grass, dirt paths, and stairs.
+- 🛤️ Fixed old-road cleanup after rerouting, and improved building placement and mixed-material construction.
+- 👷 Added worker slots to selected production buildings so more residents can work together.
+
 # 0.17.3
 
 早期测试对生存模式实际游玩体验的覆盖还不够充分，因此本次更新主要围绕生存模式中遇到的问题展开。

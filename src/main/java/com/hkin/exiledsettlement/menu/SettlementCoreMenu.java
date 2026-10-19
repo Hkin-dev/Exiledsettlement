@@ -171,7 +171,7 @@ public final class SettlementCoreMenu extends AbstractContainerMenu {
         if (id == COMMUNITY_BUTTON && player instanceof ServerPlayer serverPlayer && stillValid(player)) {
             var settlement = SettlementSavedData.get(serverPlayer.serverLevel()).findByCore(corePosition).orElse(null);
             if (settlement == null || !settlement.isMember(serverPlayer.getUUID())) return false;
-            com.hkin.exiledsettlement.settlement.CommunityManagement.open(serverPlayer, settlement);
+            com.hkin.exiledsettlement.settlement.CommunityManagement.openLedger(serverPlayer, settlement, 0);
             return true;
         }
         if (id >= PROFESSION_DECREASE_BASE

@@ -35,7 +35,7 @@ public final class TerrainLayerService {
   // any column can become a dry extension of the current work front.
   boolean bridgeApproach=p.road && !p.roadReclaim && s.autoRoads().routes.values().stream()
           .anyMatch(r->p.dependencies.contains(r.id) && com.hkin.exiledsettlement.road.BridgeRoadConnections.bridge(s,r.building)!=null);
-  return new Group(mother,p.roadReclaim,bridgeApproach?BlockPos.asLong(at.getX(),0,at.getZ()):PublicWorkAreas.applies(s,b)?PublicWorkAreas.area(at):Long.MIN_VALUE);
+  return new Group(mother,p.roadReclaim,(bridgeApproach || p.pitFill)?BlockPos.asLong(at.getX(),0,at.getZ()):PublicWorkAreas.applies(s,b)?PublicWorkAreas.area(at):Long.MIN_VALUE);
  }
  private static Layer layer(TerrainProject.Step step){return new Layer(step.fill()?1:0,step.fill()?step.position().getY():-step.position().getY());}
  private static Snapshot snapshot(ServerLevel l,SettlementRecord s){

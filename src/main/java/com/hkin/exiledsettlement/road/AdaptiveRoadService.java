@@ -293,6 +293,7 @@ public final class AdaptiveRoadService {
             candidate.id=old.id;candidate.retired.addAll(old.retired);
             var liveColumns=new HashSet<Long>();for(var p:candidate.cells)liveColumns.add(BlockPos.asLong(p.getX(),0,p.getZ()));
             // A grade change in the same column belongs to its road earthwork, not later underground reclamation.
+            for(var p:List.copyOf(candidate.retired))if(liveColumns.contains(BlockPos.asLong(p.getX(),0,p.getZ())))retireReusedRecovery(s,p);
             candidate.retired.removeIf(p->liveColumns.contains(BlockPos.asLong(p.getX(),0,p.getZ())));
             for(var p:old.cells)if(!candidate.containsCell(p) && !liveColumns.contains(BlockPos.asLong(p.getX(),0,p.getZ())))candidate.retired.add(p);
             candidate.retired.removeAll(candidate.cells);
@@ -338,17 +339,24 @@ public final class AdaptiveRoadService {
         var capacity=OptionalWorkBudget.snapshot(s);
         for(var route:s.autoRoads().routes.values()){
             // A later revision may reuse previously retired cells. Never reclaim its own live corridor.
-            route.retired.removeAll(route.cells);
-            if(route.suppressed || !route.accessConnected || route.progress<route.cells.size() || route.retired.isEmpty())continue;
-            if(route.cells.stream().anyMatch(p->!level.hasChunkAt(p) || !RoadEarthworkService.surfaceReady(level,s,route,p) || !roads.contains(p)))continue;
+            if(route.suppressed || route.retired.isEmpty())continue;
+            boolean connected=route.accessConnected && route.progress>=route.cells.size()
+                    && route.cells.stream().allMatch(p->level.hasChunkAt(p) && RoadEarthworkService.surfaceReady(level,s,route,p) && roads.contains(p));
             int budget=8;
             for(var at:List.copyOf(route.retired)){
                 if(budget--<=0)break;
-                if(!level.hasChunkAt(at) || TerrainService.pendingAt(s,at))continue;
-                boolean shared=s.autoRoads().routes.values().stream().anyMatch(r->r!=route && !r.suppressed && r.containsCell(at));
-                if(shared || roads.manual(at) || roads.levelAt(at)>1 || PlayerRoadEdits.retained(level,at) || fixedPassage(level,s,at)) {route.retired.remove(at);continue;}
+                // Rotate attempted cells, including blocked ones, so the first eight
+                // protected/unloaded columns cannot starve every later old road.
+                route.retired.remove(at);route.retired.add(at);
+                SettlementSavedData.get(level).touch();
+                boolean shared=s.autoRoads().routes.values().stream().anyMatch(r->!r.suppressed && r.cellInColumn(at)!=null);
+                if(shared){retireReusedRecovery(s,at);route.retired.remove(at);continue;}
+                if(!connected || !level.hasChunkAt(at) || TerrainService.pendingAt(s,at))continue;
+                if(roads.manual(at) || roads.levelAt(at)>1 || PlayerRoadEdits.retained(level,at) || fixedPassage(level,s,at)) {route.retired.remove(at);continue;}
                 var state=level.getBlockState(at);
-                if(!state.is(Blocks.DIRT_PATH) && !(state.getBlock() instanceof StairBlock && editableSurface(level,s,at))){roads.remove(at);route.retired.remove(at);continue;}
+                if(!state.is(Blocks.DIRT_PATH) && (state.is(net.minecraft.tags.BlockTags.DIRT)
+                        || com.hkin.exiledsettlement.blueprint.FarmEarthworkPlan.soil(state)
+                        || !(RoadSurfaceProfile.usable(level,at) && editableSurface(level,s,at)))){roads.remove(at);route.retired.remove(at);continue;}
                 if(!RoadEarthworkService.permitted(level,s,at))continue;
                 var steps=List.of(new TerrainProject.Step(at,Blocks.AIR.defaultBlockState(),state),
                         new TerrainProject.Step(at,Blocks.DIRT.defaultBlockState(),Blocks.AIR.defaultBlockState()));
@@ -358,5 +366,24 @@ public final class AdaptiveRoadService {
                 if(project!=null){project.road=true;project.roadReclaim=true;project.explicit=false;s.terrain().index(project);capacity.reserve(steps,null);}
             }
         }
+    }
+    private static void retireReusedRecovery(SettlementRecord s,BlockPos at){
+        for(var p:List.copyOf(s.terrain().projectsAt(at)))if(p.roadReclaim && !p.cancelled && !p.done()
+                && p.steps.stream().allMatch(step->step.position().getX()==at.getX() && step.position().getZ()==at.getZ())){
+            // Release the obsolete order only. Paid blocks, items and progress survive.
+            p.cancelled=true;p.heightSuperseded=true;s.terrain().index(p);
+            var site=s.blueprint(p.id);if(site!=null)site.queueCancellation();
+        }
+    }
+    /** Revalidate after publication: a newer route may already reuse this column. */
+    public static String reclaimGuard(ServerLevel level,SettlementRecord s,TerrainProject project,BlockPos at){
+        if(!project.roadReclaim)return "";
+        boolean owner=s.autoRoads().routes.values().stream().anyMatch(r->!r.suppressed
+                && project.dependencies.contains(r.id) && r.retired.contains(at));
+        if(!owner || s.autoRoads().routes.values().stream().anyMatch(r->!r.suppressed && r.cellInColumn(at)!=null))return "CONSTRUCTION_TARGET_CHANGED";
+        var roads=RoadSpaceData.get(level);
+        if(roads.manualHeight(at)!=null || roads.levelAt(at)>1 || PlayerRoadEdits.retained(level,at)
+                || PlayerRoadEdits.holding(level,at) || BridgeService.column(s,at))return "PROTECTED_AREA";
+        return "";
     }
 }

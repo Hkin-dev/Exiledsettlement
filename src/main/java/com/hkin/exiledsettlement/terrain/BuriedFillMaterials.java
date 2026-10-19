@@ -20,7 +20,12 @@ public final class BuriedFillMaterials {
   return state.is(FOUNDATION) && stable(l,p,state);
  }
  public static boolean wall(ServerLevel l,BlockPos p,BlockState state){return state.is(WALL) && stable(l,p,state);}
- private static boolean stoneTarget(BlockState state){return state.is(WALL) || state.is(FOUNDATION) && !FarmEarthworkPlan.soil(state);}
+ private static boolean stoneTarget(BlockState state){return state.is(WALL) || state.is(FOUNDATION) && !FarmEarthworkPlan.soil(state)
+   || java.util.Set.of(Blocks.GRANITE,Blocks.DIORITE,Blocks.COBBLED_DEEPSLATE,Blocks.DEEPSLATE,Blocks.TUFF,Blocks.CALCITE,Blocks.BLACKSTONE,Blocks.BASALT,Blocks.SMOOTH_BASALT,Blocks.SANDSTONE,Blocks.RED_SANDSTONE,Blocks.DEEPSLATE_BRICKS,Blocks.DEEPSLATE_TILES,Blocks.POLISHED_BLACKSTONE_BRICKS,Blocks.BRICKS).contains(state.getBlock());}
+ /** Compatibility for saved targets and already-paid support, never the supply palette. */
+ public static boolean historicalFoundation(ServerLevel l,BlockPos at,BlockState state){
+  return stable(l,at,state) && (stoneTarget(state) || state.is(Blocks.DIRT) || state.is(Blocks.COARSE_DIRT) || state.is(Blocks.ROOTED_DIRT));
+ }
  /** Completed paid stone is retained; a palette update is not an order to demolish an existing wall. */
  public static boolean existingWall(ServerLevel l,SettlementRecord s,BlockPos at,BlockState state){
   return wall(l,at,state) || stoneTarget(state) && stable(l,at,state)
@@ -74,21 +79,27 @@ public final class BuriedFillMaterials {
  }
  public static BlockState choose(ServerLevel l,SettlementRecord s,TerrainProject project,TerrainProject.Step step,CitizenRecord worker){
   var tag=palette(l,s,project,step);if(tag==null)return step.target();
-  // Continue the actual stone immediately below, including a legacy soil cap.
-  // If that material runs out the worker waits for it instead of producing a dirt cap.
-  if(tag==WALL){var at=step.position().below();var below=project.template().placementAt(at);var actual=l.getBlockState(at);
-   if(wall(l,at,actual) && (below!=null && (below.state().is(Blocks.COBBLESTONE) || below.state().is(WALL))
-    && TerrainService.satisfied(actual,below.state()) || project.publicGround && !project.road && project.groundSurfaces.contains(step.position())))return actual;
-  }
   var allowed=approved(l,step.position(),tag);
+  // Rank each cell/material pair, including Y. Stable ranking keeps inspection,
+  // batch pickup and actual placement consistent without saving a random queue.
+  var items=new HashSet<>(stock(l,s));
   if(worker!=null)for(int slot=0;slot<worker.inventory().size();slot++){var stack=worker.inventoryItem(slot);
-   if(!worker.pitReserveSlot(slot) && !stack.isEmpty() && stack.getItem() instanceof BlockItem item && allowed.contains(item.getBlock().defaultBlockState()))return item.getBlock().defaultBlockState();
+   if(!worker.pitReserveSlot(slot) && !stack.isEmpty())items.add(stack.getItem());
   }
-  var items=stock(l,s);
-  if(allowed.contains(step.target()) && items.contains(step.target().getBlock().asItem()))return step.target();
-  return allowed.stream().filter(state->items.contains(state.getBlock().asItem())).findFirst()
-   .orElseGet(()->allowed.contains(step.target())?step.target():allowed.isEmpty()?step.target():allowed.getFirst());
+  long seed=mix(l.getSeed() ^ project.id.getMostSignificantBits() ^ Long.rotateLeft(project.id.getLeastSignificantBits(),23)
+   ^ mix(step.position().asLong()));
+  BlockState selected=null;long best=0;
+  for(var state:allowed)if(items.contains(state.getBlock().asItem())){
+   long score=mix(seed ^ BuiltInRegistries.BLOCK.getKey(state.getBlock()).toString().hashCode());
+   if(selected==null || Long.compareUnsigned(score,best)<0){selected=state;best=score;}
+  }
+  return selected!=null?selected:allowed.contains(step.target())?step.target():allowed.isEmpty()?step.target():allowed.getFirst();
   // Empty palettes retain a diagnostic target only; TerrainService.guard rejects all work.
+ }
+ private static long mix(long value){
+  value=(value^(value>>>30))*0xbf58476d1ce4e5b9L;
+  value=(value^(value>>>27))*0x94d049bb133111ebL;
+  return value^(value>>>31);
  }
  /** Batch pickup uses the same palette as placement, so it does not also craft obsolete targets. */
  public static Map<Item,Integer> supplyNeeds(ServerLevel l,SettlementRecord s,TerrainProject p,CitizenRecord worker){

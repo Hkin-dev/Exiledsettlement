@@ -106,6 +106,11 @@ public final class CitizenRecord {
     public UUID constructionResumeId(){return constructionResumeId;}
     public BlockPos constructionResumePosition(){return constructionResumePosition;}
     public void setConstructionResume(UUID id,BlockPos at){constructionResumeId=id;constructionResumePosition=at==null?null:at.immutable();}
+    private CitizenProfessionExperience professionExperience;
+    public CitizenProfessionExperience professionExperience() {
+        if (professionExperience == null) professionExperience = new CitizenProfessionExperience();
+        return professionExperience;
+    }
     private UUID motherTaskId;
     private UUID roadTaskId;
     public UUID roadTaskId(){return roadTaskId;}
@@ -1031,6 +1036,7 @@ public final class CitizenRecord {
             if(constructionToolTarget!=null) tag.putString("ConstructionToolTarget",net.minecraft.core.registries.BuiltInRegistries.BLOCK.getKey(constructionToolTarget.getBlock()).toString());
         }
         tag.put("Life", life.save());
+        tag.put("ProfessionExperience", professionExperience().save());
         tag.put("Thermal",thermal.save(registries));
         tag.putString(ID_TAG, id.toString());
         tag.putString(NAME_TAG, name);
@@ -1158,6 +1164,7 @@ public final class CitizenRecord {
         record.worksiteReleasePending = record.preferredWorksiteId != null && tag.getBoolean(WORKSITE_RELEASE_PENDING_TAG);
         record.setYsmModel(tag.getString(YSM_MODEL_ID_TAG), tag.getString(YSM_TEXTURE_NAME_TAG));
         record.life.load(tag.getCompound("Life"));
+        record.professionExperience().load(tag.getCompound("ProfessionExperience"));
         record.thermal.load(tag.getCompound("Thermal"),registries,record.warmth);
         if (tag.contains(EQUIPMENT_TAG, Tag.TAG_COMPOUND)) {
             CompoundTag equipmentTag = tag.getCompound(EQUIPMENT_TAG);

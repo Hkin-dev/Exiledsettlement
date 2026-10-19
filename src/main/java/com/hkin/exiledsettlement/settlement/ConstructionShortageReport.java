@@ -21,6 +21,16 @@ public final class ConstructionShortageReport {
             String label=workKind.publicWorks()?"{{"+workKind.translationKey()+"}}":"{{"+site.type().translationKey()+"}}";
             for(var original:template.placements()) {
                 var p=original;
+                if(FarmConstructionSequence.tillGoal(template,p)) {
+                    if(level.hasChunkAt(p.position()) && !FarmEarthworkPlan.soil(level.getBlockState(p.position())))
+                        add(needed,locations,Items.DIRT,label+" @ "+site.anchor().toShortString());
+                    continue;
+                }
+                if(FarmConstructionSequence.applies(template) && p.state().is(net.minecraft.world.level.block.Blocks.DIRT)) {
+                    if(level.hasChunkAt(p.position()) && !BlueprintService.placementSatisfied(level,template,p))
+                        add(needed,locations,Items.DIRT,label+" @ "+site.anchor().toShortString());
+                    continue;
+                }
                 if(level.hasChunkAt(p.position()) && IrrigationConstructionService.applies(template,p)){
                     for(var item:IrrigationConstructionService.remainingMaterials(level,template,p))add(needed,locations,item,label+" @ "+site.anchor().toShortString());
                     continue;

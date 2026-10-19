@@ -47,6 +47,7 @@ public final class TerrainProject {
     public boolean bridge;
     public com.hkin.exiledsettlement.road.PlayerBridgePlan playerBridge;
     public boolean areaClearance;
+    public boolean pitFill;
     public int bridgeReviewCursor;
     public final Set<BlockPos> bridgeBeams=new LinkedHashSet<>(),bridgeAnchors=new LinkedHashSet<>(),bridgeDeck=new LinkedHashSet<>(),bridgeRails=new LinkedHashSet<>();
     public final Set<BlockPos> bridgeOpenFaces=new LinkedHashSet<>();
@@ -100,7 +101,7 @@ public final class TerrainProject {
         var t=new CompoundTag();t.putUUID("Id",id);t.putString("Name",name);t.putLong("Anchor",anchor.asLong());
         if(regionOwner!=null)t.putUUID("RegionOwner",regionOwner);
         if(playerBridge!=null)t.put("PlayerBridge",playerBridge.save());
-        t.putBoolean("Bridge",bridge);t.putBoolean("AreaClearance",areaClearance);t.putBoolean("EntranceAccess",entranceAccess);t.putInt("BridgeReviewCursor",bridgeReviewCursor);
+        t.putBoolean("PitFill",pitFill);t.putBoolean("Bridge",bridge);t.putBoolean("AreaClearance",areaClearance);t.putBoolean("EntranceAccess",entranceAccess);t.putInt("BridgeReviewCursor",bridgeReviewCursor);
         t.putLongArray("BridgeBeams",bridgeBeams.stream().mapToLong(BlockPos::asLong).toArray());t.putLongArray("BridgeAnchors",bridgeAnchors.stream().mapToLong(BlockPos::asLong).toArray());
         t.putLongArray("BridgeDeck",bridgeDeck.stream().mapToLong(BlockPos::asLong).toArray());t.putLongArray("BridgeRails",bridgeRails.stream().mapToLong(BlockPos::asLong).toArray());
         t.putLongArray("BridgeOpenFaces",bridgeOpenFaces.stream().mapToLong(BlockPos::asLong).toArray());
@@ -144,7 +145,7 @@ public final class TerrainProject {
         }
         var p=new TerrainProject(t.getUUID("Id"),t.getString("Name"),BlockPos.of(t.getLong("Anchor")),steps);
         if(t.hasUUID("RegionOwner"))p.regionOwner=t.getUUID("RegionOwner");
-        p.bridge=t.getBoolean("Bridge");p.areaClearance=t.getBoolean("AreaClearance");p.bridgeReviewCursor=Math.max(0,t.getInt("BridgeReviewCursor"));
+        p.pitFill=t.getBoolean("PitFill");p.bridge=t.getBoolean("Bridge");p.areaClearance=t.getBoolean("AreaClearance");p.bridgeReviewCursor=Math.max(0,t.getInt("BridgeReviewCursor"));
         for(long at:t.getLongArray("BridgeBeams"))p.bridgeBeams.add(BlockPos.of(at));for(long at:t.getLongArray("BridgeAnchors"))p.bridgeAnchors.add(BlockPos.of(at));
         for(long at:t.getLongArray("BridgeDeck"))p.bridgeDeck.add(BlockPos.of(at));for(long at:t.getLongArray("BridgeRails"))p.bridgeRails.add(BlockPos.of(at));
         for(long at:t.getLongArray("BridgeOpenFaces"))p.bridgeOpenFaces.add(BlockPos.of(at));

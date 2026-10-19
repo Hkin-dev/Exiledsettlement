@@ -440,7 +440,8 @@ public final class PublicGroundService {
             var state=originals==null?actual:originals.getOrDefault(y,actual);
             if(state.isAir() || TerrainService.soft(state) || com.hkin.exiledsettlement.citizen.ResidentTreeFelling.plannable(level,s,p))continue;
             if(TerrainService.replaceableWater(state))return new Surface(y,true);
-            if(natural(state) && state.isFaceSturdy(level,p,Direction.UP) || state.is(Blocks.DIRT_PATH))return new Surface(y,false);
+            if(TerrainSurface.ground(level,p,state) && (natural(state) || state.getBlock() instanceof StairBlock
+                    || state.getBlock() instanceof SlabBlock || state.is(Blocks.DIRT_PATH)))return new Surface(y,false);
             // A recorded obsolete cap is not an unknown facility and cannot hide the ground beneath it.
             if(s.terrain().supersededPaid(p,actual))continue;
             return null;
@@ -901,7 +902,7 @@ public final class PublicGroundService {
             if(at.getY()-ground>=2 && level.hasChunkAt(n)){retaining=true;faceBottom=Math.min(faceBottom,ground+1);}
         }
         int bottom=Math.min(at.getY()-1,faceBottom-1);while(bottom>=level.getMinBuildHeight()){
-            var p=at.atY(bottom);var state=level.getBlockState(p);if(bottom<faceBottom && FarmEarthworkPlan.support(level,p) && !com.hkin.exiledsettlement.citizen.TreeSurvey.candidate(state))break;
+            var p=at.atY(bottom);var state=level.getBlockState(p);if(bottom<faceBottom && TerrainSurface.ground(level,p) && !com.hkin.exiledsettlement.citizen.TreeSurvey.candidate(state))break;
             if((s.terrain().supersededChanged(p,state) && !natural(state)) || !natural(state) && !(road && com.hkin.exiledsettlement.citizen.ResidentTreeFelling.plannable(level,s,p)) && !TerrainService.replaceableWater(state) && !s.terrain().supersededPaid(p,state) && !s.terrain().registeredPublicPaid(p,state) && !(road && AdaptiveRoadService.editableSurface(level,s,p))){skip(w,"保留地下设施");return null;}bottom--;
         }
         if(bottom<level.getMinBuildHeight()){skip(w,"无连续实际支撑");return null;}
@@ -910,8 +911,6 @@ public final class PublicGroundService {
             var facing=w.stairs.get(key(at.getX(),at.getZ()));
             if(!road && y==at.getY() && facing!=null && !w.anchors.containsKey(key(at.getX(),at.getZ())))target=Blocks.COBBLESTONE_STAIRS.defaultBlockState().setValue(StairBlock.FACING,facing);
             if(road && y==at.getY())target=roadTarget;
-            // A buried path has a recessed top: restore a full paid support before filling above it.
-            if(road && y<at.getY() && state.is(Blocks.DIRT_PATH) && !FarmEarthworkPlan.support(level,p))target=Blocks.COBBLESTONE.defaultBlockState();
             // Reuse approved stone already present; a periodic review must not rebuild it as cobblestone.
             if(retaining && (!road || y<at.getY()) && target.is(Blocks.COBBLESTONE) && BuriedFillMaterials.existingWall(level,s,p,state))continue;
             if(TerrainService.satisfied(state,target))continue;

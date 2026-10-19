@@ -20,14 +20,14 @@ public final class PlayerWorksService {
     private static final class Selection {
         final UUID settlement,token=UUID.randomUUID(); final String mode; final ServerLevel level;
         final long expires; BlockPos first,second,min,max; long cursor,total; int excluded;
-        boolean ready; AutoRoadState.Route bridge; PlayerBridgePlan plan;
+        boolean ready; AutoRoadState.Route bridge; PlayerBridgePlan plan; PitFillPlan fill;
         final List<TerrainProject.Step> steps=new ArrayList<>();
         final Set<String> modules=new LinkedHashSet<>();
         Selection(ServerPlayer player,SettlementRecord s,String mode){this(player.serverLevel(),s,mode);}
         Selection(ServerLevel level,SettlementRecord s,String mode){this.settlement=s.id();this.level=level;this.mode=mode;expires=level.getGameTime()+6000;}
     }
     public static void begin(ServerPlayer player,SettlementRecord s,String mode){
-        if(!Set.of("bridge","clear_plants","clear_modules","clear_blocks").contains(mode) || !s.isMember(player.getUUID()))return;
+        if(!Set.of("bridge","clear_plants","clear_modules","clear_blocks","fill_pits").contains(mode) || !s.isMember(player.getUUID()))return;
         PlacementSessionService.cancel(player,false);
         SELECTIONS.put(player.getUUID(),new Selection(player,s,mode));
         PacketDistributor.sendToPlayer(player,new WorksSelectionPayload(s.corePosition(),mode,s.boundaryRadiusChunks()));
@@ -42,6 +42,7 @@ public final class PlayerWorksService {
         // A new selection invalidates the previous confirmation token.
         job=new Selection(player,s,job.mode);SELECTIONS.put(player.getUUID(),job);
         job.first=first.immutable();job.second=second.immutable();
+        if(job.mode.equals("fill_pits")){job.fill=new PitFillPlan(first,second);message(player,"正在勘察坑洞，首点地面为填筑高度；尚未安排施工");return;}
         int height=job.mode.equals("clear_plants")?16:8;
         job.min=new BlockPos(Math.min(first.getX(),second.getX()),Math.min(first.getY(),second.getY())+1,Math.min(first.getZ(),second.getZ()));
         job.max=new BlockPos(Math.max(first.getX(),second.getX()),Math.min(job.level.getMaxBuildHeight()-1,Math.max(first.getY(),second.getY())+height),Math.max(first.getZ(),second.getZ()));
@@ -112,6 +113,8 @@ public final class PlayerWorksService {
             if(j.first==null || j.ready)continue;
             var s=SettlementSavedData.get(level).findById(j.settlement).orElse(null);
             if(s==null || !s.active() || !s.isMember(player.getUUID())){cancel(player);continue;}
+            if(j.fill!=null){int columns=Math.min(16,budget/33);if(columns<=0)break;j.fill.survey(level,s,columns);budget-=columns*33;
+                if(j.fill.ready || !j.fill.problem.isEmpty()){j.ready=j.fill.ready;PacketDistributor.sendToPlayer(player,new WorksPreviewPayload(j.token,j.fill.description(level,s),j.ready && j.fill.problem.isEmpty()));j.first=null;}continue;}
             if(j.plan!=null){j.plan.survey(level,s,32);if(j.plan.ready || !j.plan.problem.isEmpty()){j.ready=j.plan.ready;bridgePreview(player,j,s);if(!j.plan.ready)j.first=null;}continue;}
             long width=(long)j.max.getX()-j.min.getX()+1,depth=(long)j.max.getZ()-j.min.getZ()+1;
             while(budget>0 && j.cursor<j.total){
@@ -189,6 +192,13 @@ public final class PlayerWorksService {
     }
     public static void confirm(ServerPlayer player,UUID token,boolean accept){
         var j=SELECTIONS.get(player.getUUID());if(j==null || !j.token.equals(token))return;
+        if(j.fill!=null){
+            if(!accept){cancel(player);return;}
+            var s=SettlementSavedData.get(j.level).findById(j.settlement).orElse(null);
+            if(!j.ready || j.level.getGameTime()>j.expires || s==null || !s.active() || !s.isMember(player.getUUID()) || player.level()!=j.level || !s.contains(player.blockPosition()))return;
+            try{j.fill.publish(j.level,s,player.getUUID());cancel(player);PacketDistributor.sendToPlayer(player,new ClearPlacementPayload());message(player,"填坑工程已登记；居民取料后施工，可撤销附近整地停止待做部分");}
+            catch(IllegalStateException ex){message(player,ex.getMessage());cancel(player);}return;
+        }
         if(j.plan!=null){
             if(!accept){cancel(player);return;}
             var s=SettlementSavedData.get(j.level).findById(j.settlement).orElse(null);

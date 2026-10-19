@@ -31,17 +31,9 @@ public final class WarehouseDisplayMenu extends AbstractContainerMenu {
         super(com.hkin.exiledsettlement.registry.ModMenus.WAREHOUSE_DISPLAY.get(),id);
         rows=requestedRows==6?6:3;displaySlots=rows*9;totals=new SimpleContainerData(displaySlots*2+2);
         owner=player;settlement=s;warehouse=b;box=p;view=new SimpleContainer(displaySlots);
-        var boxes=player==null || b==null ? List.of(p) : b.servicePositions().stream()
-                .filter(pos->player.serverLevel().getBlockEntity(pos) instanceof net.minecraft.world.Container)
-                .map(pos->WarehouseDisplayService.representative(player.serverLevel(),pos)).distinct()
-                .sorted(Comparator.comparingLong(BlockPos::asLong)).toList();
-        int index=player==null?0:Math.max(0,boxes.indexOf(WarehouseDisplayService.representative(player.serverLevel(),p)));
-        groups=Math.max(1,Math.min(boxes.size(),WarehouseDisplayCategory.values().length-1));
-        group=index%groups;
-        int skipped=0;
-        for(int previous=group;previous<index;previous+=groups)
-            skipped+=WarehouseDisplayService.displayRows(player.serverLevel(),boxes.get(previous))*9;
-        offset=skipped;
+        var layout=player==null || b==null ? new WarehouseDisplayLayout(0,1,0)
+                : WarehouseDisplayLayout.forBox(player.serverLevel(),b,p);
+        groups=layout.groups();group=layout.group();offset=layout.offset();
         totals.set(displaySlots*2,group);totals.set(displaySlots*2+1,groups);
         for(int row=0;row<rows;row++)for(int col=0;col<9;col++)
             addSlot(new Slot(view,row*9+col,8+col*18,18+row*18) {
@@ -59,8 +51,8 @@ public final class WarehouseDisplayMenu extends AbstractContainerMenu {
         int totalGroups=Math.max(1,totals.get(displaySlots*2+1));
         if(totalGroups==1)return java.util.List.of(WarehouseDisplayCategory.ALL);
         int currentGroup=totals.get(displaySlots*2);
-        return java.util.Arrays.stream(WarehouseDisplayCategory.values())
-                .filter(category->category!=WarehouseDisplayCategory.ALL && (category.ordinal()-1)%totalGroups==currentGroup).toList();
+        return WarehouseDisplayCategory.columns().stream()
+                .filter(category->category.columnIndex()%totalGroups==currentGroup).toList();
     }
     public int displayedCount(int slot) { return (totals.get(slot*2)&65535) | ((totals.get(slot*2+1)&65535)<<16); }
     private void refresh() {
@@ -75,7 +67,7 @@ public final class WarehouseDisplayMenu extends AbstractContainerMenu {
         indices.defaultReturnValue(-1);
         for(int i=0;i<stock.getContainerSize();i++) {
             var item=stock.getItem(i);
-            if(item.isEmpty() || (WarehouseDisplayCategory.classify(item).ordinal()-1)%groups!=group)continue;
+            if(item.isEmpty() || WarehouseDisplayCategory.classify(item).columnIndex()%groups!=group)continue;
             int index=indices.getInt(item);
             if(index>=0)amounts.set(index,amounts.get(index)+item.getCount());
             else {indices.put(item,samples.size());samples.add(item.copyWithCount(1));amounts.add(item.getCount());}

@@ -86,8 +86,9 @@ public final class BridgeService {
         var own=owner(s,p);return own!=null && own.accessSurfaces.contains(p);
     }
     public static boolean supported(ServerLevel level,TerrainProject p,TerrainProject.Step step) {
+        if(p.pitFill)return com.hkin.exiledsettlement.terrain.PitFillSurface.ground(level,step.position().below());
         if(p.playerBridge!=null)return PlayerBridgeWork.supported(level,p,step);
-        if(!p.bridge)return FarmEarthworkPlan.support(level,step.position().below());
+        if(!p.bridge)return com.hkin.exiledsettlement.terrain.TerrainSurface.ground(level,step.position().below());
         var at=step.position();var roots=rooted(level,p);
         if(p.bridgeBeams.contains(at)) {
             if(p.bridgeAnchors.contains(at))return FarmEarthworkPlan.support(level,at.below());

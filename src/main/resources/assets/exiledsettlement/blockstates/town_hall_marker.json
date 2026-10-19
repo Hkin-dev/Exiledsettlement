@@ -1,1 +1,6 @@
-{ "variants": { "": { "model": "exiledsettlement:block/town_hall_marker" } } }
+{ "variants": {
+  "facing=north": { "model": "exiledsettlement:block/town_hall_marker" },
+  "facing=east": { "model": "exiledsettlement:block/town_hall_marker", "y": 90 },
+  "facing=south": { "model": "exiledsettlement:block/town_hall_marker", "y": 180 },
+  "facing=west": { "model": "exiledsettlement:block/town_hall_marker", "y": 270 }
+} }

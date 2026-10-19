@@ -21,7 +21,8 @@ public record OpenCitizenAssignmentPayload(
         CitizenProfession profession, boolean manual, boolean manualReleasePending, UUID workBuildingId,
         CitizenActivity activity, String workFailure, BlockPos targetPosition,
         List<WorkplaceEntry> workplaces, List<InventoryEntry> inventory, List<ItemStack> equipment, ItemStack mainHand,
-        int nutrition, float life, float maxLife, boolean projectionLoaded, boolean armorWorn
+        int nutrition, float life, float maxLife, boolean projectionLoaded, boolean armorWorn,
+        List<Integer> professionExperience, int teachingPointsToday
 ) implements CustomPacketPayload {
     // Structured work diagnostics include a reason, coordinates and a block registry ID.
     private static final int MAX_WORK_FAILURE_LENGTH = 1024;
@@ -65,6 +66,8 @@ public record OpenCitizenAssignmentPayload(
                 buffer.writeVarInt(payload.nutrition());
                 buffer.writeFloat(payload.life()); buffer.writeFloat(payload.maxLife());
                 buffer.writeBoolean(payload.projectionLoaded()); buffer.writeBoolean(payload.armorWorn());
+                for (CitizenProfession job : CitizenProfession.values()) buffer.writeVarInt(payload.professionExperience().get(job.ordinal()));
+                buffer.writeVarInt(payload.teachingPointsToday());
             },
             buffer -> {
                 UUID settlementId = buffer.readUUID();
@@ -99,12 +102,31 @@ public record OpenCitizenAssignmentPayload(
                 List<ItemStack> equipment = new ArrayList<>(5);
                 for (int slot = 0; slot < 5; slot++) equipment.add(ItemStack.OPTIONAL_STREAM_CODEC.decode(buffer));
                 ItemStack mainHand = ItemStack.OPTIONAL_STREAM_CODEC.decode(buffer);
+                int nutrition = buffer.readVarInt();
+                float life = buffer.readFloat(), maxLife = buffer.readFloat();
+                boolean loaded = buffer.readBoolean(), armor = buffer.readBoolean();
+                List<Integer> experience = new ArrayList<>();
+                for (CitizenProfession job : CitizenProfession.values()) experience.add(Math.max(0, Math.min(185, buffer.readVarInt())));
+                int teaching = Math.max(0, Math.min(10, buffer.readVarInt()));
                 return new OpenCitizenAssignmentPayload(settlementId, citizenId, name,
                         ysmModelId, ysmTextureName, profession,
                         manual, manualReleasePending, workBuildingId, activity, workFailure, targetPosition,
                         List.copyOf(workplaces), List.copyOf(inventory), List.copyOf(equipment), mainHand,
-                        buffer.readVarInt(), buffer.readFloat(), buffer.readFloat(), buffer.readBoolean(), buffer.readBoolean());
+                        nutrition, life, maxLife, loaded, armor, List.copyOf(experience), teaching);
             });
+
+    /** Retain the constructor used by pre-experience fixtures and integrations. Wire version is still bumped. */
+    public OpenCitizenAssignmentPayload(UUID settlementId, UUID citizenId, String citizenName,
+            String ysmModelId, String ysmTextureName, CitizenProfession profession, boolean manual,
+            boolean manualReleasePending, UUID workBuildingId, CitizenActivity activity, String workFailure,
+            BlockPos targetPosition, List<WorkplaceEntry> workplaces, List<InventoryEntry> inventory,
+            List<ItemStack> equipment, ItemStack mainHand, int nutrition, float life, float maxLife,
+            boolean projectionLoaded, boolean armorWorn) {
+        this(settlementId, citizenId, citizenName, ysmModelId, ysmTextureName, profession, manual,
+                manualReleasePending, workBuildingId, activity, workFailure, targetPosition, workplaces,
+                inventory, equipment, mainHand, nutrition, life, maxLife, projectionLoaded, armorWorn,
+                java.util.Collections.nCopies(CitizenProfession.values().length, 0), 0);
+    }
 
     @Override public Type<? extends CustomPacketPayload> type() { return TYPE; }
 

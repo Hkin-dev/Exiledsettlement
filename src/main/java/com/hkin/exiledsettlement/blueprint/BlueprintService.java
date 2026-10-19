@@ -586,6 +586,8 @@ public final class BlueprintService {
             },cleared->cleared.failure().isEmpty());
             if(!result.failure().isEmpty())return OperationResult.failure(result.failure());
             result.removed().forEach(blueprint::removeClearanceTarget);
+        } else if(placement.mode()==BlueprintPlacementMode.FARM_TILL && FarmConstructionSequence.tillGoal(template,placement)) {
+            if(!FarmConstructionSequence.till(level,placement,worker))return OperationResult.failure("PROTECTED_AREA");
         } else if(IrrigationConstructionService.waterlogging(template,placement)) {
             if(!IrrigationConstructionService.placeWater(level,template,placement,worker))return OperationResult.failure("PROTECTED_AREA");
         } else if(BlueprintPlacementGroups.isPaired(placement.state())) {
@@ -1233,7 +1235,11 @@ public final class BlueprintService {
         if (current.getBlock() != expected.getBlock()) return false;
         Set<String> dynamicProperties;
         Block block = expected.getBlock();
-        if (block instanceof FenceBlock || block instanceof IronBarsBlock) {
+        if (block == com.hkin.exiledsettlement.registry.ModBlocks.SETTLEMENT_CORE.get()
+                || block == com.hkin.exiledsettlement.registry.ModBlocks.TOWN_HALL_MARKER.get()) {
+            // An existing desk remains functional in the owner's chosen direction, including pre-facing saves.
+            dynamicProperties = Set.of("facing");
+        } else if (block instanceof FenceBlock || block instanceof IronBarsBlock) {
             dynamicProperties = Set.of("north", "east", "south", "west");
         } else if (block instanceof WallBlock) {
             dynamicProperties = Set.of("north", "east", "south", "west", "up");

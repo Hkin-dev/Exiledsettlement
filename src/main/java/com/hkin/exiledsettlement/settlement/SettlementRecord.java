@@ -574,6 +574,12 @@ public final class SettlementRecord {
         return Map.copyOf(inventorySample);
     }
 
+    private DailyWarehouseLedger dailyWarehouseLedger;
+    public DailyWarehouseLedger dailyWarehouseLedger() {
+        if (dailyWarehouseLedger == null) dailyWarehouseLedger = new DailyWarehouseLedger();
+        return dailyWarehouseLedger;
+    }
+
     public Map<net.minecraft.resources.ResourceLocation, Integer> producedTotals() {
         return Map.copyOf(producedTotals);
     }
@@ -863,6 +869,7 @@ public final class SettlementRecord {
         tag.put(INVENTORY_SAMPLE_TAG, saveItemCounts(inventorySample));
         tag.put(PRODUCED_TOTAL_TAG, saveItemCounts(producedTotals));
         tag.put(CONSUMED_TOTAL_TAG, saveItemCounts(consumedTotals));
+        tag.put("DailyWarehouseLedger", dailyWarehouseLedger().save());
         tag.putLong(APPOINTMENT_PRODUCTION_DAY_TAG, appointmentProductionDay);
         tag.put(MERCHANT_STATE_TAG, merchantState.save());
         tag.put("Community", community.save());
@@ -988,6 +995,7 @@ public final class SettlementRecord {
                 , tag.contains(APPOINTMENT_PRODUCTION_DAY_TAG) ? tag.getLong(APPOINTMENT_PRODUCTION_DAY_TAG) : -1L
         );
         loaded.migrateLegacyWorkerTargets();
+        loaded.dailyWarehouseLedger().load(tag.getCompound("DailyWarehouseLedger"));
         loaded.community.load(tag.getCompound("Community"));
         loaded.terrain.load(tag.getCompound("Terrain"));
         for(var site:loaded.blueprints())if(site.terrainProject()!=null) {

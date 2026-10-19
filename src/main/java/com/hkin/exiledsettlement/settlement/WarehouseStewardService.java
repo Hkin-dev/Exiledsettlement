@@ -240,7 +240,7 @@ public final class WarehouseStewardService {
                 if(!CommunityLifeService.atStorage(level,c,e,b,in,CitizenActivity.COOKING))return true;
                 var rule=WarehouseInventoryService.stock(level,b).rule(id(in));
                 if(!rule.discard()){l.cookingStage=2;data.touch();return true;}
-                l.workTicks+=CitizenWorkService.WORK_INTERVAL_TICKS;
+                l.workTicks+=(int)(CitizenWorkService.WORK_INTERVAL_TICKS * c.professionExperience().multiplier(c.profession()));
                 if(l.workTicks>=100) {
                     int held=Math.min(l.cookingInputCount,count(c,in));
                     int n=Math.min(held,Math.max(0,WarehouseInventoryService.countItem(level,b,in)+held-rule.keep()));
@@ -254,7 +254,7 @@ public final class WarehouseStewardService {
             if(l.task.equals(PREFIX+"compost"))return compost(level,data,s,c,e);
             if(l.task.equals(PREFIX+"snow")){l.cookingStage=2;data.touch();return true;}
             if(!CommunityLifeService.atStorage(level,c,e,b,in,CitizenActivity.COOKING))return true;
-            l.workTicks+=CitizenWorkService.WORK_INTERVAL_TICKS;
+            l.workTicks+=(int)(CitizenWorkService.WORK_INTERVAL_TICKS * c.professionExperience().multiplier(c.profession()));
             if(l.workTicks>=100) {
                 if(count(c,in)<l.cookingInputCount){l.cookingStage=0;l.workTicks=0;}
                 else if(personal && out==Items.BREAD && c.nutrition()<=70) {

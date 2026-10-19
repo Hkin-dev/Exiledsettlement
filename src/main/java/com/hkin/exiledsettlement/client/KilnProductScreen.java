@@ -40,28 +40,37 @@ public final class KilnProductScreen extends Screen {
         addRenderableWidget(Button.builder(Component.translatable("gui.back"),b -> onClose()).bounds(width/2-50,top+251,100,20).build());
     }
     public static Component details(KilnRecipes.Recipe recipe) {
-        var text=Component.translatable("gui.exiledsettlement.kiln.batch",recipe.outputCount()).append("\n");
-        for(int i=0;i<recipe.inputs().size();i++) {
-            var input=recipe.inputs().get(i);if(i>0)text.append(" + ");
-            text.append(KilnRecipes.stack(input.item(),1).getHoverName()).append(" ×"+input.count());
+        var cost = KilnRecipes.fullCost(recipe.output(), recipe.outputCount());
+        var direct = new java.util.LinkedHashMap<net.minecraft.world.item.Item,Integer>();
+        for (var input : recipe.inputs()) direct.merge(input.item(), input.count(), Integer::sum);
+        var returned = new java.util.LinkedHashMap<net.minecraft.world.item.Item,Integer>();
+        if (recipe.returnedCount() > 0) returned.put(recipe.returnedItem(), recipe.returnedCount());
+        boolean expanded = !direct.equals(cost.inputs()) || !returned.equals(cost.returned())
+                || cost.fuel() != (recipe.usesFuel() ? 1 : 0) || cost.needsWater() != (recipe.station() == KilnRecipes.Station.WATER);
+        var text = Component.translatable("gui.exiledsettlement.kiln.batch", recipe.outputCount()).append("\n");
+        if (expanded) text.append(Component.translatable("gui.exiledsettlement.ui.direct_cost")).append("\n");
+        boolean first = true;
+        for (var input : recipe.inputs()) {
+            if (!first) text.append(" + "); first = false;
+            text.append(KilnRecipes.stack(input.item(), 1).getHoverName()).append(" ×" + input.count());
         }
-        if(recipe.usesFuel())text.append("\n").append(Component.translatable("gui.exiledsettlement.kiln.fuel"));
-        if(recipe.station()==KilnRecipes.Station.WATER)text.append("\n").append(Component.translatable("gui.exiledsettlement.kiln.water"));
-        if(recipe.returnedCount()>0)text.append("\n").append(Component.translatable("gui.exiledsettlement.kiln.returns",recipe.returnedCount(),KilnRecipes.stack(recipe.returnedItem(),1).getHoverName()));
-        var cost=KilnRecipes.fullCost(recipe.output(),recipe.outputCount());
-        if(!cost.inputs().isEmpty()) {
+        if (recipe.usesFuel()) text.append("\n").append(Component.translatable("gui.exiledsettlement.kiln.fuel"));
+        if (recipe.station() == KilnRecipes.Station.WATER) text.append("\n").append(Component.translatable("gui.exiledsettlement.kiln.water"));
+        if (recipe.returnedCount() > 0) text.append("\n").append(Component.translatable("gui.exiledsettlement.kiln.returns",
+                recipe.returnedCount(), KilnRecipes.stack(recipe.returnedItem(), 1).getHoverName()));
+        if (expanded) {
             text.append("\n").append(Component.translatable("gui.exiledsettlement.kiln.full_cost"));
-            boolean first=true;
-            for(var entry:cost.inputs().entrySet()) {
-                if(!first)text.append(" + ");first=false;
-                text.append(KilnRecipes.stack(entry.getKey(),1).getHoverName()).append(" ×"+entry.getValue());
+            first = true;
+            for (var entry : cost.inputs().entrySet()) {
+                if (!first) text.append(" + "); first = false;
+                text.append(KilnRecipes.stack(entry.getKey(), 1).getHoverName()).append(" ×" + entry.getValue());
             }
+            if (cost.fuel() > 0) text.append("\n").append(Component.translatable("gui.exiledsettlement.kiln.fuel_total", cost.fuel()));
+            for (var entry : cost.returned().entrySet()) text.append("\n").append(Component.translatable("gui.exiledsettlement.kiln.returns",
+                    entry.getValue(), KilnRecipes.stack(entry.getKey(), 1).getHoverName()));
+            if (cost.needsWater()) text.append("\n").append(Component.translatable("gui.exiledsettlement.kiln.water"));
         }
-        if(cost.inputs().containsKey(Items.GLASS_BOTTLE))
-            text.append("\n").append(Component.translatable("gui.exiledsettlement.kiln.bottles"));
-        if(cost.fuel()>0)text.append("\n").append(Component.translatable("gui.exiledsettlement.kiln.fuel_total",cost.fuel()));
-        for(var entry:cost.returned().entrySet())text.append("\n").append(Component.translatable("gui.exiledsettlement.kiln.returns",entry.getValue(),KilnRecipes.stack(entry.getKey(),1).getHoverName()));
-        if(cost.needsWater() && recipe.station()!=KilnRecipes.Station.WATER)text.append("\n").append(Component.translatable("gui.exiledsettlement.kiln.water"));
+        if (cost.inputs().containsKey(Items.GLASS_BOTTLE)) text.append("\n").append(Component.translatable("gui.exiledsettlement.kiln.bottles"));
         return text.append("\n").append(Component.translatable("gui.exiledsettlement.kiln.automatic"));
     }
     @Override public void render(GuiGraphics graphics,int mouseX,int mouseY,float tick) {

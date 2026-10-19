@@ -184,7 +184,7 @@ public final class CommunityCookingService {
                 CommunityLifeService.move(citizen, entity, station,
                         atCookingStation(level,restaurant,entity) ? CitizenActivity.COOKING : CitizenActivity.TO_KITCHEN, "");
                 if (atCookingStation(level, restaurant, entity)) {
-                    life.workTicks += CitizenWorkService.WORK_INTERVAL_TICKS;
+                    life.workTicks += (int)(CitizenWorkService.WORK_INTERVAL_TICKS * citizen.professionExperience().multiplier(citizen.profession()));
                     if (life.workTicks >= 400 && completeBatch(settlement, citizen)) {
                         life.cookingStage = 3; WarehouseInventoryService.releaseInteractionPosition(level, entity);
                     } else if(life.workTicks>=400) {

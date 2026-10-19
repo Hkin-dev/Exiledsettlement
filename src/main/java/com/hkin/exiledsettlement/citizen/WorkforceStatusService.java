@@ -28,6 +28,8 @@ public final class WorkforceStatusService {
                 || !entity.getNavigation().isDone()) return false;
         if (citizen.profession()==CitizenProfession.KILN_WORKER)
             return com.hkin.exiledsettlement.settlement.KilnProductionService.isFiring(level,settlement,citizen,entity);
+        if (citizen.profession()==CitizenProfession.TEACHER)
+            return com.hkin.exiledsettlement.settlement.TeachingService.isTeaching(level,settlement,citizen,entity);
         CitizenActivity expected = switch (citizen.workState()) {
             case TO_BLUEPRINT -> CitizenActivity.BUILDING;
             case TO_DEMOLITION -> CitizenActivity.DEMOLISHING;

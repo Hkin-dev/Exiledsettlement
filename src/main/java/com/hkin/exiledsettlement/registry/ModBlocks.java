@@ -87,7 +87,7 @@ public final class ModBlocks {
 
     public static final DeferredBlock<SettlementBuildingBlock> TOWN_HALL_MARKER = BLOCKS.registerBlock(
             "town_hall_marker",
-            properties -> new SettlementBuildingBlock(BuildingType.TOWN_HALL, properties),
+            properties -> new com.hkin.exiledsettlement.block.FacingTownHallBlock(properties),
             woodProperties(MapColor.PODZOL).noOcclusion().strength(3.0F)
     );
 

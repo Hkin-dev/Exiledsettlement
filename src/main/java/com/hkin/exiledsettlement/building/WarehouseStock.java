@@ -20,6 +20,30 @@ public final class WarehouseStock implements Container {
     private long revision;
     private int cachedQuantity = -1;
     private Map<Item,Integer> summary;
+    private com.hkin.exiledsettlement.settlement.SettlementRecord ledgerOwner;
+    private Map<Item,Integer> ledgerSnapshot;
+    public void attachLedger(ServerLevel world, BuildingRecord building) {
+        if (ledgerOwner != null || !(building.type().isStorage() || building.type() == BuildingType.MINE)) return;
+        ledgerOwner = SettlementSavedData.get(world).settlements().stream()
+                .filter(s -> s.building(building.id()) == building).findFirst().orElse(null);
+        if (ledgerOwner != null) {
+            // Loading and initial legacy-box import establish stock, never fabricate an inbound transaction.
+            ledgerSnapshot = Map.copyOf(summary());
+            if (ledgerOwner.dailyWarehouseLedger().beginDay(Math.floorDiv(world.getDayTime(), 24000L))) SettlementSavedData.get(world).touch();
+        }
+    }
+    private void recordLedgerChange() {
+        if (ledgerOwner == null || level == null) return;
+        var current = summary();
+        var ids = new HashSet<Item>(ledgerSnapshot.keySet()); ids.addAll(current.keySet());
+        long day = Math.floorDiv(level.getDayTime(), 24000L);
+        for (var item : ids) {
+            long delta = (long) current.getOrDefault(item, 0) - ledgerSnapshot.getOrDefault(item, 0);
+            if (delta != 0) ledgerOwner.dailyWarehouseLedger().record(day,
+                    net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(item).toString(), delta);
+        }
+        ledgerSnapshot = Map.copyOf(current);
+    }
     public Map<Item,Integer> summary() {
         if(summary==null) {
             var counts=new LinkedHashMap<Item,Integer>();
@@ -46,7 +70,7 @@ public final class WarehouseStock implements Container {
     public WarehouseStock() { rules.put("minecraft:snowball", new Rule(64, true)); }
     public static boolean applies(BuildingRecord b) { return b.type()==BuildingType.WAREHOUSE || b.type()==BuildingType.MARKET || b.type()==BuildingType.MINE || b.type().isHouse()
             || b.type()==BuildingType.WAGON && b.templateVersion()>=com.hkin.exiledsettlement.settlement.FoundingCampSupplies.STORAGE_VERSION; }
-    public void load(CompoundTag tag) { pending=tag.copy(); }
+    public void load(CompoundTag tag) { pending=tag.copy(); ledgerOwner=null; ledgerSnapshot=null; }
     public WarehouseStock bind(ServerLevel world) {
         level=world;
         if(pending!=null) {
@@ -108,7 +132,7 @@ public final class WarehouseStock implements Container {
     @Override public ItemStack removeItem(int slot,int amount){var result=getItem(slot).split(Math.max(0,amount));if(!result.isEmpty())setChanged();return result;}
     @Override public ItemStack removeItemNoUpdate(int slot){var result=getItem(slot);if(slot>=0 && slot<stacks.size())stacks.set(slot,ItemStack.EMPTY);setChanged();return result;}
     @Override public void setItem(int slot,ItemStack stack){while(stacks.size()<=slot)stacks.add(ItemStack.EMPTY);stacks.set(slot,stack);setChanged();}
-    @Override public void setChanged(){cachedQuantity=-1;summary=null;revision++;if(level!=null)SettlementSavedData.get(level).touch();}
+    @Override public void setChanged(){cachedQuantity=-1;summary=null;revision++;recordLedgerChange();if(level!=null)SettlementSavedData.get(level).touch();}
     @Override public boolean stillValid(Player player){return true;}
     @Override public void clearContent(){stacks.clear();setChanged();}
 }

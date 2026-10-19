@@ -53,7 +53,7 @@ public final class RoadMaintenanceService {
             steps.add(new TerrainProject.Step(p,Blocks.AIR.defaultBlockState(),actual));
         }
         int bottom=at.getY()-1;
-        while(bottom>=level.getMinBuildHeight() && !FarmEarthworkPlan.support(level,at.atY(bottom))){
+        while(bottom>=level.getMinBuildHeight() && !TerrainSurface.ground(level,at.atY(bottom))){
             var p=at.atY(bottom);
             if(!RoadEarthworkService.permitted(level,s,p) || !level.getBlockState(p).isAir())return false;
             bottom--;

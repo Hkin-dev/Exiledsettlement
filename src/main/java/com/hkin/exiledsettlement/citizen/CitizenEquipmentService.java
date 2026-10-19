@@ -64,6 +64,7 @@ public final class CitizenEquipmentService {
             case LUMBERJACK -> has(citizen, AxeItem.class) ? null : Items.WOODEN_AXE;
             case FISHER -> has(citizen, FishingRodItem.class) ? null : Items.FISHING_ROD;
             case SAWYER -> has(citizen, AxeItem.class) ? null : Items.WOODEN_AXE;
+            default -> null;
         };
     }
 
@@ -264,6 +265,7 @@ public final class CitizenEquipmentService {
                     || slot == citizen.findInventorySlot(candidate -> candidate.getItem() instanceof PickaxeItem
                     || candidate.getItem() instanceof AxeItem);
             case WAREHOUSE_KEEPER, TRAVELING_MERCHANT, CHEF, KILN_WORKER -> false;
+            default -> false;
             case HERDSMAN -> slot == citizen.findInventorySlot(candidate -> candidate.is(Items.LEAD));
             case HUNTER -> slot == citizen.findInventorySlot(candidate -> candidate.getItem() instanceof SwordItem)
                     || slot == citizen.findInventorySlot(candidate -> candidate.getItem() instanceof BowItem)
@@ -305,6 +307,7 @@ public final class CitizenEquipmentService {
             case SAWYER -> bestTool(citizen,stack -> stack.getItem() instanceof AxeItem);
             case HERDSMAN -> bestTool(citizen, stack -> stack.is(Items.SHEARS) || stack.is(Items.LEAD));
             case WAREHOUSE_KEEPER, TRAVELING_MERCHANT, CHEF, KILN_WORKER -> -1;
+            default -> -1;
         };
     }
 

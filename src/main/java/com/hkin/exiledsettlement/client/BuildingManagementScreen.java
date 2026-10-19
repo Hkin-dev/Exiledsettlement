@@ -35,6 +35,7 @@ public final class BuildingManagementScreen extends Screen {
     private int personnelPage;
     private int snapshotTicks;
     private boolean warehousePersonnelView;
+    private boolean editingName;
     @Nullable
     private EditBox nameField;
 
@@ -94,7 +95,7 @@ public final class BuildingManagementScreen extends Screen {
         int left = width / 2 - WIDTH / 2;
         int top = height / 2 - HEIGHT / 2;
         nameField = null;
-        if (!payload.building().blueprint()) {
+        if (!payload.building().blueprint() && editingName) {
             nameField = new EditBox(font, left + 78, top + 45, 190, 20,
                     Component.translatable("gui.exiledsettlement.core.building_name"));
             nameField.setMaxLength(32);
@@ -104,8 +105,15 @@ public final class BuildingManagementScreen extends Screen {
                 if (nameField != null && !nameField.getValue().isBlank()) {
                     PacketDistributor.sendToServer(new RenameBuildingPayload(
                             payload.corePosition(), payload.building().id(), nameField.getValue()));
+                    editingName = false; rebuildWidgets();
                 }
             }).bounds(left + 276, top + 45, 84, 20).build());
+        }
+
+        if (!payload.building().blueprint() && !editingName) {
+            addRenderableWidget(Button.builder(Component.translatable("gui.exiledsettlement.core.rename_building"),
+                    button -> { editingName = true; rebuildWidgets(); if (nameField != null) setFocused(nameField); })
+                    .bounds(left + 276, top + 45, 84, 20).build());
         }
 
         if (payload.building().blueprint()
@@ -113,7 +121,9 @@ public final class BuildingManagementScreen extends Screen {
             addRenderableWidget(Button.builder(
                     Component.translatable("gui.exiledsettlement.building_management.cancel_construction"),
                     button -> send(BuildingActionPayload.Action.CANCEL_CONSTRUCTION, 0, air()))
-                    .bounds(left + 140, top + 72, 100, 20).build());
+                    .bounds(left + 140, top + 72, 100, 20)
+                    .tooltip(net.minecraft.client.gui.components.Tooltip.create(Component.translatable(
+                            "gui.exiledsettlement.building_management.cancel_cleanup_hint"))).build());
         } else if (!payload.building().blueprint() && !payload.building().demolitionQueued()
                 && payload.building().type() != BuildingType.WAGON) {
             addRenderableWidget(Button.builder(Component.translatable("gui.exiledsettlement.building_management.demolish"),
@@ -412,29 +422,22 @@ public final class BuildingManagementScreen extends Screen {
         super.render(graphics, mouseX, mouseY, partialTick);
         graphics.drawCenteredString(font, Component.literal(displayName()), width / 2, top + 12, 0xFFF8E8C8);
         int typeStatusY = payload.building().blueprint() ? top + 51 : top + 73;
-        graphics.drawString(font, Component.translatable(payload.building().displayTypeKey()),
+        if (!displayName().equals(Component.translatable(payload.building().displayTypeKey()).getString()))
+            graphics.drawString(font, Component.translatable(payload.building().displayTypeKey()),
                 left + 20, typeStatusY, 0xFF2C2118, false);
         graphics.drawString(font, Component.translatable(payload.building().status().translationKey()),
                 left + (payload.building().blueprint() ? 220 : 120), typeStatusY,
                 payload.building().operational() ? 0xFF287A31 : 0xFFA13A2A, false);
         if (!payload.building().blueprint()) {
-            graphics.drawString(font, Component.translatable("gui.exiledsettlement.core.building_name"),
+            if (editingName) graphics.drawString(font, Component.translatable("gui.exiledsettlement.core.building_name"),
                     left + 20, top + 51, 0xFF665647, false);
         } else {
             graphics.drawCenteredString(font, Component.translatable(
                             "gui.exiledsettlement.building_management.construction_progress",
                             payload.building().constructionProgress(), payload.building().constructionTotal()),
                     width / 2, top + 108, 0xFF2C2118);
-            Component diagnostic = payload.building().repairCount() > 0
-                    ? Component.translatable("gui.exiledsettlement.building_management.footing_cleanup_remaining",
-                    payload.building().repairCount())
-                    : Component.translatable("gui.exiledsettlement.building_management.construction_remaining",
-                    Math.max(0, payload.building().constructionTotal()
-                            - payload.building().constructionProgress()));
-            graphics.drawCenteredString(font, Component.literal("待放"+payload.building().remainingPlacements()+" · 地基/支撑"+payload.building().foundationPlacements()+" · 准备"+payload.building().preparationActions()+" · 建议"+payload.building().suggestedWorkers()+"人"),width/2,top+119,0xFF665647);
-            graphics.drawCenteredString(font, Component.translatable(
-                            "gui.exiledsettlement.building_management.cancel_cleanup_hint"),
-                    width / 2, top + 130, 0xFF665647);
+            graphics.drawCenteredString(font, Component.translatable("gui.exiledsettlement.ui.construction_details"),
+                    width / 2, top + 124, 0xFF665647);
         }
         boolean warehouse = !payload.building().blueprint() && (payload.building().type().isStorage() || payload.building().type()==BuildingType.MINE);
         if (warehouse) {
@@ -452,13 +455,31 @@ public final class BuildingManagementScreen extends Screen {
         }
         if (worksiteTaskMode()) renderWorksitePriority(graphics, left, top);
         else if (!payload.building().blueprint() && !warehouse) renderStaffing(graphics, left, top);
+        renderDetailTooltip(graphics, mouseX, mouseY, left, top);
+    }
+
+    private void renderDetailTooltip(GuiGraphics graphics, int mouseX, int mouseY, int left, int top) {
+        if (mouseX < left + 20 || mouseX >= left + WIDTH - 20) return;
+        if (payload.building().blueprint() && mouseY >= top + 119 && mouseY < top + 136) {
+            graphics.renderComponentTooltip(font, java.util.List.of(
+                    Component.translatable("gui.exiledsettlement.ui.construction_counts",
+                            payload.building().remainingPlacements(), payload.building().foundationPlacements(),
+                            payload.building().preparationActions()),
+                    Component.translatable("gui.exiledsettlement.ui.suggested_workers", payload.building().suggestedWorkers())), mouseX, mouseY);
+            return;
+        }
+        boolean warehouse = payload.building().type().isStorage() || payload.building().type() == BuildingType.MINE;
+        boolean production = payload.building().type() == BuildingType.FARM_FIELD || payload.building().type() == BuildingType.MELON_FIELD
+                || payload.building().type() == BuildingType.BRICK_KILN || payload.building().type() == BuildingType.PASTURE_AREA;
+        int y = worksiteTaskMode() ? (payload.building().blueprint() ? 158 : 112) : warehouse ? 197 : production ? 185 : 124;
+        if (!worksiteTaskMode() && (warehouse && !warehousePersonnelView || payload.building().staffingProfessionOrdinal() < 0)) return;
+        if (mouseY >= top + y - 2 && mouseY < top + y + 12) graphics.renderTooltip(font,
+                Component.translatable("gui.exiledsettlement.ui.personnel_counts", payload.building().arrivedWorkers(),
+                        payload.building().workingWorkers(), payload.building().lockedWorkers()), mouseX, mouseY);
     }
 
     private void renderWorksitePriority(GuiGraphics graphics, int left, int top) {
-        graphics.drawCenteredString(font, Component.translatable(
-                        "gui.exiledsettlement.building_management.worksite_priority_summary",
-                        payload.building().lockedWorkers(), payload.building().assignedWorkers(),
-                        payload.building().arrivedWorkers(), payload.building().workingWorkers()),
+        graphics.drawCenteredString(font, Component.translatable("gui.exiledsettlement.ui.worksite_workers", payload.building().assignedWorkers()),
                 width / 2, top + (payload.building().blueprint() ? 158 : 112), 0xFF2C2118);
         int pageSize = personnelPageSize();
         int start = personnelPage * pageSize;
@@ -503,18 +524,15 @@ public final class BuildingManagementScreen extends Screen {
             return;
         }
         graphics.drawCenteredString(font, Component.translatable(
-                        "gui.exiledsettlement.building_management.staffing_target",
-                        payload.building().workerTarget(),
+                        "gui.exiledsettlement.building_management.staffing_numbers",
+                        payload.building().assignedWorkers(),
                         payload.building().capacity()),
                 width / 2, top + 102, 0xFF2C2118);
         boolean productionArea = payload.building().type() == BuildingType.FARM_FIELD
                 || payload.building().type() == BuildingType.MELON_FIELD
                 || payload.building().type() == BuildingType.BRICK_KILN
                 || payload.building().type() == BuildingType.PASTURE_AREA;
-        graphics.drawCenteredString(font, Component.translatable(
-                        "gui.exiledsettlement.building_management.staffing_summary",
-                        payload.building().assignedWorkers(), payload.building().arrivedWorkers(),
-                        payload.building().workingWorkers(), payload.building().lockedWorkers()),
+        graphics.drawCenteredString(font, Component.translatable("gui.exiledsettlement.ui.personnel_details"),
                 width / 2, top + (productionArea ? 185 : 124), 0xFF2C2118);
         int rowStart = payload.building().type() == BuildingType.FARM_FIELD
                 || payload.building().type() == BuildingType.MELON_FIELD
@@ -610,13 +628,10 @@ public final class BuildingManagementScreen extends Screen {
 
     private void renderWarehouseStaffing(GuiGraphics graphics, int left, int top) {
         graphics.drawCenteredString(font, Component.translatable(
-                        "gui.exiledsettlement.building_management.staffing_target",
-                        payload.building().workerTarget(), payload.building().capacity()),
+                        "gui.exiledsettlement.building_management.staffing_numbers",
+                        payload.building().assignedWorkers(), payload.building().capacity()),
                 width / 2, top + 143, 0xFF2C2118);
-        graphics.drawCenteredString(font, Component.translatable(
-                        "gui.exiledsettlement.building_management.staffing_summary",
-                        payload.building().assignedWorkers(), payload.building().arrivedWorkers(),
-                        payload.building().workingWorkers(), payload.building().lockedWorkers()),
+        graphics.drawCenteredString(font, Component.translatable("gui.exiledsettlement.ui.personnel_details"),
                 width / 2, top + 197, 0xFF2C2118);
         int pageSize = 3;
         int start = personnelPage * pageSize;

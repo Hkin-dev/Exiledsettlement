@@ -82,12 +82,13 @@ public final class BuildingFunctionService {
             case HOUSE, HOUSE_2, HOUSE_3, ADVANCED_HOUSE_1, ADVANCED_HOUSE_2, ADVANCED_HOUSE_3,
                     SPRUCE_HOME, GALLERY_HOME, COURTYARD_HOME, STARTER_CAMP, APARTMENT -> validateHouse(level, building);
             case WAREHOUSE, MARKET -> validateWarehouse(level, building);
-            case SCHOOL, CHURCH -> building.updateFunction(false, BuildingStatus.REGISTERED_ONLY, 0, List.of());
+            case SCHOOL -> com.hkin.exiledsettlement.settlement.TeachingService.validateSchool(level, building);
+            case CHURCH -> building.updateFunction(false, BuildingStatus.REGISTERED_ONLY, 0, List.of());
             case FARM_FIELD, MELON_FIELD -> validateFarmField(level, building);
             case PASTURE_AREA -> validatePasture(level, building);
             case HUNTING_LODGE -> validateWorkplace(level, building, 2);
-            case TOOL_WORKSHOP -> validateWorkplace(level, building, 2);
-            case SAWMILL -> validateWorkplace(level, building, 2);
+            case TOOL_WORKSHOP -> validateWorkplace(level, building, 4);
+            case SAWMILL -> validateWorkplace(level, building, 4);
             case FORESTER_LODGE -> validateWorkplace(level, building, 2);
             case TREE_FARM -> validateTreeFarm(level, building);
             case TOWN_HALL -> validateWorkplace(level, building, 0);
@@ -319,7 +320,7 @@ public final class BuildingFunctionService {
                 .map(p -> p.position()).toList();
         return building.updateFunction(stations.size() == 2,
                 stations.size() == 2 ? BuildingStatus.OPERATIONAL : BuildingStatus.MISSING_CONTAINER,
-                stations.size() == 2 ? 1 : 0, stations);
+                stations.size() == 2 ? 4 : 0, stations);
     }
 
     private static boolean validateWorkplace(ServerLevel level, BuildingRecord building, int workerCapacity) {

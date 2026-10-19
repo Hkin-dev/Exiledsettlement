@@ -42,12 +42,18 @@ public final class CommunityScreen extends Screen {
     private List<FormattedCharSequence> wrapped = List.of();
     private String tab = "works", selected;
     private int scroll, controlsPage, pageCount = 1;
+    private boolean helpVisible;
     private String feedback = "点击设置查看全部选项；选择具体值后生效";
 
     private CommunityScreen(CommunitySnapshotPayload snapshot, Screen parent) {
-        super(Component.literal("聚落生活 · " + snapshot.name())); this.snapshot = snapshot; this.parent = parent;
+        super(Component.translatable("gui.exiledsettlement.ledger.management_title", snapshot.name())); this.snapshot = snapshot; this.parent = parent;
     }
     public static void receive(CommunitySnapshotPayload payload) {
+        if (!payload.lines().isEmpty() && CommunityLedgerData.MARKER.equals(payload.lines().getFirst())) {
+            if (!SettlementCoreScreen.receiveLedger(payload)
+                    && Minecraft.getInstance().screen instanceof CommunityLedgerScreen) CommunityLedgerScreen.receive(payload);
+            return;
+        }
         var game = Minecraft.getInstance();
         if (game.screen instanceof CommunityScreen existing && existing.snapshot.core().equals(payload.core())) {
             existing.snapshot = payload;
@@ -69,11 +75,17 @@ public final class CommunityScreen extends Screen {
         return setting.group().equals(tab) || tab.equals("works") && setting.id().equals("policy");
     }
     @Override protected void init() { rebuild(); }
-    private void setTab(String id) { tab = id; selected = null; scroll = controlsPage = 0; rebuild(); }
+    private void setTab(String id) { tab = id; selected = null; helpVisible = false; scroll = controlsPage = 0; rebuild(); }
     private void inspect(String id) { selected = id; scroll = controlsPage = 0; rebuild(); }
 
     private List<String> reportLines() {
-        if (tab.equals("report")) return snapshot.lines();
+        if (helpVisible) {
+            var help = new ArrayList<String>(UiSummaryText.help(snapshot.lines()));
+            for (var setting : CommunitySettings.ALL) if (inGroup(setting)) help.add(setting.label() + "：" + setting.help());
+            for (var action : ACTIONS) if (action.group().equals(tab)) help.add(action.label() + "：" + action.help());
+            return help;
+        }
+        if (tab.equals("report")) return UiSummaryText.compact(snapshot.lines());
         var lines = new ArrayList<String>();
         if(tab.equals("works")) {
             boolean keep=false;for(String line:snapshot.lines()){if(line.startsWith("——"))keep=line.equals("—— 工程缺料 ——") || line.equals("—— 居民整地 ——") || line.equals("—— 居民自动修路 ——") || line.equals("—— 公共工程分工 ——");if(keep)lines.add(line);}
@@ -94,13 +106,7 @@ public final class CommunityScreen extends Screen {
                         || tab.equals("scenery") && (line.contains("季") || line.contains("日历"))) lines.add(line);
             }
         }
-        lines.add("—— 设置说明 ——");
-        for (var setting : CommunitySettings.ALL) if (inGroup(setting)) {
-            lines.add(setting.label() + "：" + setting.display(value(setting.id())));
-            lines.add(setting.help());
-        }
-        for (var action : ACTIONS) if (action.group().equals(tab)) lines.add(action.label() + "：" + action.help());
-        return lines;
+        return UiSummaryText.compact(lines);
     }
 
     private static Component reportComponent(String line) {
@@ -131,8 +137,6 @@ public final class CommunityScreen extends Screen {
             String current = value(selected);
             lines.add(setting.label() + " · 当前：" + setting.display(current));
             lines.add(setting.help());
-            lines.add("全部可选值：" + String.join("、", setting.choices().stream().map(CommunitySettings.Choice::label).toList()));
-            lines.add("在右侧选择具体值，带“✓”的是服务器当前值。翻页和查看说明不会修改设置。");
             for (var choice : setting.choices()) controls.add(new Control(
                     (choice.value().equals(current) ? "✓ " : "选择：") + choice.label(),
                     "将“" + setting.label() + "”设为“" + choice.label() + "”。", () -> choose(setting.id(), choice.value()), !choice.value().equals(current)));
@@ -160,6 +164,9 @@ public final class CommunityScreen extends Screen {
                     .bounds(controlLeft(), 78 + i % perPage * 23, 140, 20).build());
             button.active = control.enabled();
         }
+        if (selected == null) addRenderableWidget(Button.builder(Component.literal(helpVisible ? "返回状态" : "查看说明"), b -> {
+            helpVisible = !helpVisible; scroll = 0; rebuild();
+        }).bounds(20, 60, 84, 16).build());
         var previous = addRenderableWidget(Button.builder(Component.literal("上一页"), b -> { controlsPage--; rebuild(); })
                 .bounds(controlLeft(), height - 57, 67, 19).build());
         previous.active = controlsPage > 0;
@@ -188,7 +195,7 @@ public final class CommunityScreen extends Screen {
         // Draw all report text after the parent's background blur.
         super.render(graphics, mouseX, mouseY, partialTick);
         graphics.drawString(font, font.plainSubstrByWidth(title.getString(), width - 40), 20, 19, 0xFF3E2B1B, false);
-        graphics.drawString(font, "滚轮阅读说明", 20, 65, 0xFF665647, false);
+        if (selected != null) graphics.drawString(font, "设置说明", 20, 65, 0xFF665647, false);
         graphics.drawString(font, (selected == null ? "当前设置" : "选择具体值") + " " + (controlsPage + 1) + "/" + pageCount,
                 controlLeft(), 65, 0xFF665647, false);
         graphics.enableScissor(18, 77, controlLeft() - 10, height - 26);

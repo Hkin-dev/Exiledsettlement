@@ -38,9 +38,7 @@ public final class FoundationFootprint {
             net.minecraft.world.level.block.state.BlockState state) {
         return !state.hasBlockEntity() && state.getFluidState().isEmpty()
                 && !(state.getBlock() instanceof net.minecraft.world.level.block.FallingBlock)
-                && (state.isFaceSturdy(level,at,net.minecraft.core.Direction.UP)
-                    || state.is(net.minecraft.world.level.block.Blocks.FARMLAND)
-                    || state.is(net.minecraft.world.level.block.Blocks.DIRT_PATH));
+                && com.hkin.exiledsettlement.terrain.TerrainSurface.ground(level,at,state);
     }
     /** Air entries below a new ground cap are temporary work bounds, not permanent holes. */
     public static boolean groundClearance(BuildingBlueprintTemplate t,BlockPos at) {

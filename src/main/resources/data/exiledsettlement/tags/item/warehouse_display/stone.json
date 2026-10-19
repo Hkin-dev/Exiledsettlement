@@ -4,6 +4,26 @@
     "minecraft:clay_ball",
     "minecraft:flint",
     "minecraft:brick",
-    "minecraft:nether_brick"
+    "minecraft:nether_brick",
+    "minecraft:stone_sword",
+    "minecraft:stone_pickaxe",
+    "minecraft:stone_axe",
+    "minecraft:stone_shovel",
+    "minecraft:stone_hoe",
+    "minecraft:dirt",
+    "minecraft:coarse_dirt",
+    "minecraft:rooted_dirt",
+    "minecraft:grass_block",
+    "minecraft:podzol",
+    "minecraft:mycelium",
+    "minecraft:mud",
+    "minecraft:packed_mud",
+    "minecraft:clay",
+    "minecraft:sand",
+    "minecraft:red_sand",
+    "minecraft:gravel",
+    "minecraft:soul_sand",
+    "minecraft:soul_soil",
+    "minecraft:end_stone"
   ]
 }

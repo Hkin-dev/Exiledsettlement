@@ -18,7 +18,7 @@ import java.util.Map;
 @PrefixGameTestTemplate(false)
 public final class SchoolAppearanceGameTests {
     @GameTest(templateNamespace="minecraft", template="bastion/mobs/empty", timeoutTicks=200)
-    public static void schoolIsAppearanceOnlyAndPreservesItsSnapshot(GameTestHelper helper) {
+    public static void schoolOffersTeacherJobAndPreservesItsSnapshot(GameTestHelper helper) {
         for (Direction facing : Direction.Plane.HORIZONTAL) {
             BlockPos anchor = helper.absolutePos(new BlockPos(36000 + facing.ordinal() * 48, 10, 36000));
             var plan = BlueprintRecord.create(BuildingType.SCHOOL, anchor, anchor, facing, UUID.randomUUID(), false,
@@ -29,7 +29,7 @@ public final class SchoolAppearanceGameTests {
             var settlement = new SettlementRecord(UUID.randomUUID(), "School", anchor, plan.ownerId());
             var building = settlement.addBuilding(BuildingType.SCHOOL, anchor, facing, template.minCorner(), template.maxCorner(), 2, plan.templateVersion());
             BuildingFunctionService.validateSingle(helper.getLevel(), new SettlementSavedData(), settlement, building);
-            helper.assertTrue(building.capacity() == 0, "Appearance-only school gained job capacity");
+            helper.assertTrue(building.capacity() == 1 && building.operational(), "School lacks teacher capacity");
             helper.assertTrue(BlueprintTemplates.createForBuilding(BuildingRecord.load(building.save())).placements()
                     .equals(template.placements()), "School changed after load");
             var old = plan.save(); old.putInt("StructureVersion",16); old.remove("TemplateVersion");

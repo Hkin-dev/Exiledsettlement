@@ -83,6 +83,17 @@ public final class ProjectionImportScreen extends Screen {
    submit.active=false;status="已确认，正在分片上传；服务端结果将显示在聊天中";
   } catch (IOException | RuntimeException error) { status="无法提交："+error.getMessage(); }
  }
+ public static void queueSnapshot(CustomTemplateSnapshot snapshot) throws IOException {
+  if (!sending.isEmpty()) throw new IllegalStateException("上一份投影仍在上传，请稍后再试");
+  ByteArrayOutputStream out = new ByteArrayOutputStream();
+  NbtIo.write(snapshot.save(), new DataOutputStream(out));
+  byte[] bytes = out.toByteArray();
+  if (bytes.length > CustomTemplateSnapshot.MAX_BYTES) throw new IllegalArgumentException("投影超过8MiB");
+  UUID upload = UUID.randomUUID();
+  int parts = (bytes.length + ProjectionUploadPayload.CHUNK_BYTES - 1) / ProjectionUploadPayload.CHUNK_BYTES;
+  for (int i = 0; i < parts; i++) sending.addLast(new ProjectionUploadPayload(upload, i, parts,
+      Arrays.copyOfRange(bytes, i * ProjectionUploadPayload.CHUNK_BYTES, Math.min(bytes.length, (i + 1) * ProjectionUploadPayload.CHUNK_BYTES))));
+ }
  @Override public void render(GuiGraphics graphics,int mouseX,int mouseY,float delta) {
   renderBackground(graphics,mouseX,mouseY,delta);super.render(graphics,mouseX,mouseY,delta);
   int left=width/2-170,top=height/2-135;

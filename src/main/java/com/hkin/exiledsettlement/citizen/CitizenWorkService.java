@@ -543,6 +543,7 @@ public final class CitizenWorkService {
                 case SAWYER -> assignSawmill(level, settlement, citizen);
                 case WAREHOUSE_KEEPER -> assignWarehouseKeeping(level, settlement, citizen);
                 case TRAVELING_MERCHANT, CHEF, KILN_WORKER -> false;
+                default -> false;
             };
             if (assigned) {WorkTaskService.reserve(settlement,citizen);data.touch();}
             if (!assigned && constructionCapable(citizen.profession()) && !preferredWorksiteLocked && !settlement.community().evacuation) {
@@ -3390,9 +3391,14 @@ public final class CitizenWorkService {
         var placement=pending.placement();
         var plan=site.terrainProject();
         var current=level.getBlockState(citizen.targetPosition());
+        // Clear both grass halves through the real, protected drop path before timed filling.
+        if(plan!=null && plan.pitFill && com.hkin.exiledsettlement.terrain.PitFillSurface.vegetation(current)) {
+            advanceTerrain(level,data,settlement,site,citizen,entity,now);return;
+        }
         boolean replacing=!current.isAir() && current.getBlock()!=placement.state().getBlock();
         // Direct filling can replace stone or wood. Its removal tool takes precedence over the fill's shovel.
-        var toolTag=replacing && current.is(net.minecraft.tags.BlockTags.MINEABLE_WITH_PICKAXE)?net.minecraft.tags.ItemTags.PICKAXES
+        var toolTag=placement.mode()==BlueprintPlacementMode.FARM_TILL?net.minecraft.tags.ItemTags.HOES
+                :replacing && current.is(net.minecraft.tags.BlockTags.MINEABLE_WITH_PICKAXE)?net.minecraft.tags.ItemTags.PICKAXES
                 :replacing && current.is(net.minecraft.tags.BlockTags.MINEABLE_WITH_AXE)?net.minecraft.tags.ItemTags.AXES
                 :replacing && current.is(net.minecraft.tags.BlockTags.MINEABLE_WITH_SHOVEL)?net.minecraft.tags.ItemTags.SHOVELS
                 :plan!=null || placement.state().is(Blocks.DIRT_PATH)?net.minecraft.tags.ItemTags.SHOVELS
@@ -3435,9 +3441,27 @@ public final class CitizenWorkService {
         com.hkin.exiledsettlement.debug.SaveAcceptanceService.action(level,citizen,plan==null?"timed_building":"timed_fill",
                 citizen.targetPosition(),net.minecraft.core.registries.BuiltInRegistries.BLOCK.getKey(target.getBlock()).toString(),1);
         entity.swing(net.minecraft.world.InteractionHand.MAIN_HAND);SITE_SUCCESS_TICKS.put(entity,now);
+        if(!completed && plan!=null && plan.playerBridge==null)continueTerrainFill(level,data,settlement,site,citizen,entity);
         if(completed)clear(data,citizen,entity);else setActivity(data,citizen,entity,
                 placement.mode()==BlueprintPlacementMode.CLEARANCE ? CitizenActivity.CLEARING_SITE : CitizenActivity.BUILDING,"");
         data.touch();
+    }
+
+    /** Prefer a real ready neighbour; no new task, stock, movement or placement is fabricated. */
+    private static void continueTerrainFill(ServerLevel level,SettlementSavedData data,SettlementRecord settlement,
+            BlueprintRecord site,CitizenRecord citizen,SettlementCitizenEntity entity) {
+        var old=citizen.targetPosition();if(old==null)return;
+        var claimed=new HashSet<BlockPos>();
+        for(var other:settlement.citizens())if(other!=citizen && site.id().equals(other.targetBlueprintId())
+                && other.targetPosition()!=null)claimed.add(other.targetPosition());
+        // Same-column continuation is constant-sized and still checks support/layers/protection.
+        var above=old.above();
+        var next=claimed.contains(above)?null:com.hkin.exiledsettlement.terrain.TerrainService.at(level,site,above);
+        if(next==null)next=com.hkin.exiledsettlement.terrain.TerrainService.pending(level,site,claimed).stream()
+                .min(Comparator.comparingDouble(p->{var at=p.placement().position();
+                    double dx=at.getX()-entity.getX(),dz=at.getZ()-entity.getZ();
+                    return dx*dx+dz*dz;})).orElse(null);
+        if(next!=null){citizen.updateTargetPosition(next.placement().position());data.touch();}
     }
 
     public static void advanceSiteConstruction(ServerLevel level, SettlementSavedData data, SettlementRecord settlement,
@@ -3459,6 +3483,8 @@ public final class CitizenWorkService {
         SITE_ACTION_TICKS.put(entity,Math.max(due,now-WORK_INTERVAL_TICKS)+cadence/CitizenToolSpeed.multiplier(citizen));
         if (!prepareSiteStation(level, data, settlement, citizen, entity)) return;
         BlueprintRecord site = settlement.blueprint(citizen.targetBlueprintId());
+        // Station preparation may have advanced a saved, already completed fill target.
+        timed=timed || com.hkin.exiledsettlement.blueprint.TimedConstructionService.fill(level,site,citizen.targetPosition());
         if(timed) {advanceTimedConstruction(level,data,settlement,site,citizen,entity,now);return;}
         if(site.terrainProject()!=null) {advanceTerrain(level,data,settlement,site,citizen,entity,now);return;}
         if (com.hkin.exiledsettlement.blueprint.FarmEarthworkService.applies(site)
@@ -4417,7 +4443,7 @@ public final class CitizenWorkService {
             BlockState state, ItemStack tool
     ) {
         float hardness = Math.max(0.1F, state.getDestroySpeed(level, target));
-        float toolSpeed = (float)CitizenToolSpeed.multiplier(tool);
+        float toolSpeed = (float)CitizenToolSpeed.multiplier(citizen, tool);
         int interval = net.minecraft.util.Mth.clamp(
                 Math.round(hardness * 30.0F / toolSpeed), WORK_INTERVAL_TICKS, 100);
         int offset = Math.floorMod(citizen.id().hashCode() ^ target.hashCode(), interval);

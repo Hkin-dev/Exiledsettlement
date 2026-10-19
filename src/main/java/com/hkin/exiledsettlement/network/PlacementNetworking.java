@@ -42,7 +42,7 @@ import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import java.util.List;
 
 public final class PlacementNetworking {
-    private static final String NETWORK_VERSION = "25";
+    private static final String NETWORK_VERSION = "29";
     private static final BuildingSnapshotRequestLimiter BUILDING_SNAPSHOT_LIMITER = new BuildingSnapshotRequestLimiter();
 
     private PlacementNetworking() {
