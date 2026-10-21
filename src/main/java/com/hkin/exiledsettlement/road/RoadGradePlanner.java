@@ -8,7 +8,7 @@ import java.util.*;
 /** Resumable longitudinal grading; this only chooses heights, never edits a block. */
 final class RoadGradePlanner {
     // Keep the last non-flat direction across landings: up-flat-down is still a hump.
-    private record Key(int y,int slope,int trend) { }
+    private record Key(int y,int slope,int trend,int flight,int flat) { }
     // Geometry is compared before soft terrain cost. Otherwise a wider/longer
     // hollow can always overpower any finite penalty for reversing direction.
     private record Entry(int travel,int reversals,double cost,Key parent) { }
@@ -16,6 +16,7 @@ final class RoadGradePlanner {
     private final List<Map<Key,Entry>> layers=new ArrayList<>();
     private final List<BlockPos> corridor;
     private List<BlockPos> result;
+    private boolean feasible;
     private int row;
     private List<Integer> rowCandidates;
     private Map<Key,Entry> rowLayer;
@@ -23,6 +24,7 @@ final class RoadGradePlanner {
     RoadGradePlanner(List<BlockPos> line){original=List.copyOf(line);corridor=new ArrayList<>(line);}
     boolean done(){return result!=null;}
     List<BlockPos> result(){return result;}
+    boolean feasible(){return done() && feasible;}
     private boolean corner(int i){
         if(i<=0 || i>=original.size()-1)return false;
         var a=original.get(i-1);var p=original.get(i);var b=original.get(i+1);
@@ -77,12 +79,16 @@ final class RoadGradePlanner {
             if(cross==null)continue;
             double earth=cross.stream().mapToDouble(cell->RoadEarthworkService.effort(level,s,cell)).sum()*1.5D
                     +Math.abs(y-p.getY())*.15D;
-            if(row==0){layer.put(new Key(y,0,0),new Entry(0,0,earth,null));continue;}
+            if(row==0){layer.put(new Key(y,0,0,0,3),new Entry(0,0,earth,null));continue;}
             for(var previous:layers.getLast().entrySet()){
                 int slope=y-previous.getKey().y();if(Math.abs(slope)>1)continue;
                 // A turn and its two adjoining rows form one landing. Otherwise
                 // overlapping three-wide corner cells acquire contradictory heights.
                 if(slope!=0 && (corner(row) || corner(row-1)))continue;
+                int oldFlight=previous.getKey().flight(),oldFlat=previous.getKey().flat();
+                if(slope!=0 && oldFlight>=4 && oldFlat<3)continue;
+                int flight=slope==0?oldFlight:oldFlat>=3?1:oldFlight+1;
+                int flat=slope==0?Math.min(3,oldFlat+1):0;
                 int trend=slope==0?previous.getKey().trend():slope;
                 double cost=previous.getValue().cost()+earth+Math.abs(slope)*32D
                         +(slope!=previous.getKey().slope()?12D:0D)
@@ -90,7 +96,7 @@ final class RoadGradePlanner {
                         +(slope!=0 && previous.getKey().trend()!=0 && slope!=previous.getKey().trend()?80D:0D);
                 int reversal=slope!=0 && previous.getKey().trend()!=0 && slope!=previous.getKey().trend()?1:0;
                 var value=new Entry(previous.getValue().travel()+Math.abs(slope),previous.getValue().reversals()+reversal,cost,previous.getKey());
-                var key=new Key(y,slope,trend);var old=layer.get(key);
+                var key=new Key(y,slope,trend,flight,flat);var old=layer.get(key);
                 if(old==null || compare(value,old)<0)layer.put(key,value);
             }
         }
@@ -104,7 +110,7 @@ final class RoadGradePlanner {
             }).orElseThrow().getKey();
             var graded=new ArrayList<BlockPos>(original);
             for(int i=row-1;i>=0;i--){graded.set(i,original.get(i).atY(selected.y()));selected=layers.get(i).get(selected).parent();}
-            result=List.copyOf(graded);
+            result=List.copyOf(graded);feasible=true;
         }
     }
 }

@@ -147,14 +147,17 @@ public final class PastureGroundSafety {
                 }steps.add(new TerrainProject.Step(e.getKey(),e.getValue(),Blocks.AIR.defaultBlockState()));
             }
             var residents=l.getEntitiesOfClass(SettlementCitizenEntity.class,area(l,r),a->a.isAlive() && penInterior(r,a.blockPosition()));
-            var gateState=l.getBlockState(gate(r));if(gateState.getBlock() instanceof FenceGateBlock && !gateState.getValue(FenceGateBlock.OPEN) && (!steps.isEmpty() || !residents.isEmpty()))l.setBlock(gate(r),gateState.setValue(FenceGateBlock.OPEN,true),Block.UPDATE_ALL);
+            var gateState=l.getBlockState(gate(r));if(gateState.getBlock() instanceof FenceGateBlock && !gateState.getValue(FenceGateBlock.OPEN) && (!steps.isEmpty() || !residents.isEmpty()))com.hkin.exiledsettlement.citizen.FenceGateAccessService.change(l,s,gate(r),true,null);
             if(steps.isEmpty()){
                 if(!residents.isEmpty()){
                     var landing=gate(r).relative(outward(r),2);
                     for(var resident:residents){var record=s.citizen(CitizenProjectionService.citizenId(resident));if(record!=null && record.workState()==CitizenWorkState.IDLE && resident.canStandAtPosition(landing))resident.navigateTo(landing,.65);}
                     r.status="等待工人沿实际入口离开保留区";return false;
                 }
-                if(gateState.getBlock() instanceof FenceGateBlock)l.setBlock(gate(r),gateState.setValue(FenceGateBlock.OPEN,false),Block.UPDATE_ALL);
+                if(gateState.getBlock() instanceof FenceGateBlock
+                        && com.hkin.exiledsettlement.citizen.FenceGateAccessService.change(l,s,gate(r),false,null)) {
+                    r.status="等待门口净空或红石解除后关闭保留区门";return false;
+                }
                 t.putInt("Phase",2);r.status="临时围合就绪，等待牧民实际引导牲畜";
             }
             else {ProductionRegionService.publish(l,s,b.id(),"牧场安全保留区围合",gate(r),steps);r.status="居民正取材建设实际保留区";}
@@ -165,8 +168,8 @@ public final class PastureGroundSafety {
             if(!all(l,r,true)){r.status="等待牧民沿真实地面引导牲畜进入保留区";return false;}
             if(!enclosed(l,r,true)){
                 var state=l.getBlockState(gate(r));
-                if(state.getBlock() instanceof FenceGateBlock && l.getEntitiesOfClass(LivingEntity.class,new AABB(gate(r)),Entity::isAlive).isEmpty())
-                    l.setBlock(gate(r),state.setValue(FenceGateBlock.OPEN,false),Block.UPDATE_ALL);
+                if(state.getBlock() instanceof FenceGateBlock)
+                    com.hkin.exiledsettlement.citizen.FenceGateAccessService.change(l,s,gate(r),false,null);
                 r.status="等待门口净空并关闭保留区门";return false;
             }
             t.putInt("Phase",3);r.status="牲畜已实际隔离，准备外围土层";return true;
@@ -257,8 +260,9 @@ public final class PastureGroundSafety {
     }
     private static void physicalGate(ServerLevel l,ProductionRegion r,SettlementCitizenEntity entity,Animal a,boolean open){
         var p=gate(r);var state=l.getBlockState(p);if(!(state.getBlock() instanceof FenceGateBlock) || entity.distanceToSqr(p.getX()+.5,p.getY(),p.getZ()+.5)>9)return;
-        if(!open && !l.getEntitiesOfClass(LivingEntity.class,new AABB(p),Entity::isAlive).isEmpty())return;
-        if(state.getValue(FenceGateBlock.OPEN)!=open)l.setBlock(p,state.setValue(FenceGateBlock.OPEN,open),Block.UPDATE_ALL);
+        var id=CitizenProjectionService.settlementId(entity);
+        var settlement=id==null?null:SettlementSavedData.get(l).findById(id).orElse(null);
+        if(settlement!=null)com.hkin.exiledsettlement.citizen.FenceGateAccessService.change(l,settlement,p,open,entity);
     }
     private static void navigateThroughPen(ServerLevel l,ProductionRegion r,SettlementCitizenEntity entity,BlockPos goal,double speed){
         boolean inside=penColumn(r,entity.blockPosition()), targetInside=penColumn(r,goal);

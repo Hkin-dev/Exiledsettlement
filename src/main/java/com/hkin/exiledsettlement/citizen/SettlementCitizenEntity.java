@@ -612,6 +612,7 @@ public final class SettlementCitizenEntity extends PathfinderMob {
             bypassRoadUntil=intentTime+600;recentRoadSegments.clear();return navigationFailed("STUCK",intentTime);
         }
         target=FarmAccessService.waypoint(this,target);
+        target=com.hkin.exiledsettlement.building.MineExpansionService.navigationWaypoint(this,target);
         if (getNavigation() instanceof GroundPathNavigation ground) configureDestination(ground, target);
         // A navigation intent cannot retain a sleeping pose or bed reservation.
         if (isSleeping()) stopSleeping();
@@ -3653,7 +3654,7 @@ public final class SettlementCitizenEntity extends PathfinderMob {
         CitizenActivity current = activity();
         boolean working = switch (current) {
             case FARMING, BUILDING, REPAIRING, DEMOLISHING, HERDING, HUNTING,
-                    TOOLMAKING, FORESTRY, FISHING, SAWING, MINING -> true;
+                    TOOLMAKING, FORESTRY, FISHING, SAWING, MINING, BREWING -> true;
             case TO_OUTPUT_CONTAINER, TO_WAREHOUSE, COLLECTING_PUBLIC_ITEM ->
                     commandedTarget != null && nearBlock(commandedTarget);
             default -> false;

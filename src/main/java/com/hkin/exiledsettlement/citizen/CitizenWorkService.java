@@ -203,8 +203,8 @@ public final class CitizenWorkService {
         if(!staggerWork || level.getGameTime()%WORK_INTERVAL_TICKS==0) {
             com.hkin.exiledsettlement.settlement.CommunityLifeService.prepareWork(level, data, settlement);
             handoffChangedConstructionSites(level, data, settlement);
-            if (ConstructionDebugService.isEnabled(level, settlement.id())) {
-                suspendBlueprintWorkForDebug(data, settlement);
+            if (ConstructionDebugService.workEnabled(level, settlement)) {
+                suspendBlueprintWorkForDebug(level, data, settlement);
             }
             updateFarmGateAccess(level, settlement);
             updatePastureGateAccess(level, settlement);
@@ -283,76 +283,28 @@ public final class CitizenWorkService {
     }
 
     private static void suspendBlueprintWorkForDebug(
-            SettlementSavedData data, SettlementRecord settlement
+            ServerLevel level, SettlementSavedData data, SettlementRecord settlement
     ) {
         boolean changed = false;
         for (CitizenRecord citizen : settlement.citizens()) {
-            boolean blueprintTask = citizen.workState() == CitizenWorkState.TO_BLUEPRINT
-                    || citizen.workState() == CitizenWorkState.TO_CONSTRUCTION_SUPPLY
-                    || citizen.workState() == CitizenWorkState.TO_FOOTING_SUPPLY;
-            if (blueprintTask) changed |= citizen.clearWork();
+            boolean blueprintTask = ConstructionDebugService.controls(citizen.workState());
+            if (blueprintTask) {
+                var entity=CitizenProjectionService.findProjection(level,citizen);
+                if(entity!=null)clear(data,citizen,entity);
+                else changed|=citizen.clearWork();
+            }
         }
         if (changed) data.touch();
     }
 
-    /** Keeps staffed farm entrances traversable for direct pathfinding into and out of fenced fields. */
+    /** Gates follow physical passage requests, independently of jobs or building operation. */
     public static void updateFarmGateAccess(ServerLevel level, SettlementRecord settlement) {
-        for (BuildingRecord farm : settlement.buildings()) {
-            if (!usable(farm) || (farm.type() != BuildingType.FARM_FIELD
-                    && farm.type() != BuildingType.MELON_FIELD && farm.type() != BuildingType.TREE_FARM)) continue;
-            CitizenProfession farmerProfession = farm.type() == BuildingType.MELON_FIELD
-                    ? CitizenProfession.MELON_FARMER : farm.type() == BuildingType.TREE_FARM
-                    ? CitizenProfession.LUMBERJACK : CitizenProfession.FARMER;
-            boolean staffed = settlement.citizens().stream()
-                    .anyMatch(citizen -> citizen.alive()
-                            && (citizen.profession() == farmerProfession && farm.id().equals(citizen.workBuildingId())
-                            || farm.productionSite()!=null && farm.productionSite().containsColumn(citizen.lastPosition())
-                            || farm.region()!=null && farm.region().cell(citizen.lastPosition())!=null));
-            for (BlueprintPlacement placement : BlueprintTemplates.createForBuilding(farm).gatePlacements()) {
-                BlockPos gatePosition = placement.position();
-                if (!level.hasChunkAt(gatePosition)) continue;
-                BlockState state = level.getBlockState(gatePosition);
-                if (!(state.getBlock() instanceof FenceGateBlock)
-                        || state.getValue(FenceGateBlock.OPEN) == staffed) continue;
-                level.setBlock(gatePosition, state.setValue(FenceGateBlock.OPEN, staffed), Block.UPDATE_ALL);
-            }
-        }
+        FarmAccessService.updateGates(level, settlement);
     }
 
     /** Keeps at most one pasture entrance group open while an animal is being escorted inside. */
     public static void updatePastureGateAccess(ServerLevel level, SettlementRecord settlement) {
-        for (BuildingRecord pasture : settlement.buildings()) {
-            if (!usable(pasture, BuildingType.PASTURE_AREA)) continue;
-            if(pasture.productionSite()==null && Math.floorMod(level.getGameTime()/10+pasture.id().hashCode(),20)==0)
-                com.hkin.exiledsettlement.region.PastureGroundSafety.remember(level,pasture.region());
-            com.hkin.exiledsettlement.region.PastureResidentService.reconcile(level,settlement,pasture);
-            BuildingBlueprintTemplate template = BlueprintTemplates.createForBuilding(pasture);
-            BlockPos activeGate=null;
-            for(var resident:settlement.citizens())if(resident.alive() && resident.workState()!=CitizenWorkState.IDLE && resident.targetPosition()!=null){
-                var goal=resident.targetPosition();
-                if(resident.workState()==CitizenWorkState.TO_CAPTURE){
-                    var animal=level.getEntity(resident.targetItemEntityId());var holder=CitizenProjectionService.findProjection(level,resident);
-                    if(animal instanceof net.minecraft.world.entity.animal.Animal a && (!a.isLeashed() || a.getLeashHolder()!=holder))goal=a.blockPosition();
-                }
-                boolean from=insideBuildingArea(pasture,resident.lastPosition(),0);
-                boolean into=insideBuildingArea(pasture,goal,0);
-                if(from==into)continue;
-                var destination=goal;var start=resident.lastPosition();
-                activeGate=template.entrances().stream().map(com.hkin.exiledsettlement.blueprint.BlueprintEntrance::position)
-                        .min(Comparator.comparingDouble(p->Math.sqrt(p.distSqr(start))+Math.sqrt(p.distSqr(destination)))).orElse(null);
-                break;
-            }
-            for (BlueprintPlacement placement : template.gatePlacements()) {
-                BlockPos gatePosition = placement.position();
-                if (!level.hasChunkAt(gatePosition)) continue;
-                boolean open = activeGate != null && gatePosition.distManhattan(activeGate) <= 1
-                        || !level.getEntitiesOfClass(net.minecraft.world.entity.LivingEntity.class,new AABB(gatePosition).inflate(.2),a->a.isAlive()).isEmpty();
-                BlockState state = level.getBlockState(gatePosition);
-                if (!(state.getBlock() instanceof FenceGateBlock)
-                        || state.getValue(FenceGateBlock.OPEN) == open) continue;
-                level.setBlock(gatePosition, state.setValue(FenceGateBlock.OPEN, open), Block.UPDATE_ALL);
-            }
-        }
+        PastureCaptureService.gates(level, settlement);
     }
 
     private static void processExisting(ServerLevel level, SettlementSavedData data, SettlementRecord settlement) {
@@ -369,6 +321,9 @@ public final class CitizenWorkService {
             if (com.hkin.exiledsettlement.settlement.CommunityLifeService.handles(citizen)) continue;
             SettlementCitizenEntity entity = CitizenProjectionService.findProjection(level, citizen);
             if (entity == null) continue;
+            if ((ConstructionDebugService.workEnabled(level, settlement)
+                    || com.hkin.exiledsettlement.debug.TerrainEvolveDebugService.handles(level,settlement,settlement.blueprint(citizen.targetBlueprintId())))
+                    && ConstructionDebugService.controls(citizen.workState())) { clear(data, citizen, entity); continue; }
             var decorTask = settlement.decorations().owned(citizen.targetBlueprintId());
             if (CitizenInteractionService.held(entity)) continue;
             if (releaseUnauthorizedConstruction(level, data, settlement, citizen, entity)) continue;
@@ -409,6 +364,7 @@ public final class CitizenWorkService {
                     advanceDemolitionOnCadence(level, data, settlement, citizen, entity);
                 }
                 case TO_HERD -> herd(level, data, settlement, citizen, entity);
+                case TO_PASTURE_SUPPLY, TO_PASTURE_FEED -> PastureBreedingService.tick(level, data, settlement, citizen, entity);
                 case TO_HUNT -> hunt(level, data, settlement, citizen, entity);
                 case TO_CAPTURE -> capture(level, data, settlement, citizen, entity);
                 case TO_TOOL_WORKSHOP -> makeTool(level, data, settlement, citizen, entity);
@@ -457,6 +413,10 @@ public final class CitizenWorkService {
         Set<BlockPos> claimedBlocks = new HashSet<>();
         for (CitizenRecord citizen : settlement.citizens()) {
             if (citizen.targetItemEntityId() != null) claimedEntities.add(citizen.targetItemEntityId());
+            if (citizen.pastureJob.active()) {
+                claimedEntities.add(citizen.pastureJob.firstAnimal);
+                claimedEntities.add(citizen.pastureJob.secondAnimal);
+            }
             if (citizen.targetPosition() != null) claimedBlocks.add(citizen.targetPosition());
         }
         for (CitizenRecord citizen : settlement.citizens().stream()
@@ -615,7 +575,8 @@ public final class CitizenWorkService {
             if (blueprint.cancellationQueued() || BlueprintService.readyForFootingCleanup(level, blueprint)) {
                 return assignBlueprintCleanupAt(level, data, settlement, citizen, claimed, blueprint);
             }
-            if (ConstructionDebugService.isEnabled(level, settlement.id())) return false;
+            if (ConstructionDebugService.workEnabled(level, settlement)
+                    || com.hkin.exiledsettlement.debug.TerrainEvolveDebugService.handles(level,settlement,blueprint)) return false;
             // Finished soil can be tilled/enclosed while other columns still need preparation.
             // Region pending goals already enforce local soil, support and irrigation dependencies.
             if(blueprint.region()!=null && com.hkin.exiledsettlement.terrain.TerrainService.allowed(settlement,blueprint)) {
@@ -856,11 +817,13 @@ public final class CitizenWorkService {
         // A working farmer can finish their own ready irrigation points instead of
         // waiting for general builders to finish unrelated houses first.
         if (assignFarmIrrigation(level,settlement,citizen,farm,claimed)) return true;
+        Map<Item,Boolean> seedAvailability=new HashMap<>();
         boolean wheatPaused=com.hkin.exiledsettlement.settlement.WarehouseStewardService.pauseWheat(level,settlement);
         for (BlockPos ground : groundPositions) {
             if(BuildingProductionService.plantingSeed(farm,ground)==Items.WHEAT_SEEDS
                     && wheatPaused)continue;
             if (level.getBlockState(ground).is(Blocks.FARMLAND)
+                    && farmSeedAvailable(level,settlement,citizen,farm,ground,seedAvailability)
                     && (level.getBlockState(ground.above()).isAir() || ScaffoldSitePreparation.softObstacle(level.getBlockState(ground.above())))
                     && !farmTargetDeferred(level, citizen, ground) && claimed.add(ground)) {
                 return citizen.startTask(CitizenWorkState.TO_FARM, ground, null, null);
@@ -937,14 +900,33 @@ public final class CitizenWorkService {
                 return citizen.startTask(CitizenWorkState.TO_FARM, cursor.immutable(), null, null);
             }
         }
+        Map<Item,Boolean> seedAvailability=new HashMap<>();
         for (BlockPos ground : farmGroundPositions(farm)) {
-            if ((level.getBlockState(ground).is(Blocks.FARMLAND) || repairableFarmGround(level.getBlockState(ground)))
+            if ((level.getBlockState(ground).is(Blocks.FARMLAND)
+                    && farmSeedAvailable(level,settlement,citizen,farm,ground,seedAvailability)
+                    || repairableFarmGround(level.getBlockState(ground)))
                     && (level.getBlockState(ground.above()).isAir() || ScaffoldSitePreparation.softObstacle(level.getBlockState(ground.above())))
                     && !farmTargetDeferred(level, citizen, ground) && claimed.add(ground)) {
                 return citizen.startTask(CitizenWorkState.TO_FARM, ground, null, null);
             }
         }
         return false;
+    }
+
+    private static boolean farmSeedAvailable(ServerLevel level,SettlementRecord settlement,CitizenRecord citizen,
+            BuildingRecord farm,BlockPos ground,Map<Item,Boolean> availability) {
+        Item seed=BuildingProductionService.plantingSeed(farm,ground);
+        return availability.computeIfAbsent(seed,item->citizen.hasInventoryItem(stack->stack.is(item))
+                || settlement.creativeCoreInstalled()
+                || SettlementInventoryService.supplyWarehouse(level,settlement,citizen.lastPosition(),item)!=null);
+    }
+
+    private static void skipUnavailableFarmSeed(ServerLevel level,SettlementSavedData data,SettlementRecord settlement,
+            CitizenRecord citizen,SettlementCitizenEntity entity) {
+        releaseSupplyStation(level,entity);
+        // Release only this unfulfillable planting job. Re-scan mature crops and
+        // other available seeds immediately; inventory and real work stay intact.
+        finishFarmTask(level,data,settlement,citizen,entity);
     }
 
     @Nullable
@@ -1017,6 +999,7 @@ public final class CitizenWorkService {
 
     private static boolean assignBlueprint(ServerLevel level, SettlementSavedData data, SettlementRecord settlement,
             CitizenRecord citizen, Set<BlockPos> claimed, boolean decoration) {
+        if (ConstructionDebugService.workEnabled(level, settlement)) return false;
         return assignBlueprint(level,data,settlement,citizen,claimed,decoration,false);
     }
     private static boolean assignBlueprint(ServerLevel level,SettlementSavedData data,SettlementRecord settlement,
@@ -1026,10 +1009,11 @@ public final class CitizenWorkService {
     private static boolean assignBlueprint(ServerLevel level,SettlementSavedData data,SettlementRecord settlement,
             CitizenRecord citizen,Set<BlockPos> claimed,boolean decoration,boolean publicOnly,boolean priorityOnly) {
         if (!constructionCapable(citizen.profession())) return false;
-        if (ConstructionDebugService.isEnabled(level, settlement.id())) return false;
+        if (ConstructionDebugService.workEnabled(level, settlement)) return false;
         List<BlueprintRecord> candidates = settlement.blueprints().stream()
                 .filter(blueprint -> !blueprint.cancellationQueued())
                 .filter(blueprint -> !siteDeferred(level,citizen,blueprint.id()))
+                .filter(blueprint -> !com.hkin.exiledsettlement.debug.TerrainEvolveDebugService.handles(level,settlement,blueprint))
                 .filter(blueprint -> !publicOnly || blueprint.terrainProject()!=null)
                 .filter(blueprint -> !priorityOnly || WorkTaskService.priority(settlement,blueprint)==0)
                 .filter(blueprint -> com.hkin.exiledsettlement.terrain.TerrainService.allowed(settlement,blueprint))
@@ -1148,46 +1132,7 @@ public final class CitizenWorkService {
     private static boolean assignHerd(
             ServerLevel level, SettlementRecord settlement, CitizenRecord citizen, Set<UUID> claimed
     ) {
-        BuildingRecord pasture = workplace(settlement, citizen, BuildingType.PASTURE_AREA);
-        if (pasture == null) return false;
-        if(pasture.productionSite()==null && com.hkin.exiledsettlement.region.PastureGroundSafety.active(pasture.region()))return false;
-        List<Animal> residents = level.getEntitiesOfClass(Animal.class, buildingArea(pasture, 0),
-                animal -> animal.isAlive() && insidePastureInterior(pasture,animal.blockPosition()) && com.hkin.exiledsettlement.region.ProductionRegionService.matchesAnimal(pasture,animal));
-        int surplus = (int)residents.stream().filter(a->com.hkin.exiledsettlement.region.ProductionRegionService.animalSurplus(pasture,residents,a)).count();
-        if (surplus > 0) {
-            for (Animal animal : residents) {
-                if (!com.hkin.exiledsettlement.region.ProductionRegionService.animalSurplus(pasture,residents,animal) || animal.isBaby() || animal.hasCustomName() || animal.isLeashed()
-                        || animal instanceof TamableAnimal tamable && tamable.isTame()
-                        || !claimed.add(animal.getUUID())) continue;
-                return citizen.startTask(CitizenWorkState.TO_HERD, animal.blockPosition(), animal.getUUID(), null);
-            }
-        }
-        if (pasture.productionId().equals(net.minecraft.resources.ResourceLocation.withDefaultNamespace("sheep"))
-                || pasture.productionSite()!=null && pasture.productionSite().productions().stream().anyMatch(id->id.getPath().equals("sheep"))
-                || pasture.region()!=null && pasture.region().cells.values().stream().anyMatch(c->c.production().getPath().equals("sheep"))) {
-            for (Sheep sheep : level.getEntitiesOfClass(Sheep.class, buildingArea(pasture,0),
-                    value -> value.isAlive() && !value.isBaby() && !value.isSheared() && insidePastureInterior(pasture,value.blockPosition()))) {
-                if (claimed.add(sheep.getUUID())) {
-                    return citizen.startTask(CitizenWorkState.TO_HERD, sheep.blockPosition(), sheep.getUUID(), null);
-                }
-            }
-        }
-        // Finish a production batch before setting out to capture an animal outside the pasture.
-        // Otherwise a failed capture route can strand the wool/meat already carried by this worker.
-        if (deliverableSlot(settlement, citizen, false) >= 0) {
-            return false;
-        }
-        if (nearestPastureWithCapacity(level, settlement, pasture.position()) == pasture) {
-            for (Animal animal : level.getEntitiesOfClass(Animal.class, area(pasture.position(), 32, 8), CitizenWorkService::capturable)) {
-                if (!com.hkin.exiledsettlement.region.ProductionRegionService.matchesAnimal(pasture,animal)
-                        || insideOperationalPastureInterior(settlement, animal.blockPosition())
-                        || !claimed.add(animal.getUUID())) continue;
-                BlockPos destination = pastureCaptureDestination(level, pasture, animal.blockPosition());
-                if (destination == null) continue;
-                return citizen.startCapture(pasture.id(), destination, animal.getUUID());
-            }
-        }
-        return false;
+        return PastureWorkService.assign(level, settlement, citizen, claimed);
     }
 
     private static boolean assignHunt(
@@ -1266,6 +1211,7 @@ public final class CitizenWorkService {
             ServerLevel level, SettlementSavedData data, SettlementRecord settlement,
             CitizenRecord citizen, Set<BlockPos> claimedPositions, BuildingRecord building
     ) {
+        if (ConstructionDebugService.workEnabled(level, settlement)) return false;
         if (!building.demolitionQueued() || !BuildingDemolitionService.areaLoaded(level, building)) return false;
         BlockPos target = BuildingDemolitionService.nextBlock(
                 level, building, claimedPositions, citizen.lastPosition());
@@ -1281,6 +1227,7 @@ public final class CitizenWorkService {
             ServerLevel level, SettlementSavedData data, SettlementRecord settlement,
             CitizenRecord citizen, Set<BlockPos> claimedPositions, boolean completedConstructionOnly
     ) {
+        if (ConstructionDebugService.workEnabled(level, settlement)) return false;
         for (BlueprintRecord blueprint : List.copyOf(settlement.blueprints())) {
             if (blueprint.assignmentMode() == WorksiteAssignmentMode.MANUAL) continue;
             boolean completedFootingCleanup = BlueprintService.readyForFootingCleanup(level, blueprint);
@@ -1335,6 +1282,7 @@ public final class CitizenWorkService {
 
     private static boolean assignRepair(ServerLevel level, SettlementSavedData data, SettlementRecord settlement,
             CitizenRecord citizen, Set<BlockPos> claimed, boolean decoration) {
+        if (ConstructionDebugService.workEnabled(level, settlement)) return false;
         if (settlement.community().policy.equals("emergency")) return false;
         for (BuildingRecord building : settlement.buildings()) {
             var feature = DecorationService.forBuilding(settlement, building.id());
@@ -1950,7 +1898,7 @@ public final class CitizenWorkService {
             BuildingRecord warehouse = SettlementInventoryService.supplyWarehouse(
                     level, settlement, entity.blockPosition(), seed);
             if (warehouse == null && !settlement.creativeCoreInstalled()) {
-                setActivity(data, citizen, entity, CitizenActivity.BLOCKED, "SEEDS_MISSING");
+                skipUnavailableFarmSeed(level,data,settlement,citizen,entity);
                 return;
             }
             citizen.fetchFarmInput(warehouse == null ? null : warehouse.id());
@@ -2023,7 +1971,7 @@ public final class CitizenWorkService {
             BuildingRecord warehouse = SettlementInventoryService.supplyWarehouse(
                     level, settlement, entity.blockPosition(), desiredSeed);
             if (warehouse == null && !settlement.creativeCoreInstalled()) {
-                setActivity(data, citizen, entity, CitizenActivity.BLOCKED, "SEEDS_MISSING"); return;
+                skipUnavailableFarmSeed(level,data,settlement,citizen,entity); return;
             }
             citizen.fetchFarmInput(warehouse == null ? null : warehouse.id()); data.touch(); return;
         }
@@ -2074,7 +2022,7 @@ public final class CitizenWorkService {
             releaseSupplyStation(level,entity);
             var replacement=SettlementInventoryService.supplyWarehouse(level,settlement,entity.blockPosition(),seed);
             if (replacement==null && !settlement.creativeCoreInstalled()) {
-                setActivity(data,citizen,entity,CitizenActivity.BLOCKED,"SEEDS_MISSING");return;
+                skipUnavailableFarmSeed(level,data,settlement,citizen,entity);return;
             }
             citizen.returnToFarm();citizen.fetchFarmInput(replacement==null?null:replacement.id());
             warehouse=replacement;
@@ -2086,7 +2034,7 @@ public final class CitizenWorkService {
         if (!useWarehouse && !coreSupply) {
             releaseSupplyStation(level, entity);
             entity.stopSettlementNavigation();
-            setActivity(data, citizen, entity, CitizenActivity.BLOCKED, "SEEDS_MISSING");
+            skipUnavailableFarmSeed(level,data,settlement,citizen,entity);
             return;
         }
         BlockPos destination = useWarehouse
@@ -2119,7 +2067,7 @@ public final class CitizenWorkService {
         if (extracted.isEmpty() && virtualSupply) extracted = new ItemStack(seed, seedStackLimit);
         if (extracted.isEmpty()) {
             releaseSupplyStation(level, entity);
-            setActivity(data, citizen, entity, CitizenActivity.BLOCKED, "SEEDS_MISSING");
+            skipUnavailableFarmSeed(level,data,settlement,citizen,entity);
             return;
         }
         ItemStack remaining = citizen.insertIntoInventory(extracted);
@@ -2708,7 +2656,7 @@ public final class CitizenWorkService {
         SettlementSavedData data = SettlementSavedData.get(level);
         for (SettlementRecord settlement : List.copyOf(data.settlements())) {
             if (!settlement.active() || !level.hasChunkAt(settlement.corePosition())
-                    || ConstructionDebugService.isEnabled(level, settlement.id())) continue;
+                    || ConstructionDebugService.workEnabled(level, settlement)) continue;
             for(var exit:settlement.terrain().projects.values())if(!exit.cancelled && exit.escapeFor!=null && exit.escapingCitizen!=null) {
                 var record=settlement.citizen(exit.escapingCitizen);var trapped=record==null?null:CitizenProjectionService.findProjection(level,record);
                 if(trapped==null || !trapped.isAlive() || trapped.isDefending() || trapped.isSleeping() || CitizenInteractionService.held(trapped))continue;
@@ -2783,6 +2731,11 @@ public final class CitizenWorkService {
             SITE_STATIONS.remove(entity); FARM_ESCAPES.remove(entity); clear(data,citizen,entity); return false;
         }
         boolean bridgeSequence=site.terrainProject()!=null && site.terrainProject().playerBridge!=null;
+        if(PitFillAccessService.yieldOccupiedLayer(level,settlement,site,citizen,entity)) {
+            SITE_STATIONS.remove(entity);
+            setActivity(data,citizen,entity,CitizenActivity.BUILDING,"FARM_EARTHWORK_OCCUPIED");
+            return false;
+        }
         if(bridgeSequence && com.hkin.exiledsettlement.terrain.TerrainService.at(level,site,citizen.targetPosition())==null) {
             // Completing one cell does not complete the bridge assignment. Keep
             // the worker on the same site across row/phase publication gaps.
@@ -3456,7 +3409,7 @@ public final class CitizenWorkService {
                 && other.targetPosition()!=null)claimed.add(other.targetPosition());
         // Same-column continuation is constant-sized and still checks support/layers/protection.
         var above=old.above();
-        var next=claimed.contains(above)?null:com.hkin.exiledsettlement.terrain.TerrainService.at(level,site,above);
+        var next=site.terrainProject().pitFill || claimed.contains(above)?null:com.hkin.exiledsettlement.terrain.TerrainService.at(level,site,above);
         if(next==null)next=com.hkin.exiledsettlement.terrain.TerrainService.pending(level,site,claimed).stream()
                 .min(Comparator.comparingDouble(p->{var at=p.placement().position();
                     double dx=at.getX()-entity.getX(),dz=at.getZ()-entity.getZ();
@@ -3468,6 +3421,9 @@ public final class CitizenWorkService {
             CitizenRecord citizen, SettlementCitizenEntity entity) {
         if (!citizen.alive() || citizen.workState() != CitizenWorkState.TO_BLUEPRINT || !isWorkTime(level, citizen) && !ResidentEgressService.active(settlement,citizen)
                 || entity.isDefending() || entity.isSleeping() || ConstructionDebugService.isEnabled(level, settlement.id())) return;
+        if (com.hkin.exiledsettlement.debug.TerrainEvolveDebugService.handles(level,settlement,settlement.blueprint(citizen.targetBlueprintId()))) {
+            clear(data,citizen,entity);return;
+        }
         if (pauseForCargoDelivery(level, data, settlement, citizen, entity)) return;
         long now = level.getGameTime();
         var cadenceSite=settlement.blueprint(citizen.targetBlueprintId());
@@ -4928,6 +4884,7 @@ public final class CitizenWorkService {
 
     private static void advanceDemolitionOnCadence(ServerLevel level, SettlementSavedData data,
             SettlementRecord settlement, CitizenRecord citizen, SettlementCitizenEntity entity) {
+        if (ConstructionDebugService.workEnabled(level, settlement)) return;
         if (pauseForCargoDelivery(level, data, settlement, citizen, entity)) return;
         long now = level.getGameTime();
         double due=DEMOLITION_TICKS.getOrDefault(entity,(double)now);
@@ -5740,62 +5697,7 @@ public final class CitizenWorkService {
             ServerLevel level, SettlementSavedData data, SettlementRecord settlement,
             CitizenRecord citizen, SettlementCitizenEntity entity
     ) {
-        BuildingRecord pasture = workplace(settlement, citizen, BuildingType.PASTURE_AREA);
-        Entity targetEntity = citizen.targetItemEntityId() == null ? null : level.getEntity(citizen.targetItemEntityId());
-        if (pasture == null || pasture.productionSite()==null && com.hkin.exiledsettlement.region.PastureGroundSafety.active(pasture.region()) || !(targetEntity instanceof Animal animal)
-                || !com.hkin.exiledsettlement.region.ProductionRegionService.matchesAnimal(pasture,animal)) {
-            clear(data, citizen, entity);
-            return;
-        }
-        if (!animal.isAlive()) {
-            collectVisibleHuntingDrops(level, citizen, entity);
-            clear(data, citizen, entity);
-            if (assignPersonalDelivery(level, settlement, citizen)) data.touch();
-            return;
-        }
-        List<Animal> residents = level.getEntitiesOfClass(Animal.class, buildingArea(pasture, 0),
-                resident -> resident.isAlive()
-                        && insidePastureInterior(pasture,resident.blockPosition()) && com.hkin.exiledsettlement.region.ProductionRegionService.matchesAnimal(pasture,resident));
-        boolean cull = com.hkin.exiledsettlement.region.ProductionRegionService.animalSurplus(pasture,residents,animal)
-                && !animal.isBaby() && !animal.hasCustomName() && !animal.isLeashed()
-                && (!(animal instanceof TamableAnimal tamable) || !tamable.isTame());
-        if (!cull && (!(animal instanceof Sheep sheep) || sheep.isSheared())) {
-            clear(data, citizen, entity);
-            return;
-        }
-        if (!near(entity, animal.blockPosition())) {
-            move(data, citizen, entity, animal.blockPosition(), CitizenActivity.HERDING);
-            return;
-        }
-        if (!workCycleReady(level, citizen)) return;
-        ItemStack remaining = ItemStack.EMPTY;
-        if (cull) {
-            animal.hurt(level.damageSources().mobAttack(entity), 20.0F);
-            entity.swing(net.minecraft.world.InteractionHand.MAIN_HAND);
-            data.touch();
-            return;
-        } else if (animal instanceof Sheep sheep) {
-            sheep.setSheared(true);
-            ItemStack wool = new ItemStack(Items.WHITE_WOOL, 1 + level.random.nextInt(3));
-            remaining = citizen.insertIntoInventory(wool);
-            if (!remaining.isEmpty()) Block.popResource(level, pasture.position(), remaining);
-            entity.swing(net.minecraft.world.InteractionHand.MAIN_HAND);
-        }
-        clear(data, citizen, entity);
-        Set<UUID> claimed = settlement.citizens().stream()
-                .filter(other -> !other.id().equals(citizen.id()))
-                .map(CitizenRecord::targetItemEntityId)
-                .filter(java.util.Objects::nonNull)
-                .collect(java.util.stream.Collectors.toSet());
-        if (remaining.isEmpty() && citizen.hasInventoryCapacity()
-                && assignHerd(level, settlement, citizen, claimed)) {
-            data.touch();
-            return;
-        }
-        if (assignPersonalDelivery(level, settlement, citizen)) {
-            syncHeldItem(citizen, entity);
-            data.touch();
-        }
+        PastureWorkService.tick(level, data, settlement, citizen, entity);
     }
 
     /**
@@ -6101,7 +6003,7 @@ public final class CitizenWorkService {
     }
 
     /** Hunting loot is a physical pickup near the hunter, never a remote harvest at the target coordinate. */
-    private static boolean collectVisibleHuntingDrops(
+    static boolean collectVisibleHuntingDrops(
             ServerLevel level, CitizenRecord citizen, SettlementCitizenEntity entity
     ) {
         boolean inventoryFull = false;
@@ -6123,75 +6025,20 @@ public final class CitizenWorkService {
             CitizenRecord citizen, SettlementCitizenEntity entity
     ) {
         BuildingRecord pasture = settlement.building(citizen.targetBuildingId());
-        Entity target = citizen.targetItemEntityId() == null ? null : level.getEntity(citizen.targetItemEntityId());
-        if((pasture==null || pasture.productionSite()==null)
-                && com.hkin.exiledsettlement.region.PastureGroundSafety.capture(level,settlement,citizen,entity))return;
-        if (!usable(pasture, BuildingType.PASTURE_AREA) || !(target instanceof Animal animal)
-                || !animal.isAlive()) {
-            clear(data, citizen, entity);
-            return;
-        }
-        entity.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.LEAD));
-        if (!animal.isLeashed()) {
-            if (!near(entity, animal.blockPosition())) {
-                move(data, citizen, entity, animal.blockPosition(), CitizenActivity.CAPTURING);
-                return;
-            }
-            animal.setLeashedTo(entity, true);
-        }
-        BlockPos destination = citizen.targetPosition() == null ? pasture.position() : citizen.targetPosition();
-        if (!nearWorkPosition(entity, destination)
-                || !insidePastureInterior(pasture, entity.blockPosition())
-                || !insidePastureInterior(pasture, animal.blockPosition())) {
-            move(data, citizen, entity, destination, CitizenActivity.CAPTURING);
-            return;
-        }
-        animal.dropLeash(true, false);
-        com.hkin.exiledsettlement.region.PastureResidentService.capture(level,settlement,pasture,animal);
-        clear(data, citizen, entity);
+        if ((pasture == null || pasture.productionSite() == null)
+                && com.hkin.exiledsettlement.region.PastureGroundSafety.capture(level, settlement, citizen, entity)) return;
+        PastureCaptureService.tick(level, data, settlement, citizen, entity);
     }
 
     @Nullable
     public static BlockPos pastureCaptureDestination(
             ServerLevel level, BuildingRecord pasture, BlockPos animalPosition
     ) {
-        if(pasture.productionSite()!=null)return pasture.productionSite().workCells().stream()
-                .filter(c->c.use()==com.hkin.exiledsettlement.region.ProductionRegion.Use.PASTURE)
-                .map(c->c.ground().above()).filter(p->com.hkin.exiledsettlement.blueprint.FarmEarthworkPlan.support(level,p.below()) && level.getBlockState(p).isAir() && level.getBlockState(p.above()).isAir())
-                .min(Comparator.comparingDouble(p->p.distSqr(animalPosition))).orElse(null);
-        if(pasture.region()!=null)return pasture.region().cells.values().stream()
-                .filter(c->c.use()==com.hkin.exiledsettlement.region.ProductionRegion.Use.PASTURE && pasture.region().readyPasture.contains(c.ground().asLong()))
-                .map(c->c.ground().above()).filter(p->com.hkin.exiledsettlement.blueprint.FarmEarthworkPlan.support(level,p.below()) && level.getBlockState(p).isAir() && level.getBlockState(p.above()).isAir())
-                .min(Comparator.comparingDouble(p->p.distSqr(animalPosition))).orElse(null);
-        BuildingBlueprintTemplate template = BlueprintTemplates.createForBuilding(pasture);
-        List<com.hkin.exiledsettlement.blueprint.BlueprintEntrance> entrances = template.entrances().stream()
-                .sorted(Comparator.comparingDouble(entrance -> entrance.position().distSqr(animalPosition)))
-                .toList();
-        for (var entrance : entrances) {
-            Direction inward = entrance.outward().getOpposite();
-            BlockPos base = entrance.position().relative(inward, 2);
-            for (int lateral : new int[]{0, 1, -1, 2, -2}) {
-                Direction side = inward.getClockWise();
-                BlockPos horizontal = base.relative(side, lateral);
-                BlockPos standing = animalStandingPosition(level, horizontal, entrance.position().getY());
-                if (standing != null && insidePastureInterior(pasture, standing)) return standing;
-            }
-        }
-        BlockPos center = new BlockPos(
-                (pasture.minCorner().getX() + pasture.maxCorner().getX()) / 2,
-                pasture.position().getY(),
-                (pasture.minCorner().getZ() + pasture.maxCorner().getZ()) / 2);
-        return animalStandingPosition(level, center, pasture.position().getY());
+        return PastureCaptureService.destination(level, pasture, animalPosition);
     }
 
-    private static boolean insidePastureInterior(BuildingRecord pasture, BlockPos position) {
-        if(pasture.productionSite()!=null){var cell=pasture.productionSite().cell(position);return cell!=null && pasture.productionSite().contains(position)
-                && cell.use()==com.hkin.exiledsettlement.region.ProductionRegion.Use.PASTURE;}
-        if(pasture.region()!=null){var c=pasture.region().cell(position);return pasture.region().contains(position) && c.use()==com.hkin.exiledsettlement.region.ProductionRegion.Use.PASTURE && pasture.region().readyPasture.contains(c.ground().asLong());}
-        return position.getX() > pasture.minCorner().getX()
-                && position.getX() < pasture.maxCorner().getX()
-                && position.getZ() > pasture.minCorner().getZ()
-                && position.getZ() < pasture.maxCorner().getZ();
+    static boolean insidePastureInterior(BuildingRecord pasture, BlockPos position) {
+        return com.hkin.exiledsettlement.region.PastureResidentService.inside(pasture, position);
     }
 
     private static void fetchSawmillInput(
@@ -7150,7 +6997,7 @@ public final class CitizenWorkService {
                 citizen.updateTargetPosition(target);data.touch();
             }
             var material=com.hkin.exiledsettlement.building.MineExpansionService.needed(mine);
-            if(material!=null && !citizen.hasInventoryItem(v->v.is(material))
+            if(!ConstructionDebugService.workEnabled(level,settlement) && material!=null && !citizen.hasInventoryItem(v->v.is(material))
                     && fetchMineSupport(level,data,settlement,mine,citizen,entity,material))return;
         }
         // The underground hall is mandatory. Horizontal proximity above the roof does not count.
@@ -7300,7 +7147,7 @@ public final class CitizenWorkService {
         return true;
     }
 
-    private static boolean assignPersonalDelivery(
+    static boolean assignPersonalDelivery(
             ServerLevel level, SettlementRecord settlement, CitizenRecord citizen
     ) {
         if (!shouldFarmerDeliver(level, settlement, citizen)) return false;
@@ -7321,7 +7168,7 @@ public final class CitizenWorkService {
                 .orElse(null);
     }
 
-    private static int deliverableSlot(CitizenRecord citizen) {
+    static int deliverableSlot(CitizenRecord citizen) {
         for (int slot = 0; slot < CitizenRecord.INVENTORY_SIZE; slot++) {
             if (CitizenEquipmentService.deliverableCount(citizen, slot) > 0) {
                 return slot;
@@ -7330,7 +7177,7 @@ public final class CitizenWorkService {
         return -1;
     }
 
-    private static int deliverableSlot(
+    static int deliverableSlot(
             SettlementRecord settlement, CitizenRecord citizen, boolean deliveryAlreadyStarted
     ) {
         for (int slot = 0; slot < CitizenRecord.INVENTORY_SIZE; slot++) {
@@ -7343,6 +7190,7 @@ public final class CitizenWorkService {
         if(citizen.pitReserveSlot(slot))return 0;
         ItemStack stack = citizen.inventoryItem(slot);
         int cargo = CitizenEquipmentService.deliverableCount(citizen, slot);
+        cargo = Math.min(cargo, Math.max(0, stack.getCount() - PastureBreedingService.keepSupply(citizen, slot)));
         if (cargo <= 0) return 0;
         if (protectedConstructionMaterial(settlement, citizen, stack)) {
             if (stack.getItem() instanceof net.minecraft.world.item.DiggerItem) return 0;
@@ -7409,6 +7257,9 @@ public final class CitizenWorkService {
         if (phase == SchedulePhase.SLEEP) return false;
         if (phase == SchedulePhase.REST) return true;
         if (citizen.profession()==CitizenProfession.MINER) return false;
+        // The pasture queue waits for product delivery before taking another pair
+        // or escort. A single real cargo stack must therefore be deliverable now.
+        if (citizen.profession()==CitizenProfession.HERDSMAN) return true;
         return citizen.inventory().stream().filter(ItemStack::isEmpty).count()
                 <= 6;
     }
@@ -7522,6 +7373,13 @@ public final class CitizenWorkService {
                 continue;
             }
             if (entity.isSleeping()) entity.stopSleeping();
+            if (citizen.profession() == CitizenProfession.HERDSMAN
+                    && schedulePhase(level.getDayTime(), citizen) == SchedulePhase.WORK
+                    && citizen.workFailure().startsWith("PASTURE_")) {
+                entity.stopSettlementNavigation();
+                setActivity(data, citizen, entity, CitizenActivity.BLOCKED, citizen.workFailure());
+                continue;
+            }
             BlockPos target = idleDestination(level, settlement, citizen, entity, idleIndex);
             if (target != null && !nearWorkPosition(entity, target)) {
                 move(data, citizen, entity, target, CitizenActivity.IDLE);
@@ -7785,7 +7643,10 @@ public final class CitizenWorkService {
             }
             for (Animal animal : level.getEntitiesOfClass(Animal.class, new AABB(entity.blockPosition()).inflate(32.0D),
                     animal -> animal.isLeashed() && animal.getLeashHolder() == entity)) {
-                animal.dropLeash(true, false);
+                PastureCaptureService.release(level, citizen, entity);
+                if (animal.isLeashed() && animal.getLeashHolder() == entity
+                        && !animal.getPersistentData().contains(PastureCaptureService.LEAD_TAG))
+                    animal.dropLeash(true, false);
             }
             // Sleeping pauses the task, not the resident's player-like inventory.
             // The active slot is cleared with the task and the item remains in its
@@ -7820,7 +7681,10 @@ public final class CitizenWorkService {
             for (Animal animal : level.getEntitiesOfClass(Animal.class,
                     new AABB(entity.blockPosition()).inflate(32.0D),
                     animal -> animal.isLeashed() && animal.getLeashHolder() == entity)) {
-                animal.dropLeash(true, false);
+                PastureCaptureService.release(level, citizen, entity);
+                if (animal.isLeashed() && animal.getLeashHolder() == entity
+                        && !animal.getPersistentData().contains(PastureCaptureService.LEAD_TAG))
+                    animal.dropLeash(true, false);
             }
             clear(data, citizen, entity);
         }
@@ -7841,7 +7705,7 @@ public final class CitizenWorkService {
     }
 
     @Nullable
-    private static BuildingRecord workplace(SettlementRecord settlement, CitizenRecord citizen, BuildingType type) {
+    static BuildingRecord workplace(SettlementRecord settlement, CitizenRecord citizen, BuildingType type) {
         BuildingRecord building = settlement.building(citizen.workBuildingId());
         return usable(building, type) ? building : null;
     }
@@ -7852,11 +7716,11 @@ public final class CitizenWorkService {
                 .min(Comparator.comparingDouble(b -> b.position().distSqr(from))).orElse(null);
     }
 
-    private static boolean usable(@Nullable BuildingRecord building) {
+    static boolean usable(@Nullable BuildingRecord building) {
         return building != null && building.active() && building.operational();
     }
 
-    private static boolean usable(@Nullable BuildingRecord building, BuildingType type) {
+    static boolean usable(@Nullable BuildingRecord building, BuildingType type) {
         return usable(building) && (building.type()==type || (building.productionSite()!=null || building.region()!=null)
                 && com.hkin.exiledsettlement.region.ProductionRegion.acceptsWorkplace(building.type(),type));
     }
@@ -10901,7 +10765,7 @@ public final class CitizenWorkService {
             ServerLevel level, SettlementCitizenEntity entity, BuildingRecord farm, BlockPos target
     ) {
         return farmWorkPositions(level, entity, farm, target).stream()
-                .filter(entity::hasReachablePathTo)
+                .filter(position -> entity.hasReachablePathTo(FarmAccessService.waypoint(entity,position)))
                 .findFirst().orElse(null);
     }
 
@@ -10929,7 +10793,7 @@ public final class CitizenWorkService {
         BlockPos current=entity.navigationFeetPosition();
         if(insideFarmWorkArea(entity,farm) && entity.canStandAtPosition(current))return current;
         return farmWorkPositions(level,entity,farm,target).stream()
-                .filter(entity::hasReachablePathTo).findFirst().orElse(null);
+                .filter(position -> entity.hasReachablePathTo(FarmAccessService.waypoint(entity,position))).findFirst().orElse(null);
     }
 
     private static boolean insideFarmWorkArea(SettlementCitizenEntity entity,BuildingRecord farm) {
@@ -11143,11 +11007,11 @@ public final class CitizenWorkService {
                 && position.getZ() <= template.maxCorner().getZ();
     }
 
-    private static boolean near(SettlementCitizenEntity entity, BlockPos pos) {
+    static boolean near(SettlementCitizenEntity entity, BlockPos pos) {
         return CitizenInteractionRange.contains(entity, pos);
     }
 
-    private static void moveToWarehouseStation(
+    static void moveToWarehouseStation(
             ServerLevel level, SettlementSavedData data, CitizenRecord citizen,
             SettlementCitizenEntity entity, BlockPos target, CitizenActivity activity
     ) {
@@ -11160,12 +11024,20 @@ public final class CitizenWorkService {
                 movementActivity(activity, failure), failure);
     }
 
-    private static void waitForWarehouseStation(
+    static void waitForWarehouseStation(
             ServerLevel level, SettlementSavedData data, CitizenRecord citizen,
             SettlementCitizenEntity entity, @Nullable BuildingRecord building, CitizenActivity activity
     ) {
         if (building == null) {
             setActivity(data, citizen, entity, CitizenActivity.BLOCKED, "WAREHOUSE_STATION_BUSY");
+            return;
+        }
+        // A closed enclosure can hide every warehouse station from path probes.
+        // Walk through its registered entrance first, then reserve the real station.
+        // This does not permit any inventory interaction outside that station.
+        if (!FarmAccessService.waypoint(entity,building.position()).equals(building.position())) {
+            String failure=entity.navigateTo(building.position(),WALK_SPEED);
+            setActivity(data,citizen,entity,movementActivity(activity,failure),failure);
             return;
         }
         BlockPos approach = WarehouseInventoryService.approachPosition(level, building, entity);
@@ -11194,6 +11066,11 @@ public final class CitizenWorkService {
             waitForWarehouseStation(level, data, citizen, entity, warehouse, activity);
             return;
         }
+        if (!FarmAccessService.waypoint(entity,settlement.corePosition()).equals(settlement.corePosition())) {
+            String failure=entity.navigateTo(settlement.corePosition(),WALK_SPEED);
+            setActivity(data,citizen,entity,movementActivity(activity,failure),failure);
+            return;
+        }
         BlockPos waiting = SettlementCoreInteractionService.reserveWaitingPosition(level, settlement, entity);
         if (waiting != null && !nearWorkPosition(entity, waiting)) {
             String failure = entity.navigateTo(waiting, WALK_SPEED * 0.85D);
@@ -11216,7 +11093,7 @@ public final class CitizenWorkService {
         CitizenNavigationReservationService.abandonStation(level, entity.getUUID(), level.getGameTime());
     }
 
-    private static void move(
+    static void move(
             SettlementSavedData data, CitizenRecord citizen, SettlementCitizenEntity entity,
             BlockPos target, CitizenActivity activity
     ) {
@@ -11232,7 +11109,7 @@ public final class CitizenWorkService {
         return "NO_PATH".equals(failure) || "STUCK".equals(failure);
     }
 
-    private static void setActivity(
+    static void setActivity(
             SettlementSavedData data, CitizenRecord citizen, SettlementCitizenEntity entity,
             CitizenActivity activity, String failure
     ) {
@@ -11241,8 +11118,11 @@ public final class CitizenWorkService {
         if (changed) data.touch();
     }
 
-    private static void clear(SettlementSavedData data, CitizenRecord citizen, SettlementCitizenEntity entity) {
-        if(entity.level() instanceof ServerLevel server)WarehouseInventoryService.releaseInteractionPosition(server,entity);
+    static void clear(SettlementSavedData data, CitizenRecord citizen, SettlementCitizenEntity entity) {
+        if(entity.level() instanceof ServerLevel server) {
+            PastureCaptureService.release(server, citizen, entity);
+            WarehouseInventoryService.releaseInteractionPosition(server,entity);
+        }
         LOGISTICS_EXITS.remove(entity);
         TREE_HARVESTS.remove(entity);
         boolean changed = citizen.clearWork();
@@ -11288,7 +11168,8 @@ public final class CitizenWorkService {
     }
 
     private static boolean huntable(Animal animal) {
-        return animal.isAlive() && !animal.isBaby() && !animal.hasCustomName() && !animal.isLeashed()
+        return !com.hkin.exiledsettlement.companion.PetCareService.isProtected(animal)
+                && animal.isAlive() && !animal.isBaby() && !animal.hasCustomName() && !animal.isLeashed()
                 && (!(animal instanceof TamableAnimal tamable) || !tamable.isTame());
     }
 
@@ -11301,7 +11182,9 @@ public final class CitizenWorkService {
     public static boolean protectedFromHunting(
             ServerLevel level, SettlementRecord settlement, Animal animal
     ) {
-        if (!huntable(animal) || insidePasture(settlement, animal.blockPosition())) return true;
+        if (!huntable(animal)
+                || com.hkin.exiledsettlement.region.PastureResidentService.hasOwnership(animal)
+                || insidePasture(settlement, animal.blockPosition())) return true;
         BlockPos start = animal.blockPosition();
         ArrayDeque<BlockPos> open = new ArrayDeque<>();
         Set<BlockPos> seen = new HashSet<>();
@@ -11372,7 +11255,7 @@ public final class CitizenWorkService {
                 position.getY() + 0.5D, position.getZ() + 0.5D);
     }
 
-    private static AABB buildingArea(BuildingRecord building, int margin) {
+    static AABB buildingArea(BuildingRecord building, int margin) {
         if (building.minCorner().equals(building.maxCorner())) return area(building.position(), 16, 6);
         BlockPos min = building.minCorner();
         BlockPos max = building.maxCorner().offset(1, 1, 1);
@@ -11418,7 +11301,7 @@ public final class CitizenWorkService {
         return schedulePhase(level.getDayTime()) == SchedulePhase.SLEEP;
     }
 
-    private static void syncHeldItem(CitizenRecord citizen, SettlementCitizenEntity entity) {
+    static void syncHeldItem(CitizenRecord citizen, SettlementCitizenEntity entity) {
         CitizenEquipmentService.syncVisibleEquipment(citizen, entity);
     }
 }

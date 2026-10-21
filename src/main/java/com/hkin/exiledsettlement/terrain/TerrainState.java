@@ -33,13 +33,39 @@ public final class TerrainState {
     private final Map<UUID,List<TerrainProject>> dependencySnapshots=new HashMap<>();
     private final Set<UUID> legacyFoundationIds=new LinkedHashSet<>();
     private final Map<UUID,List<TerrainProject.Step>> indexedSteps=new HashMap<>();
+    private final Set<BlockPos> connectionMembership=new HashSet<>();
+    private final List<BlockPos> connectionPositions=new ArrayList<>();
+    private int connectionCursor;
+    private void trackConnection(BlockPos at,BlockState state){
+        if(com.hkin.exiledsettlement.blueprint.BlueprintBlockStateResolver.connectionState(state)
+                && connectionMembership.add(at))connectionPositions.add(at.immutable());
+    }
+    /** Derived, bounded maintenance for paid terrain rails, including completed and retired history. */
+    public void refreshPaidConnections(net.minecraft.server.level.ServerLevel level){
+        long deadline=System.nanoTime()+500_000L;
+        for(int n=0;n<Math.min(32,connectionPositions.size()) && (n==0 || System.nanoTime()<deadline);n++){
+            if(connectionCursor>=connectionPositions.size())connectionCursor=0;
+            var at=connectionPositions.get(connectionCursor++);
+            if(!level.hasChunkAt(at))continue;
+            var current=level.getBlockState(at);
+            if(!com.hkin.exiledsettlement.blueprint.BlueprintBlockStateResolver.connectionState(current))continue;
+            var evidence=supersededPaid.get(at);
+            boolean paid=evidence!=null && evidence.getBlock()==current.getBlock();
+            if(!paid)paid=projectsAt(at).stream().anyMatch(p->p.indices(at).stream().anyMatch(i->{
+                var step=p.steps.get(i);
+                return step.target().getBlock()==current.getBlock() && step.fill()
+                        && (p.retiredPaid.get(i) || !p.abandoned.get(i) && (i<p.cursor || p.finished.get(i)));
+            }));
+            if(paid)com.hkin.exiledsettlement.blueprint.BlueprintBlockStateResolver.refreshAround(level,at);
+        }
+    }
     private void indexPositions(TerrainProject project){
         if(projects.get(project.id)!=project)return;
         var before=indexedSteps.put(project.id,project.steps);
         if(before==project.steps)return;
         if(before!=null)for(var step:before){var owners=projectsByPosition.get(step.position());if(owners!=null){owners.remove(project.id);if(owners.isEmpty())projectsByPosition.remove(step.position());}
             long column=BlockPos.asLong(step.position().getX(),0,step.position().getZ());var columns=projectsByColumn.get(column);if(columns!=null){columns.remove(project.id);if(columns.isEmpty())projectsByColumn.remove(column);}}
-        for(var step:project.steps){projectsByPosition.computeIfAbsent(step.position(),k->new LinkedHashSet<>()).add(project.id);
+        for(var step:project.steps){trackConnection(step.position(),step.target());projectsByPosition.computeIfAbsent(step.position(),k->new LinkedHashSet<>()).add(project.id);
             projectsByColumn.computeIfAbsent(BlockPos.asLong(step.position().getX(),0,step.position().getZ()),k->new LinkedHashSet<>()).add(project.id);}
     }
     public List<TerrainProject> projectsInColumn(BlockPos at){return projectsByColumn.getOrDefault(BlockPos.asLong(at.getX(),0,at.getZ()),Set.of()).stream().map(projects::get).filter(Objects::nonNull).toList();}
@@ -183,6 +209,7 @@ public final class TerrainState {
         enabled=!t.contains("DefaultOnVersion") || t.getBoolean("Enabled");publicPaused=t.contains("DefaultOnVersion") && t.getBoolean("PublicPaused");surveyCursor=t.getInt("SurveyCursor");if(t.contains("Status"))status=t.getString("Status");
         TerrainProjectPages.visit(t,record->index(TerrainProject.load(record)));
         var evidence=t.getList("SupersededPaidEvidence",Tag.TAG_COMPOUND);for(int i=0;i<evidence.size();i++){var a=evidence.getCompound(i);supersededPaid.putIfAbsent(BlockPos.of(a.getLong("At")),NbtUtils.readBlockState(net.minecraft.core.registries.BuiltInRegistries.BLOCK.asLookup(),a.getCompound("State")));}supersededColumns=null;
+        supersededPaid.forEach(this::trackConnection);
         escapeSupports.clear();var escape=t.getList("EscapeSupports",Tag.TAG_COMPOUND);for(int i=0;i<escape.size();i++){var a=escape.getCompound(i);escapeSupports.put(BlockPos.of(a.getLong("At")),NbtUtils.readBlockState(net.minecraft.core.registries.BuiltInRegistries.BLOCK.asLookup(),a.getCompound("State")));}
         var pending=t.getList("Surveys",Tag.TAG_COMPOUND);for(int i=0;i<pending.size();i++){var a=pending.getCompound(i);surveys.put(a.getUUID("Dependency"),a);}
         var ids=t.getList("Surveyed",Tag.TAG_COMPOUND);for(int i=0;i<ids.size();i++)surveyed.add(ids.getCompound(i).getUUID("Id"));

@@ -167,8 +167,8 @@ public final class CitizenAssignmentScreen extends Screen {
                         Component.translatable(payload.activity().translationKey())),
                 left + 20, top + 151, 0xFF665647, false);
         if (!payload.workFailure().isBlank()) {
-            graphics.drawString(font, Component.translatable("gui.exiledsettlement.citizen.blocked",
-                            workFailureLabel(payload.workFailure())),
+            Component failure = Component.translatable("gui.exiledsettlement.citizen.blocked", workFailureLabel(payload.workFailure()));
+            graphics.drawString(font, font.plainSubstrByWidth(failure.getString(), WIDTH - 40),
                     left + 20, top + 164, 0xFFAA3333, false);
         }
         graphics.drawString(font, Component.translatable("gui.exiledsettlement.ui.resident_details"),
@@ -193,6 +193,8 @@ public final class CitizenAssignmentScreen extends Screen {
                 + com.hkin.exiledsettlement.citizen.CitizenProfessionExperience.costFor(jobLevel);
         Component experience = Component.translatable("gui.exiledsettlement.citizen.profession_experience", jobLevel, progress,
                 String.format(java.util.Locale.ROOT, "%s", jobLevel * 12.5));
+        if (profession == CitizenProfession.PRIEST)
+            experience = Component.translatable("gui.exiledsettlement.citizen.priest_experience", jobLevel, progress);
         if (payload.profession() == CitizenProfession.TEACHER) experience = Component.empty().append(experience).append(
                 Component.translatable("gui.exiledsettlement.citizen.teaching_points", payload.teachingPointsToday()));
         graphics.drawString(font, font.plainSubstrByWidth(experience.getString(), WIDTH - 40), left + 20, top + 243, 0xFF365846, false);
@@ -203,6 +205,12 @@ public final class CitizenAssignmentScreen extends Screen {
         // Draw after all slots and the preview, so later items cannot cover tooltips.
         if (!hoveredStack.isEmpty()) graphics.renderTooltip(font, hoveredStack, mouseX, mouseY);
         else if (hoveredSlotLabel != null) graphics.renderTooltip(font, hoveredSlotLabel, mouseX, mouseY);
+        else if (!payload.workFailure().isBlank() && mouseX >= left + 20 && mouseX < left + WIDTH - 20
+                && mouseY >= top + 162 && mouseY < top + 175)
+            graphics.renderTooltip(font, workFailureLabel(payload.workFailure()), mouseX, mouseY);
+        else if (profession == CitizenProfession.PRIEST && mouseX >= left + 20 && mouseX < left + WIDTH - 20
+                && mouseY >= top + 241 && mouseY < top + 253)
+            graphics.renderTooltip(font, Component.translatable("gui.exiledsettlement.citizen.priest_experience_hint"), mouseX, mouseY);
         else if (mouseX >= left + 20 && mouseX < left + WIDTH - 20
                 && (mouseY >= top + 175 && mouseY < top + 187 || mouseY >= top + 202 && mouseY < top + 216)) {
             var details = new java.util.ArrayList<Component>();
@@ -292,9 +300,7 @@ public final class CitizenAssignmentScreen extends Screen {
             return Component.translatable("work_failure.exiledsettlement.scaffold_access_detail",
                     detail[2], detail[3], detail[4], detail[5], workFailureLabel(detail[1]));
         }
-        return failure.matches("[A-Z0-9_]+")
-                ? Component.translatable("work_failure.exiledsettlement." + failure.toLowerCase(java.util.Locale.ROOT))
-                : Component.literal(failure);
+        return com.hkin.exiledsettlement.citizen.CitizenWorkFailureText.component(failure);
     }
 
     private int initialWorkplaceIndex() {

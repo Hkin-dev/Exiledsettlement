@@ -139,6 +139,7 @@ public final class BlueprintTemplates {
 
     public static int currentTemplateVersion(BuildingType type) {
         return switch (type) {
+            case MINE -> 2;
             case STARTER_CAMP -> 4;
             case HOUSE -> 4;
             case HOUSE_2 -> 1;

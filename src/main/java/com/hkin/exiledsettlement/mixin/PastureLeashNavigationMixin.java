@@ -1,6 +1,7 @@
 package com.hkin.exiledsettlement.mixin;
 
 import com.hkin.exiledsettlement.region.PastureGroundSafety;
+import com.hkin.exiledsettlement.citizen.PastureEscortGoal;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.animal.Animal;
@@ -15,7 +16,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class PastureLeashNavigationMixin {
     @Inject(method="closeRangeLeashBehaviour",at=@At("HEAD"),cancellable=true)
     private void exiledSettlement$controlledAnimalRoute(Entity holder,CallbackInfo ci){
-        if((Object)this instanceof Animal animal && PastureGroundSafety.controlsAi(animal)){
+        if((Object)this instanceof Animal animal && (PastureGroundSafety.controlsAi(animal)
+                || PastureEscortGoal.controls(animal,holder))){
             animal.goalSelector.enableControlFlag(Goal.Flag.MOVE);
             ci.cancel();
         }

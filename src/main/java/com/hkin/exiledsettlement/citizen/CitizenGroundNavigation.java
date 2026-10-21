@@ -17,6 +17,7 @@ import net.minecraft.core.Direction;
 /** Snapshot unrelated interiors once per route, rather than scanning buildings per node. */
 public final class CitizenGroundNavigation extends GroundPathNavigation {
     private List<BuildingRecord> excludedInteriors = List.of();
+    private List<BuildingRecord> mineInteriors = List.of();
     private SettlementRecord configuredSettlement;
     private BlockPos configuredOrigin, configuredTarget;
     private long configuredTick = Long.MIN_VALUE;
@@ -47,6 +48,9 @@ public final class CitizenGroundNavigation extends GroundPathNavigation {
         configuredSettlement = settlement;
         configuredOrigin = origin.immutable();
         configuredTarget = target.immutable();
+        mineInteriors = settlement == null ? List.of() : settlement.buildings().stream()
+                .filter(b -> b.active() && b.type()==BuildingType.MINE
+                        && (contains(b,origin) || contains(b,target))).toList();
         bridgeWork=false;
         if(settlement!=null && !mob.isInWater()){
             String id=mob.getPersistentData().getString(CitizenProjectionService.CITIZEN_ID_TAG);
@@ -183,6 +187,15 @@ public final class CitizenGroundNavigation extends GroundPathNavigation {
                 return kept;
             }
             @Override public PathType getPathTypeOfMob(PathfindingContext context, int x, int y, int z, Mob mob) {
+                // A fence extends half a block into the nominal air cell above it.
+                // The mine's stair exit must use its landing, never that false floor.
+                if(!mineInteriors.isEmpty()) {
+                    var feet=new BlockPos(x,y,z);var below=feet.below();
+                    for(var mine:mineInteriors)if(contains(mine,feet)) {
+                        var shape=level.getBlockState(below).getCollisionShape(level,below);
+                        if(!shape.isEmpty() && shape.max(Direction.Axis.Y)>1.001D)return PathType.BLOCKED;
+                    }
+                }
                 if (ApartmentHomeNavigation.lowTableBlocks(mob, new BlockPos(x,y,z))) return PathType.BLOCKED;
                 for (BuildingRecord b : excludedInteriors == null ? List.<BuildingRecord>of() : excludedInteriors) {
                     if (x > b.minCorner().getX() && x < b.maxCorner().getX()

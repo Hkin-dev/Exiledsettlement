@@ -41,6 +41,12 @@ public final class CommunitySettings {
             toggle("decor_work", "decor", "生产装饰性模块", "允许生产区域装饰性模块，受自动装饰性模块总开关、库存和可用空间限制。"),
             toggle("decor_public", "decor", "公共装饰性模块", "允许公共空地和自然装饰性模块，受自动装饰性模块总开关、库存和可用空间限制。"),
             toggle("evacuate", "safety", "集合避险", "开启后居民优先前往安全集合点，修路与美化暂停。解除后按日常作息恢复。集合点默认在核心附近。"),
+            toggle("guardian_auto", "safety", "制造铁傀儡", "工匠到仓领取4铁块和1雕刻南瓜，在安全空地组装。关闭暂停制造；现有守卫和实际物资保留。"),
+            new Setting("guardian_target", "safety", "铁傀儡数量目标", "包含现有、暂未加载和正在制造的铁傀儡。降低目标不会拆除已有守卫。", counts("只", 0, 1, 2, 3, 4, 6, 8)),
+            new Setting("guardian_reserve", "safety", "铁料保留线", "制造和维修后保留的铁锭等价值；每个铁块按9铁锭计算。材料必须真实领取。", counts("铁锭", 0, 9, 18, 36, 64, 128, 256)),
+            toggle("pets_auto", "life", "领养猫狗", "成年居民尝试领养附近可达的无主猫狼。关闭只停止新增领养，已有猫狗继续受照料；不会接管玩家宠物。"),
+            new Setting("pets_cats", "life", "猫的数量上限", "包含已领养和正在领养的猫。降低上限不会删除已有宠物。", counts("只", 0, 1, 2, 3, 4, 6, 8)),
+            new Setting("pets_dogs", "life", "狗的数量上限", "包含已领养和正在领养的狗。降低上限不会删除已有宠物。", counts("只", 0, 1, 2, 3, 4, 6, 8)),
             toggle("local_season_scenery", "scenery", "季节景色", "仅此客户端：季节植物颜色与秋季落叶；真实降雨、降雪和积雪由服务器决定，关闭此项仍可见。"),
             toggle("local_season_hud", "scenery", "季节提示", "仅此客户端：显示服务器历法和下一季倒计时。关闭后季节仍正常推进。"));
 
@@ -58,6 +64,12 @@ public final class CommunitySettings {
         values.put("seed_rounds",""+c.seedRounds);values.put("wheat_target",""+c.wheatTarget);
         values.put("bone_target",""+c.boneTarget);values.put("life_slots",""+c.lifeSlots);
         values.put("births", on(c.birthsEnabled)); values.put("evacuate", on(c.evacuation));
+        values.put("guardian_auto", on(s.guardians().enabled));
+        values.put("guardian_target", "" + s.guardians().target);
+        values.put("guardian_reserve", "" + s.guardians().ironReserve);
+        values.put("pets_auto", on(s.pets().enabled));
+        values.put("pets_cats", "" + s.pets().catLimit);
+        values.put("pets_dogs", "" + s.pets().dogLimit);
         values.put("decorations", on(d.enabled)); values.put("decor_density", "" + d.density);
         values.put("decor_style", "" + d.style); values.put("decor_budget", "" + d.dailyBudget);
         values.put("decor_road", on(d.family(1))); values.put("decor_homes", on(d.family(2)));
@@ -86,6 +98,12 @@ public final class CommunitySettings {
             case "life_slots" -> c.lifeSlots=Integer.parseInt(value);
             case "births" -> c.birthsEnabled = enabled;
             case "evacuate" -> c.evacuation = enabled;
+            case "guardian_auto" -> s.guardians().enabled = enabled;
+            case "guardian_target" -> s.guardians().target = Integer.parseInt(value);
+            case "guardian_reserve" -> s.guardians().ironReserve = Integer.parseInt(value);
+            case "pets_auto" -> s.pets().enabled = enabled;
+            case "pets_cats" -> s.pets().catLimit = Integer.parseInt(value);
+            case "pets_dogs" -> s.pets().dogLimit = Integer.parseInt(value);
             case "decorations" -> d.enabled = enabled;
             case "decor_density" -> d.density = Integer.parseInt(value);
             case "decor_style" -> d.style = Integer.parseInt(value);

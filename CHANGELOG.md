@@ -1,3 +1,25 @@
+# 0.18.1
+
+## 中文
+
+1. **新增牧师酿药**：居民可以在教堂担任牧师，从仓库领取材料，使用酿造台制作药水并交回仓库；支持选择药水种类和补货目标。
+
+2. **重整牧场工作流程**：补齐牵引入栏、领取饲料、喂养繁殖、剪毛和畜产交仓，修复牧民有岗位却不工作、动物停在门口及少量产物长期留在背包的问题。
+
+3. **新增聚落铁傀儡与居民猫狗**：工匠能够使用材料制造和维修铁傀儡；居民可以领养、照料猫狗，增加聚落巡逻、陪伴和协防行为。
+
+4. **完善临崖防护与连接刷新**：在危险边缘设置护栏，改善隔离墙连接，避免墙体干扰地面高度判断或占用通路；补齐石墙、栅栏放置及拆除后的连接状态刷新。
+
+## English
+
+1. **Added priest brewing**: Residents can work as priests at churches, collect ingredients from warehouses, brew potions at brewing stands, and return the finished potions to storage. Potion types and restocking targets can be selected.
+
+2. **Reworked pasture workflows**: Completed animal capture and lead handling, feed collection, feeding and breeding, shearing, and product delivery. Fixed idle herders, animals stopping at gates, and small amounts of produce remaining in residents' inventories.
+
+3. **Added settlement iron golems and resident cats and dogs**: Craftsmen can use materials to build and repair iron golems. Residents can adopt and care for cats and dogs, adding patrol, companionship, and defensive support behaviors.
+
+4. **Improved cliff protection and connection updates**: Added guardrails along dangerous edges and improved barrier connections while keeping walls out of ground-height detection and passageways. Stone walls and fences now refresh their connections after placement and removal.
+
 # 0.18.0
 
 ## 🇨🇳 中文

@@ -360,6 +360,12 @@ public final class CommunityLifeService {
             entity.stopSettlementNavigation();
             data.touch();
         }
+        if (com.hkin.exiledsettlement.companion.GuardianService.work(level, data, settlement, citizen, entity)) return true;
+        if (com.hkin.exiledsettlement.companion.PetCareService.work(level, data, settlement, citizen, entity)) return true;
+        if (PriestProductionService.handles(citizen)) {
+            if (CitizenWorkService.schedulePhase(level.getDayTime(), citizen) != CitizenWorkService.SchedulePhase.WORK) return false;
+            return PriestProductionService.work(level, data, settlement, citizen, entity);
+        }
         if (citizen.profession() == CitizenProfession.TEACHER
                 && TeachingService.work(level, data, settlement, citizen, entity)) return true;
         if (life.task.startsWith("kiln:")) {
@@ -384,6 +390,10 @@ public final class CommunityLifeService {
                 && CitizenWorkService.schedulePhase(level.getDayTime(), citizen) == CitizenWorkService.SchedulePhase.WORK) {
             return KilnProductionService.shift(level, data, settlement, citizen, entity);
         }
+        if (citizen.workState() == CitizenWorkState.IDLE && citizen.profession() == CitizenProfession.PRIEST
+                && CitizenWorkService.schedulePhase(level.getDayTime(), citizen) == CitizenWorkService.SchedulePhase.WORK) {
+            return PriestProductionService.shift(level, data, settlement, citizen, entity);
+        }
         if (citizen.workState() == CitizenWorkState.IDLE && citizen.profession() == CitizenProfession.CHEF
                 && CitizenWorkService.schedulePhase(level.getDayTime(), citizen) == CitizenWorkService.SchedulePhase.WORK) {
             return CommunityCookingService.shift(level, data, settlement, citizen, entity);
@@ -402,7 +412,7 @@ public final class CommunityLifeService {
     }
     private static boolean eat(ServerLevel level, SettlementSavedData data, SettlementRecord settlement,
                                CitizenRecord citizen, SettlementCitizenEntity entity, long day) {
-        var ownFood = citizen.extractInventoryItem(CommunityLifeService::food, 1);
+        var ownFood = citizen.extractInventoryItem(stack -> personalFood(citizen, stack), 1);
         if (!ownFood.isEmpty()) {
             consumeMeal(level, data, settlement, citizen, entity, ownFood, day);
             return true;
@@ -456,7 +466,23 @@ public final class CommunityLifeService {
                 && !stack.is(Items.SPIDER_EYE) && !stack.is(Items.PUFFERFISH);
     }
     public static int carriedFood(CitizenRecord citizen) {
-        return citizen.inventory().stream().filter(CommunityLifeService::food).mapToInt(ItemStack::getCount).sum();
+        int count = 0;
+        for (int slot = 0; slot < CitizenRecord.INVENTORY_SIZE; slot++) {
+            var stack = citizen.inventoryItem(slot);
+            if (food(stack)) count += Math.max(0, stack.getCount() - PriestProductionService.reservedCount(citizen, slot));
+        }
+        return count;
+    }
+    /** Brewing ingredients may be edible, but only the unreserved surplus is a meal. */
+    public static boolean personalFood(CitizenRecord citizen, ItemStack stack) {
+        if (!food(stack)) return false;
+        if (!PriestProductionService.reservedCargo(citizen, stack)) return true;
+        for (int slot = 0; slot < CitizenRecord.INVENTORY_SIZE; slot++) {
+            var candidate = citizen.inventoryItem(slot);
+            if (ItemStack.isSameItemSameComponents(stack, candidate)
+                    && candidate.getCount() > PriestProductionService.reservedCount(citizen, slot)) return true;
+        }
+        return false;
     }
     /** One shared allowance across all food stacks, including edible farm produce. */
     public static int reservedFood(CitizenRecord citizen, int slot) {
@@ -464,9 +490,10 @@ public final class CommunityLifeService {
         int remaining = CommunityContent.carriedFoodTarget;
         for (int i = 0; i < slot && remaining > 0; i++) {
             ItemStack stack = citizen.inventoryItem(i);
-            if (food(stack)) remaining -= stack.getCount();
+            if (food(stack)) remaining -= Math.max(0, stack.getCount() - PriestProductionService.reservedCount(citizen, i));
         }
-        return Math.min(citizen.inventoryItem(slot).getCount(), Math.max(0, remaining));
+        return Math.min(Math.max(0, citizen.inventoryItem(slot).getCount() - PriestProductionService.reservedCount(citizen, slot)),
+                Math.max(0, remaining));
     }
     /** Only use an already reached stock station; never grant food or move the resident here. */
     public static void topUpRations(ServerLevel level, SettlementRecord settlement, CitizenRecord citizen,

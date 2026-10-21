@@ -17,68 +17,50 @@ import java.util.*;
 /** A finite, visible excavation driven only by successful on-site mining cycles. */
 public final class MineExpansionService {
     private MineExpansionService() {}
-    public record Step(BlockPos local, BlockState state, BlockPos station, Direction direction) {}
-    private static final List<Step> STEPS = plan();
+    public record Step(BlockPos local, BlockState state, BlockPos station, BlockPos secondStation, BlockPos floor) {}
+    private static final List<Step> STEPS = LayeredMinePlan.steps();
+    private static final Map<BlockPos,Integer> FIRST = new HashMap<>();
+    private static final int[] LOWEST = new int[STEPS.size()+1];
+    static { LOWEST[0]=-7; for(int i=0;i<STEPS.size();i++) {
+        FIRST.putIfAbsent(STEPS.get(i).local(),i);
+        LOWEST[i+1]=Math.min(LOWEST[i],STEPS.get(i).local().getY()-1);
+    }}
     public static List<Step> steps() { return STEPS; }
-    private static BlockPos p(int x, int y, int z) { return new BlockPos(x, y - 10, z); }
-    private static void add(List<Step> out, BlockPos p, BlockState state, BlockPos station, Direction direction) {
-        out.add(new Step(p, state, station, direction));
-    }
-    private static List<Step> plan() {
-        var out = new ArrayList<Step>();
-        // Two-wide main passage, then a six-wide terminal working chamber.
-        for (int z = 4; z <= 23; z++) {
-            int left = z < 20 ? 0 : -2, right = z < 20 ? 1 : 3;
-            var station = p(0, 0, z - 1);
-            for (int y = 2; y >= 0; y--) for (int x = left; x <= right; x++)
-                add(out, p(x,y,z), Blocks.AIR.defaultBlockState(), station, Direction.SOUTH);
-            if (z % 4 == 0 || z == 23) {
-                for (int x : new int[]{left-1, right+1}) for (int y=0;y<3;y++)
-                    add(out,p(x,y,z),Blocks.SPRUCE_LOG.defaultBlockState(),station,Direction.SOUTH);
-                for (int x=left-1;x<=right+1;x++)
-                    add(out,p(x,3,z),Blocks.SPRUCE_LOG.defaultBlockState().setValue(RotatedPillarBlock.AXIS,Direction.Axis.X),station,Direction.SOUTH);
-                add(out,p(left,1,z),Blocks.WALL_TORCH.defaultBlockState().setValue(WallTorchBlock.FACING,Direction.EAST),station,Direction.SOUTH);
-            }
+    public static int lowestY(BuildingRecord mine) {return mine.position().getY()+LOWEST[Math.clamp(mine.mineExpansion().cursor,0,STEPS.size())];}
+    /** Reuse completed landings for long vertical trips; never search surface-only waypoints underground. */
+    public static BlockPos navigationWaypoint(SettlementCitizenEntity actor,BlockPos target) {
+        if(!(actor.level() instanceof ServerLevel level))return target;
+        var id=CitizenProjectionService.settlementId(actor);if(id==null)return target;
+        var settlement=SettlementSavedData.get(level).findById(id).orElse(null);if(settlement==null)return target;
+        var origin=actor.blockPosition();
+        if(Math.abs(origin.getY()-target.getY())<=10)return target;
+        for(var mine:settlement.buildings())if(mine.active() && enabled(mine)
+                && (mine.contains(origin) || mine.contains(target))) {
+            int y=origin.getY()-mine.position().getY();
+            int next=target.getY()<origin.getY()?Math.floorDiv(y-1,6)*6:-Math.floorDiv(-y-1,6)*6;
+            next=Math.min(-6,next);
+            var at=world(mine,new BlockPos(-1,next,3));
+            if(level.hasChunkAt(at) && level.getBlockState(at.below()).isFaceSturdy(level,at.below(),Direction.UP)
+                    && level.noCollision(new AABB(at.getX()+.2,at.getY(),at.getZ()+.2,at.getX()+.8,at.getY()+1.95,at.getZ()+.8)))
+                return at;
         }
-        // A real side drift connects to the completed main passage, not a detached room.
-        for (int x=-1;x>=-8;x--) {
-            var station=p(x+1,0,10);
-            for(int y=2;y>=0;y--)for(int z=10;z<=11;z++)
-                add(out,p(x,y,z),Blocks.AIR.defaultBlockState(),station,Direction.WEST);
-            if(x % 4 == 0) {
-                for(int z:new int[]{9,12})for(int y=0;y<3;y++)
-                    add(out,p(x,y,z),Blocks.SPRUCE_LOG.defaultBlockState(),station,Direction.WEST);
-                for(int z=9;z<=12;z++)
-                    add(out,p(x,3,z),Blocks.SPRUCE_LOG.defaultBlockState().setValue(RotatedPillarBlock.AXIS,Direction.Axis.Z),station,Direction.WEST);
-                add(out,p(x,1,10),Blocks.WALL_TORCH.defaultBlockState().setValue(WallTorchBlock.FACING,Direction.SOUTH),station,Direction.WEST);
-            }
-        }
-        return List.copyOf(out);
+        return target;
     }
     public static BlockPos world(BuildingRecord mine, BlockPos local) {
         return MineBlueprint.position(mine.position(),mine.facing(),local.getX(),local.getY(),local.getZ());
     }
     public static BlockState state(BuildingRecord mine, Step step) {
-        // Local SOUTH is the mine's facing; local EAST is its right.
-        var rotation = switch(mine.facing()) {
-            case SOUTH -> Rotation.NONE; case WEST -> Rotation.CLOCKWISE_90;
-            case NORTH -> Rotation.CLOCKWISE_180; default -> Rotation.COUNTERCLOCKWISE_90;
-        };
-        // MineBlueprint's local +x points to facing.clockwise (WEST for SOUTH),
-        // so the local frame is mirrored relative to vanilla coordinates.
-        return step.state().mirror(Mirror.FRONT_BACK).rotate(rotation);
+        return step.state().rotate(MineBlueprint.rotation(mine.facing()));
     }
     public static Step next(BuildingRecord mine) {
-        return mine.mineExpansion().cursor < STEPS.size() ? STEPS.get(mine.mineExpansion().cursor) : null;
+        return mine.mineExpansion().cursor >= 0 && mine.mineExpansion().cursor < STEPS.size() ? STEPS.get(mine.mineExpansion().cursor) : null;
     }
     public static boolean enabled(BuildingRecord mine) {
         return mine.type()==BuildingType.MINE && mine.customTemplate()==null;
     }
     public static List<BlockPos> frontStations(BuildingRecord mine) {
         Step step=next(mine); if(step==null)step=STEPS.getLast();
-        var first=step.station();
-        var second=step.direction()==Direction.SOUTH ? first.offset(1,0,0) : first.offset(0,0,1);
-        return List.of(world(mine,first),world(mine,second));
+        return List.of(world(mine,step.station()),world(mine,step.secondStation()));
     }
     public static List<BlockPos> workPositions(BuildingRecord mine) {
         if(!enabled(mine))return MineBlueprint.workPositions(mine.position(),mine.facing());
@@ -95,18 +77,17 @@ public final class MineExpansionService {
     }
     public static boolean owns(BuildingRecord mine,BlockPos pos) {
         if(!enabled(mine))return false;
-        // Completed modifications plus the immediate work cell are reserved in 3D.
-        int count=Math.min(STEPS.size(),mine.mineExpansion().cursor+1);
-        for(int i=0;i<count;i++)if(world(mine,STEPS.get(i).local()).equals(pos))return true;
-        return false;
+        Integer index=FIRST.get(MineBlueprint.local(mine.position(),mine.facing(),pos));
+        return index!=null && index<=mine.mineExpansion().cursor;
     }
     public static void playerEdit(ServerLevel level,BlockPos pos) {
         boolean changed=false;
         for(var settlement:SettlementSavedData.get(level).settlements())for(var mine:settlement.buildings()) {
             if(!mine.active() || !enabled(mine))continue;
-            for(var step:STEPS)if(world(mine,step.local()).distManhattan(pos)<=1) {
-                changed|=mine.mineExpansion().playerEdits.add(pos.asLong());break;
-            }
+            var local=MineBlueprint.local(mine.position(),mine.facing(),pos);
+            boolean nearby=FIRST.containsKey(local);
+            for(var d:Direction.values())nearby|=FIRST.containsKey(local.relative(d));
+            if(nearby)changed|=mine.mineExpansion().playerEdits.add(pos.asLong());
         }
         if(changed)SettlementSavedData.get(level).touch();
     }
@@ -137,22 +118,30 @@ public final class MineExpansionService {
         var at=world(mine,step.local());String reason=locationGuard(level,s,mine,at);if(!reason.isEmpty())return reason;
         var original=BlueprintTemplates.create(mine.type(),mine.position(),mine.facing(),mine.templateVersion()).placementAt(at);
         var current=level.getBlockState(at);
-        boolean shell=original!=null && original.state().is(Blocks.COBBLESTONE) && current.equals(original.state());
+        boolean shell=original!=null && current.equals(original.state())
+                && (current.is(Blocks.COBBLESTONE) || current.is(Blocks.ANDESITE));
+        boolean completed=current.equals(state(mine,step));
         if(level.getBlockEntity(at)!=null || current.getDestroySpeed(level,at)<0 || !current.getFluidState().isEmpty())return "矿道遇到容器、液体或不可挖方块";
-        if(!current.isAir() && !rock(current) && !shell)return "矿道保留非矿石地形与人工设施";
+        if(!current.isAir() && !rock(current) && !shell && !completed)return "矿道保留非矿石地形与人工设施";
         for(var direction:Direction.values()) {
             var adjacent=at.relative(direction);
             if(!level.hasChunkAt(adjacent))return "矿道等待相邻区块加载";
             if(!level.getFluidState(adjacent).isEmpty())return "矿道临近水或岩浆，暂停扩张";
         }
         if(level.getBlockState(at.above()).getBlock() instanceof FallingBlock)return "矿道上方有松散方块，暂停扩张";
-        // Never make an open floor, cross a cavern, or expose the surface.
-        var floor=at.atY(mine.position().getY()-11);
-        if(!level.getBlockState(floor).isFaceSturdy(level,floor,Direction.UP)
+        // The approved operation carries its actual local landing/tread support.
+        var floor=world(mine,step.floor());
+        if(!level.hasChunkAt(floor) || !level.getBlockState(floor).isFaceSturdy(level,floor,Direction.UP)
                 || level.getBlockState(floor).getBlock() instanceof FallingBlock
                 || !level.getFluidState(floor).isEmpty())return "矿道前方缺少稳固地面";
-        var roof=at.atY(mine.position().getY()-6);
-        if(!level.hasChunkAt(roof) || !level.getBlockState(roof).isFaceSturdy(level,roof,Direction.DOWN))return "矿道上方覆盖不足";
+        boolean covered=false;
+        for(int dy=1;dy<=12;dy++) {
+            var roof=at.above(dy);
+            if(!level.hasChunkAt(roof) || roof.getY()>=mine.position().getY()-1)break;
+            if(level.getBlockState(roof).isFaceSturdy(level,roof,Direction.DOWN)
+                    && !(level.getBlockState(roof).getBlock() instanceof FallingBlock)){covered=true;break;}
+        }
+        if(!covered)return "矿道上方覆盖不足";
         return "";
     }
     public static void animate(ServerLevel level,BuildingRecord mine,SettlementCitizenEntity actor) {
@@ -165,6 +154,7 @@ public final class MineExpansionService {
     }
     public static void completedCycle(ServerLevel level,SettlementSavedData data,SettlementRecord s,
             BuildingRecord mine,CitizenRecord citizen,SettlementCitizenEntity actor) {
+        if(com.hkin.exiledsettlement.debug.ConstructionDebugService.workEnabled(level,s))return;
         var history=mine.mineExpansion();var step=next(mine);
         if(step==null){history.reason="地下扩张范围已完成，继续混合采掘";return;}
         if(!mine.operational() || !mine.repairPositions().isEmpty() || mine.demolitionQueued()
@@ -175,9 +165,10 @@ public final class MineExpansionService {
         if(history.work<2 || level.getGameTime()-history.lastAction<com.hkin.exiledsettlement.citizen.CitizenToolSpeed.interval(citizen,200))return;
         String reason=guard(level,s,mine,step);
         if(!reason.isEmpty()){history.reason=reason;return;}
-        Item material=needed(mine);
-        if(material!=null && !citizen.hasInventoryItem(v->v.is(material))) {history.reason="矿道等待支护或照明材料";return;}
         var at=world(mine,step.local());var before=level.getBlockState(at);var target=state(mine,step);
+        if(before.equals(target)){history.cursor++;history.work=0;history.lastAction=level.getGameTime();history.reason="";data.touch();return;}
+        Item material=needed(mine);
+        if(material!=null && !citizen.hasInventoryItem(v->v.is(material))) {history.reason="矿道等待台阶、支护或照明材料";return;}
         int tool=CitizenEquipmentService.toolSlotForWork(citizen);
 
         if(!target.isAir() && !level.getEntitiesOfClass(net.minecraft.world.entity.LivingEntity.class,new AABB(at),e->e.isAlive()).isEmpty()) {history.reason="矿道支护位置有居民，稍后施工";return;}
@@ -191,19 +182,33 @@ public final class MineExpansionService {
                 net.minecraft.core.registries.BuiltInRegistries.BLOCK.getKey(target.getBlock()).toString(),1);
         data.touch();
     }
+    /** Same registered excavation and safety checks, without a mining cycle or invented supplies. */
+    public static boolean debugAdvance(ServerLevel level,SettlementRecord s,BuildingRecord mine) {
+        if(!com.hkin.exiledsettlement.debug.ConstructionDebugService.workEnabled(level,s)
+                || !enabled(mine) || !mine.active() || mine.demolitionQueued() || !mine.repairPositions().isEmpty())return false;
+        var step=next(mine);if(step==null)return false;
+        var history=mine.mineExpansion();String reason=guard(level,s,mine,step);
+        if(!reason.isEmpty()){history.reason=reason;SettlementSavedData.get(level).touch();return false;}
+        if(!com.hkin.exiledsettlement.debug.ConstructionForceWork.put(level,s,world(mine,step.local()),state(mine,step))) {
+            history.reason="调试矿井扩建等待占位离开或保护许可";return false;
+        }
+        history.cursor++;history.work=0;history.lastAction=level.getGameTime();history.reason="";
+        SettlementSavedData.get(level).touch();return true;
+    }
     public static BuildingBlueprintTemplate template(BuildingRecord mine,BuildingBlueprintTemplate base) {
         var history=mine.mineExpansion();if(history.cursor==0)return base;
         if(history.cached!=null && history.cachedCursor==history.cursor)return history.cached;
         var cells=new LinkedHashMap<BlockPos,BlueprintPlacement>();base.placements().forEach(p->cells.put(p.position(),p));
-        for(int i=0;i<history.cursor;i++) {
+        for(int i=0;i<Math.min(history.cursor,STEPS.size());i++) {
             var step=STEPS.get(i);var at=world(mine,step.local());var target=state(mine,step);
             cells.put(at,new BlueprintPlacement(at,target,target.isAir()?null:target.getBlock().asItem(),
                     target.isAir()?BlueprintPlacementMode.CLEARANCE:BlueprintPlacementMode.STRUCTURE));
         }
         int minX=base.minCorner().getX(),maxX=base.maxCorner().getX(),minZ=base.minCorner().getZ(),maxZ=base.maxCorner().getZ();
-        for(var at:cells.keySet()){minX=Math.min(minX,at.getX());maxX=Math.max(maxX,at.getX());minZ=Math.min(minZ,at.getZ());maxZ=Math.max(maxZ,at.getZ());}
-        history.cached=new BuildingBlueprintTemplate(base.type(),base.anchor(),base.facing(),maxX-minX+1,maxZ-minZ+1,base.height(),
-                new BlockPos(minX,base.minCorner().getY(),minZ),new BlockPos(maxX,base.maxCorner().getY(),maxZ),base.transitionMargin(),List.copyOf(cells.values()),base.entrances());
+        int minY=base.minCorner().getY(),maxY=base.maxCorner().getY();
+        for(var at:cells.keySet()){minX=Math.min(minX,at.getX());maxX=Math.max(maxX,at.getX());minZ=Math.min(minZ,at.getZ());maxZ=Math.max(maxZ,at.getZ());minY=Math.min(minY,at.getY());maxY=Math.max(maxY,at.getY());}
+        history.cached=new BuildingBlueprintTemplate(base.type(),base.anchor(),base.facing(),maxX-minX+1,maxZ-minZ+1,maxY-minY+1,
+                new BlockPos(minX,minY,minZ),new BlockPos(maxX,maxY,maxZ),base.transitionMargin(),List.copyOf(cells.values()),base.entrances());
         history.cachedCursor=history.cursor;return history.cached;
     }
 }

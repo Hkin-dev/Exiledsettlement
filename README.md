@@ -23,7 +23,7 @@ We recommend using a separate test world and avoiding a large investment of time
 | Minecraft Java Edition | 1.21.1 |
 | Loader | NeoForge 21.1.235 or later within the 21.1 series |
 | Java | 21 |
-| Mod | 0.18.0 |
+| Mod | 0.18.1 |
 
 ## Design Philosophy · 设计理念
 

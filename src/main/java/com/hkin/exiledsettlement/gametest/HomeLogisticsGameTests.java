@@ -106,7 +106,8 @@ public final class HomeLogisticsGameTests {
         var f=fixture(h);var l=h.getLevel();var b=f.s.addBuilding(BuildingType.PASTURE_AREA,f.at,Direction.NORTH,f.at.offset(-6,-1,-6),f.at.offset(6,3,6),0,1);
         b.updateFunction(true,BuildingStatus.OPERATIONAL,1,List.of());var a=EntityType.SHEEP.create(l);a.moveTo(f.at.getX()+.5,f.at.getY(),f.at.getZ()+.5,0,0);
         int before=a.goalSelector.getAvailableGoals().size();PastureResidentService.capture(l,f.s,b,a);
-        h.assertTrue(PastureResidentService.controls(a) && !a.isNoAi() && !a.isNoGravity(),"Pasture control froze physical entity");
+        h.assertTrue(!PastureResidentService.controls(a) && PastureResidentService.ownedBy(f.s,b,a)
+                && !a.isNoAi() && !a.isNoGravity(),"Inside pasture monopolized native grazing/mating AI");
         h.assertTrue(a.goalSelector.getAvailableGoals().size()==before+1,"Takeover replaced original AI");
         PastureResidentService.release(a);
         h.assertTrue(!PastureResidentService.controls(a) && a.goalSelector.getAvailableGoals().size()==before,"Original AI not restored");h.succeed();

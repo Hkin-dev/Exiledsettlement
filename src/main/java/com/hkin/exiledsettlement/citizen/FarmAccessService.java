@@ -2,6 +2,7 @@ package com.hkin.exiledsettlement.citizen;
 
 import com.hkin.exiledsettlement.settlement.*;
 import com.hkin.exiledsettlement.blueprint.*;
+import com.hkin.exiledsettlement.building.*;
 import net.minecraft.core.*;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.FenceGateBlock;
@@ -23,7 +24,40 @@ public final class FarmAccessService {
         if(shore!=null && shore.position()!=null)FAILED_SHORES.computeIfAbsent(entity,e->new HashMap<>())
                 .put(shore.position(),entity.level().getGameTime()+1200);
     }
+    private static final Map<SettlementCitizenEntity,Long> REQUESTED = new WeakHashMap<>();
     private FarmAccessService(){ }
+    private static boolean enclosure(BuildingRecord b) {
+        return b.type()==BuildingType.FARM_FIELD || b.type()==BuildingType.MELON_FIELD
+                || b.type()==BuildingType.TREE_FARM || b.type()==BuildingType.PASTURE_AREA;
+    }
+    private static boolean inside(BuildingRecord b,BlockPos p) {
+        if(b.productionSite()!=null)return b.productionSite().containsColumn(p);
+        if(b.region()!=null)return b.region().cell(p)!=null;
+        return p.getX()>b.minCorner().getX() && p.getX()<b.maxCorner().getX()
+                && p.getZ()>b.minCorner().getZ() && p.getZ()<b.maxCorner().getZ()
+                && p.getY()>=b.minCorner().getY()-1 && p.getY()<=b.maxCorner().getY()+3;
+    }
+    /** A short-lived request exists only while a real resident approaches/crosses this entrance. */
+    public static SettlementCitizenEntity requestingActor(ServerLevel level,BuildingRecord b,BlockPos gate) {
+        for(var entry:EXITS.entrySet()) {
+            var e=entry.getKey();var exit=entry.getValue();
+            if(e.isAlive() && e.level()==level && exit.farm().equals(b.id())
+                    && REQUESTED.getOrDefault(e,0L)>=level.getGameTime()
+                    && gate.distManhattan(exit.gate())<=1
+                    && e.distanceToSqr(exit.gate().getX()+.5,exit.gate().getY(),exit.gate().getZ()+.5)<=9)
+                return e;
+        }
+        return null;
+    }
+    public static void updateGates(ServerLevel level,SettlementRecord settlement) {
+        for(var b:settlement.buildings()) {
+            if(!enclosure(b) || b.type()==BuildingType.PASTURE_AREA)continue;
+            for(var p:BlueprintTemplates.createForBuilding(b).gatePlacements()) {
+                var actor=requestingActor(level,b,p.position());
+                FenceGateAccessService.change(level,settlement,p.position(),actor!=null,actor);
+            }
+        }
+    }
     public static BlockPos waypoint(SettlementCitizenEntity entity,BlockPos target){
         if(!(entity.level() instanceof ServerLevel level))return target;
         var id=CitizenProjectionService.settlementId(entity);if(id==null)return target;
@@ -54,41 +88,58 @@ public final class FarmAccessService {
             }
             if(shore.position()!=null)return shore.position();
         }else SHORES.remove(entity);
-        var farm=s.buildings().stream().filter(b->b.active() && b.region()!=null && b.region().cell(feet)!=null
-                && b.region().cell(target)==null).findFirst().orElse(null);
         var exit=EXITS.get(entity);
-        // Crossing a block boundary does not mean the body has cleared the gate.
-        // Finish the physical outside landing before selecting a distant road segment.
-        if(farm==null) {
-            if(exit!=null && exit.target().distSqr(target)<=25 && level.getGameTime()<=exit.expires()
-                    && entity.distanceToSqr(exit.outside().getX()+.5,exit.outside().getY(),exit.outside().getZ()+.5)>0.81)
-                return exit.outside();
-            EXITS.remove(entity);CROSSING.remove(entity);return target;
+        if(exit!=null && (!exit.target().equals(target) || level.getGameTime()>exit.expires()
+                || !(level.getBlockState(exit.gate()).getBlock() instanceof FenceGateBlock))) {
+            EXITS.remove(entity);CROSSING.remove(entity);exit=null;
         }
-        if(exit==null || !exit.farm().equals(farm.id()) || !exit.target().equals(target) || level.getGameTime()>exit.expires()
-                || !(level.getBlockState(exit.gate()).getBlock() instanceof FenceGateBlock)){
+        if(exit!=null && CROSSING.contains(entity)
+                && entity.distanceToSqr(exit.outside().getX()+.5,exit.outside().getY(),exit.outside().getZ()+.5)<=0.64) {
+            EXITS.remove(entity);CROSSING.remove(entity);REQUESTED.remove(entity);return target;
+        }
+        var farm=exit==null?s.buildings().stream().filter(b->enclosure(b)
+                && inside(b,feet)!=inside(b,target)).findFirst().orElse(null):s.building(exit.farm());
+        if(farm==null) {EXITS.remove(entity);CROSSING.remove(entity);REQUESTED.remove(entity);return target;}
+        // Capture has its own worker-and-animal landing contract. Do not replace it.
+        var record=s.citizen(CitizenProjectionService.citizenId(entity));
+        if(farm.type()==BuildingType.PASTURE_AREA && record!=null && record.workState()==CitizenWorkState.TO_CAPTURE)
+            return target;
+        if(exit==null) {
             Exit best=null;double score=Double.MAX_VALUE;
-            var failed=FAILED_GATES.computeIfAbsent(entity,e->new HashMap<>());failed.entrySet().removeIf(e->e.getValue()<=level.getGameTime());
-            for(var entry:BlueprintTemplates.createForBuilding(farm).entrances()){
-                var gate=entry.position();if(failed.containsKey(gate) || !level.hasChunkAt(gate) || !(level.getBlockState(gate).getBlock() instanceof FenceGateBlock))continue;
-                var inside=standing(entity,gate.relative(entry.outward().getOpposite()));
-                var outside=standing(entity,gate.relative(entry.outward(),2));
-                if(outside==null)outside=standing(entity,gate.relative(entry.outward()));
-                if(inside==null || outside==null || Math.abs(inside.getY()-gate.getY())>1
-                        || Math.abs(outside.getY()-gate.getY())>1 || !entity.hasReachablePathTo(outside))continue;
-                double cost=Math.sqrt(inside.distSqr(feet))+Math.sqrt(outside.distSqr(target));
-                if(cost<score){score=cost;best=new Exit(farm.id(),gate,entry.outward(),inside,outside,target.immutable(),level.getGameTime()+1200);}
+            boolean leaving=inside(farm,feet);
+            var failed=FAILED_GATES.computeIfAbsent(entity,e->new HashMap<>());
+            failed.entrySet().removeIf(e->e.getValue()<=level.getGameTime());
+            for(var entry:BlueprintTemplates.createForBuilding(farm).entrances()) {
+                var gate=entry.position();
+                if(failed.containsKey(gate) || !level.hasChunkAt(gate)
+                        || !(level.getBlockState(gate).getBlock() instanceof FenceGateBlock))continue;
+                var travel=leaving?entry.outward():entry.outward().getOpposite();
+                var near=standing(entity,gate.relative(travel.getOpposite()));
+                var far=standing(entity,gate.relative(travel,2));
+                if(far==null)far=standing(entity,gate.relative(travel));
+                // Find a path on our side of the CLOSED gate, not through it.
+                if(near==null || far==null || Math.abs(near.getY()-gate.getY())>1
+                        || Math.abs(far.getY()-gate.getY())>1 || !entity.hasReachablePathTo(near))continue;
+                double cost=Math.sqrt(near.distSqr(feet))+Math.sqrt(far.distSqr(target));
+                if(cost<score) {score=cost;best=new Exit(farm.id(),gate,travel,near,far,target.immutable(),level.getGameTime()+1200);}
             }
-            if(best==null)return target;exit=best;EXITS.put(entity,exit);CROSSING.remove(entity);
+            if(best==null)return target;
+            exit=best;EXITS.put(entity,exit);CROSSING.remove(entity);
         }
-        double progress=(entity.getX()-exit.gate().getX()-.5)*exit.outward().getStepX()
-                +(entity.getZ()-exit.gate().getZ()-.5)*exit.outward().getStepZ();
-        if(progress>-.9 && entity.distanceToSqr(exit.gate().getX()+.5,exit.gate().getY(),exit.gate().getZ()+.5)<4
-                || entity.distanceToSqr(exit.inside().getX()+.5,exit.inside().getY(),exit.inside().getZ()+.5)<=2.25)CROSSING.add(entity);
+        if(entity.distanceToSqr(exit.gate().getX()+.5,exit.gate().getY(),exit.gate().getZ()+.5)<=9) {
+            REQUESTED.put(entity,level.getGameTime()+20);
+            boolean opened=false;
+            for(var p:BlueprintTemplates.createForBuilding(farm).gatePlacements())
+                if(p.position().distManhattan(exit.gate())<=1) {
+                    boolean ok=FenceGateAccessService.change(level,s,p.position(),true,entity);
+                    if(p.position().equals(exit.gate()))opened=ok;
+                }
+            if(opened)CROSSING.add(entity);
+        }
         return CROSSING.contains(entity)?exit.outside():exit.inside();
     }
     private static BlockPos standing(SettlementCitizenEntity e,BlockPos hint){
-        for(int dy:new int[]{0,-1,1}){var p=hint.offset(0,dy,0);if(e.canStandAtPosition(p))return p;}
+        for(int dy:new int[]{0,-1,1}){var p=hint.offset(0,dy,0);if(e.level().hasChunkAt(p) && e.canStandAtPosition(p))return p;}
         return null;
     }
 }

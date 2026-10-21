@@ -43,14 +43,16 @@ public final class BuildingProductionService {
     }
 
     public static ResourceLocation defaultFor(BuildingType type) {
-        return type == BuildingType.BRICK_KILN ? KILN_PRODUCTS.getFirst()
+        return type == BuildingType.CHURCH ? BrewingRecipes.DEFAULT_PRODUCT
+                : type == BuildingType.BRICK_KILN ? KILN_PRODUCTS.getFirst()
                 : type == BuildingType.FARM_FIELD ? FARM_CROPS.getFirst()
                 : type == BuildingType.MELON_FIELD ? MELON
                 : type == BuildingType.PASTURE_AREA ? PASTURE_ANIMALS.getFirst() : NONE;
     }
 
     public static boolean supported(BuildingType type, ResourceLocation id) {
-        return type == BuildingType.BRICK_KILN ? KILN_PRODUCTS.contains(id)
+        return type == BuildingType.CHURCH ? BrewingRecipes.supported(id)
+                : type == BuildingType.BRICK_KILN ? KILN_PRODUCTS.contains(id)
                 : type == BuildingType.FARM_FIELD ? FARM_PRODUCTIONS.contains(id)
                 : type == BuildingType.MELON_FIELD ? MELON_CROPS.contains(id)
                 : type == BuildingType.PASTURE_AREA && PASTURE_ANIMALS.contains(id);
@@ -98,6 +100,7 @@ public final class BuildingProductionService {
     }
 
     public static Item displayItem(BuildingType type, ResourceLocation id) {
+        if (type == BuildingType.CHURCH) return BrewingRecipes.stack(id).getItem();
         if (type == BuildingType.BRICK_KILN) return BuiltInRegistries.ITEM.get(id);
         if (type == BuildingType.FARM_FIELD || type == BuildingType.MELON_FIELD) return seed(id);
         if (id.equals(id("cow"))) return Items.BEEF;

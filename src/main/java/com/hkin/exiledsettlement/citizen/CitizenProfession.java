@@ -21,7 +21,8 @@ public enum CitizenProfession {
     MINER(BuildingType.MINE),
     CHEF(BuildingType.TAVERN),
     KILN_WORKER(BuildingType.BRICK_KILN),
-    TEACHER(BuildingType.SCHOOL);
+    TEACHER(BuildingType.SCHOOL),
+    PRIEST(BuildingType.CHURCH);
     
 
     @Nullable

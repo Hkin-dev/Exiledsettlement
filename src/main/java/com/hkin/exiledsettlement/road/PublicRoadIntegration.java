@@ -11,19 +11,26 @@ public final class PublicRoadIntegration {
     private static final class Work {
         final AutoRoadState.Route source;
         final RoadGradePlanner planner;
+        final List<BlockPos> sourceCells,sourceLine;
+        final long groundRevision;
+        final Map<String,AutoRoadPlanner.Plan.RouteInput> inputs=new LinkedHashMap<>();
         final BlockPos entrance;
         final Set<BlockPos> cells=new LinkedHashSet<>();
         final Map<Long,Integer> heights=new HashMap<>();
         int row;
         JointRoadGradePlanner joint;
         boolean jointDone;
-        Work(AutoRoadState.Route route,BlockPos end){
+        Work(SettlementRecord s,AutoRoadState.Route route,BlockPos end,long revision){
+            s.autoRoads().routes.forEach((key,r)->inputs.put(key,new AutoRoadPlanner.Plan.RouteInput(r)));
+            sourceCells=route.cells;sourceLine=route.centerline;groundRevision=revision;
             source=route;entrance=end;var line=new ArrayList<>(route.centerline);
             var last=line.getLast();
             if(last.getX()==end.getX() && last.getZ()==end.getZ())line.set(line.size()-1,end);
             else if(Math.abs(last.getX()-end.getX())+Math.abs(last.getZ()-end.getZ())==1)line.add(end);
             planner=new RoadGradePlanner(line);
         }
+        boolean inputsChanged(SettlementRecord s){return inputs.size()!=s.autoRoads().routes.size()
+                || inputs.entrySet().stream().anyMatch(e->!e.getValue().matches(s.autoRoads().routes.get(e.getKey())));}
     }
     public static void reset(SettlementRecord s){WORK.remove(s);}
     /** Returns true when this route has been checked; a failed revision retains its safe old route. */
@@ -34,13 +41,14 @@ public final class PublicRoadIntegration {
         var route=s.autoRoads().routes.get(key);
         if(route==null || route.p0Invalidated || AutoRoadService.fixedConstructionGrade(s,route) || route.manualBridge || route.suppressed || route.centerline.isEmpty() || !AutoRoadService.routeAllowed(s,route))return true;
         var work=WORK.get(s);
-        if(work==null || work.source!=route){
+        long revision=com.hkin.exiledsettlement.terrain.PublicGroundService.roadPlanningRevision(s);
+        if(work==null || work.source!=route || work.sourceCells!=route.cells || work.sourceLine!=route.centerline || work.groundRevision!=revision || work.inputsChanged(s)){
             var end=route.entrance;var building=s.building(route.building);var site=s.blueprint(route.building);
             var endpoints=building!=null?AutoRoadService.entrances(level,s,building):site!=null?AutoRoadService.entrances(level,s,site):List.<BlockPos>of();
             if(!AutoRoadService.parentValid(level,s,route))end=endpoints.stream()
                     .filter(p->Math.abs(p.getX()-route.entrance.getX())+Math.abs(p.getZ()-route.entrance.getZ())<=1)
                     .min(Comparator.comparingDouble(p->p.distSqr(route.entrance))).orElse(end);
-            work=new Work(route,end);WORK.put(s,work);
+            work=new Work(s,route,end,revision);WORK.put(s,work);
         }
         if(!work.jointDone){
             if(work.joint==null)work.joint=new JointRoadGradePlanner(s,key);
@@ -53,6 +61,9 @@ public final class PublicRoadIntegration {
                 work.planner.advance(level,s,deadline);if(System.nanoTime()>=deadline)break;
             }
             return false;
+        }
+        if(!work.planner.feasible()){
+            route.reviewAfter=0;route.status="连续坡段放不下完整平台，保留原路等待安全改线";WORK.remove(s);return true;
         }
         var line=work.planner.result();
         for(int i=1;i<line.size();i++)if(Math.abs(line.get(i).getY()-line.get(i-1).getY())>1){

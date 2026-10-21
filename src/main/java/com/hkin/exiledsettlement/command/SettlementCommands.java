@@ -82,6 +82,8 @@ public final class SettlementCommands {
                         .requires(source -> source.hasPermission(2))
                         .then(ResidentClimateCommands.branch())
                         .then(ForceWorkCommands.branch())
+                        .then(TerrainComputeCommands.branch())
+                        .then(TerrainEvolveCommands.branch())
                         .then(WorkTargetCommands.branch())
                         .then(Commands.literal("work_status")
                                 .executes(context -> workStatus(context.getSource())))

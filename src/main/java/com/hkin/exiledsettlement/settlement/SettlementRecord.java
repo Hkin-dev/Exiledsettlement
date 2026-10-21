@@ -65,6 +65,10 @@ public final class SettlementRecord {
     public com.hkin.exiledsettlement.terrain.TerrainState terrain(){return terrain;}
     private final CommunityState community = new CommunityState();
     public CommunityState community() { return community; }
+    private final com.hkin.exiledsettlement.companion.GuardianState guardians = new com.hkin.exiledsettlement.companion.GuardianState();
+    public com.hkin.exiledsettlement.companion.GuardianState guardians() { return guardians; }
+    private final com.hkin.exiledsettlement.companion.PetState pets = new com.hkin.exiledsettlement.companion.PetState();
+    public com.hkin.exiledsettlement.companion.PetState pets() { return pets; }
     private final com.hkin.exiledsettlement.decoration.DecorationState decorations = new com.hkin.exiledsettlement.decoration.DecorationState();
     public com.hkin.exiledsettlement.decoration.DecorationState decorations() { return decorations; }
     private final com.hkin.exiledsettlement.road.AutoRoadState autoRoads = new com.hkin.exiledsettlement.road.AutoRoadState();
@@ -873,6 +877,8 @@ public final class SettlementRecord {
         tag.putLong(APPOINTMENT_PRODUCTION_DAY_TAG, appointmentProductionDay);
         tag.put(MERCHANT_STATE_TAG, merchantState.save());
         tag.put("Community", community.save());
+        tag.put("Guardians", guardians.save());
+        tag.put("Pets", pets.save());
         tag.put("Terrain",terrain.save());
         tag.put("Decorations", decorations.save());
         tag.put("AutoRoads", autoRoads.save());
@@ -997,6 +1003,10 @@ public final class SettlementRecord {
         loaded.migrateLegacyWorkerTargets();
         loaded.dailyWarehouseLedger().load(tag.getCompound("DailyWarehouseLedger"));
         loaded.community.load(tag.getCompound("Community"));
+        if (tag.contains("Guardians", Tag.TAG_COMPOUND)) loaded.guardians.load(tag.getCompound("Guardians"));
+        else loaded.guardians.enabled = false;
+        if (tag.contains("Pets", Tag.TAG_COMPOUND)) loaded.pets.load(tag.getCompound("Pets"));
+        else loaded.pets.enabled = false;
         loaded.terrain.load(tag.getCompound("Terrain"));
         for(var site:loaded.blueprints())if(site.terrainProject()!=null) {
             var shared=loaded.terrain.projects.get(site.id());

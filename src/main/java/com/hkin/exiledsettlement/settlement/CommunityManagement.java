@@ -177,6 +177,8 @@ public final class CommunityManagement {
         lines.add("保留线限制烹饪、流民和易货，不禁止居民进食或取暖。冬季农业停止，已采收产物仍可运输。");
         lines.add("餐厅由空闲且未锁定的工人取料、消耗燃料加工，再把熟食送入真实公共库存。");
         lines.addAll(SettlementWildlifeService.report(level, settlement));
+        lines.addAll(com.hkin.exiledsettlement.companion.GuardianService.report(settlement));
+        lines.addAll(com.hkin.exiledsettlement.companion.PetCareService.report(settlement));
         lines.add("随身口粮目标 " + CommunityContent.carriedFoodTarget + "份；每类保留一件斧、镐、铲、锄、剪刀、鱼竿、拴绳，额外工具在休息或到仓库时领取。");
         lines.add("个人产物在休息时交货；工作中仅背包容量不足时紧急送货，公共物流照常执行。");
         lines.add(CommunityContent.recoveryIntervalTicks == 0 ? "饱食恢复生命：关闭。"

@@ -36,6 +36,9 @@ public final class BuildingRecord {
     private static final String DEMOLITION_QUEUED_TAG = "DemolitionQueued";
     private static final String WAREHOUSE_CATEGORY_MASK_TAG = "WarehouseCategoryMask";
     private static final String PRODUCTION_ID_TAG = "ProductionId";
+    private static final String BREW_STOCK_TARGET_TAG = "BrewStockTarget";
+    public static final int DEFAULT_BREW_STOCK_TARGET = 12;
+    public static final int MAX_BREW_STOCK_TARGET = 192;
     private static final String REPAIR_POSITIONS_TAG = "RepairPositions";
     private static final String TEMPLATE_VERSION_TAG = "TemplateVersion";
     private static final String WORKER_TARGET_TAG = "WorkerTarget";
@@ -67,6 +70,7 @@ public final class BuildingRecord {
     private boolean demolitionQueued;
     private int warehouseCategoryMask;
     private ResourceLocation productionId;
+    private int brewStockTarget = DEFAULT_BREW_STOCK_TARGET;
     private final Set<BlockPos> repairPositions;
     private final int templateVersion;
     private int workerTarget;
@@ -211,12 +215,13 @@ public final class BuildingRecord {
 
     public String customName() { return customName; }
     public Direction facing() { return facing; }
-    public BlockPos minCorner() { return productionSite!=null?productionSite.template().minCorner():region!=null?region.min():minCorner; }
+    public BlockPos minCorner() { if(type==BuildingType.MINE && customTemplate==null)return minCorner.atY(Math.min(minCorner.getY(),MineExpansionService.lowestY(this))); return productionSite!=null?productionSite.template().minCorner():region!=null?region.min():minCorner; }
     public BlockPos maxCorner() { return productionSite!=null?productionSite.template().maxCorner():region!=null?region.max():maxCorner; }
     public int transitionMargin() { return transitionMargin; }
     public boolean demolitionQueued() { return demolitionQueued; }
     public int warehouseCategoryMask() { return warehouseCategoryMask; }
     public ResourceLocation productionId() { return productionId; }
+    public int brewStockTarget() { return brewStockTarget; }
     public Set<BlockPos> repairPositions() { return Collections.unmodifiableSet(repairPositions); }
     public int templateVersion() { return templateVersion; }
     public int workerTarget() { return workerTarget; }
@@ -267,6 +272,14 @@ public final class BuildingRecord {
         return true;
     }
 
+    public boolean setBrewStockTarget(int target, int expectedRevision) {
+        if (type != BuildingType.CHURCH || expectedRevision != configurationRevision
+                || target < 0 || target > MAX_BREW_STOCK_TARGET || brewStockTarget == target) return false;
+        brewStockTarget = target;
+        configurationRevision++;
+        return true;
+    }
+
     public boolean markDamaged(BlockPos position) {
         return active && contains(position) && repairPositions.add(position.immutable());
     }
@@ -310,7 +323,7 @@ public final class BuildingRecord {
         if(productionSite!=null)return productionSite.contains(blockPos);
         if(region!=null)return region.contains(blockPos);
         return blockPos.getX() >= minCorner.getX() && blockPos.getX() <= maxCorner.getX()
-                && blockPos.getY() >= minCorner.getY() - 4 && blockPos.getY() <= maxCorner.getY()
+                && blockPos.getY() >= minCorner().getY() - 4 && blockPos.getY() <= maxCorner.getY()
                 && blockPos.getZ() >= minCorner.getZ() && blockPos.getZ() <= maxCorner.getZ();
     }
 
@@ -363,6 +376,7 @@ public final class BuildingRecord {
         tag.putBoolean(DEMOLITION_QUEUED_TAG, demolitionQueued);
         tag.putInt(WAREHOUSE_CATEGORY_MASK_TAG, warehouseCategoryMask);
         tag.putString(PRODUCTION_ID_TAG, productionId.toString());
+        if (type == BuildingType.CHURCH) tag.putInt(BREW_STOCK_TARGET_TAG, brewStockTarget);
         tag.putLongArray(REPAIR_POSITIONS_TAG, repairPositions.stream().mapToLong(BlockPos::asLong).toArray());
         tag.putInt(TEMPLATE_VERSION_TAG, templateVersion);
         tag.putInt(WORKER_TARGET_TAG, workerTarget);
@@ -418,6 +432,8 @@ public final class BuildingRecord {
         if (tag.contains("CustomTemplate")) loaded.withCustomTemplate(CustomTemplateSnapshot.load(tag.getCompound("CustomTemplate")));
         if(tag.contains("WarehouseStock"))loaded.warehouseStock.load(tag.getCompound("WarehouseStock"));
         if(tag.contains("MineExpansion") && loaded.type()==BuildingType.MINE)loaded.mineExpansion.load(tag.getCompound("MineExpansion"));
+        if (loaded.type() == BuildingType.CHURCH && tag.contains(BREW_STOCK_TARGET_TAG))
+            loaded.brewStockTarget = Math.max(0, Math.min(MAX_BREW_STOCK_TARGET, tag.getInt(BREW_STOCK_TARGET_TAG)));
         return loaded;
     }
 

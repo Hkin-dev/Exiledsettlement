@@ -120,6 +120,7 @@ public final class CitizenRecord {
     private final NonNullList<ItemStack> inventory;
     private int pitReserveSlot = -1;
     public final PitEscapeService.State pitEscape = new PitEscapeService.State();
+    public final PastureBreedingService.State pastureJob = new PastureBreedingService.State();
     public boolean pitReserveSlot(int slot) { return slot >= 0 && slot == pitReserveSlot; }
     public ItemStack pitReserve() { return inventoryItem(pitReserveSlot); }
     /** Moves actual backpack stock into one protected slot; never creates blocks. */
@@ -445,6 +446,7 @@ public final class CitizenRecord {
             for (int slot = 0; slot < INVENTORY_SIZE; slot++) {
                 ItemStack candidate = inventory.get(slot);
                 if (candidate.isEmpty() || wearableSlot(candidate) != equipmentSlot) continue;
+                if (com.hkin.exiledsettlement.settlement.PriestProductionService.reservedCount(this, slot) >= candidate.getCount()) continue;
                 if (best < 0 || compareEquipment(candidate, inventory.get(best)) > 0) best = slot;
             }
             if (best < 0) continue;
@@ -645,6 +647,8 @@ public final class CitizenRecord {
             case TO_REPAIR -> CitizenActivity.REPAIRING;
             case TO_DEMOLITION -> CitizenActivity.DEMOLISHING;
             case TO_HERD -> CitizenActivity.HERDING;
+            case TO_PASTURE_SUPPLY -> CitizenActivity.FETCHING_FARM_INPUT;
+            case TO_PASTURE_FEED -> CitizenActivity.HERDING;
             case TO_HUNT -> CitizenActivity.HUNTING;
             case TO_CAPTURE -> CitizenActivity.CAPTURING;
             case TO_TOOL_WORKSHOP -> CitizenActivity.TOOLMAKING;
@@ -921,6 +925,7 @@ public final class CitizenRecord {
 
     public boolean clearWork() {
         boolean changed = workState != CitizenWorkState.IDLE
+                || pastureJob.active()
                 || sourceBuildingId != null
                 || targetBuildingId != null
                 || targetItemEntityId != null
@@ -929,6 +934,7 @@ public final class CitizenRecord {
                 || activeSlot >= 0
                 || !workFailure.isEmpty();
         workState = CitizenWorkState.IDLE;
+        pastureJob.clear();
         motherTaskId = null;
         roadTaskId = null;
         constructionResumeId=null;constructionResumePosition=null;workerAccess.clear();
@@ -942,6 +948,19 @@ public final class CitizenRecord {
         changed |= activity != CitizenActivity.IDLE;
         activity = CitizenActivity.IDLE;
         return changed;
+    }
+
+    /** A breeding stage changes without cancelling its animal and food reservation. */
+    public void advancePastureTask(CitizenWorkState state, BlockPos position, @Nullable UUID animalId) {
+        if (state != CitizenWorkState.TO_PASTURE_SUPPLY && state != CitizenWorkState.TO_PASTURE_FEED) {
+            throw new IllegalArgumentException("Not a pasture task");
+        }
+        workState = state;
+        targetPosition = position.immutable();
+        targetItemEntityId = animalId;
+        activity = state == CitizenWorkState.TO_PASTURE_SUPPLY
+                ? CitizenActivity.FETCHING_FARM_INPUT : CitizenActivity.HERDING;
+        workFailure = "";
     }
 
     public boolean updateProjection(UUID newEntityId, BlockPos newPosition) {
@@ -1015,7 +1034,7 @@ public final class CitizenRecord {
     }
 
     public boolean completeManualReleaseIfSafe() {
-        if (!manualReleasePending || workState != CitizenWorkState.IDLE || life.task.startsWith("cook:") || life.task.startsWith("kiln:")) return false;
+        if (!manualReleasePending || workState != CitizenWorkState.IDLE || life.task.startsWith("cook:") || life.task.startsWith("kiln:") || life.brewing != null) return false;
         return clearManualAssignment();
     }
 
@@ -1072,6 +1091,7 @@ public final class CitizenRecord {
         tag.put("WorkerAccess",workerAccess.save());
         tag.putInt("PitReserveSlot", pitReserveSlot);
         tag.put("PitEscape", pitEscape.save());
+        tag.put("PastureJob", pastureJob.save());
         ListTag inventoryTag = new ListTag();
         for (int slot = 0; slot < INVENTORY_SIZE; slot++) {
             ItemStack stack = inventory.get(slot);
@@ -1154,6 +1174,7 @@ public final class CitizenRecord {
         record.pitReserveSlot = reserveSlot >= 0 && reserveSlot < INVENTORY_SIZE ? reserveSlot : -1;
         if(record.pitReserveSlot>=0 && !record.pitReserve().isEmpty() && !PitEscapeService.ordinary(record.pitReserve()))record.pitReserveSlot=-1;
         record.pitEscape.load(tag.getCompound("PitEscape"));
+        record.pastureJob.load(tag.getCompound("PastureJob"));
         record.manualReleasePending = record.hasManualAssignment() && tag.getBoolean(MANUAL_RELEASE_PENDING_TAG);
         var requested=net.minecraft.resources.ResourceLocation.tryParse(tag.getString("ConstructionTool"));
         var requestedBlock=net.minecraft.resources.ResourceLocation.tryParse(tag.getString("ConstructionToolTarget"));

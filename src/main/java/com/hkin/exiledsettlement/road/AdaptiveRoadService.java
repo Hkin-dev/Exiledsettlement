@@ -224,6 +224,7 @@ public final class AdaptiveRoadService {
         return accept(level,s,key,candidate,false);
     }
     static boolean accept(ServerLevel level,SettlementRecord s,String key,AutoRoadState.Route candidate,boolean committedRepair){
+        if(InstantTerrainService.active(s)){installCandidate(level,s,key,candidate);return true;}
         if(candidate.cells.stream().anyMatch(p->!RoadEarthworkService.permitted(level,s,p)))return false;
         var old=s.autoRoads().routes.get(key);candidate.adaptiveVersion=VERSION;candidate.reviewAfter=level.getGameTime()+2400;
         if(old!=null){
@@ -384,6 +385,12 @@ public final class AdaptiveRoadService {
         var roads=RoadSpaceData.get(level);
         if(roads.manualHeight(at)!=null || roads.levelAt(at)>1 || PlayerRoadEdits.retained(level,at)
                 || PlayerRoadEdits.holding(level,at) || BridgeService.column(s,at))return "PROTECTED_AREA";
+        // Recheck at the actual dig, not only when this recovery order was published.
+        // A broken replacement must not cause the remaining old route to disappear.
+        if(s.autoRoads().routes.values().stream().filter(r->!r.suppressed && project.dependencies.contains(r.id) && r.retired.contains(at))
+                .anyMatch(r->!r.accessConnected || !RoadEarthworkService.accessBlocker(level,s,r).isEmpty()
+                    || r.cells.stream().anyMatch(p->!level.hasChunkAt(p)||!roads.contains(p)||!RoadEarthworkService.surfaceReady(level,s,r,p))))
+            return "CONSTRUCTION_TARGET_CHANGED";
         return "";
     }
 }

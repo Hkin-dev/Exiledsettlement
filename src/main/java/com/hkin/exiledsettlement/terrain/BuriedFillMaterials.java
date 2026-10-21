@@ -37,13 +37,11 @@ public final class BuriedFillMaterials {
    && Block.isShapeFullBlock(state.getCollisionShape(l,p)) && state.isFaceSturdy(l,p,Direction.UP);
  }
  private static boolean eligible(TerrainProject p,TerrainProject.Step step){return !p.bridge && !p.areaClearance && !p.roadReclaim && p.escapeFor==null && step.fill();}
- /** Legacy public wall columns used stone below a soil cap. Pending caps adopt the stone palette. */
+ /** Exposed faces use stone; a public soil surface remains soil even above a retaining face. */
  public static boolean wallStep(TerrainProject p,TerrainProject.Step step){
   if(!eligible(p,step))return false;
   if(stoneTarget(step.target()))return !(p.road && p.groundSurfaces.contains(step.position()));
-  if(!step.target().is(Blocks.DIRT) || !p.publicGround || p.road || !p.groundSurfaces.contains(step.position()))return false;
-  var below=p.template().placementAt(step.position().below());
-  return below!=null && stoneTarget(below.state());
+  return false;
  }
  public static boolean flexible(ServerLevel l,SettlementRecord s,TerrainProject p,TerrainProject.Step step){return hidden(l,s,p,step) || wallStep(p,step);}
  private static net.minecraft.tags.TagKey<Block> palette(ServerLevel l,SettlementRecord s,TerrainProject p,TerrainProject.Step step){

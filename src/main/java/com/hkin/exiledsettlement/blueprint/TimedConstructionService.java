@@ -255,7 +255,7 @@ public final class TimedConstructionService {
         if(com.hkin.exiledsettlement.building.MobRecoveryService.owns(level,at))return false;
         if(level.isOutsideBuildHeight(at) || !level.hasChunkAt(at))return false;
         var before=level.getBlockState(at);
-        if(before.equals(target))return true;
+        if(before.equals(target)){BlueprintBlockStateResolver.refreshAround(level,at);return true;}
         var tree=com.hkin.exiledsettlement.citizen.ResidentTreeFelling.clear(level,at,worker,worker.getMainHandItem(),p->true,target);
         if(tree!=null) {
             if(!tree.failure().isEmpty())return false;
@@ -268,6 +268,7 @@ public final class TimedConstructionService {
         if(EventHooks.onBlockPlace(worker,snapshot,Direction.UP) || !level.getBlockState(at).equals(target)) {
             snapshot.restore(Block.UPDATE_CLIENTS | Block.UPDATE_KNOWN_SHAPE | Block.UPDATE_SUPPRESS_DROPS);return false;
         }
+        BlueprintBlockStateResolver.refreshAround(level,at);
         drops.forEach(drop->Block.popResource(level,at,drop));
         return true;
     }

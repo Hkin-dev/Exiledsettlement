@@ -56,8 +56,9 @@ public final class CitizenEquipmentService {
     public static Item preferredEquipment(CitizenRecord citizen) {
         return switch (citizen.profession()) {
             case FARMER, MELON_FARMER -> has(citizen, HoeItem.class) ? null : Items.WOODEN_HOE;
-            case WORKER, WAREHOUSE_KEEPER, TRAVELING_MERCHANT, CHEF, KILN_WORKER -> null;
-            case HERDSMAN -> has(citizen, Items.LEAD) ? null : Items.LEAD;
+            case WORKER, WAREHOUSE_KEEPER, TRAVELING_MERCHANT, CHEF, KILN_WORKER, TEACHER, PRIEST -> null;
+            case HERDSMAN -> !has(citizen, Items.SHEARS) ? Items.SHEARS
+                    : has(citizen, Items.LEAD) ? null : Items.LEAD;
             case HUNTER -> !hasWeapon(citizen) ? Items.WOODEN_SWORD
                     : has(citizen, BowItem.class) && !has(citizen, Items.ARROW) ? Items.ARROW : null;
             case TOOLSMITH, MINER -> has(citizen, PickaxeItem.class) ? null : Items.WOODEN_PICKAXE;
@@ -243,7 +244,7 @@ public final class CitizenEquipmentService {
         return item instanceof HoeItem || item instanceof AxeItem || item instanceof PickaxeItem
                 || item instanceof net.minecraft.world.item.ShovelItem
                 || item instanceof SwordItem || item instanceof BowItem || item instanceof FishingRodItem
-                || stack.is(Items.LEAD) || stack.is(Items.ARROW);
+                || stack.is(Items.SHEARS) || stack.is(Items.LEAD) || stack.is(Items.ARROW);
     }
 
     /** Keeps exactly the resident's working loadout while allowing duplicate crafted tools to be delivered. */
@@ -264,7 +265,7 @@ public final class CitizenEquipmentService {
             case WORKER -> slot == citizen.findInventorySlot(candidate -> candidate.getItem() instanceof net.minecraft.world.item.ShovelItem)
                     || slot == citizen.findInventorySlot(candidate -> candidate.getItem() instanceof PickaxeItem
                     || candidate.getItem() instanceof AxeItem);
-            case WAREHOUSE_KEEPER, TRAVELING_MERCHANT, CHEF, KILN_WORKER -> false;
+            case WAREHOUSE_KEEPER, TRAVELING_MERCHANT, CHEF, KILN_WORKER, TEACHER, PRIEST -> false;
             default -> false;
             case HERDSMAN -> slot == citizen.findInventorySlot(candidate -> candidate.is(Items.LEAD));
             case HUNTER -> slot == citizen.findInventorySlot(candidate -> candidate.getItem() instanceof SwordItem)
@@ -283,6 +284,7 @@ public final class CitizenEquipmentService {
                 ? Math.max(0, citizen.inventoryItem(slot).getCount() - 1) : 0;
         return Math.max(0, citizen.inventoryItem(slot).getCount()
                 - com.hkin.exiledsettlement.settlement.CommunityLifeService.reservedFood(citizen, slot)
+                - com.hkin.exiledsettlement.settlement.PriestProductionService.reservedCount(citizen, slot)
                 - CitizenClothingService.reserved(citizen,slot));
     }
 
@@ -306,7 +308,7 @@ public final class CitizenEquipmentService {
             case FISHER -> bestTool(citizen,stack -> stack.getItem() instanceof FishingRodItem);
             case SAWYER -> bestTool(citizen,stack -> stack.getItem() instanceof AxeItem);
             case HERDSMAN -> bestTool(citizen, stack -> stack.is(Items.SHEARS) || stack.is(Items.LEAD));
-            case WAREHOUSE_KEEPER, TRAVELING_MERCHANT, CHEF, KILN_WORKER -> -1;
+            case WAREHOUSE_KEEPER, TRAVELING_MERCHANT, CHEF, KILN_WORKER, TEACHER, PRIEST -> -1;
             default -> -1;
         };
     }

@@ -182,6 +182,7 @@ public final class MobRecoveryService {
         return "";
     }
     public static MobRecoveryState.Cell candidate(ServerLevel l,SettlementRecord s,CitizenRecord c,Set<BlockPos> claimed){
+        if(com.hkin.exiledsettlement.debug.ConstructionDebugService.workEnabled(l,s))return null;
         int routeChecks=0;
         for(var e:s.mobRecovery().incidents.values()){
             if(WorkTaskService.assigned(s,e.id)>=2 && task(s,c)!=e)continue;
@@ -205,6 +206,7 @@ public final class MobRecoveryService {
         }return null;
     }
     public static boolean assign(ServerLevel l,SettlementRecord s,CitizenRecord c,Set<BlockPos> claimed){
+        if(com.hkin.exiledsettlement.debug.ConstructionDebugService.workEnabled(l,s))return false;
         if(c.profession()!=CitizenProfession.WORKER || s.community().evacuation || s.community().policy.equals("emergency"))return false;
         var v=candidate(l,s,c,claimed);if(v==null)return false;var e=s.mobRecovery().owner(v.pos);
         if(!c.startRepair(e.id,v.pos))return false;for(var part:group(e,v))claimed.add(part.pos);WorkTaskService.bind(s,c);return true;
@@ -251,8 +253,16 @@ public final class MobRecoveryService {
         return actor.findReachableBedStation(candidates.stream().sorted(Comparator.comparingDouble(at->at.distSqr(feet))).toList());
     }
     public static String place(ServerLevel l,SettlementRecord s,MobRecoveryState.Incident e,MobRecoveryState.Cell c,SettlementCitizenEntity actor){
+        return place(l,s,e,c,actor,false);
+    }
+    public static String debugPlace(ServerLevel l,SettlementRecord s,MobRecoveryState.Incident e,MobRecoveryState.Cell c){
+        if(!com.hkin.exiledsettlement.debug.ConstructionDebugService.workEnabled(l,s))return "RECOVERY_WAITING";
+        if(group(e,c).stream().anyMatch(v->!com.hkin.exiledsettlement.debug.ConstructionForceWork.clearForEvolve(l,s,v.pos)))return "RECOVERY_OCCUPIED";
+        return place(l,s,e,c,null,true);
+    }
+    private static String place(ServerLevel l,SettlementRecord s,MobRecoveryState.Incident e,MobRecoveryState.Cell c,SettlementCitizenEntity actor,boolean debug){
         var reason=ready(l,s,e,c);if(!reason.isEmpty())return reason;
-        if(!arrived(e,actor,c.pos))return "RECOVERY_UNREACHABLE";
+        if(!debug && !arrived(e,actor,c.pos))return "RECOVERY_UNREACHABLE";
         var snapshots=new ArrayList<BlockSnapshot>();var changed=new ArrayList<MobRecoveryState.Cell>();
         for(var v:group(e,c))if(!matches(l.getBlockState(v.pos),v.original)){
             var snap=BlockSnapshot.create(l.dimension(),l,v.pos,Block.UPDATE_CLIENTS);snapshots.add(snap);changed.add(v);

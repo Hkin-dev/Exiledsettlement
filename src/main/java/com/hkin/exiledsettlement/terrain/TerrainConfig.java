@@ -5,6 +5,7 @@ public final class TerrainConfig {
     public static final ModConfigSpec.IntValue DEPTH, MARGIN, TRANSITION, ACTIONS_PER_WORKER;
     public static final ModConfigSpec.IntValue ROAD_CURVE_RADIUS;
     public static final ModConfigSpec.IntValue PUBLIC_CLIFF_RISE, PUBLIC_GRADE_RUN;
+    public static final ModConfigSpec.IntValue PUBLIC_MARGIN, PUBLIC_GAP, PUBLIC_EDGE_DROP;
     public static final ModConfigSpec.IntValue NIGHT_PLANNING_SLICES;
     public static final ModConfigSpec.IntValue OPTIONAL_PENDING_BLOCKS;
     public static final ModConfigSpec.IntValue PUBLIC_SCAN_COLUMNS, PUBLIC_SAMPLE_COLUMNS, PUBLIC_PUBLISH_COLUMNS;
@@ -21,7 +22,10 @@ public final class TerrainConfig {
         TRANSITION=b.comment("Maximum terraced transition reach beyond the platform, in blocks.").defineInRange("transitionReach",6,2,12);
         ACTIONS_PER_WORKER=b.comment("Remaining actions per suggested worker, a scheduling weight.").defineInRange("actionsPerSuggestedWorker",128,1,Integer.MAX_VALUE);
         ROAD_CURVE_RADIUS=b.comment("Local road corner rounding reach in blocks. 0 disables rounding; narrow corners remain unchanged. This is not a road size limit.").defineInRange("roadCurveRadius",8,0,16);
-        PUBLIC_CLIFF_RISE=b.comment("Reference terrain rise between adjacent columns that separates public grading regions, in blocks.").defineInRange("publicCliffRise",3,2,16);
+        PUBLIC_CLIFF_RISE=b.comment("Retired compatibility setting. Existing pits/cliffs no longer sever public grading; incompatible fixed grades still form retaining boundaries.").defineInRange("publicCliffRise",3,2,16);
+        PUBLIC_MARGIN=b.comment("Surveyed outdoor transition band around buildings, in blocks. Protected production columns are excluded separately.").defineInRange("publicClusterMargin",8,2,16);
+        PUBLIC_GAP=b.comment("Maximum gap between facing building edges included in the public realm, in blocks.").defineInRange("publicClusterGap",32,8,64);
+        PUBLIC_EDGE_DROP=b.comment("Minimum drop beside developed public shoulders requiring a guard wall, in blocks. Walking lanes and entrances remain clear.").defineInRange("publicEdgeDrop",3,2,8);
         PUBLIC_GRADE_RUN=b.comment("Minimum continuous horizontal run per one block of rise inside a grading region. Conflicting fixed levels form retaining boundaries.").defineInRange("publicGradeRun",4,2,16);
         PUBLIC_TERRAIN_WEIGHT=b.comment("Retired compatibility key, ignored. Original terrain never attracts the solved height.").defineInRange("publicTerrainWeight",0D,0D,4D);
         PUBLIC_WALL_WEIGHT=b.comment("Retaining walls are structural boundaries, never height sources. Fixed at zero.").defineInRange("publicWallWeight",0D,0D,0D);

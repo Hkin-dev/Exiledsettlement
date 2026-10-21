@@ -35,7 +35,8 @@ public final class TerrainLayerService {
   // any column can become a dry extension of the current work front.
   boolean bridgeApproach=p.road && !p.roadReclaim && s.autoRoads().routes.values().stream()
           .anyMatch(r->p.dependencies.contains(r.id) && com.hkin.exiledsettlement.road.BridgeRoadConnections.bridge(s,r.building)!=null);
-  return new Group(mother,p.roadReclaim,(bridgeApproach || p.pitFill)?BlockPos.asLong(at.getX(),0,at.getZ()):PublicWorkAreas.applies(s,b)?PublicWorkAreas.area(at):Long.MIN_VALUE);
+  if(p.pitFill)return new Group(b.id(),false,Long.MIN_VALUE);
+  return new Group(mother,p.roadReclaim,bridgeApproach?BlockPos.asLong(at.getX(),0,at.getZ()):PublicWorkAreas.applies(s,b)?PublicWorkAreas.area(at):Long.MIN_VALUE);
  }
  private static Layer layer(TerrainProject.Step step){return new Layer(step.fill()?1:0,step.fill()?step.position().getY():-step.position().getY());}
  private static Snapshot snapshot(ServerLevel l,SettlementRecord s){
@@ -58,6 +59,10 @@ public final class TerrainLayerService {
  public static boolean allowed(ServerLevel l,SettlementRecord s,BlueprintRecord b,TerrainProject.Step step){
   if(!applies(b.terrainProject()))return true;
   if(com.hkin.exiledsettlement.citizen.WorkerAccessService.accessFill(s,b,step))return true;
+  // An occupied, claimed, protected or unloaded bottom cell still owns its layer.
+  // The generic snapshot contains only physically ready cells and cannot enforce this.
+  if(b.terrainProject().pitFill)return !step.fill()
+          || step.position().getY()==TerrainService.pitFillLayer(l,b.terrainProject());
   var current=current(snapshot(l,s),group(s,b,step.position()));return current==null || layer(step).equals(current);
  }
  public static void invalidate(SettlementRecord s){CACHE.remove(s);}

@@ -317,7 +317,7 @@ public final class OtherProfessionWorkGameTests {
 
     @GameTest(templateNamespace = "minecraft", template = "bastion/mobs/empty",
             batch = "profession_work_baselines", timeoutTicks = 6000)
-    public static void herdsmanWalksForLeadShearsSheepAndStoresWool(GameTestHelper helper) {
+    public static void herdsmanWalksForShearsShearsSheepAndStoresWool(GameTestHelper helper) {
         Fixture fixture = createFixture(helper, 1, "Herdsman finite-stock baseline");
         BuildingRecord pasture = placeBuilding(fixture, BlueprintTemplates.createArea(
                 BuildingType.PASTURE_AREA, fixture.core.offset(8, 0, 14),
@@ -331,6 +331,7 @@ public final class OtherProfessionWorkGameTests {
         sheep.moveTo(sheepStart.getX() + 0.5D, sheepStart.getY(), sheepStart.getZ() + 0.5D, 0.0F, 0.0F);
         helper.assertTrue(fixture.level.addFreshEntity(sheep), "Could not add live pasture sheep");
         supply(fixture, new ItemStack(Items.LEAD));
+        supply(fixture, new ItemStack(Items.SHEARS));
         startResident(fixture, CitizenProfession.HERDSMAN, pasture);
         fixture.workTarget = sheep::blockPosition;
         observe(fixture, Items.WHITE_WOOL, 1, 3, sheep::isSheared, "live sheep sheared");

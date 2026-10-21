@@ -32,6 +32,10 @@ public final class SettlementCitizenModel extends PlayerModel<SettlementCitizenE
                 leftArm.xRot -= 0.7F;
             }
             case MINING -> rightArm.xRot -= 0.9F + stroke * 0.65F;
+            case BREWING -> {
+                rightArm.xRot -= 0.65F + stroke * 0.12F;
+                leftArm.xRot -= 0.4F;
+            }
             case FISHING -> rightArm.xRot -= 1.15F + stroke * 0.08F;
             case HERDING, CAPTURING -> rightArm.xRot -= 0.65F + stroke * 0.15F;
             case HUNTING, SELF_DEFENSE -> {

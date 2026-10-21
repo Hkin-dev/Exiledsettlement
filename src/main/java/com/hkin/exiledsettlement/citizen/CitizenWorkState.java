@@ -27,7 +27,9 @@ public enum CitizenWorkState {
     TO_SAWMILL,
     TO_PUBLIC_ITEM,
     TO_MINE,
-    TO_MINE_STORAGE;
+    TO_MINE_STORAGE,
+    TO_PASTURE_SUPPLY,
+    TO_PASTURE_FEED;
 
     public String serializedName() {
         return name().toLowerCase(Locale.ROOT);

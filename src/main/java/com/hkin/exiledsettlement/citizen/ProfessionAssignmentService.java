@@ -57,12 +57,14 @@ public final class ProfessionAssignmentService {
         for (CitizenRecord citizen : alive) {
             boolean cooking = citizen.profession() == CitizenProfession.CHEF && citizen.life().task.startsWith("cook:");
             boolean firing = citizen.profession() == CitizenProfession.KILN_WORKER && citizen.life().task.startsWith("kiln:");
-            if (assigned.contains(citizen.id()) || !(cooking || firing)) continue;
+            boolean brewing = citizen.profession() == CitizenProfession.PRIEST && citizen.life().brewing != null;
+            if (assigned.contains(citizen.id()) || !(cooking || firing || brewing)) continue;
             BuildingRecord kitchen = settlement.building(citizen.workBuildingId());
-            if (kitchen == null || !kitchen.id().equals(citizen.life().destination)
+            if (kitchen == null || !kitchen.id().equals(brewing ? citizen.life().brewing.church : citizen.life().destination)
                     || !kitchen.active() || kitchen.demolitionQueued() || kitchen.workerTarget() <= 0
-                    || !(cooking ? com.hkin.exiledsettlement.settlement.CommunityCookingService.offersMeals(kitchen) : kitchen.type() == BuildingType.BRICK_KILN)
-                    || lockedCounts.getOrDefault(kitchen.id(), 0) >= (firing ? kitchen.workerTarget() : 1)) continue;
+                    || !(cooking ? com.hkin.exiledsettlement.settlement.CommunityCookingService.offersMeals(kitchen)
+                    : kitchen.type() == (brewing ? BuildingType.CHURCH : BuildingType.BRICK_KILN))
+                    || lockedCounts.getOrDefault(kitchen.id(), 0) >= (firing || brewing ? kitchen.workerTarget() : 1)) continue;
             assigned.add(citizen.id());
             lockedCounts.merge(kitchen.id(), 1, Integer::sum);
         }

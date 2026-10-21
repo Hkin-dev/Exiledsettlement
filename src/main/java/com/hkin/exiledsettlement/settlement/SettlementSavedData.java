@@ -25,7 +25,7 @@ import java.util.UUID;
 
 public final class SettlementSavedData extends SavedData {
     // 26: frozen agricultural excavation/fill plans and pending real construction tools.
-    public static final int SCHEMA_VERSION = 34; // daily warehouse stock flows
+    public static final int SCHEMA_VERSION = 36; // priest batches, settlement guardians and household pets
     /**
      * Schema 14 is the last released save line before the 0.14.5 additions.
      * New schema-15 fields all have conservative load defaults, so these saves

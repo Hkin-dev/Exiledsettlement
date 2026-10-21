@@ -24,6 +24,19 @@ public final class BuildingManagementActions {
         return changed;
     }
 
+    /** Church settings use the same revision as staffing so stale screens cannot overwrite them. */
+    public static boolean brewingProduct(SettlementRecord settlement, BuildingRecord building,
+                                         ResourceLocation product, int revision) {
+        if (building.type() != BuildingType.CHURCH || !building.configurationMatches(revision)) return false;
+        boolean changed = production(settlement, building, product);
+        if (changed) building.markConfigurationChanged();
+        return changed;
+    }
+
+    public static boolean brewingTarget(BuildingRecord building, int target, int revision) {
+        return building.setBrewStockTarget(target, revision);
+    }
+
     /** Returns an explicit blocker, or null on success (including an already applied lock). */
     public static String staff(SettlementSavedData data, SettlementRecord settlement, UUID actor,
                                BuildingRecord building, UUID citizenId, boolean unlock, int revision) {

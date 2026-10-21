@@ -38,6 +38,15 @@ public final class BlueprintBlockStateResolver {
         return block instanceof FenceBlock || block instanceof IronBarsBlock || block instanceof WallBlock
                 || block instanceof FenceGateBlock || block instanceof StairBlock;
     }
+    public static boolean connectionState(BlockState state) { return connected(state.getBlock()); }
+    /** Staged writes suppress vanilla neighbour propagation. Refresh both ends after commit only. */
+    public static void refreshAround(ServerLevel level,BlockPos at) {
+        // A wall's post can depend on the refreshed wall immediately above it.
+        for(int pass=0;pass<2;pass++) {
+            refreshConnections(level,at);
+            for(var direction:Direction.values())refreshConnections(level,at.relative(direction));
+        }
+    }
     private static BlockState resolveConnections(ServerLevel level,BlockPos at,BlockState current) {
         var result=current;
         for(var direction:Direction.values()) {

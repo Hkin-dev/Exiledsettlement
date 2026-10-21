@@ -262,16 +262,20 @@ public final class ProductionRegionService {
         return b.region()==null?BuildingProductionService.matchesAnimal(animal,b.productionId()):b.region().productions().contains(id);
     }
     public static boolean animalSurplus(BuildingRecord b,List<net.minecraft.world.entity.animal.Animal> animals,net.minecraft.world.entity.animal.Animal animal) {
+        // A newborn is not a replacement breeding adult. Keep two adults even
+        // while the one permitted surplus birth grows to its vanilla adult age.
+        if(animal.isBaby() || animals.stream().filter(a->a.isAlive() && !a.isBaby()
+                && a.getType()==animal.getType()).count()<=2)return false;
         if(b.productionSite()!=null){
             var id=net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getKey(animal.getType());
             long area=b.productionSite().workCells().stream().filter(c->c.use()==ProductionRegion.Use.PASTURE && c.production().equals(id)).count();
-            int quota=Math.max(b.productionSite().animalFloor(id),Math.max(1,(int)(area/8)));
+            int quota=Math.max(b.productionSite().animalFloor(id),Math.max(2,(int)(area/8)));
             return animals.stream().filter(a->a.getType()==animal.getType()).count()>quota;
         }
         if(b.region()==null)return animals.size()>BuildingProductionService.animalCapacity(b);
         var id=net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getKey(animal.getType());
         long area=b.region().ordered().stream().filter(c->c.use()==ProductionRegion.Use.PASTURE && b.region().readyPasture.contains(c.ground().asLong()) && c.production().equals(id)).count();
-        int quota=Math.max(b.region().animalFloors.getOrDefault(id,0),Math.max(1,(int)(area/8)));
+        int quota=Math.max(b.region().animalFloors.getOrDefault(id,0),Math.max(2,(int)(area/8)));
         return animals.stream().filter(a->a.getType()==animal.getType()).count()>quota;
     }
     private static void retainAnimals(ServerLevel level,ProductionRegion r) {

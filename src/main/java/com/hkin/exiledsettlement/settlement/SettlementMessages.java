@@ -97,7 +97,9 @@ public final class SettlementMessages {
             return Component.translatable(
                     "message.exiledsettlement.work.blocked",
                     activity,
-                    Component.translatable("work_failure.exiledsettlement." + citizen.workFailure().toLowerCase())
+                    citizen.workFailure().startsWith("PRIEST_")
+                            ? com.hkin.exiledsettlement.citizen.CitizenWorkFailureText.component(citizen.workFailure())
+                            : Component.translatable("work_failure.exiledsettlement." + citizen.workFailure().toLowerCase())
             );
         }
         return activity;

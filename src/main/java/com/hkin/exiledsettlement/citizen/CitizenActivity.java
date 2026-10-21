@@ -48,7 +48,12 @@ public enum CitizenActivity {
     FETCHING_KILN_INPUT, FETCHING_KILN_FUEL, TO_KILN, FIRING_KILN,
     DELIVERING_BUILDING_MATERIALS, KILN_STANDBY,
     FORMING_BUILDING_MATERIALS,
-    TEACHING;
+    TEACHING,
+    FETCHING_BREWING_SUPPLIES,
+    TO_CHURCH,
+    BREWING,
+    DELIVERING_POTIONS,
+    PRIEST_IDLE;
 
     public String serializedName() {
         return name().toLowerCase(Locale.ROOT);

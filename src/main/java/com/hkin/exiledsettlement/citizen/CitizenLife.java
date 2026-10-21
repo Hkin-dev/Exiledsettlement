@@ -23,6 +23,8 @@ public final class CitizenLife {
     public int cookingInputCount, cookingOutputCount, cookingStage;
     public String kilnFinalOutput = "";
     public int kilnFinalCount;
+    /** Batch metadata only; all brewing items remain in real inventories. */
+    public PriestBrewingTask brewing;
     public net.minecraft.core.BlockPos stewardTarget;
     public int lastThreat = -1;
     public double recoveryNutritionRemainder;
@@ -57,6 +59,7 @@ public final class CitizenLife {
         tag.putString("CookingFuel", cookingFuel); tag.putInt("CookingInputCount", cookingInputCount);
         tag.putInt("CookingOutputCount", cookingOutputCount); tag.putInt("CookingStage", cookingStage);
         tag.putString("KilnFinalOutput",kilnFinalOutput);tag.putInt("KilnFinalCount",kilnFinalCount);
+        if (brewing != null) tag.put("Brewing", brewing.save());
         if(stewardTarget!=null)tag.putLong("StewardTarget",stewardTarget.asLong());
         return tag;
     }
@@ -87,6 +90,7 @@ public final class CitizenLife {
         cookingOutputCount = Math.max(0, Math.min(64, tag.getInt("CookingOutputCount")));
         cookingStage = Math.max(0, Math.min(3, tag.getInt("CookingStage")));
         kilnFinalOutput=tag.getString("KilnFinalOutput");kilnFinalCount=Math.max(0,Math.min(64,tag.getInt("KilnFinalCount")));
+        brewing = tag.contains("Brewing") ? PriestBrewingTask.load(tag.getCompound("Brewing")) : null;
         stewardTarget=tag.contains("StewardTarget")?net.minecraft.core.BlockPos.of(tag.getLong("StewardTarget")):null;
     }
 }

@@ -626,7 +626,7 @@ public final class WarehouseInventoryService {
         if (!warehouse.active() || !warehouse.operational() && !(WarehouseStock.applies(warehouse) && warehouse.demolitionQueued())) return List.of();
         if(requiresStorageInterior(warehouse)) {
             var p=entity.blockPosition();
-            boolean inside=(warehouse.type()!=BuildingType.MINE || entity.getY()<warehouse.position().getY()-13)
+            boolean inside=(warehouse.type()!=BuildingType.MINE || com.hkin.exiledsettlement.blueprint.MineBlueprint.insideStorage(warehouse.position(),warehouse.facing(),entity.blockPosition()))
                     && p.getX()>warehouse.minCorner().getX() && p.getX()<warehouse.maxCorner().getX()
                     && p.getZ()>warehouse.minCorner().getZ() && p.getZ()<warehouse.maxCorner().getZ()
                     && entity.getY()>=warehouse.minCorner().getY() && entity.getY()<warehouse.maxCorner().getY()
@@ -763,8 +763,10 @@ public final class WarehouseInventoryService {
     }
 
     public static List<BlockPos> interiorPositions(ServerLevel level,BuildingRecord b) {
+        if(b.type()==BuildingType.MINE)return com.hkin.exiledsettlement.blueprint.MineBlueprint.storageStations(b.position(),b.facing()).stream()
+                .filter(p->level.hasChunkAt(p) && canStand(level,p)).toList();
         var result=new ArrayList<BlockPos>();
-        for(int y=b.minCorner().getY();y<(b.type()==BuildingType.MINE?b.position().getY()-13:b.maxCorner().getY());y++)
+        for(int y=b.minCorner().getY();y<b.maxCorner().getY();y++)
             for(int x=b.minCorner().getX()+1;x<b.maxCorner().getX();x++)
                 for(int z=b.minCorner().getZ()+1;z<b.maxCorner().getZ();z++) {
                     var p=new BlockPos(x,y,z);if(level.hasChunkAt(p) && canStand(level,p))result.add(p);

@@ -15,8 +15,10 @@ import java.util.*;
 
 /** Surveys developed public ground. Only resident construction performs world edits. */
 public final class PublicGroundService {
-    public static final int HEIGHT_VERSION=10;
+    public static final int HEIGHT_VERSION=13;
     private PublicGroundService() { }
+    /** Runtime generation of mathematical heights; paid blocks are independent. */
+    public static long roadPlanningRevision(SettlementRecord s){return s.terrain().publicGround.roadPlanningRevision;}
     public static void requestReview(SettlementRecord s){
         if(com.hkin.exiledsettlement.debug.SaveAcceptanceService.enabled()){
             var w=s.terrain().publicGround;
@@ -24,7 +26,7 @@ public final class PublicGroundService {
             com.hkin.exiledsettlement.ExiledSettlementMod.LOGGER.info("Public ground review: settlement={}, phase={}, cursor={}, caller={}",s.id(),w.phase,w.cursor,caller);
         }
         AutoRoadPlanner.invalidateOptional(s);PublicRoadIntegration.reset(s);var w=s.terrain().publicGround;w.signature=Long.MIN_VALUE;w.nextReview=0;w.phase=0;w.roadsIntegrated=false;
-        w.releasedConstraintReview=false;
+        w.releasedConstraintReview=false;w.roadPlanningRevision++;
     }
     /** Removing a temporary constraint does not invalidate its already safe solved plane. */
     public static void queueReleasedConstraintReview(SettlementRecord s){
@@ -46,17 +48,19 @@ public final class PublicGroundService {
         if(w.phase==0 && !w.dirtyColumns.isEmpty())w.nextReview=0;
     }
     public static boolean reviewQueued(SettlementRecord s){var w=s.terrain().publicGround;return w.releasedConstraintReview || !w.dirtyColumns.isEmpty();}
-    private record Rect(int x1,int z1,int x2,int z2,int margin) {
+    record Rect(int x1,int z1,int x2,int z2,int margin) {
         boolean contains(int x,int z){return x>=x1-margin && x<=x2+margin && z>=z1-margin && z<=z2+margin;}
     }
     public static final class State {
         public int heightVersion=HEIGHT_VERSION;
         public long signature,nextReview,cursor;
+        private long roadPlanningRevision;
         // The building constraints captured by begin(), independent of mutable road rows.
         private long constraintSignature=Long.MIN_VALUE;
         public int phase,minX,minZ,maxX,maxZ,representative,waterCursor,planCursor;
         // Runtime deadline only: saved cursors describe work, never wall-clock time.
         long deadline=Long.MAX_VALUE;
+        boolean instantSampling;
         boolean timeFor(int work){return work==0 || System.nanoTime()<deadline;}
         public boolean capacityPaused;
         public String status="等待勘察聚落公共空地";
@@ -107,6 +111,8 @@ public final class PublicGroundService {
         final ArrayDeque<Long> queue=new ArrayDeque<>();
         final Set<Long> seams=new LinkedHashSet<>(),seenSeams=new LinkedHashSet<>();
         final Map<Long,Direction> stairs=new LinkedHashMap<>();
+        // Entire three-wide flights AND landings share one stable passage identity.
+        final Map<Long,Long> passageGroups=new LinkedHashMap<>();
         long bestSeam;
         int bestDistance=Integer.MAX_VALUE;
         final Map<String,Integer> skipped=new LinkedHashMap<>();
@@ -130,6 +136,7 @@ public final class PublicGroundService {
             t.putLongArray("Seams",array(seams));t.putLongArray("SeenSeams",array(seenSeams));t.putLong("BestSeam",bestSeam);t.putInt("BestDistance",bestDistance);
             t.putLongArray("Deferred",array(deferred));
             var stairTags=new ListTag();stairs.forEach((k,d)->{var a=new CompoundTag();a.putLong("Column",k);a.putString("Facing",d.getName());stairTags.add(a);});t.put("Stairs",stairTags);
+            var passageTags=new ListTag();passageGroups.forEach((k,g)->{var a=new CompoundTag();a.putLong("Column",k);a.putLong("Group",g);passageTags.add(a);});t.put("PassageGroups",passageTags);
             var errors=new CompoundTag();skipped.forEach(errors::putInt);t.put("Skipped",errors);return t;
         }
         public void load(CompoundTag t){
@@ -156,6 +163,7 @@ public final class PublicGroundService {
             readSet(t,"Deferred",deferred);
             queued.addAll(queue);
             var stairTags=t.getList("Stairs",10);for(int i=0;i<stairTags.size();i++){var a=stairTags.getCompound(i);var d=Direction.byName(a.getString("Facing"));if(d!=null)stairs.put(a.getLong("Column"),d);}
+            passageGroups.clear();var passageTags=t.getList("PassageGroups",10);for(int i=0;i<passageTags.size();i++){var a=passageTags.getCompound(i);passageGroups.put(a.getLong("Column"),a.getLong("Group"));}
         }
         private static ListTag planes(Map<Long,Integer> values){var list=new ListTag();values.forEach((k,y)->{var a=new CompoundTag();a.putLong("Column",k);a.putInt("Y",y);list.add(a);});return list;}
         private static ListTag heightTags(Map<Long,Double> values){var list=new ListTag();values.forEach((k,y)->{var a=new CompoundTag();a.putLong("Column",k);a.putDouble("Y",y);list.add(a);});return list;}
@@ -167,7 +175,7 @@ public final class PublicGroundService {
     private static long key(int x,int z){return new BlockPos(x,0,z).asLong();}
     private static boolean bounds(State w,int x,int z){return x>=w.minX && x<=w.maxX && z>=w.minZ && z<=w.maxZ;}
     private static long constraintSignature(SettlementRecord s){
-        long h=Objects.hash(s.corePosition(),TerrainConfig.PUBLIC_CHECKPOINT_WEIGHT.get(),TerrainConfig.PUBLIC_ROAD_WEIGHT.get(),TerrainConfig.PUBLIC_GRADE_RUN.get(),TerrainConfig.PUBLIC_CLIFF_RISE.get());for(var b:s.buildings())if(b.active() && !b.demolitionQueued())h=31*h+Objects.hash(b.id(),b.minCorner(),b.maxCorner(),regionSignature(b.region()),siteSignature(b.productionSite()));
+        long h=Objects.hash(s.corePosition(),TerrainConfig.PUBLIC_CHECKPOINT_WEIGHT.get(),TerrainConfig.PUBLIC_ROAD_WEIGHT.get(),TerrainConfig.PUBLIC_GRADE_RUN.get(),TerrainConfig.PUBLIC_CLIFF_RISE.get(),TerrainConfig.PUBLIC_MARGIN.get(),TerrainConfig.PUBLIC_GAP.get(),TerrainConfig.PUBLIC_EDGE_DROP.get());for(var b:s.buildings())if(b.active() && !b.demolitionQueued())h=31*h+Objects.hash(b.id(),b.minCorner(),b.maxCorner(),regionSignature(b.region()),siteSignature(b.productionSite()));
         for(var b:s.formalBlueprints())if(!b.cancellationQueued()){var t=BlueprintTemplates.create(b);h=31*h+Objects.hash(b.id(),t.minCorner(),t.maxCorner(),regionSignature(b.region()),siteSignature(b.productionSite()));}
         return h;
     }
@@ -179,6 +187,12 @@ public final class PublicGroundService {
             if(actual.getBlock() instanceof StairBlock || actual.getBlock() instanceof SlabBlock)
                 h=31*h+actual.toString().hashCode();
         }
+        return h;
+    }
+    /** Current inputs for the continuous debug owner; includes elevation and shape, not just X/Z. */
+    static long inputSignature(ServerLevel level,SettlementRecord s){
+        long h=signature(level,s);
+        for(var r:s.autoRoads().routes.values())h=31*h+Objects.hash(r.building,r.entrance,r.cells,r.centerline,r.suppressed,r.p0Invalidated);
         return h;
     }
     /** Fixed road grades constrain their surroundings; exclusive automatic roads follow the shared plane. */
@@ -237,17 +251,18 @@ public final class PublicGroundService {
                 && placement.position().getY()<=y && t.entrances().stream().anyMatch(e->e.position().distManhattan(placement.position())<=8))
             w.anchors.put(key(placement.position().getX(),placement.position().getZ()),placement.position().getY());
         w.buildings.add(new Rect(a.getX(),a.getZ(),b.getX(),b.getZ(),0));
-        w.footprints.add(new Rect(a.getX(),a.getZ(),b.getX(),b.getZ(),1));
+        w.footprints.add(new Rect(a.getX(),a.getZ(),b.getX(),b.getZ(),TerrainConfig.PUBLIC_MARGIN.get()));
         for(int x=a.getX()-1;x<=b.getX()+1;x++)for(int z=a.getZ()-1;z<=b.getZ()+1;z++){
             if(x>=a.getX() && x<=b.getX() && z>=a.getZ() && z<=b.getZ())continue;
             addAnchor(w,key(x,z),y);
         }
     }
     private static void begin(ServerLevel level,SettlementRecord s,State w,long signature){
+        w.roadPlanningRevision++;
         w.localPublication=false;w.dirtyColumns.clear();
         w.constraintSignature=constraintSignature(s);
         AutoRoadPlanner.invalidateOptional(s);PublicRoadIntegration.reset(s);w.roadsIntegrated=false;w.roadCursor=0;w.integratedRoads.clear();w.roadGeneratedAnchors.clear();w.signature=signature;w.phase=1;w.cursor=0;w.waterCursor=0;w.planCursor=0;w.footprints.clear();w.anchors.clear();w.goals.clear();w.mask.clear();w.outside.clear();w.wet.clear();w.openWater.clear();w.planned.clear();w.queue.clear();w.skipped.clear();
-        w.seams.clear();w.seenSeams.clear();w.stairs.clear();w.bestDistance=Integer.MAX_VALUE;
+        w.seams.clear();w.seenSeams.clear();w.stairs.clear();w.passageGroups.clear();w.bestDistance=Integer.MAX_VALUE;
         w.deferred.clear();w.footprintColumns=null;
         w.anchorRadii.clear();w.baselines.clear();
         w.nearestRoad.clear();w.roadDistances.clear();w.roadHeights.clear();
@@ -256,7 +271,7 @@ public final class PublicGroundService {
         for(var b:s.buildings())if(b.active() && !b.demolitionQueued() && b.region()==null && b.productionSite()==null
                 && (!b.type().isDynamicArea() || BlueprintTemplates.fixedProduction(b.type(),b.templateVersion())) && !com.hkin.exiledsettlement.decoration.DecorationService.owned(s,b.id())) {
             if(!BlueprintTemplates.supports(b.type())) {
-                w.footprints.add(new Rect(b.minCorner().getX(),b.minCorner().getZ(),b.maxCorner().getX(),b.maxCorner().getZ(),1));
+                w.footprints.add(new Rect(b.minCorner().getX(),b.minCorner().getZ(),b.maxCorner().getX(),b.maxCorner().getZ(),TerrainConfig.PUBLIC_MARGIN.get()));
                 continue;
             }
             checkpoints(w,BlueprintTemplates.createForBuilding(b));
@@ -269,7 +284,9 @@ public final class PublicGroundService {
         var seenSites=Collections.newSetFromMap(new IdentityHashMap<com.hkin.exiledsettlement.region.ProductionSiteSnapshot,Boolean>());
         for(var b:s.buildings())if(b.active() && !b.demolitionQueued() && b.productionSite()!=null && seenSites.add(b.productionSite()))siteCheckpoints(w,b.productionSite());
         for(var b:s.formalBlueprints())if(!b.cancellationQueued() && b.productionSite()!=null && seenSites.add(b.productionSite()))siteCheckpoints(w,b.productionSite());
-        for(var r:s.autoRoads().routes.values())if(!r.suppressed && !r.p0Invalidated)for(var p:r.cells)w.footprints.add(new Rect(p.getX(),p.getZ(),p.getX(),p.getZ(),1));
+        for(var r:s.autoRoads().routes.values())if(!r.suppressed && !r.p0Invalidated)for(var p:r.cells)w.footprints.add(new Rect(p.getX(),p.getZ(),p.getX(),p.getZ(),4));
+        // Widen surveyed shoulders without changing exact protected workplace membership.
+        for(var b:w.buildings)w.footprints.add(new Rect(b.x1,b.z1,b.x2,b.z2,TerrainConfig.PUBLIC_MARGIN.get()));
         w.minX=w.footprints.stream().mapToInt(r->r.x1-r.margin).min().orElse(core.getX())-1;w.maxX=w.footprints.stream().mapToInt(r->r.x2+r.margin).max().orElse(core.getX())+1;
         w.minZ=w.footprints.stream().mapToInt(r->r.z1-r.margin).min().orElse(core.getZ())-1;w.maxZ=w.footprints.stream().mapToInt(r->r.z2+r.margin).max().orElse(core.getZ())+1;
         for(var p:RoadSpaceData.get(level).decorationPositions())if(bounds(w,p.getX(),p.getZ()) && level.hasChunkAt(p)
@@ -318,19 +335,44 @@ public final class PublicGroundService {
         return false;
     }
     public static void tick(ServerLevel level,SettlementRecord s){
-        if(!planningTickDue(level.getGameTime(),s.terrain().publicGround.phase) || !s.active() || !s.terrain().enabled || s.terrain().publicPaused || s.community().evacuation || !level.hasChunkAt(s.corePosition()))return;
-        int slices = Math.floorMod(level.getDayTime(),24000L) >= 13000 ? TerrainConfig.NIGHT_PLANNING_SLICES.get() : 4;
-        long deadline = System.nanoTime() + 2_000_000L;
+        if(!s.active() || s.community().evacuation || !level.hasChunkAt(s.corePosition()))return;
+        if(InstantTerrainService.enabled(level,s)){
+            InstantTerrainService.tick(level,s);
+            com.hkin.exiledsettlement.debug.TerrainEvolveDebugService.tick(level,s,System.nanoTime()+16_000_000L);
+            return;
+        }
+        int evolve=com.hkin.exiledsettlement.debug.TerrainEvolveDebugService.multiplier(level,s);
+        int multiplier=Math.max(evolve,com.hkin.exiledsettlement.debug.TerrainComputeDebugService.multiplier(level,s));
+        long now=System.nanoTime(), budget=com.hkin.exiledsettlement.debug.TerrainComputeDebugService.budgetNanos(multiplier);
+        // One shared soft budget; reserve half for physical work while evolution is enabled.
+        if(s.terrain().enabled && !s.terrain().publicPaused && planningTickDue(level.getGameTime(),s.terrain().publicGround.phase))
+            planTick(level,s,multiplier,now+(evolve>0?budget/2:budget));
+        com.hkin.exiledsettlement.debug.TerrainEvolveDebugService.tick(level,s,now+budget);
+    }
+    /** Explicit test-world command: run the complete solve without scheduler/admission slices. */
+    static void solveInstant(ServerLevel level,SettlementRecord s){
+        var w=s.terrain().publicGround;
+        w.heightVersion=HEIGHT_VERSION;
+        begin(level,s,w,signature(level,s));
+        for(int x=(w.minX-8)>>4;x<=(w.maxX+8)>>4;x++)
+            for(int z=(w.minZ-8)>>4;z<=(w.maxZ+8)>>4;z++)level.getChunk(x,z);
+        w.deadline=Long.MAX_VALUE;
+        while(w.phase!=5 || !w.roadsIntegrated)advancePlanning(level,s,Long.MAX_VALUE);
+    }
+    private static void planTick(ServerLevel level,SettlementRecord s,int multiplier,long deadline){
+        int slices = (Math.floorMod(level.getDayTime(),24000L) >= 13000 ? TerrainConfig.NIGHT_PLANNING_SLICES.get() : 4)*multiplier;
         var w=s.terrain().publicGround;w.deadline=deadline;
         try {
         if(migrate(s,w)){SettlementSavedData.get(level).touch();return;}
+        int worldSlices=0;
         for (int slice=0; slice<slices; slice++) {
             if(!planningTickDue(level.getGameTime(),s.terrain().publicGround.phase))break;
             int phase=w.phase;
             advancePlanning(level,s,deadline);
-            // World phases run every tick, once, with both a time deadline and
-            // per-tick column ceilings. Night does not multiply these ceilings.
-            if (phase<6 || w.phase<6 || System.nanoTime()>=deadline) break;
+            // Default retains one world slice; the explicit debug multiplier
+            // admits more slices under one shared soft deadline. No solver reset.
+            if(phase<6 || w.phase<6)worldSlices++;
+            if(worldSlices>=multiplier || System.nanoTime()>=deadline || w.phase==5 && w.capacityPaused || w.phase==0)break;
         }
         }finally{w.deadline=Long.MAX_VALUE;}
         if(s.terrain().surveys.isEmpty())s.terrain().status=s.terrain().publicGround.status;
@@ -396,13 +438,28 @@ public final class PublicGroundService {
         for(long k:w.deferred)enqueueOutside(w,k);
         w.phase=2;w.status="正在识别被建筑和道路围合的公共空地";
     }
-    /** Require surrounding buildings in at least three directions; do not fill an outer rectangular envelope. */
-    private static boolean surrounded(State w,int x,int z){
-        if(w.buildings.size()<3)return false;var angles=new ArrayList<Double>();
-        for(var b:w.buildings)angles.add(Math.atan2((b.z1+b.z2)*.5-z,(b.x1+b.x2)*.5-x));
+    /** Facing edges include two-building courtyards; remote buildings do not enclose wilderness. */
+    static boolean surrounded(State w,int x,int z){
+        int reach=TerrainConfig.PUBLIC_GAP.get();
+        var near=new ArrayList<Rect>();var angles=new ArrayList<Double>();
+        for(var b:w.buildings){
+            int dx=Math.max(0,Math.max(b.x1-x,x-b.x2)),dz=Math.max(0,Math.max(b.z1-z,z-b.z2));
+            if(dx+dz>reach)continue;
+            near.add(b);angles.add(Math.atan2((b.z1+b.z2)*.5-z,(b.x1+b.x2)*.5-x));
+        }
+        for(int i=0;i<near.size();i++)for(int j=i+1;j<near.size();j++){
+            var a=near.get(i);var b=near.get(j);
+            int gapX=Math.max(a.x1,b.x1)-Math.min(a.x2,b.x2)-1;
+            int gapZ=Math.max(a.z1,b.z1)-Math.min(a.z2,b.z2)-1;
+            if(gapX>=0 && gapX<=reach && x>Math.min(a.x2,b.x2) && x<Math.max(a.x1,b.x1)
+                    && z>=Math.max(a.z1,b.z1)-2 && z<=Math.min(a.z2,b.z2)+2)return true;
+            if(gapZ>=0 && gapZ<=reach && z>Math.min(a.z2,b.z2) && z<Math.max(a.z1,b.z1)
+                    && x>=Math.max(a.x1,b.x1)-2 && x<=Math.min(a.x2,b.x2)+2)return true;
+        }
+        if(angles.size()<3)return false;
         angles.sort(Double::compare);double gap=angles.getFirst()+Math.PI*2-angles.getLast();
         for(int i=1;i<angles.size();i++)gap=Math.max(gap,angles.get(i)-angles.get(i-1));
-        return gap<=Math.PI*2/3+1e-9;
+        return gap<Math.PI-1e-9;
     }
     private static void enqueueOutside(State w,long k){if(!w.mask.contains(k) && w.outside.add(k))w.queue.add(k);}
     private static void outside(State w){
@@ -419,7 +476,41 @@ public final class PublicGroundService {
         for(int budget=0;budget<512 && !w.queue.isEmpty() && w.timeFor(budget);budget++){var p=BlockPos.of(w.queue.removeFirst());for(var d:Direction.Plane.HORIZONTAL){long k=p.relative(d).asLong();if(w.wet.contains(k) && w.openWater.add(k))w.queue.add(k);}}
         if(w.queue.isEmpty()){w.phase=4;w.cursor=0;w.status="正在统一公共空地标高";}
     }
+    public record ComplexityScan(int centerX,int centerZ,int radius,int excludedColumns,int unknownColumns,
+                                 int missingTargets,int mismatchedColumns,int maximumHeightError,boolean planReady,
+                                 GroundComplexity.Metrics actual,GroundComplexity.Metrics planned) { }
+    /** Read current surfaces, not the historical pre-fill references used during surveying.
+     * A bounded local diagnostic: at most 625 columns and 16 surface probes per column.
+     * Never loads a chunk, moves an entity, or edits the plan/world. */
+    public static ComplexityScan scanComplexity(ServerLevel level,SettlementRecord s,BlockPos center){
+        var w=s.terrain().publicGround;var actual=new LinkedHashMap<Long,Integer>();var planned=new LinkedHashMap<Long,Integer>();
+        int ignored=0,unknown=0,missing=0,mismatch=0,maxError=0,radius=12;
+        for(int x=center.getX()-radius;x<=center.getX()+radius;x++)for(int z=center.getZ()-radius;z<=center.getZ()+radius;z++){
+            long k=key(x,z);var at=new BlockPos(x,center.getY(),z);
+            if(!level.hasChunkAt(at)){unknown++;continue;}
+            if((!w.mask.contains(k) && !w.baselines.containsKey(k) && !w.goals.containsKey(k))
+                    || w.outside.contains(k) || w.openWater.contains(k) || !excluded(level,s,at).isEmpty()
+                    || w.anchors.containsKey(k) || w.stairs.containsKey(k) || roadColumn(level,s,at)){ignored++;continue;}
+            int top=level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,x,z)-1;
+            Integer y=null;
+            for(int depth=0;depth<16 && top-depth>=level.getMinBuildHeight();depth++){
+                var p=at.atY(top-depth);var state=level.getBlockState(p);
+                boolean paid=s.terrain().registeredPublicPaid(p,state)||s.terrain().supersededPaid(p,state);
+                if(state.isAir() || TerrainService.soft(state) || TerrainSurface.barrier(state))continue;
+                if(state.getFluidState().isEmpty() && TerrainSurface.ground(level,p)
+                        && (natural(state)||state.is(Blocks.DIRT_PATH)||paid))y=p.getY();
+                break;
+            }
+            if(y==null){unknown++;continue;}
+            actual.put(k,y);Integer target=w.goals.get(k);
+            if(target==null)missing++;else{planned.put(k,target);int error=Math.abs(y-target);if(error>0)mismatch++;maxError=Math.max(maxError,error);}
+        }
+        return new ComplexityScan(center.getX(),center.getZ(),radius,ignored,unknown,missing,mismatch,maxError,
+                w.heightVersion==HEIGHT_VERSION && !w.goals.isEmpty() && w.roadsIntegrated && (w.phase==0||w.phase==5),
+                GroundComplexity.measure(actual),GroundComplexity.measure(planned));
+    }
     private static String excluded(ServerLevel level,SettlementRecord s,BlockPos p){
+        if(InstantTerrainService.active(s))return InstantTerrainService.reserved(s,p)?"建筑或桥梁占地":"";
         if(com.hkin.exiledsettlement.road.BridgeService.column(s,p))return "桥梁保留河道与冻结高程";
         if(!s.contains(p) || s.community().danger(p) || s.decorations().forbidden(p))return "领地或禁放保护";
         if(p.getX()==s.corePosition().getX() && p.getZ()==s.corePosition().getZ())return "聚落核心";
@@ -429,16 +520,30 @@ public final class PublicGroundService {
     }
     private static void skip(State w,String reason){w.skipped.merge(reason,1,Integer::sum);}
     private record Surface(int y,boolean wet) { }
+    /** Terrain below upright barriers; recognising it never grants permission to clear them. */
+    static int currentGround(ServerLevel level,BlockPos column){
+        int y=level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,column.getX(),column.getZ())-1;
+        while(y>=level.getMinBuildHeight()){
+            var state=level.getBlockState(column.atY(y));
+            if(!state.isAir() && !TerrainSurface.barrier(state) && !TerrainService.soft(state))return y;
+            y--;
+        }
+        return level.getMinBuildHeight()-1;
+    }
     /** Read terrain before superseded public fills; roofs and player facilities are not samples. */
     private static Surface reference(ServerLevel level,SettlementRecord s,int x,int z){
         var seed=new BlockPos(x,0,z);if(!level.hasChunkAt(seed))return null;
+        if(InstantTerrainService.active(s)){
+            int y=currentGround(level,seed);
+            return y<level.getMinBuildHeight()?null:new Surface(y,TerrainService.replaceableWater(level.getBlockState(seed.atY(y))));
+        }
         var originals=s.terrain().supersededOriginals.get(key(x,z));
         int top=level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,x,z)-1;
         if(originals!=null)for(var e:originals.entrySet())if(!e.getValue().isAir())top=Math.max(top,e.getKey());
         for(int y=top;y>=level.getMinBuildHeight();y--){var p=seed.atY(y);var actual=level.getBlockState(p);
-            if((s.terrain().supersededChanged(p,actual) && !natural(actual)))return null;
+            if(!TerrainSurface.barrier(actual) && s.terrain().supersededChanged(p,actual) && !natural(actual))return null;
             var state=originals==null?actual:originals.getOrDefault(y,actual);
-            if(state.isAir() || TerrainService.soft(state) || com.hkin.exiledsettlement.citizen.ResidentTreeFelling.plannable(level,s,p))continue;
+            if(state.isAir() || TerrainSurface.barrier(state) || TerrainService.soft(state) || com.hkin.exiledsettlement.citizen.ResidentTreeFelling.plannable(level,s,p))continue;
             if(TerrainService.replaceableWater(state))return new Surface(y,true);
             if(TerrainSurface.ground(level,p,state) && (natural(state) || state.getBlock() instanceof StairBlock
                     || state.getBlock() instanceof SlabBlock || state.is(Blocks.DIRT_PATH)))return new Surface(y,false);
@@ -471,7 +576,7 @@ public final class PublicGroundService {
     /** Cheap rejected columns do not spend the bounded world-sampling budget. */
     static List<Long> gradeBatch(State w){
         long width=(long)w.maxX-w.minX+1,total=width*((long)w.maxZ-w.minZ+1);
-        int limit=TerrainConfig.PUBLIC_SAMPLE_COLUMNS.get();
+        int limit=w.instantSampling?Math.toIntExact(total):TerrainConfig.PUBLIC_SAMPLE_COLUMNS.get();
         var batch=new ArrayList<Long>(limit);
         for(int visits=0;visits<Math.max(512,limit) && batch.size()<limit && w.cursor<total;visits++){
             int x=(int)(w.minX+w.cursor%width),z=(int)(w.minZ+w.cursor/width);w.cursor++;
@@ -517,7 +622,8 @@ public final class PublicGroundService {
         for(int budget=0;budget<512 && !w.queue.isEmpty() && w.timeFor(budget);budget++){
             long k=w.queue.removeFirst();var p=BlockPos.of(k);
             for(var d:Direction.Plane.HORIZONTAL){long n=p.relative(d).asLong();if(!w.goals.containsKey(n) || blocked(w,k,d))continue;
-                if(Math.abs(w.baselines.get(k)-w.baselines.get(n))>=TerrainConfig.PUBLIC_CLIFF_RISE.get() && !w.wet.contains(k) && !w.wet.contains(n)){block(w,k,d);continue;}
+                // Existing pits and pillars must not sever access to a legitimate grade.
+                // Only incompatible fixed grades create retaining boundaries in divide/envelopes.
                 if(w.nearest.containsKey(n))continue;w.nearest.put(n,w.nearest.get(k));w.distances.put(n,w.distances.get(k)+1);w.queue.add(n);
             }
         }
@@ -529,7 +635,6 @@ public final class PublicGroundService {
         for(int budget=0;budget<512 && !w.queue.isEmpty() && w.timeFor(budget);budget++){
             long k=w.queue.removeFirst();var p=BlockPos.of(k);
             for(var d:Direction.Plane.HORIZONTAL){long n=p.relative(d).asLong();if(!w.goals.containsKey(n) || blocked(w,k,d))continue;
-                if(Math.abs(w.baselines.get(k)-w.baselines.get(n))>=TerrainConfig.PUBLIC_CLIFF_RISE.get() && !w.wet.contains(k) && !w.wet.contains(n)){block(w,k,d);continue;}
                 if(w.nearestRoad.containsKey(n))continue;w.nearestRoad.put(n,w.nearestRoad.get(k));w.roadDistances.put(n,w.roadDistances.get(k)+1);w.queue.add(n);
             }
         }
@@ -616,8 +721,9 @@ public final class PublicGroundService {
         w.heights.clear();w.heights.putAll(w.nextHeights);w.nextHeights.clear();w.planCursor=0;
         w.stableSweeps=w.sweepChange<.02?w.stableSweeps+1:0;w.sweepChange=0;
         if(w.stableSweeps<2)return;
+        w.roadPlanningRevision++;
         w.heights.forEach((k,y)->w.goals.put(k,w.anchors.getOrDefault(k,(int)Math.floor(y+.5))));
-        w.phase=6;w.planCursor=0;w.seams.clear();w.seenSeams.clear();w.stairs.clear();w.status="融合高度已确定，正在连接连续台面与双格通路";
+        w.phase=6;w.planCursor=0;w.waterCursor=0;w.seams.clear();w.seenSeams.clear();w.stairs.clear();w.passageGroups.clear();w.status="融合高度已确定，正在整理台地与三格通路";
     }
     static double sourceWeight(double weight,int distance){double reach=distance+1D;return weight/(reach*reach);}
     /** The first solution is provisional. Road rows are fitted before any new soil is published. */
@@ -660,8 +766,9 @@ public final class PublicGroundService {
         // supports or retire an unrelated shared earthwork column.
         var clearance=roadClearanceSteps(level,s,route,at);
         if(clearance!=null && !clearance.isEmpty()){
-            if(!ProductionRegionService.conflict(s,route.id,clearance).isEmpty())return false;
+            if(!roadClearanceConflict(level,s,route,clearance).isEmpty())return false;
             if(!capacity.fits(clearance,null)){route.status=capacity.status();return false;}
+            AdaptiveRoadService.releaseCompletedRoadTargets(s,clearance);
             var project=ProductionRegionService.publish(level,s,route.id,"道路四格净空修复",at,clearance);
             if(project!=null){project.publicGround=true;project.road=true;project.explicit=false;project.groundSurfaces.add(at);s.terrain().index(project);}
             for(var step:clearance){var owner=s.terrain().projects.get(s.terrain().cells.get(step.position()));
@@ -709,6 +816,8 @@ public final class PublicGroundService {
         var at=step.position();var y=targetAt(s,at);
         if(y==null)return "CONSTRUCTION_TARGET_CHANGED";
         if(!excluded(level,s,at).isEmpty())return "PROTECTED_AREA";
+        if(step.fill() && step.target().getBlock() instanceof WallBlock
+                && !PublicEdgeSafety.needed(level,s,at.below()))return "CONSTRUCTION_TARGET_CHANGED";
         for(var surface:project.groundSurfaces)if(surface.getX()==at.getX() && surface.getZ()==at.getZ() && surface.getY()!=y)return "CONSTRUCTION_TARGET_CHANGED";
         // A completed mathematical plan can withdraw or turn a stair without changing
         // its elevation. Stop stale actions before replacement publication reaches this
@@ -728,6 +837,12 @@ public final class PublicGroundService {
         var finalGoal=project.template().placementAt(at);
         if(!step.fill() && at.getY()<=y && (finalGoal==null || finalGoal.state().isAir()))return "CONSTRUCTION_TARGET_CHANGED";
         return "";
+    }
+    /** A fully solved public column can also need paving without any earthwork carrier. */
+    public static boolean hasSolvedColumn(SettlementRecord s,BlockPos at) {
+        var w=s.terrain().publicGround;
+        return w.heightVersion==HEIGHT_VERSION && w.roadsIntegrated && (w.phase==0 || w.phase==5)
+                && java.util.Objects.equals(w.goals.get(key(at.getX(),at.getZ())),at.getY());
     }
     public static Integer checkpointAt(SettlementRecord s,BlockPos p){var fixed=AutoRoadService.fixedConstructionSurface(s,p);if(fixed!=null)return fixed.getY();var w=s.terrain().publicGround;long k=key(p.getX(),p.getZ());return w.heightVersion==HEIGHT_VERSION && !w.roadGeneratedAnchors.contains(k)?w.anchors.get(k):null;}
     private static Direction lowerSide(State w,long k){var y=w.goals.get(k);if(y==null)return null;var p=BlockPos.of(k);for(var d:Direction.Plane.HORIZONTAL){var low=w.goals.get(p.relative(d).asLong());if(low!=null && low==y-1)return d;}return null;}
@@ -761,28 +876,21 @@ public final class PublicGroundService {
                 && (stairEdge(w,p.relative(downhill),downhill,lane) || stairEdge(w,p.relative(downhill.getOpposite()),downhill,lane));
     }
     static void seams(State w){
-        var entries=w.keys();for(int budget=0;budget<256 && w.planCursor<entries.size() && w.timeFor(budget);budget++){long k=entries.get(w.planCursor++);if(lowerSide(w,k)!=null)w.seams.add(k);}
+        if(w.waterCursor==0){
+            var columns=w.keys();
+            for(int count=0;count<128 && w.planCursor<columns.size() && w.timeFor(count);count++)
+                PublicPassages.terraceColumn(w,columns.get(w.planCursor++));
+            if(w.planCursor>=columns.size()){w.waterCursor=1;w.planCursor=0;}
+            return;
+        }
+        var entries=w.keys();for(int budget=0;budget<256 && w.planCursor<entries.size() && w.timeFor(budget);budget++){long k=entries.get(w.planCursor++);var at=BlockPos.of(k);for(var d:Direction.Plane.HORIZONTAL){var low=w.goals.get(at.relative(d).asLong());if(low!=null && low<w.goals.get(k)){w.seams.add(k);break;}}}
         if(w.planCursor>=entries.size()){w.phase=7;w.planCursor=0;}
     }
     static void passages(SettlementRecord s,State w){
-        var entries=w.keys();
-        for(int budget=0;budget<256 && w.timeFor(budget);budget++){
-        if(w.queue.isEmpty()){
-            if(w.planCursor>=entries.size()){w.phase=5;w.planCursor=0;w.publicationKeys=List.of();w.status="公共空地已勘察，正在发布居民挖填工程";return;}
-            long next=entries.get(w.planCursor++);
-            if(!w.seams.contains(next) || !w.seenSeams.add(next))continue;
-            w.queue.add(next);w.bestDistance=Integer.MAX_VALUE;
-        }
-            long k=w.queue.removeFirst();var p=BlockPos.of(k);int y=w.goals.get(k);var d=lowerSide(w,k);
-            var side=d.getClockWise();boolean wide=!w.anchors.containsKey(k) && List.of(side,side.getOpposite()).stream().anyMatch(dir->!w.anchors.containsKey(p.relative(dir).asLong()) && Objects.equals(w.goals.get(p.relative(dir).asLong()),y) && Objects.equals(w.goals.get(p.relative(dir).relative(d).asLong()),y-1));
-            int distance=Math.abs(p.getX()-s.corePosition().getX())+Math.abs(p.getZ()-s.corePosition().getZ());
-            if(w.stairs.containsKey(k))w.bestDistance=-1; // This contour already has the shared run.
-            if(wide && continuousSlope(w,k,d) && distance<w.bestDistance
-                    && List.of(side,side.getOpposite()).stream().anyMatch(lane->eligibleRun(w,k,d,lane))){w.bestDistance=distance;w.bestSeam=k;}
-            for(var dir:Direction.Plane.HORIZONTAL){long n=p.relative(dir).asLong();if(w.seams.contains(n) && Objects.equals(w.goals.get(n),y) && w.seenSeams.add(n))w.queue.add(n);}
-        if(w.queue.isEmpty() && w.bestDistance>=0 && w.bestDistance<Integer.MAX_VALUE){var direction=lowerSide(w,w.bestSeam);for(var lane:List.of(direction.getClockWise(),direction.getCounterClockWise())){
-            var run=stairRun(w,w.bestSeam,direction,lane);if(!run.isEmpty()){run.forEach(k2->w.stairs.put(k2,direction.getOpposite()));break;}
-        }}
+        if(PublicPassages.advance(w)){
+            w.roadPlanningRevision++;
+            w.phase=5;w.planCursor=0;w.publicationKeys=List.of();
+            w.status="公共通路已按三格净宽及分段平台规划，正在发布挖填工程";
         }
     }
     private static boolean natural(BlockState state){return TerrainService.natural(state) && !(state.getBlock() instanceof CropBlock) && !(state.getBlock() instanceof StemBlock) && !(state.getBlock() instanceof AttachedStemBlock) && !state.is(Blocks.FARMLAND);}
@@ -808,6 +916,7 @@ public final class PublicGroundService {
             var steps=column(level,s,w,at,null,false);if(steps==null){w.planCursor++;continue;}
             if(!capacity.fits(steps,null)){w.capacityPaused=true;w.status=capacity.status();return;}
             retireOldColumn(s,at);
+            retireChangedRail(level,s,at,steps);
             if(steps.stream().anyMatch(step->step.position().equals(at) && step.target().is(Blocks.COBBLESTONE)))retireSoilWallCap(s,at);
             if(!steps.isEmpty()){
                 var project=ProductionRegionService.publish(level,s,s.id(),"公共地面与通路挖填",at,steps);
@@ -820,7 +929,7 @@ public final class PublicGroundService {
             if(w.constraintSignature!=constraintSignature(s))w.releasedConstraintReview=true;
             w.phase=0;w.nextReview=w.dirtyColumns.isEmpty() && !w.releasedConstraintReview?level.getGameTime()+1200:0;w.localPublication=false;
             if(w.releasedConstraintReview){w.signature=Long.MIN_VALUE;w.releasedConstraintReview=false;}
-            w.status="公共空地勘察完成：目标 "+w.goals.size()+"列；保留外部水体 "+w.openWater.size()+"列";
+            w.status="公共空地规划已发布：目标 "+w.goals.size()+"列；无高度来源待定 "+Math.max(0,w.baselines.size()-w.goals.size())+"列；保留外部水体 "+w.openWater.size()+"列；实际地面需扫描复核";
         }
     }
     private static List<TerrainProject.Step> roadClearanceSteps(ServerLevel level,SettlementRecord s,AutoRoadState.Route route,BlockPos at){
@@ -828,7 +937,7 @@ public final class PublicGroundService {
         var steps=new ArrayList<TerrainProject.Step>();
         for(int h=RoadEarthworkService.ROAD_CLEARANCE_HEIGHT;h>=1;h--){var p=at.above(h);if(!level.hasChunkAt(p))return null;
             var state=level.getBlockState(p);if(state.isAir())continue;
-            if(!state.getFluidState().isEmpty() || (!natural(state) && !com.hkin.exiledsettlement.citizen.ResidentTreeFelling.plannable(level,s,p)) || state.hasBlockEntity()
+            if(!state.getFluidState().isEmpty() || (!natural(state) && !com.hkin.exiledsettlement.citizen.ResidentTreeFelling.plannable(level,s,p) && !RoadEarthworkService.ownedPublicObstacle(level,s,p)) || state.hasBlockEntity()
                     || (s.terrain().supersededChanged(p,state) && !natural(state)) || s.terrain().suppressed.contains(p.asLong()))return null;
             steps.add(new TerrainProject.Step(p,Blocks.AIR.defaultBlockState(),state));}
         return steps;
@@ -839,11 +948,21 @@ public final class PublicGroundService {
             int budget=32;
             for(int i=route.repairs.nextSetBit(0);i>=0 && i<route.cells.size() && budget-->0;i=route.repairs.nextSetBit(i+1)){
                 var steps=roadClearanceSteps(level,s,route,route.cells.get(i));
-                if(steps==null || steps.isEmpty() || !ProductionRegionService.conflict(s,route.id,steps).isEmpty())continue;
+                if(steps==null || steps.isEmpty() || !roadClearanceConflict(level,s,route,steps).isEmpty())continue;
                 if(steps.stream().anyMatch(step->!TerrainService.pendingAt(s,step.position())))return true;
             }
         }
         return false;
+    }
+    private static String roadClearanceConflict(ServerLevel level,SettlementRecord s,AutoRoadState.Route route,List<TerrainProject.Step> steps){
+        // Transfer only completed, unchanged public barriers. Pending work and player
+        // replacements keep their owner; this preview itself never releases a target.
+        var checked=steps.stream().filter(step->{
+            var owner=s.terrain().projects.get(s.terrain().cells.get(step.position()));
+            return owner==null || !owner.publicGround || !owner.done()
+                    || !RoadEarthworkService.ownedPublicObstacle(level,s,step.position());
+        }).toList();
+        return ProductionRegionService.conflict(s,route.id,checked);
     }
     static boolean roadColumn(ServerLevel level,SettlementRecord s,BlockPos at){
         if(RoadSpaceData.get(level).columnHeight(at)!=null)return true;
@@ -870,6 +989,20 @@ public final class PublicGroundService {
             for(var step:project.steps)if(step.position().getX()==at.getX() && step.position().getZ()==at.getZ())s.terrain().cells.remove(step.position(),project.id);
         }
     }
+    private static boolean changedRail(TerrainProject p,BlockPos at,List<TerrainProject.Step> steps){
+        var old=p.template().placementAt(at.above());
+        return p.publicGround && !p.road && old!=null && old.state().getBlock() instanceof WallBlock
+                && steps.stream().anyMatch(step->step.position().equals(at.above()) && !step.fill());
+    }
+    private static void retireChangedRail(ServerLevel level,SettlementRecord s,BlockPos at,List<TerrainProject.Step> steps){
+        for(var p:s.terrain().projectsInColumn(at))if(!p.cancelled && p.publicGround && !p.road
+                && (changedRail(p,at,steps) || !PublicEdgeSafety.needed(level,s,at)
+                    && p.template().placementAt(at.above())!=null
+                    && p.template().placementAt(at.above()).state().getBlock() instanceof WallBlock)){
+            p.retireColumn(at);s.terrain().index(p);
+            for(var step:p.steps)if(step.position().getX()==at.getX() && step.position().getZ()==at.getZ())s.terrain().cells.remove(step.position(),p.id);
+        }
+    }
     private static boolean soilWallCap(TerrainProject project,BlockPos at){
         if(!project.publicGround || project.road || project.bridge || project.roadReclaim || project.cancelled || !project.groundSurfaces.contains(at))return false;
         var cap=project.template().placementAt(at);
@@ -887,18 +1020,25 @@ public final class PublicGroundService {
         if(project.road)return false;
         var placement=project.template().placementAt(at);if(placement==null)return false;
         var facing=s.terrain().publicGround.stairs.get(key(at.getX(),at.getZ()));
-        if(facing==null)return placement.state().getBlock() instanceof StairBlock;
+        if(facing==null)return placement.state().getBlock() instanceof StairBlock || placement.state().is(BuriedFillMaterials.WALL);
         return !BlueprintService.matchesPlacedState(placement.state(),Blocks.COBBLESTONE_STAIRS.defaultBlockState().setValue(StairBlock.FACING,facing));
     }
     private static List<TerrainProject.Step> column(ServerLevel level,SettlementRecord s,State w,BlockPos at,BlockState roadTarget,boolean road){
+        if(!road && !w.stairs.containsKey(key(at.getX(),at.getZ()))
+                && level.getBlockState(at).getBlock() instanceof StairBlock
+                && (s.terrain().registeredPublicPaid(at,level.getBlockState(at)) || s.terrain().supersededPaid(at,level.getBlockState(at)))
+                && !PublicPassages.replacementReady(level,w,at)){
+            skip(w,"保留旧台阶，等待替代通路实际接通");return null;
+        }
+        boolean rail=!road && PublicEdgeSafety.needed(level,s,at);
         var clears=new ArrayList<TerrainProject.Step>();var fills=new ArrayList<TerrainProject.Step>();int top=level.getHeight(Heightmap.Types.WORLD_SURFACE,at.getX(),at.getZ())-1;
         if(road)top=Math.max(at.getY()+RoadEarthworkService.clearanceHeight(s,at),s.terrain().supersededColumn(at).stream().mapToInt(BlockPos::getY).max().orElse(at.getY()+2));
-        for(int y=top;y>at.getY();y--){var p=at.atY(y);var state=level.getBlockState(p);if(state.isAir())continue;if((s.terrain().supersededChanged(p,state) && !natural(state)) || !(natural(state) || road && com.hkin.exiledsettlement.citizen.ResidentTreeFelling.plannable(level,s,p) || s.terrain().supersededPaid(p,state) || s.terrain().registeredPublicPaid(p,state) || road && AdaptiveRoadService.editableSurface(level,s,p)) || !state.getFluidState().isEmpty()){skip(w,"保留设施或高于地坪的水");return null;}clears.add(new TerrainProject.Step(p,Blocks.AIR.defaultBlockState(),state));}
+        for(int y=top;y>at.getY();y--){var p=at.atY(y);var state=level.getBlockState(p);if(state.isAir())continue;if(!road && state.getBlock() instanceof StairBlock && !w.stairs.containsKey(key(at.getX(),at.getZ())) && (s.terrain().registeredPublicPaid(p,state) || s.terrain().supersededPaid(p,state)) && !PublicPassages.replacementReady(level,w,at)){skip(w,"保留旧台阶，等待替代通路实际接通");return null;}if(rail && p.equals(at.above()) && state.is(Blocks.COBBLESTONE_WALL) && (s.terrain().registeredPublicPaid(p,state) || s.terrain().supersededPaid(p,state)))continue;if((s.terrain().supersededChanged(p,state) && !natural(state)) || !(natural(state) || road && com.hkin.exiledsettlement.citizen.ResidentTreeFelling.plannable(level,s,p) || s.terrain().supersededPaid(p,state) || s.terrain().registeredPublicPaid(p,state) || road && AdaptiveRoadService.editableSurface(level,s,p)) || !state.getFluidState().isEmpty()){skip(w,"保留设施或高于地坪的水");return null;}clears.add(new TerrainProject.Step(p,Blocks.AIR.defaultBlockState(),state));}
         int faceBottom=at.getY();boolean retaining=false;
         for(var d:Direction.Plane.HORIZONTAL){var n=at.relative(d);var desired=w.goals.get(key(n.getX(),n.getZ()));
             if(!level.hasChunkAt(n)){w.deferred.add(key(n.getX(),n.getZ()));skip(w,"相邻范围等待加载");return null;}
             var fixed=AutoRoadService.fixedConstructionSurface(s,n);
-            int ground=fixed!=null?fixed.getY():desired!=null?desired:level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,n.getX(),n.getZ())-1;
+            int ground=fixed!=null?fixed.getY():desired!=null?desired:currentGround(level,n);
             if(at.getY()-ground>=2 && level.hasChunkAt(n)){retaining=true;faceBottom=Math.min(faceBottom,ground+1);}
         }
         int bottom=Math.min(at.getY()-1,faceBottom-1);while(bottom>=level.getMinBuildHeight()){
@@ -907,7 +1047,7 @@ public final class PublicGroundService {
         }
         if(bottom<level.getMinBuildHeight()){skip(w,"无连续实际支撑");return null;}
         for(int y=bottom+1;y<=at.getY();y++){
-            var p=at.atY(y);var state=level.getBlockState(p);var target=retaining?Blocks.COBBLESTONE.defaultBlockState():Blocks.DIRT.defaultBlockState();
+            var p=at.atY(y);var state=level.getBlockState(p);var target=retaining && y<at.getY()?Blocks.COBBLESTONE.defaultBlockState():Blocks.DIRT.defaultBlockState();
             var facing=w.stairs.get(key(at.getX(),at.getZ()));
             if(!road && y==at.getY() && facing!=null && !w.anchors.containsKey(key(at.getX(),at.getZ())))target=Blocks.COBBLESTONE_STAIRS.defaultBlockState().setValue(StairBlock.FACING,facing);
             if(road && y==at.getY())target=roadTarget;
@@ -922,6 +1062,10 @@ public final class PublicGroundService {
             if(TerrainService.replaceableWater(state) && target.getBlock() instanceof StairBlock){fills.add(new TerrainProject.Step(p,Blocks.DIRT.defaultBlockState(),state));fills.add(new TerrainProject.Step(p,Blocks.AIR.defaultBlockState(),Blocks.DIRT.defaultBlockState()));fills.add(new TerrainProject.Step(p,target,Blocks.AIR.defaultBlockState()));}
             else fills.add(new TerrainProject.Step(p,target,TerrainService.replaceableWater(state)?state:Blocks.AIR.defaultBlockState()));
         }
+        if(rail){
+            var p=at.above();var actual=level.getBlockState(p);
+            if(!actual.is(Blocks.COBBLESTONE_WALL))fills.add(new TerrainProject.Step(p,Blocks.COBBLESTONE_WALL.defaultBlockState(),Blocks.AIR.defaultBlockState()));
+        }
         clears.sort(Comparator.comparingInt((TerrainProject.Step a)->a.position().getY()).reversed());clears.addAll(fills);
         for(var step:clears)if(s.terrain().suppressed.contains(step.position().asLong())){skip(w,"玩家移除保留");return null;}
         AdaptiveRoadService.releaseCompletedRoadTargets(s,clears);
@@ -930,7 +1074,7 @@ public final class PublicGroundService {
         // Only the old target in this exact column can be transferred below.
         var checked=clears.stream().filter(step->{var p=s.terrain().projects.get(s.terrain().cells.get(step.position()));
             if(p==null || p.cancelled || p.bridge || p.roadReclaim)return true;
-            if(!road && stoneCap && soilWallCap(p,at))return false;
+            if(!road && (changedRail(p,at,clears) || stoneCap && soilWallCap(p,at)))return false;
             if(p.publicGround && (p.groundSurfaces.stream().anyMatch(g->g.getX()==at.getX() && g.getZ()==at.getZ() && g.getY()!=at.getY()) || changedStairTarget(s,p,at)))return false;
             if(road && (p.road || p.publicGround)){
                 var oldTop=p.template().placements().stream().filter(g->g.position().getX()==at.getX() && g.position().getZ()==at.getZ() && !g.state().isAir()).mapToInt(g->g.position().getY()).max().orElse(Integer.MIN_VALUE);
@@ -946,7 +1090,7 @@ public final class PublicGroundService {
         var w=s.terrain().publicGround;
         return Math.max(0,w.goals.size()-w.planCursor);
     }
-    public static List<String> report(SettlementRecord s){var w=s.terrain().publicGround;return List.of("公共空地："+w.status,"覆盖核心周边、建筑外缘与围合空地；内部水坑由居民填实，贯穿水体保留。", "局部等待加载 "+w.deferred.size()+"列，不阻挡其他空地工程；保留或等待："+w.skipped);}
+    public static List<String> report(SettlementRecord s){var w=s.terrain().publicGround;return List.of("公共空地："+w.status,"覆盖建筑群外缘、相邻楼间空地及道路两侧；地表覆土、临崖防护，内部水坑由居民填实。", "局部等待加载 "+w.deferred.size()+"列，不阻挡其他空地工程；保留或等待："+w.skipped);}
     public static com.google.gson.JsonObject observation(ServerLevel level,SettlementRecord s){
         var w=s.terrain().publicGround;var out=new com.google.gson.JsonObject();out.addProperty("phase",w.phase);out.addProperty("cursor",w.cursor);out.addProperty("planCursor",w.planCursor);out.addProperty("signature",w.signature);out.addProperty("status",w.status);out.addProperty("initialWet",w.wet.size());out.addProperty("openWater",w.openWater.size());out.addProperty("candidateColumns",w.goals.size());out.addProperty("plannedColumns",w.planned.size());
         out.addProperty("roadsIntegrated",w.roadsIntegrated);out.addProperty("integratedRoadColumns",w.integratedRoads.size());out.addProperty("roadIntegrationCursor",w.roadCursor);

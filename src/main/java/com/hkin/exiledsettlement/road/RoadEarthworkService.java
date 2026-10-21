@@ -33,6 +33,17 @@ public final class RoadEarthworkService {
                 || s.formalBlueprints().stream().anyMatch(b->!b.cancellationQueued() && b.containsColumn(p));
     }
     public static boolean permitted(ServerLevel level,SettlementRecord s,BlockPos p) {
+        if(InstantTerrainService.active(s)){
+            if(p.getY()<=level.getMinBuildHeight() || p.getY()+ROAD_CLEARANCE_HEIGHT>=level.getMaxBuildHeight()
+                    || !level.hasChunkAt(p) || !s.contains(p) || InstantTerrainService.reserved(s,p))return false;
+            // Fresh branches share one physical elevation. These are this invocation's new routes.
+            for(var route:s.autoRoads().routes.values())if(!route.suppressed && !route.p0Invalidated){
+                  var shared=route.cellInColumn(p);if(shared!=null && shared.getY()!=p.getY()
+                          && !JointRoadGradePlanner.adjustable(s,p)
+                          && (s.terrain().publicGround.phase!=14 || AdaptiveRoadService.sharedAt(s,shared)))return false;
+            }
+            return true;
+        }
         if(PlayerRoadEdits.holding(level,p))return false;
         var playerSurface=RoadSpaceData.get(level).playerSurface(p);
         if(playerSurface!=null && PlayerRoadEdits.retained(level,playerSurface) && !playerSurface.equals(p))return false;
@@ -59,12 +70,13 @@ public final class RoadEarthworkService {
     }
     public static boolean plannable(ServerLevel level,SettlementRecord s,BlockPos p) {
         if(!permitted(level,s,p))return false;
+        if(InstantTerrainService.active(s))return true;
         var bridge=BridgeService.owner(s,p);
         if(bridge!=null)return bridge.accessSurfaces.contains(p);
         boolean bridgeApproach=BridgeRoadConnections.approachGap(level,s,p);
         if(BridgeService.waterSpan(level,p) && !bridgeApproach)return false;
         if(AdaptiveRoadService.paidPassage(level,s,p) && AdaptiveRoadService.walkSurface(level,p)){
-            for(int h=1;h<=ROAD_CLEARANCE_HEIGHT;h++){var cover=level.getBlockState(p.above(h));if(!cover.isAir() && !TerrainService.soft(cover) && !ResidentTreeFelling.plannable(level,s,p.above(h)))return false;}
+            for(int h=1;h<=ROAD_CLEARANCE_HEIGHT;h++){var cover=level.getBlockState(p.above(h));if(!cover.isAir() && !TerrainService.soft(cover) && !ResidentTreeFelling.plannable(level,s,p.above(h)) && !ownedPublicObstacle(level,s,p.above(h)))return false;}
             return true;
         }
         for(int y=0;y<=clearanceHeight(s,p);y++) {
@@ -72,7 +84,7 @@ public final class RoadEarthworkService {
             if(TerrainService.replaceableWater(state))return false;
             if(!state.getFluidState().isEmpty() || !TerrainService.natural(state) && !ResidentTreeFelling.plannable(level,s,p.above(y)) && !state.is(Blocks.DIRT_PATH)
                     && !AdaptiveRoadService.editableSurface(level,s,p.above(y))
-                    && !s.terrain().supersededPaid(p.above(y),state))return false;
+                    && !s.terrain().supersededPaid(p.above(y),state) && !ownedPublicObstacle(level,s,p.above(y)))return false;
         }
         int bottom=p.getY()-1;
         while(bottom>=level.getMinBuildHeight() && (!com.hkin.exiledsettlement.terrain.TerrainSurface.ground(level,p.atY(bottom)) || TreeSurvey.candidate(level.getBlockState(p.atY(bottom))))) {
@@ -97,6 +109,14 @@ public final class RoadEarthworkService {
         var ground=level.getBlockState(p);if(!FarmEarthworkPlan.soil(ground) && !ground.is(Blocks.DIRT_PATH))cost+=ground.isAir()?1:2+Math.max(0,ground.getDestroySpeed(level,p));
         int bottom=p.getY()-1;while(bottom>=level.getMinBuildHeight() && (!com.hkin.exiledsettlement.terrain.TerrainSurface.ground(level,p.atY(bottom)) || TreeSurvey.candidate(level.getBlockState(p.atY(bottom))))){cost++;bottom--;}
         return cost;
+    }
+    /** A recorded paid public barrier may be removed for a road; unowned/player replacements may not. */
+    public static boolean ownedPublicObstacle(ServerLevel level,SettlementRecord s,BlockPos at){
+        if(!level.hasChunkAt(at) || s.terrain().suppressed.contains(at.asLong()) || PlayerRoadEdits.retained(level,at)
+                || PlayerRoadEdits.holding(level,at) || BridgeService.column(s,at))return false;
+        var state=level.getBlockState(at);
+        return TerrainSurface.barrier(state) && state.getFluidState().isEmpty()
+                && (s.terrain().registeredPublicPaid(at,state)||s.terrain().supersededPaid(at,state));
     }
     /** Recorded obsolete caps and their paid bases above a new road plane, including above headroom. */
     private static List<TerrainProject.Step> obsoleteClears(ServerLevel level,SettlementRecord s,BlockPos p){

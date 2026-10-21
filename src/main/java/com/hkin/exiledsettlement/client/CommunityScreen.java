@@ -101,7 +101,7 @@ public final class CommunityScreen extends Screen {
             for (String line : snapshot.lines()) {
                 if (line.startsWith("——")) break;
                 if (tab.equals("life")
-                        || tab.equals("safety") && line.startsWith("集合避险")
+                        || tab.equals("safety") && (line.startsWith("集合避险") || line.startsWith("铁傀儡"))
                         || tab.equals("visitors") && (line.contains("流民") || line.startsWith("商队"))
                         || tab.equals("scenery") && (line.contains("季") || line.contains("日历"))) lines.add(line);
             }

@@ -164,7 +164,7 @@ public final class BlueprintPlacementGroups {
                     return OperationResult.failure("PROTECTED_AREA");
                 }
             }
-            if (!debug && EventHooks.onMultiBlockPlace(worker, snapshots, Direction.UP)) {
+            if (EventHooks.onMultiBlockPlace(worker, snapshots, Direction.UP)) {
                 restore(level, snapshots);
                 return OperationResult.failure("PROTECTED_AREA");
             }

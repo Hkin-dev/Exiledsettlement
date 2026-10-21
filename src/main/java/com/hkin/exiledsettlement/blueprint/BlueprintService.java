@@ -271,7 +271,12 @@ public final class BlueprintService {
     ) {
         if (blueprint.cancellationQueued()
                 || !BlueprintRecord.supportsStructureVersion(blueprint.structureVersion())) return null;
-        if(blueprint.terrainProject()!=null) {var work=com.hkin.exiledsettlement.terrain.TerrainService.pending(level,blueprint,claimedPositions);return work.isEmpty()?null:work.getFirst();}
+        if(blueprint.terrainProject()!=null) {
+            var work=com.hkin.exiledsettlement.terrain.TerrainService.pending(level,blueprint,claimedPositions);
+            if(blueprint.terrainProject().pitFill)
+                return work.stream().min(java.util.Comparator.comparingDouble(p->p.placement().position().distSqr(workerPosition))).orElse(null);
+            return work.isEmpty()?null:work.getFirst();
+        }
         if(TimedConstructionService.building(blueprint))return TimedConstructionService.first(level,blueprint,claimedPositions);
         if(blueprint.region()!=null)return regionPending(level,blueprint,claimedPositions,workerPosition).stream().findFirst().orElse(null);
         if (FarmEarthworkService.applies(blueprint)) {
@@ -356,7 +361,11 @@ public final class BlueprintService {
     ) {
         if (blueprint.cancellationQueued()
                 || !BlueprintRecord.supportsStructureVersion(blueprint.structureVersion())) return List.of();
-        if(blueprint.terrainProject()!=null)return com.hkin.exiledsettlement.terrain.TerrainService.pending(level,blueprint,excludedPositions);
+        if(blueprint.terrainProject()!=null) {
+            var work=com.hkin.exiledsettlement.terrain.TerrainService.pending(level,blueprint,excludedPositions);
+            return blueprint.terrainProject().pitFill
+                    ?work.stream().sorted(java.util.Comparator.comparingDouble(p->p.placement().position().distSqr(workerPosition))).toList():work;
+        }
         if(TimedConstructionService.building(blueprint))return TimedConstructionService.pending(level,blueprint,excludedPositions);
         if(blueprint.region()!=null)return regionPending(level,blueprint,excludedPositions,workerPosition);
         if (FarmEarthworkService.applies(blueprint)) {
@@ -834,7 +843,32 @@ public final class BlueprintService {
     public static DebugAdvanceResult debugAdvanceOne(
             ServerLevel level, SettlementSavedData data, SettlementRecord settlement, BlueprintRecord blueprint
     ) {
+        if (!com.hkin.exiledsettlement.debug.ConstructionDebugService.isEnabled(level,settlement.id())
+                && !com.hkin.exiledsettlement.debug.TerrainEvolveDebugService.authorizes(level,settlement,blueprint)) return DebugAdvanceResult.idle("DEBUG_DISABLED");
         if (blueprint.cancellationQueued()) return DebugAdvanceResult.idle("CONSTRUCTION_CANCELLED");
+        if(blueprint.terrainProject()!=null)
+            return com.hkin.exiledsettlement.terrain.TerrainService.debugAdvanceOne(level,settlement,blueprint);
+        if(FarmEarthworkService.applies(blueprint)) {
+            var survey=FarmEarthworkService.ensure(level,blueprint);
+            if(!survey.valid())return DebugAdvanceResult.idle(survey.reason());
+            var earthwork=survey.plan();
+            if(!earthwork.done()) {
+                var step=earthwork.next();var placement=step.placement();
+                if(!FarmEarthworkService.allowed(settlement,blueprint,BlueprintTemplates.create(blueprint),step.position()))
+                    return DebugAdvanceResult.idle("PROTECTED_AREA");
+                if(!com.hkin.exiledsettlement.debug.ConstructionForceWork.putTerrain(level,settlement,blueprint,placement.position(),placement.state()))
+                    return DebugAdvanceResult.idle("DEBUG_WORLD_CHANGE_FAILED");
+                earthwork.advance();data.touch();return DebugAdvanceResult.advanced(false,"DEBUG_FARM_EARTHWORK");
+            }
+        }
+        if(com.hkin.exiledsettlement.terrain.TerrainService.needsFoundation(settlement,blueprint)
+                && (!settlement.terrain().surveyed.contains(blueprint.id()) || !FoundationFootprint.legacySurveyInitialized(blueprint))) {
+            String survey=com.hkin.exiledsettlement.terrain.TerrainService.plan(level,settlement,BlueprintTemplates.create(blueprint),blueprint.id(),"调试施工地基勘察",false);
+            if(!survey.isEmpty())return DebugAdvanceResult.idle(survey);
+            settlement.terrain().surveyed.add(blueprint.id());settlement.terrain().blockers.remove(blueprint.id());data.touch();
+        }
+        if(!com.hkin.exiledsettlement.terrain.TerrainService.dependenciesReady(settlement,blueprint.id()))
+            return DebugAdvanceResult.idle("TERRAIN_FOUNDATION_PENDING");
         if (!BlueprintRecord.supportsStructureVersion(blueprint.structureVersion())) {
             return DebugAdvanceResult.idle("BLUEPRINT_VERSION_OUTDATED");
         }
@@ -868,7 +902,8 @@ public final class BlueprintService {
                     blueprint.removeTemporaryFooting(part.position());
                     blueprint.removeClearanceTarget(part.position());
                 }
-            } else if (!applyPlacement(level, next.placement())) {
+            } else if (!com.hkin.exiledsettlement.debug.ConstructionForceWork.putTerrain(level,settlement,blueprint,position,
+                    BlueprintBlockStateResolver.resolve(level,next.placement()))) {
                 return DebugAdvanceResult.idle("DEBUG_WORLD_CHANGE_FAILED");
             }
             blueprint.removeTemporaryFooting(position);
@@ -897,8 +932,7 @@ public final class BlueprintService {
             }
             level.getChunkAt(clearance);
             if (!level.getBlockState(clearance).isAir()
-                    && !level.setBlock(clearance, net.minecraft.world.level.block.Blocks.AIR.defaultBlockState(),
-                    Block.UPDATE_ALL)) {
+                    && !com.hkin.exiledsettlement.debug.ConstructionForceWork.putTerrain(level,settlement,blueprint,clearance,Blocks.AIR.defaultBlockState())) {
                 return DebugAdvanceResult.idle("DEBUG_WORLD_CHANGE_FAILED");
             }
             blueprint.removeClearanceTarget(clearance);
@@ -936,8 +970,8 @@ public final class BlueprintService {
             if(!debugStructureGuard(level,settlement,blueprint,template,new BlueprintPlacement(position,Blocks.AIR.defaultBlockState(),null,BlueprintPlacementMode.CLEARANCE)).isEmpty())
                 return OperationResult.failure("PROTECTED_AREA");
             if (level.getBlockState(position).is(Block.byItem(footing.getValue()))) {
-                level.setBlock(position, net.minecraft.world.level.block.Blocks.AIR.defaultBlockState(),
-                        Block.UPDATE_ALL);
+                if(!com.hkin.exiledsettlement.debug.ConstructionForceWork.putTerrain(level,settlement,blueprint,position,Blocks.AIR.defaultBlockState()))
+                    return OperationResult.failure("DEBUG_WORLD_CHANGE_FAILED");
             }
             removedFooting |= blueprint.removeTemporaryFooting(position);
         }
@@ -953,6 +987,10 @@ public final class BlueprintService {
         var parts=BlueprintPlacementGroups.isPaired(placement.state())?BlueprintPlacementGroups.parts(template,placement):List.of(placement);
         for(var part:parts) {
             var at=part.position();
+            if(!level.hasChunkAt(at) || level.isOutsideBuildHeight(at))return "BLUEPRINT_AREA_NOT_LOADED";
+            if(com.hkin.exiledsettlement.debug.TerrainEvolveDebugService.authorizes(level,s,own)
+                    && !level.getEntitiesOfClass(net.minecraft.world.entity.LivingEntity.class,new net.minecraft.world.phys.AABB(at).inflate(1),e->e.isAlive()&&!e.isSpectator()).isEmpty())return "OCCUPIED";
+            if(!part.state().getCollisionShape(level,at).isEmpty() && !level.getEntitiesOfClass(net.minecraft.world.entity.LivingEntity.class,new net.minecraft.world.phys.AABB(at)).isEmpty())return "OCCUPIED";
             if(!s.contains(at) || at.equals(s.corePosition()) || BuildingWorkPolicy.automaticForbidden(s,own,at) || s.community().danger(at)
                     || com.hkin.exiledsettlement.terrain.TerrainService.protectedPublicColumn(s,project,at))return "PROTECTED_AREA";
             for(var b:s.buildings())if(b.active() && !(own.region()!=null && (b.id().equals(own.region().workingBuilding)))) {
@@ -1249,6 +1287,9 @@ public final class BlueprintService {
             dynamicProperties = Set.of("open", "powered");
         } else if (block instanceof net.minecraft.world.level.block.BedBlock) {
             dynamicProperties = Set.of("occupied");
+        } else if (block instanceof net.minecraft.world.level.block.BrewingStandBlock) {
+            // These flags show real bottle contents, not damage to the building.
+            dynamicProperties = Set.of("has_bottle_0", "has_bottle_1", "has_bottle_2");
         } else if (block instanceof FarmBlock) {
             dynamicProperties = Set.of("moisture");
         } else if (block instanceof net.minecraft.world.level.block.SnowyDirtBlock) {

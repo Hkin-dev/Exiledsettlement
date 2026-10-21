@@ -40,6 +40,7 @@ public record BuildingActionPayload(
         CANCEL_CONSTRUCTION,
         SET_WORKER_TARGET,
         SET_WORKSITE_MODE,
-        TOGGLE_GROUND
+        TOGGLE_GROUND,
+        SET_BREW_STOCK_TARGET
     }
 }

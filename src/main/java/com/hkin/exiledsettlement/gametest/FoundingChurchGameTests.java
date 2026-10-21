@@ -214,7 +214,8 @@ public final class FoundingChurchGameTests {
             }
             var s=new SettlementRecord(UUID.randomUUID(),"Church fixture",a,UUID.randomUUID());var b=s.addBuilding(BuildingType.CHURCH,a,facing,t.minCorner(),t.maxCorner(),0,1);
             BuildingFunctionService.validateSingle(h.getLevel(),new SettlementSavedData(),s,b);
-            h.assertTrue(!b.operational() && b.capacity()==0,"Church falsely treated as housing/healing");
+            h.assertTrue(b.operational() && b.workerCapacity()==2 && !b.type().isHouse(),
+                    "Church must provide two brewing jobs without becoming housing");
             h.assertTrue(BlueprintTemplates.createForBuilding(BuildingRecord.load(b.save())).placements().equals(t.placements()),"Church reload altered geometry");
         }
         var choices=Arrays.stream(com.hkin.exiledsettlement.menu.SettlementCoreMenu.BUILDING_CATALOG).map(e->e.type()).toList();

@@ -83,7 +83,7 @@ public final class BuildingFunctionService {
                     SPRUCE_HOME, GALLERY_HOME, COURTYARD_HOME, STARTER_CAMP, APARTMENT -> validateHouse(level, building);
             case WAREHOUSE, MARKET -> validateWarehouse(level, building);
             case SCHOOL -> com.hkin.exiledsettlement.settlement.TeachingService.validateSchool(level, building);
-            case CHURCH -> building.updateFunction(false, BuildingStatus.REGISTERED_ONLY, 0, List.of());
+            case CHURCH -> com.hkin.exiledsettlement.settlement.PriestProductionService.validateChurch(level, building);
             case FARM_FIELD, MELON_FIELD -> validateFarmField(level, building);
             case PASTURE_AREA -> validatePasture(level, building);
             case HUNTING_LODGE -> validateWorkplace(level, building, 2);

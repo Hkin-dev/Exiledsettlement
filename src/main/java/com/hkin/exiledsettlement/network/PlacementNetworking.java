@@ -42,7 +42,7 @@ import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import java.util.List;
 
 public final class PlacementNetworking {
-    private static final String NETWORK_VERSION = "29";
+    private static final String NETWORK_VERSION = "30";
     private static final BuildingSnapshotRequestLimiter BUILDING_SNAPSHOT_LIMITER = new BuildingSnapshotRequestLimiter();
 
     private PlacementNetworking() {
@@ -269,7 +269,10 @@ public final class PlacementNetworking {
             ServerPlayer player, SettlementRecord settlement, BuildingRecord building
     ) {
         boolean warehouse = building.type().isStorage() || building.type()==BuildingType.MINE;
-        int productionCount = building.type() == BuildingType.PASTURE_AREA
+        int productionCount = building.type() == BuildingType.CHURCH
+                ? com.hkin.exiledsettlement.settlement.PriestProductionService.stockCount(player.serverLevel(), settlement,
+                        com.hkin.exiledsettlement.building.BrewingRecipes.stack(building.productionId()))
+                : building.type() == BuildingType.PASTURE_AREA
                 ? player.serverLevel().getEntitiesOfClass(net.minecraft.world.entity.animal.Animal.class,
                 new net.minecraft.world.phys.AABB(
                         building.minCorner().getX(), building.minCorner().getY(), building.minCorner().getZ(),
@@ -278,7 +281,9 @@ public final class PlacementNetworking {
                 animal -> (building.region()==null || building.region().contains(animal.blockPosition()))
                         && (building.productionSite()==null || building.productionSite().contains(animal.blockPosition()))
                         && com.hkin.exiledsettlement.region.ProductionRegionService.matchesAnimal(building,animal)).size() : 0;
-        int productionCapacity = building.type() == BuildingType.PASTURE_AREA
+        int productionCapacity = building.type() == BuildingType.CHURCH
+                ? com.hkin.exiledsettlement.settlement.PriestProductionService.promised(settlement, building.productionId())
+                : building.type() == BuildingType.PASTURE_AREA
                 ? BuildingProductionService.animalCapacity(building) : 0;
         CitizenProfession staffingProfession = CitizenProfession.forWorkplace(building.type());
         boolean demolitionWorksite = building.demolitionQueued();
@@ -323,7 +328,8 @@ public final class PlacementNetworking {
                 warehouse && (settlement.creativeCoreInstalled()
                         || WarehouseInventoryService.hasCreativeSupply(player.serverLevel(), building)),
                 building.demolitionQueued(), building.warehouseCategoryMask(), building.productionId(),
-                productionCount, productionCapacity, building.repairPositions().size(), false, 0, 0, building.customTemplate() != null || building.productionSite()!=null, building.region()!=null,0,0,0,0);
+                productionCount, productionCapacity, building.repairPositions().size(), false, 0, 0, building.customTemplate() != null || building.productionSite()!=null, building.region()!=null,0,0,0,0,
+                WorksiteDisplayKind.BUILDING, building.type() == BuildingType.CHURCH ? building.brewStockTarget() : 0);
     }
 
     public static SettlementDetailsPayload.BuildingEntry blueprintEntry(
@@ -506,6 +512,19 @@ public final class PlacementNetworking {
             sendBuildingManagement(player, settlement, blueprint.id());
             return;
         }
+        if (payload.action() == BuildingActionPayload.Action.SET_BREW_STOCK_TARGET
+                || building.type() == BuildingType.CHURCH && payload.action() == BuildingActionPayload.Action.SET_PRODUCTION) {
+            String failure = !building.configurationMatches(payload.expectedRevision()) ? "CONFIGURATION_CONFLICT"
+                    : building.type() != BuildingType.CHURCH || building.demolitionQueued() ? "WORKSITE_UNAVAILABLE"
+                    : payload.action() == BuildingActionPayload.Action.SET_BREW_STOCK_TARGET
+                        ? (payload.value() < 0 || payload.value() > BuildingRecord.MAX_BREW_STOCK_TARGET ? "BREW_TARGET_INVALID" : null)
+                        : (!com.hkin.exiledsettlement.building.BrewingRecipes.supported(payload.itemId()) ? "BREW_PRODUCT_INVALID" : null);
+            if (failure != null) {
+                SettlementMessages.sendFailure(player, failure, true);
+                sendBuildingManagement(player, settlement, building.id());
+                return;
+            }
+        }
         boolean changed = switch (payload.action()) {
             case QUEUE_DEMOLITION -> settlement.queueBuildingDemolition(building.id());
             case DEPOSIT_ALL -> depositAll(player, building);
@@ -515,8 +534,13 @@ public final class PlacementNetworking {
             case TOGGLE_CATEGORY -> payload.value() >= 0 && payload.value() < WarehouseCategory.values().length
                     && building.toggleWarehouseCategory(WarehouseCategory.values()[payload.value()]);
             case SET_PRODUCTION -> {
-                yield com.hkin.exiledsettlement.building.BuildingManagementActions.production(settlement, building, payload.itemId());
+                yield building.type() == BuildingType.CHURCH
+                        ? com.hkin.exiledsettlement.building.BuildingManagementActions.brewingProduct(
+                                settlement, building, payload.itemId(), payload.expectedRevision())
+                        : com.hkin.exiledsettlement.building.BuildingManagementActions.production(settlement, building, payload.itemId());
             }
+            case SET_BREW_STOCK_TARGET -> com.hkin.exiledsettlement.building.BuildingManagementActions.brewingTarget(
+                    building, payload.value(), payload.expectedRevision());
             case TOGGLE_GROUND -> com.hkin.exiledsettlement.region.RegionGroundService.toggle(settlement,building.id());
             case CANCEL_CONSTRUCTION -> false;
             case SET_WORKER_TARGET -> data.setBuildingWorkerTarget(

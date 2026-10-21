@@ -133,6 +133,11 @@ public final class AutoRoadService {
 
     public static void tick(ServerLevel level, SettlementRecord s) {
         var state = s.autoRoads(); state.newDay(level.getDayTime() / 24000L);
+        if(com.hkin.exiledsettlement.terrain.InstantTerrainService.enabled(level,s)){
+            state.workReady=true;
+            state.status=com.hkin.exiledsettlement.terrain.InstantTerrainService.status(level,s);
+            return;
+        }
         state.workReady = false;
         if (!state.enabled && !hasPending(s)) { state.status = "尚未开启居民自动修路"; return; }
         if (s.community().evacuation) { state.status = "集合避险期间暂停公共工程"; return; }
@@ -379,6 +384,7 @@ public final class AutoRoadService {
                     if (endpointThroats && (center.distManhattan(centerline.getFirst())<=2 || center.distManhattan(centerline.getLast())<=2)) continue;
                     return null;
                 }
+                if(!interfaceRow && side.getY()!=center.getY())return null;
                 if(passage && !AdaptiveRoadService.paidPassage(level,s,side) && !RoadSpaceData.get(level).contains(side))continue;
                 cells.add(side);
             }
@@ -407,6 +413,7 @@ public final class AutoRoadService {
         return assign(level,s,c,claimed,false);
     }
     public static boolean assign(ServerLevel level, SettlementRecord s, CitizenRecord c, Set<BlockPos> claimed,boolean priorityOnly) {
+        if (com.hkin.exiledsettlement.debug.ConstructionDebugService.workEnabled(level,s))return false;
         // Building slots belong to construction and its local preparation, never to full-route paving.
         if(priorityOnly)return false;
         var state = s.autoRoads(); state.newDay(level.getDayTime() / 24000L);
@@ -459,6 +466,7 @@ public final class AutoRoadService {
 
     public static void process(ServerLevel level, SettlementSavedData data, SettlementRecord s,
                                CitizenRecord c, SettlementCitizenEntity entity) {
+        if(com.hkin.exiledsettlement.debug.ConstructionDebugService.workEnabled(level,s)){finish(level,data,c,entity);return;}
         var state = s.autoRoads(); state.newDay(level.getDayTime() / 24000L);
         if (!com.hkin.exiledsettlement.citizen.CitizenWorkService.constructionCapable(c.profession()) || !allowed(s)) { finish(level, data, c, entity); return; }
         if (c.workState() == CitizenWorkState.TO_ROAD_TOOL) { finish(level,data,c,entity); return; }

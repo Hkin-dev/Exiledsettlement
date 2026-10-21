@@ -4,6 +4,8 @@ import com.hkin.exiledsettlement.building.BuildingType;
 import com.hkin.exiledsettlement.building.WorksiteAssignmentMode;
 import com.hkin.exiledsettlement.building.WarehouseCategory;
 import com.hkin.exiledsettlement.building.BuildingProductionService;
+import com.hkin.exiledsettlement.building.BrewingRecipes;
+import com.hkin.exiledsettlement.building.BuildingRecord;
 import com.hkin.exiledsettlement.network.BuildingActionPayload;
 import com.hkin.exiledsettlement.network.BuildingStaffPayload;
 import com.hkin.exiledsettlement.network.OpenBuildingManagementPayload;
@@ -38,6 +40,8 @@ public final class BuildingManagementScreen extends Screen {
     private boolean editingName;
     @Nullable
     private EditBox nameField;
+    @Nullable
+    private EditBox brewTargetField;
 
     private BuildingManagementScreen(OpenBuildingManagementPayload payload, @Nullable Screen parent) {
         super(Component.translatable("gui.exiledsettlement.building_management.title"));
@@ -54,6 +58,8 @@ public final class BuildingManagementScreen extends Screen {
                 && screen.payload.building().id().equals(payload.building().id())) {
             String editingName = screen.nameField != null && screen.nameField.isFocused()
                     ? screen.nameField.getValue() : null;
+            String editingBrewTarget = screen.brewTargetField != null && screen.brewTargetField.isFocused()
+                    ? screen.brewTargetField.getValue() : null;
             screen.payload = payload;
             ClientPlacementController.updateManagedBuilding(payload.building());
             int inventoryPageSize = (payload.building().type().isStorage() || payload.building().type()==BuildingType.MINE)
@@ -66,6 +72,10 @@ public final class BuildingManagementScreen extends Screen {
             if (editingName != null && screen.nameField != null) {
                 screen.nameField.setValue(editingName);
                 screen.setFocused(screen.nameField);
+            }
+            if (editingBrewTarget != null && screen.brewTargetField != null) {
+                screen.brewTargetField.setValue(editingBrewTarget);
+                screen.setFocused(screen.brewTargetField);
             }
             return;
         }
@@ -83,7 +93,8 @@ public final class BuildingManagementScreen extends Screen {
     public void tick() {
         super.tick();
         // Workforce counts are live snapshots, not frozen at the moment the GUI opened.
-        if (++snapshotTicks % 20 == 0 && (nameField == null || !nameField.isFocused())) {
+        if (++snapshotTicks % 20 == 0 && (nameField == null || !nameField.isFocused())
+                && (brewTargetField == null || !brewTargetField.isFocused())) {
             PacketDistributor.sendToServer(new RequestBuildingManagementPayload(
                     payload.corePosition(), payload.building().id(), true));
         }
@@ -95,6 +106,7 @@ public final class BuildingManagementScreen extends Screen {
         int left = width / 2 - WIDTH / 2;
         int top = height / 2 - HEIGHT / 2;
         nameField = null;
+        brewTargetField = null;
         if (!payload.building().blueprint() && editingName) {
             nameField = new EditBox(font, left + 78, top + 45, 190, 20,
                     Component.translatable("gui.exiledsettlement.core.building_name"));
@@ -141,6 +153,7 @@ public final class BuildingManagementScreen extends Screen {
         }
         if (!payload.building().blueprint() && (payload.building().type() == BuildingType.FARM_FIELD
                 || payload.building().type() == BuildingType.MELON_FIELD
+                || payload.building().type() == BuildingType.CHURCH
                 || payload.building().type() == BuildingType.BRICK_KILN
                 || payload.building().type() == BuildingType.PASTURE_AREA)) {
             addProductionWidgets(left, top);
@@ -202,6 +215,33 @@ public final class BuildingManagementScreen extends Screen {
     }
 
     private void addProductionWidgets(int left, int top) {
+        if (payload.building().type() == BuildingType.CHURCH) {
+            addRenderableWidget(Button.builder(Component.translatable("gui.exiledsettlement.brewing.choose"),
+                    button -> minecraft.setScreen(new BrewingProductScreen(this, payload.building().productionId(),
+                            id -> send(BuildingActionPayload.Action.SET_PRODUCTION, 0, id))))
+                    .bounds(left + 20, top + 122, 110, 20).build());
+            brewTargetField = new EditBox(font, left + 138, top + 151, 48, 20,
+                    Component.translatable("gui.exiledsettlement.brewing.target"));
+            brewTargetField.setMaxLength(3);
+            brewTargetField.setFilter(value -> value.isEmpty() || value.chars().allMatch(Character::isDigit));
+            brewTargetField.setValue(Integer.toString(payload.building().brewStockTarget()));
+            brewTargetField.setTooltip(net.minecraft.client.gui.components.Tooltip.create(
+                    Component.translatable("gui.exiledsettlement.brewing.target_hint", BuildingRecord.MAX_BREW_STOCK_TARGET)));
+            addRenderableWidget(brewTargetField);
+            Button apply = addRenderableWidget(Button.builder(Component.translatable("gui.exiledsettlement.brewing.apply"),
+                    button -> {
+                        int target = enteredBrewTarget();
+                        if (target >= 0 && target <= BuildingRecord.MAX_BREW_STOCK_TARGET) {
+                            brewTargetField.setFocused(false);
+                            send(BuildingActionPayload.Action.SET_BREW_STOCK_TARGET, target, air());
+                        }
+                    }).bounds(left + 194, top + 151, 62, 20).build());
+            brewTargetField.setResponder(value -> apply.active = enteredBrewTarget() >= 0
+                    && enteredBrewTarget() <= BuildingRecord.MAX_BREW_STOCK_TARGET
+                    && enteredBrewTarget() != payload.building().brewStockTarget());
+            apply.active = false;
+            return;
+        }
         if(payload.building().type()==BuildingType.BRICK_KILN) {
             var recipe=com.hkin.exiledsettlement.building.KilnRecipes.forOutput(BuiltInRegistries.ITEM.get(payload.building().productionId()));
             addRenderableWidget(Button.builder(Component.translatable("gui.exiledsettlement.kiln.choose"),
@@ -223,6 +263,12 @@ public final class BuildingManagementScreen extends Screen {
         addRenderableWidget(Button.builder(Component.literal(">"),
                 button -> send(BuildingActionPayload.Action.SET_PRODUCTION, 0, next))
                 .bounds(left + 294, top + 137, 28, 20).build());
+    }
+
+    private int enteredBrewTarget() {
+        if (brewTargetField == null || brewTargetField.getValue().isBlank()) return -1;
+        try { return Integer.parseInt(brewTargetField.getValue()); }
+        catch (NumberFormatException ignored) { return -1; }
     }
 
     private void addStaffingWidgets(int left, int top) {
@@ -248,8 +294,9 @@ public final class BuildingManagementScreen extends Screen {
                 && payload.building().workerTarget() < payload.building().capacity();
         addRenderableWidget(increase);
 
-        int rowStart = payload.building().type() == BuildingType.FARM_FIELD
+        int rowStart = payload.building().type() == BuildingType.CHURCH ? 216 : payload.building().type() == BuildingType.FARM_FIELD
                 || payload.building().type() == BuildingType.MELON_FIELD
+                || payload.building().type() == BuildingType.CHURCH
                 || payload.building().type() == BuildingType.BRICK_KILN
                 || payload.building().type() == BuildingType.PASTURE_AREA ? 202 : 146;
         int pageSize = personnelPageSize();
@@ -449,6 +496,7 @@ public final class BuildingManagementScreen extends Screen {
         }
         if (!payload.building().blueprint() && (payload.building().type() == BuildingType.FARM_FIELD
                 || payload.building().type() == BuildingType.MELON_FIELD
+                || payload.building().type() == BuildingType.CHURCH
                 || payload.building().type() == BuildingType.BRICK_KILN
                 || payload.building().type() == BuildingType.PASTURE_AREA)) {
             renderProduction(graphics, left, top);
@@ -460,6 +508,16 @@ public final class BuildingManagementScreen extends Screen {
 
     private void renderDetailTooltip(GuiGraphics graphics, int mouseX, int mouseY, int left, int top) {
         if (mouseX < left + 20 || mouseX >= left + WIDTH - 20) return;
+        if (!payload.building().blueprint() && payload.building().type() == BuildingType.CHURCH) {
+            if (mouseX >= left + 138 && mouseY >= top + 121 && mouseY < top + 144) {
+                graphics.renderTooltip(font, BrewingRecipes.stack(payload.building().productionId()), mouseX, mouseY);
+                return;
+            }
+            if (mouseY >= top + 176 && mouseY < top + 190) {
+                graphics.renderTooltip(font, Component.translatable("gui.exiledsettlement.brewing.scope_hint"), mouseX, mouseY);
+                return;
+            }
+        }
         if (payload.building().blueprint() && mouseY >= top + 119 && mouseY < top + 136) {
             graphics.renderComponentTooltip(font, java.util.List.of(
                     Component.translatable("gui.exiledsettlement.ui.construction_counts",
@@ -470,8 +528,10 @@ public final class BuildingManagementScreen extends Screen {
         }
         boolean warehouse = payload.building().type().isStorage() || payload.building().type() == BuildingType.MINE;
         boolean production = payload.building().type() == BuildingType.FARM_FIELD || payload.building().type() == BuildingType.MELON_FIELD
+                || payload.building().type() == BuildingType.CHURCH
                 || payload.building().type() == BuildingType.BRICK_KILN || payload.building().type() == BuildingType.PASTURE_AREA;
-        int y = worksiteTaskMode() ? (payload.building().blueprint() ? 158 : 112) : warehouse ? 197 : production ? 185 : 124;
+        int y = worksiteTaskMode() ? (payload.building().blueprint() ? 158 : 112) : warehouse ? 197
+                : payload.building().type() == BuildingType.CHURCH ? 199 : production ? 185 : 124;
         if (!worksiteTaskMode() && (warehouse && !warehousePersonnelView || payload.building().staffingProfessionOrdinal() < 0)) return;
         if (mouseY >= top + y - 2 && mouseY < top + y + 12) graphics.renderTooltip(font,
                 Component.translatable("gui.exiledsettlement.ui.personnel_counts", payload.building().arrivedWorkers(),
@@ -506,8 +566,10 @@ public final class BuildingManagementScreen extends Screen {
 
     private int personnelPageSize() {
         if (worksiteTaskMode()) return payload.building().blueprint() ? 4 : 5;
+        if (payload.building().type() == BuildingType.CHURCH) return 2;
         return payload.building().type() == BuildingType.FARM_FIELD
                 || payload.building().type() == BuildingType.MELON_FIELD
+                || payload.building().type() == BuildingType.CHURCH
                 || payload.building().type() == BuildingType.BRICK_KILN
                 || payload.building().type() == BuildingType.PASTURE_AREA ? 3 : 4;
     }
@@ -530,12 +592,14 @@ public final class BuildingManagementScreen extends Screen {
                 width / 2, top + 102, 0xFF2C2118);
         boolean productionArea = payload.building().type() == BuildingType.FARM_FIELD
                 || payload.building().type() == BuildingType.MELON_FIELD
+                || payload.building().type() == BuildingType.CHURCH
                 || payload.building().type() == BuildingType.BRICK_KILN
                 || payload.building().type() == BuildingType.PASTURE_AREA;
         graphics.drawCenteredString(font, Component.translatable("gui.exiledsettlement.ui.personnel_details"),
-                width / 2, top + (productionArea ? 185 : 124), 0xFF2C2118);
-        int rowStart = payload.building().type() == BuildingType.FARM_FIELD
+                width / 2, top + (payload.building().type() == BuildingType.CHURCH ? 199 : productionArea ? 185 : 124), 0xFF2C2118);
+        int rowStart = payload.building().type() == BuildingType.CHURCH ? 216 : payload.building().type() == BuildingType.FARM_FIELD
                 || payload.building().type() == BuildingType.MELON_FIELD
+                || payload.building().type() == BuildingType.CHURCH
                 || payload.building().type() == BuildingType.BRICK_KILN
                 || payload.building().type() == BuildingType.PASTURE_AREA ? 202 : 146;
         int pageSize = personnelPageSize();
@@ -563,6 +627,18 @@ public final class BuildingManagementScreen extends Screen {
 
     private void renderProduction(GuiGraphics graphics, int left, int top) {
         BuildingType type = payload.building().type();
+        if (type == BuildingType.CHURCH) {
+            ItemStack potion = BrewingRecipes.stack(payload.building().productionId());
+            graphics.renderItem(potion, left + 139, top + 124);
+            graphics.drawString(font, font.plainSubstrByWidth(BrewingProductScreen.productName(
+                    payload.building().productionId()).getString(), 196), left + 163, top + 128, 0xFF2C2118, false);
+            graphics.drawString(font, Component.translatable("gui.exiledsettlement.brewing.target"),
+                    left + 20, top + 157, 0xFF665647, false);
+            graphics.drawCenteredString(font, Component.translatable("gui.exiledsettlement.brewing.stock",
+                            payload.building().productionCount(), payload.building().productionCapacity()),
+                    width / 2, top + 179, 0xFF665647);
+            return;
+        }
         ItemStack icon = new ItemStack(BuildingProductionService.displayItem(type, payload.building().productionId()));
         graphics.drawCenteredString(font, Component.translatable((type == BuildingType.FARM_FIELD || type == BuildingType.MELON_FIELD)
                         ? "gui.exiledsettlement.production.crop" : type == BuildingType.BRICK_KILN ? "gui.exiledsettlement.production.building_material" : type == BuildingType.MINE ? "gui.exiledsettlement.production.mineral" : "gui.exiledsettlement.production.animal"),

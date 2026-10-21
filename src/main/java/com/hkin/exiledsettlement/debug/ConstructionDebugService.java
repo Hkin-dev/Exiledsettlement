@@ -41,6 +41,11 @@ public final class ConstructionDebugService {
         }
     }
 
+    /** Effective construction bypass without changing either independent command switch. */
+    public static boolean workEnabled(ServerLevel level, SettlementRecord settlement) {
+        return isEnabled(level,settlement.id()) || TerrainEvolveDebugService.running(level,settlement);
+    }
+
     public static boolean setEnabled(ServerLevel level, UUID settlementId, boolean enabled) {
         EnabledSettlement key = new EnabledSettlement(level.dimension(), settlementId);
         synchronized (ENABLED) {
@@ -52,15 +57,25 @@ public final class ConstructionDebugService {
         }
     }
 
-    /** Advances every active blueprint in each enabled settlement by at most one real work step. */
+    public static boolean controls(com.hkin.exiledsettlement.citizen.CitizenWorkState state) {
+        return switch(state) {
+            case TO_BLUEPRINT, TO_CONSTRUCTION_SUPPLY, TO_FOOTING_SUPPLY, TO_ROAD, TO_ROAD_TOOL,
+                    TO_REPAIR, TO_REPAIR_SUPPLY, TO_DEMOLITION -> true;
+            default -> false;
+        };
+    }
+
+    /** Each live construction order advances by at most one action per debug interval. */
     public static void tickLevel(ServerLevel level) {
         SettlementSavedData data = SettlementSavedData.get(level);
         for (SettlementRecord settlement : List.copyOf(data.settlements())) {
-            if (!settlement.active() || !isEnabled(level, settlement.id())) continue;
+            if (!settlement.active() || !isEnabled(level, settlement.id())
+                    || TerrainEvolveDebugService.running(level,settlement)) continue;
             for (BlueprintRecord blueprint : List.copyOf(settlement.blueprints())) {
-                if (blueprint.cancellationQueued()) continue;
-                BlueprintService.debugAdvanceOne(level, data, settlement, blueprint);
+                if (blueprint.cancellationQueued()) ConstructionForceWork.cleanup(level,settlement,blueprint);
+                else BlueprintService.debugAdvanceOne(level, data, settlement, blueprint);
             }
+            ConstructionForceWork.tick(level,settlement);
         }
     }
 

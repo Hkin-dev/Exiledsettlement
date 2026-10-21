@@ -131,6 +131,15 @@ public final class ExiledSettlementMod {
     }
 
     private void registerGameTests(RegisterGameTestsEvent event) {
+        if ("layered_mine".equals(System.getProperty("exiledsettlement.testSuite"))) {
+            event.register(com.hkin.exiledsettlement.gametest.LayeredMineGameTests.class); return;
+        }
+        if ("companions".equals(System.getProperty("exiledsettlement.testSuite"))) {
+            event.register(com.hkin.exiledsettlement.gametest.CompanionGameTests.class); return;
+        }
+        if ("priest_brewing".equals(System.getProperty("exiledsettlement.testSuite"))) {
+            event.register(com.hkin.exiledsettlement.gametest.PriestBrewingGameTests.class); return;
+        }
         if ("resident_test2".equals(System.getProperty("exiledsettlement.testSuite"))) {
             event.register(com.hkin.exiledsettlement.gametest.ResidentTest2GameTests.class); return;
         }

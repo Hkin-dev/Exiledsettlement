@@ -30,12 +30,14 @@ public final class WorkforceStatusService {
             return com.hkin.exiledsettlement.settlement.KilnProductionService.isFiring(level,settlement,citizen,entity);
         if (citizen.profession()==CitizenProfession.TEACHER)
             return com.hkin.exiledsettlement.settlement.TeachingService.isTeaching(level,settlement,citizen,entity);
+        if (citizen.profession()==CitizenProfession.PRIEST)
+            return com.hkin.exiledsettlement.settlement.PriestProductionService.isBrewing(level,settlement,citizen,entity);
         CitizenActivity expected = switch (citizen.workState()) {
             case TO_BLUEPRINT -> CitizenActivity.BUILDING;
             case TO_DEMOLITION -> CitizenActivity.DEMOLISHING;
             case TO_REPAIR -> CitizenActivity.REPAIRING;
             case TO_FARM -> CitizenActivity.FARMING;
-            case TO_HERD -> CitizenActivity.HERDING;
+            case TO_HERD, TO_PASTURE_FEED -> CitizenActivity.HERDING;
             case TO_HUNT -> CitizenActivity.HUNTING;
             case TO_CAPTURE -> CitizenActivity.CAPTURING;
             case TO_FOREST -> CitizenActivity.FORESTRY;
