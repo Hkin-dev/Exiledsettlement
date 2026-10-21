@@ -25,6 +25,8 @@ We recommend using a separate test world and avoiding a large investment of time
 | Java | 21 |
 | Mod | 0.18.1 |
 
+[0.18.1 known issues / 已知问题](KNOWN_ISSUES.md)
+
 ## Design Philosophy · 设计理念
 
 ### English
